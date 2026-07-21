@@ -502,10 +502,10 @@ git commit -m "feat: SM-2 变体 SRS 调度算法"
 - Test: `tests/scheduler.test.ts`
 
 **Interfaces:**
-- Consumes: `Expression`（Task 1），`review/Grade/SrsState`（Task 2）
+- Consumes: `listExpressions`（Task 1），`getSrsState/setSrsState`（Task 1 store），`review/Grade/SrsState`（Task 2）
 - Produces:
-  - `getDueExpression(db, now: number): Expression | null`
-  - `applyReview(db, exprId: number, grade: Grade, now: number): void`
+  - `getDueExpression(now: number): Expression | null`
+  - `applyReview(exprId: number, grade: Grade, now: number): void`
 
 - [ ] **Step 1: 写失败测试**
 
@@ -513,43 +513,40 @@ git commit -m "feat: SM-2 变体 SRS 调度算法"
 
 ```ts
 import { describe, it, expect, beforeEach } from 'vitest'
-import Database from 'better-sqlite3'
-import { createSchema } from '../src/main/schema'
-import { addExpression } from '../src/main/db'
+import { _resetStoreForTests } from '../src/main/store'
+import { addExpression } from '../src/main/expressions'
 import { getDueExpression, applyReview } from '../src/main/scheduler'
 
 describe('调度器', () => {
-  let db: any
   beforeEach(() => {
-    db = new Database(':memory:')
-    createSchema(db)
+    _resetStoreForTests() // 内存态重置，避免测试间互相污染
   })
 
   it('到期则返回该表达块', () => {
-    const id = addExpression(db, {
+    const expr = addExpression({
       plain: 'p', advanced: 'a', example: 'e', topic: null, source: '内置',
     })
-    const due = getDueExpression(db, Date.now())
+    const due = getDueExpression(Date.now())
     expect(due).not.toBeNull()
-    expect(due!.id).toBe(id)
+    expect(due!.id).toBe(expr.id)
   })
 
   it('评分"记得"后短时间内不再到期', () => {
-    const id = addExpression(db, {
+    const expr = addExpression({
       plain: 'p', advanced: 'a', example: 'e', topic: null, source: '内置',
     })
-    applyReview(db, id, 2, Date.now())
-    expect(getDueExpression(db, Date.now())).toBeNull()
+    applyReview(expr.id, 2, Date.now())
+    expect(getDueExpression(Date.now())).toBeNull()
   })
 
   it('评分"忘了"后很快再次到期', () => {
-    const id = addExpression(db, {
+    const expr = addExpression({
       plain: 'p', advanced: 'a', example: 'e', topic: null, source: '内置',
     })
-    applyReview(db, id, 2, Date.now())
-    applyReview(db, id, 0, Date.now())
+    applyReview(expr.id, 2, Date.now())
+    applyReview(expr.id, 0, Date.now())
     // 10 分钟内到期 → 用 11 分钟后的时间戳判定
-    expect(getDueExpression(db, Date.now() + 11 * 60 * 1000)).not.toBeNull()
+    expect(getDueExpression(Date.now() + 11 * 60 * 1000)).not.toBeNull()
   })
 })
 ```
@@ -566,31 +563,43 @@ npx vitest run tests/scheduler.test.ts
 `src/main/scheduler.ts`:
 
 ```ts
-import type { Database } from 'better-sqlite3'
-import type { Expression } from './db'
+import type { Expression } from './expressions'
+import { listExpressions } from './expressions'
+import { getSrsState, setSrsState } from './store'
 import { review, type Grade, type SrsState } from './srs'
 
-export function getDueExpression(db: Database, now: number): Expression | null {
-  const row = db.prepare(
-    `SELECT e.* FROM expressions e
-     JOIN srs_state s ON s.expr_id = e.id
-     WHERE s.due_at <= ?
-     ORDER BY s.due_at ASC LIMIT 1`
-  ).get(now) as Expression | undefined
-  return row ?? null
+// 到期查询：遍历全部表达块，用 getSrsState(id) 取复习状态，筛 due_at <= now 中最早到期的一条。
+// 注意：不要直接遍历 store 里的 srsStates 域——JSON 序列化后其键是字符串，
+// 若必须遍历需 Number(key) 转回数字 id；这里改为以 expressions 数组为主遍历，天然避开该坑。
+export function getDueExpression(now: number): Expression | null {
+  let best: Expression | null = null
+  let bestDue = Infinity
+  for (const e of listExpressions()) {
+    const s = getSrsState(e.id)
+    if (!s) continue
+    if (s.due_at <= now && s.due_at < bestDue) {
+      best = e
+      bestDue = s.due_at
+    }
+  }
+  return best
 }
 
-export function applyReview(db: Database, exprId: number, grade: Grade, now: number): void {
-  const cur = db.prepare(
-    `SELECT easiness, interval, repetitions FROM srs_state WHERE expr_id = ?`
-  ).get(exprId) as SrsState | undefined
-  const base: SrsState = cur ?? { easiness: 2.5, interval: 0, repetitions: 0 }
+// 评分回写：读出现状 → 纯函数 review 计算 → setSrsState 整体写回（含 due_at / last_reviewed）
+export function applyReview(exprId: number, grade: Grade, now: number): void {
+  const cur = getSrsState(exprId)
+  const base: SrsState = cur
+    ? { easiness: cur.easiness, interval: cur.interval, repetitions: cur.repetitions }
+    : { easiness: 2.5, interval: 0, repetitions: 0 }
   const next = review(base, grade)
   const dueAt = now + Math.round(next.interval * 60 * 1000)
-  db.prepare(
-    `UPDATE srs_state SET easiness=?, interval=?, repetitions=?, due_at=?, last_reviewed=?
-     WHERE expr_id=?`
-  ).run(next.easiness, next.interval, next.repetitions, dueAt, now, exprId)
+  setSrsState(exprId, {
+    easiness: next.easiness,
+    interval: next.interval,
+    repetitions: next.repetitions,
+    due_at: dueAt,
+    last_reviewed: now,
+  })
 }
 ```
 
@@ -617,10 +626,11 @@ git commit -m "feat: 到期查询与评分回写调度器"
 - Test: `tests/settings.test.ts`
 
 **Interfaces:**
+- Consumes: `settingsBox`（Task 1 store）
 - Produces:
-  - `getSetting(db, key: string): string | null`
-  - `setSetting(db, key: string, value: string): void`
-  - `getAllSettings(db): Record<string, string>`
+  - `getSetting(key: string): string | null`
+  - `setSetting(key: string, value: string): void`
+  - `getAllSettings(): Record<string, string>`
   - `DEFAULT_SETTINGS: Record<string, string>`（含 popup_interval_min、popup_stay_sec、recall_delay_sec、popup_position、sound_enabled、sound_volume、sound_file、daily_cap、ai_provider、ai_api_key、ai_base_url、ai_model）
 
 - [ ] **Step 1: 写失败测试**
@@ -629,29 +639,26 @@ git commit -m "feat: 到期查询与评分回写调度器"
 
 ```ts
 import { describe, it, expect, beforeEach } from 'vitest'
-import Database from 'better-sqlite3'
-import { createSchema } from '../src/main/schema'
+import { _resetStoreForTests } from '../src/main/store'
 import { getSetting, setSetting, getAllSettings, DEFAULT_SETTINGS } from '../src/main/settings'
 
 describe('settings', () => {
-  let db: any
   beforeEach(() => {
-    db = new Database(':memory:')
-    createSchema(db)
+    _resetStoreForTests()
   })
 
   it('未设置时返回默认值', () => {
-    expect(getSetting(db, 'popup_interval_min')).toBe(DEFAULT_SETTINGS.popup_interval_min)
+    expect(getSetting('popup_interval_min')).toBe(DEFAULT_SETTINGS.popup_interval_min)
   })
 
   it('写入后可读取，且覆盖默认值', () => {
-    setSetting(db, 'popup_interval_min', '10')
-    expect(getSetting(db, 'popup_interval_min')).toBe('10')
+    setSetting('popup_interval_min', '10')
+    expect(getSetting('popup_interval_min')).toBe('10')
   })
 
   it('getAllSettings 合并默认值与已存值', () => {
-    setSetting(db, 'sound_enabled', 'false')
-    const all = getAllSettings(db)
+    setSetting('sound_enabled', 'false')
+    const all = getAllSettings()
     expect(all.sound_enabled).toBe('false')
     expect(all.popup_position).toBe(DEFAULT_SETTINGS.popup_position)
   })
@@ -670,7 +677,7 @@ npx vitest run tests/settings.test.ts
 `src/main/settings.ts`:
 
 ```ts
-import type { Database } from 'better-sqlite3'
+import { settingsBox } from './store'
 
 export const DEFAULT_SETTINGS: Record<string, string> = {
   popup_interval_min: '8',
@@ -687,28 +694,16 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_model: '',
 }
 
-export function getSetting(db: Database, key: string): string | null {
-  const row = db.prepare(`SELECT value FROM settings WHERE key = ?`).get(key) as
-    | { value: string }
-    | undefined
-  return row?.value ?? DEFAULT_SETTINGS[key] ?? null
+export function getSetting(key: string): string | null {
+  return settingsBox.get()[key] ?? DEFAULT_SETTINGS[key] ?? null
 }
 
-export function setSetting(db: Database, key: string, value: string): void {
-  db.prepare(
-    `INSERT INTO settings (key, value) VALUES (?, ?)
-     ON CONFLICT(key) DO UPDATE SET value = excluded.value`
-  ).run(key, value)
+export function setSetting(key: string, value: string): void {
+  settingsBox.set({ ...settingsBox.get(), [key]: value })
 }
 
-export function getAllSettings(db: Database): Record<string, string> {
-  const rows = db.prepare(`SELECT key, value FROM settings`).all() as {
-    key: string
-    value: string
-  }[]
-  const out: Record<string, string> = { ...DEFAULT_SETTINGS }
-  for (const r of rows) out[r.key] = r.value
-  return out
+export function getAllSettings(): Record<string, string> {
+  return { ...DEFAULT_SETTINGS, ...settingsBox.get() }
 }
 ```
 
@@ -776,7 +771,7 @@ declare global {
 }
 ```
 
-> 说明：`db.ts` 中的 `Expression`/`NewExpression` 后续改为从 `src/shared/ipc-types.ts` 导入并 re-export，避免重复定义（Task 1 已定义的本地接口保留即可，渲染端统一用 shared 里的）。
+> 说明：`expressions.ts` 中的 `Expression`/`NewExpression` 后续改为从 `src/shared/ipc-types.ts` 导入并 re-export，避免重复定义（Task 1 已定义的本地接口保留即可，渲染端统一用 shared 里的）。
 
 - [ ] **Step 2: 主进程注册 handler**
 
@@ -784,22 +779,21 @@ declare global {
 
 ```ts
 import { ipcMain } from 'electron'
-import type { Database } from 'better-sqlite3'
 import {
   addExpression, deleteExpression, listExpressions, updateExpression,
   type NewExpression,
-} from './db'
+} from './expressions'
 import { getAllSettings, setSetting } from './settings'
 
-export function registerIpc(db: Database): void {
-  ipcMain.handle('expr:list', () => listExpressions(db))
-  ipcMain.handle('expr:add', (_e, expr: NewExpression) => addExpression(db, expr))
+export function registerIpc(): void {
+  ipcMain.handle('expr:list', () => listExpressions())
+  ipcMain.handle('expr:add', (_e, expr: NewExpression) => addExpression(expr).id)
   ipcMain.handle('expr:update', (_e, id: number, patch: Partial<NewExpression>) =>
-    updateExpression(db, id, patch))
-  ipcMain.handle('expr:delete', (_e, id: number) => deleteExpression(db, id))
-  ipcMain.handle('settings:getAll', () => getAllSettings(db))
+    updateExpression(id, patch))
+  ipcMain.handle('expr:delete', (_e, id: number) => deleteExpression(id))
+  ipcMain.handle('settings:getAll', () => getAllSettings())
   ipcMain.handle('settings:set', (_e, key: string, value: string) =>
-    setSetting(db, key, value))
+    setSetting(key, value))
 }
 ```
 
@@ -823,18 +817,14 @@ contextBridge.exposeInMainWorld('tasymize', {
 })
 ```
 
-- [ ] **Step 4: 主入口打开数据库并注册 IPC**
+- [ ] **Step 4: 主入口注册 IPC 并创建管理窗口**
 
-`src/main/index.ts`（在 `app.whenReady` 中）:
+`src/main/index.ts`（在 `app.whenReady` 中；electron-store 在 `store.ts` 模块加载时自动初始化，无需显式打开/建表）:
 
 ```ts
-import Database from 'better-sqlite3'
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
-import { createSchema } from './schema'
 import { registerIpc } from './ipc'
-
-let db: Database.Database
 
 function createManagerWindow(): void {
   const win = new BrowserWindow({
@@ -852,10 +842,7 @@ function createManagerWindow(): void {
 }
 
 app.whenReady().then(() => {
-  const dbPath = join(app.getPath('userData'), 'tasymize.db')
-  db = new Database(dbPath)
-  createSchema(db)
-  registerIpc(db)
+  registerIpc()
   createManagerWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createManagerWindow()
@@ -889,7 +876,7 @@ git commit -m "feat: IPC 桥接表达块与设置接口"
 - Consumes: `getDueExpression`（Task 3），`getSetting`（Task 4）
 - Produces:
   - `showPopup(win: BrowserWindow, expr: Expression): void`（向弹窗发送数据）
-  - `startEngine(db, getPopup: () => BrowserWindow): void`（按 popup_interval_min 轮询到期并弹出）
+  - `startEngine(getPopup: () => BrowserWindow): void`（按 popup_interval_min 轮询到期并弹出）
 
 - [ ] **Step 1: 弹窗窗口创建（frameless/透明/置顶/不抢焦点）**
 
@@ -898,7 +885,7 @@ git commit -m "feat: IPC 桥接表达块与设置接口"
 ```ts
 import { BrowserWindow, screen } from 'electron'
 import { join } from 'path'
-import type { Expression } from './db'
+import type { Expression } from './expressions'
 
 export function createPopupWindow(): BrowserWindow {
   const { workAreaSize, workArea } = screen.getPrimaryDisplay()
@@ -941,20 +928,19 @@ export function hidePopup(win: BrowserWindow): void {
 `src/main/engine.ts`:
 
 ```ts
-import type { Database } from 'better-sqlite3'
 import type { BrowserWindow } from 'electron'
 import { getDueExpression } from './scheduler'
 import { getSetting } from './settings'
 import { showPopup } from './popup'
 
-export function startEngine(db: Database, getPopup: () => BrowserWindow): void {
+export function startEngine(getPopup: () => BrowserWindow): void {
   const tick = (): void => {
     const now = Date.now()
-    const due = getDueExpression(db, now)
+    const due = getDueExpression(now)
     if (due) {
       showPopup(getPopup(), due)
       // 弹出后给一个兜底间隔，避免同一条连续弹
-      const minGapMs = Number(getSetting(db, 'popup_interval_min')) * 60 * 1000
+      const minGapMs = Number(getSetting('popup_interval_min')) * 60 * 1000
       setTimeout(tick, minGapMs)
       return
     }
@@ -973,7 +959,7 @@ import { createPopupWindow } from './popup'
 import { startEngine } from './engine'
 // ...whenReady 内：
   const popup = createPopupWindow()
-  startEngine(db, () => popup)
+  startEngine(() => popup)
 ```
 
 - [ ] **Step 4: 验证 & Commit**
@@ -1020,7 +1006,7 @@ git commit -m "feat: 弹窗窗口与 SRS 调度循环"
 import { applyReview } from './scheduler'
 // registerIpc 内追加：
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
-    applyReview(db, id, grade, Date.now())
+    applyReview(id, grade, Date.now())
   })
 ```
 
@@ -1325,7 +1311,8 @@ git commit -m "feat: 管理界面（表达库 CRUD + 设置面板）"
 - Test: `tests/seed.test.ts`
 
 **Interfaces:**
-- Produces: `seedIfEmpty(db): number`（返回导入条数；已有数据则 0）
+- Consumes: `addExpression/listExpressions`（Task 1）
+- Produces: `seedIfEmpty(): number`（返回导入条数；已有数据则 0）
 
 - [ ] **Step 1: 写失败测试**
 
@@ -1333,27 +1320,24 @@ git commit -m "feat: 管理界面（表达库 CRUD + 设置面板）"
 
 ```ts
 import { describe, it, expect, beforeEach } from 'vitest'
-import Database from 'better-sqlite3'
-import { createSchema } from '../src/main/schema'
+import { _resetStoreForTests } from '../src/main/store'
 import { seedIfEmpty } from '../src/main/seed'
-import { listExpressions } from '../src/main/db'
+import { listExpressions } from '../src/main/expressions'
 
 describe('seed', () => {
-  let db: any
   beforeEach(() => {
-    db = new Database(':memory:')
-    createSchema(db)
+    _resetStoreForTests()
   })
 
   it('空库导入一批内置表达块', () => {
-    const n = seedIfEmpty(db)
+    const n = seedIfEmpty()
     expect(n).toBeGreaterThan(0)
-    expect(listExpressions(db).length).toBe(n)
+    expect(listExpressions().length).toBe(n)
   })
 
   it('非空库不重复导入', () => {
-    seedIfEmpty(db)
-    expect(seedIfEmpty(db)).toBe(0)
+    seedIfEmpty()
+    expect(seedIfEmpty()).toBe(0)
   })
 })
 ```
@@ -1389,19 +1373,19 @@ npx vitest run tests/seed.test.ts
 `src/main/seed.ts`:
 
 ```ts
-import type { Database } from 'better-sqlite3'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import { addExpression, listExpressions } from './db'
+import { addExpression, listExpressions } from './expressions'
 
 interface SeedItem { plain: string; advanced: string; example: string; topic: string }
 
-export function seedIfEmpty(db: Database, seedPath?: string): number {
-  if (listExpressions(db).length > 0) return 0
+export function seedIfEmpty(seedPath?: string): number {
+  if (listExpressions().length > 0) return 0
   const file = seedPath ?? join(__dirname, '../../data/seed-expressions.json')
   const items = JSON.parse(readFileSync(file, 'utf-8')) as SeedItem[]
   for (const it of items) {
-    addExpression(db, { ...it, source: '内置' })
+    // addExpression 内部会自增 id 并自动初始化该条的 SRS 状态
+    addExpression({ ...it, source: '内置' })
   }
   return items.length
 }
@@ -1428,12 +1412,12 @@ npx vitest run tests/seed.test.ts
 
 - [ ] **Step 5: 主入口接入 & Commit**
 
-`src/main/index.ts` 在 `createSchema(db)` 后追加：
+`src/main/index.ts` 在 `app.whenReady` 内、`registerIpc()` 之前追加：
 
 ```ts
 import { seedIfEmpty } from './seed'
 // ...
-  seedIfEmpty(db)
+  seedIfEmpty()
 ```
 
 ```bash
