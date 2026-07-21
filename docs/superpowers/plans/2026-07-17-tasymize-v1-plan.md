@@ -36,7 +36,7 @@
 
 ```bash
 npm init -y
-npm install electron electron-vite react react-dom better-sqlite3
+npm install electron electron-vite react react-dom electron-store
 npm install -D typescript @types/react @types/react-dom @types/node @vitejs/plugin-react vite tailwindcss postcss autoprefixer vitest
 ```
 
