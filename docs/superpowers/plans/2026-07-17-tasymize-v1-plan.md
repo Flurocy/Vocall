@@ -4,20 +4,20 @@
 
 **Goal:** 构建 Tasymize V1——一个 Windows 桌面悬浮弹窗背词工具，按间隔重复在屏幕边角弹出"普通词→雅思高级表达"卡片，配合音效与"先问后答+三档自评"交互，含本地表达库管理与设置。
 
-**Architecture:** Electron 主进程负责窗口管理、SRS 调度、SQLite 数据层、托盘与音效；渲染进程（React+Tailwind）负责弹窗卡片 UI 与管理界面 UI；主↔渲染通过 contextBridge 暴露的 IPC 通信。弹窗窗口为 alwaysOnTop/frameless/transparent/skipTaskbar。
+**Architecture:** Electron 主进程负责窗口管理、SRS 调度、electron-store(JSON) 数据层、托盘与音效；渲染进程（React+Tailwind）负责弹窗卡片 UI 与管理界面 UI；主↔渲染通过 contextBridge 暴露的 IPC 通信。弹窗窗口为 alwaysOnTop/frameless/transparent/skipTaskbar。
 
-**Tech Stack:** TypeScript · Electron · React · Tailwind CSS · better-sqlite3 · electron-vite · Vitest
+**Tech Stack:** TypeScript · Electron · React · Tailwind CSS · electron-store · electron-vite · Vitest
 
 ## Global Constraints
 
 - 平台：Windows（开发机 win32）；路径处理需跨平台写法但目标 Windows。
 - 语言：TypeScript，全程严格类型。
 - Node 版本：v24（已确认可用）；包管理 npm。
-- 存储：SQLite（`better-sqlite3`，同步 API），数据库文件放用户数据目录。
+- 存储：electron-store（JSON 键值存储，同步 API），数据文件自动放用户数据目录。按 key 分域：`expressions`(表达块数组)、`srsStates`(复习状态)、`settings`(设置)；V2 功能后续各加一个 key 即可。
 - UI 原则：精美（毛玻璃/排版/间距），弹窗绝不强迫操作，超时自动消失。
 - 内容：表达块 = `plain(普通词)` + `advanced(高级表达)` + `example(雅思例句)`，非孤立单词。
 - 提交规范：每个 Task 结束 commit，信息用 `feat:`/`test:`/`chore:` 前缀。
-- V2（截图翻译/句子升级/AI）本期**不实现**，仅在 settings 表预留 AI 配置键。
+- V2（截图翻译/句子升级/AI）本期**不实现**，仅在 settings 预留 AI 配置键。
 
 ---
 
@@ -170,62 +170,86 @@ git commit -m "chore: electron-vite + TS + React + Tailwind 脚手架"
 
 ---
 
-### Task 1: 数据层 — SQLite 建表与表达块 CRUD
+### Task 1: 数据层 — electron-store 表达块 CRUD
+
+**说明：** 本任务已按 2026-07-21 决策从 SQLite(better-sqlite3) 重写为 electron-store(JSON) 方案。底层是 JSON 键值存储，但对外暴露的 CRUD 接口签名与原计划保持一致语义，便于后续任务（调度/设置/IPC）对接。
 
 **Files:**
-- Create: `src/main/db.ts`
-- Create: `src/main/schema.ts`
-- Test: `tests/db.test.ts`
+- Create: `src/main/store.ts`（封装 electron-store 实例与各域读写）
+- Create: `src/main/expressions.ts`（表达块 CRUD）
+- Test: `tests/expressions.test.ts`
 
 **Interfaces:**
 - Produces:
-  - `initDb(dbPath: string): Database`
-  - `addExpression(db, e: NewExpression): number`
-  - `listExpressions(db): Expression[]`
-  - `updateExpression(db, id: number, patch: Partial<NewExpression>): void`
-  - `deleteExpression(db, id: number): void`
+  - `addExpression(e: NewExpression): Expression`
+  - `listExpressions(): Expression[]`
+  - `updateExpression(id: number, patch: Partial<NewExpression>): void`
+  - `deleteExpression(id: number): void`
   - 类型 `Expression = { id:number; plain:string; advanced:string; example:string; topic:string|null; source:string; created_at:number }`
   - 类型 `NewExpression = Omit<Expression, 'id'|'created_at'>`
+  - 另：每条表达块创建时自动初始化其 SRS 状态 `srsStates[id] = { easiness:2.5, interval:0, repetitions:0, due_at:Date.now(), last_reviewed:null }`
+
+**存储结构（electron-store 的 key）：**
+```
+expressions: Expression[]        // 表达块数组
+srsStates: Record<number, SrsState>  // 以表达块 id 为键的复习状态
+settings: Record<string, string> // 设置（Task 4 用）
+nextId: number                   // 自增 id 计数器（JSON 无自增主键，需手动维护）
+```
 
 - [ ] **Step 1: 写失败测试**
 
-`tests/db.test.ts`:
+`tests/expressions.test.ts`：
 
 ```ts
 import { describe, it, expect, beforeEach } from 'vitest'
-import initSqlJs from 'better-sqlite3'
-import { createSchema } from '../src/main/schema'
 import {
   addExpression, listExpressions, updateExpression, deleteExpression,
-} from '../src/main/db'
+} from '../src/main/expressions'
+import { _resetStoreForTests } from '../src/main/store'
 
-describe('expressions CRUD', () => {
-  let db: any
+describe('expressions CRUD (electron-store)', () => {
   beforeEach(() => {
-    db = new initSqlJs(':memory:')
-    createSchema(db)
+    _resetStoreForTests() // 用内存态重置，避免测试间互相污染
   })
 
-  it('adds and lists an expression', () => {
-    const id = addExpression(db, {
+  it('adds and lists an expression, auto-increments id', () => {
+    const a = addExpression({
       plain: 'important', advanced: 'plays a pivotal role in',
       example: 'Education plays a pivotal role in social mobility.',
       topic: '教育', source: '内置',
     })
-    const all = listExpressions(db)
-    expect(all).toHaveLength(1)
-    expect(all[0].id).toBe(id)
+    const b = addExpression({
+      plain: 'good', advanced: 'remarkable',
+      example: 'a remarkable improvement', topic: null, source: '内置',
+    })
+    expect(b.id).toBeGreaterThan(a.id)
+    const all = listExpressions()
+    expect(all).toHaveLength(2)
     expect(all[0].advanced).toBe('plays a pivotal role in')
   })
 
+  it('initializes srs state on add', () => {
+    const a = addExpression({
+      plain: 'x', advanced: 'y', example: 'z', topic: null, source: '手动',
+    })
+    const { getSrsState } = require('../src/main/store')
+    const s = getSrsState(a.id)
+    expect(s).toBeTruthy()
+    expect(s.easiness).toBe(2.5)
+    expect(s.repetitions).toBe(0)
+  })
+
   it('updates and deletes', () => {
-    const id = addExpression(db, {
+    const a = addExpression({
       plain: 'a', advanced: 'b', example: 'c', topic: null, source: '手动',
     })
-    updateExpression(db, id, { advanced: 'b2' })
-    expect(listExpressions(db)[0].advanced).toBe('b2')
-    deleteExpression(db, id)
-    expect(listExpressions(db)).toHaveLength(0)
+    updateExpression(a.id, { advanced: 'b2' })
+    expect(listExpressions().find(e => e.id === a.id)!.advanced).toBe('b2')
+    deleteExpression(a.id)
+    expect(listExpressions()).toHaveLength(0)
+    const { getSrsState } = require('../src/main/store')
+    expect(getSrsState(a.id)).toBeUndefined() // 删除时联动清掉 srs 状态
   })
 })
 ```
@@ -233,49 +257,78 @@ describe('expressions CRUD', () => {
 - [ ] **Step 2: 运行确认失败**
 
 ```bash
-npx vitest run tests/db.test.ts
-# 预期：FAIL，找不到 src/main/db 与 schema
+npx vitest run tests/expressions.test.ts
+# 预期：FAIL，找不到 src/main/expressions 与 store
 ```
 
-- [ ] **Step 3: 实现 schema 与 CRUD**
+- [ ] **Step 3: 实现 store 封装与 CRUD**
 
-`src/main/schema.ts`:
+`src/main/store.ts`（electron-store 单例 + 各域读写 + 测试重置钩子）：
 
 ```ts
-import type { Database } from 'better-sqlite3'
+import Store from 'electron-store'
 
-export function createSchema(db: Database): void {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS expressions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      plain TEXT NOT NULL,
-      advanced TEXT NOT NULL,
-      example TEXT NOT NULL,
-      topic TEXT,
-      source TEXT NOT NULL DEFAULT '内置',
-      created_at INTEGER NOT NULL
-    );
-    CREATE TABLE IF NOT EXISTS srs_state (
-      expr_id INTEGER PRIMARY KEY REFERENCES expressions(id) ON DELETE CASCADE,
-      easiness REAL NOT NULL DEFAULT 2.5,
-      interval REAL NOT NULL DEFAULT 0,
-      repetitions INTEGER NOT NULL DEFAULT 0,
-      due_at INTEGER NOT NULL,
-      last_reviewed INTEGER
-    );
-    CREATE TABLE IF NOT EXISTS settings (
-      key TEXT PRIMARY KEY,
-      value TEXT NOT NULL
-    );
-  `)
+export interface SrsState {
+  easiness: number; interval: number; repetitions: number
+  due_at: number; last_reviewed: number | null
+}
+
+interface Schema {
+  expressions: import('./expressions').Expression[]
+  srsStates: Record<number, SrsState>
+  settings: Record<string, string>
+  nextId: number
+}
+
+// 测试时注入内存实现；生产用 electron-store 持久化
+let mem: Schema | null = null
+
+const defaults: Schema = { expressions: [], srsStates: {}, settings: {}, nextId: 1 }
+const store = new Store<Schema>({ defaults })
+
+function read<K extends keyof Schema>(key: K): Schema[K] {
+  return mem ? mem[key] : store.get(key)
+}
+function write<K extends keyof Schema>(key: K, val: Schema[K]): void {
+  if (mem) { mem[key] = val } else { store.set(key, val) }
+}
+
+export function _resetStoreForTests(): void {
+  mem = { expressions: [], srsStates: {}, settings: {}, nextId: 1 }
+}
+
+export function allocId(): number {
+  const id = read('nextId')
+  write('nextId', id + 1)
+  return id
+}
+
+export function getSrsState(id: number): SrsState | undefined {
+  return read('srsStates')[id]
+}
+export function setSrsState(id: number, s: SrsState): void {
+  write('srsStates', { ...read('srsStates'), [id]: s })
+}
+export function deleteSrsState(id: number): void {
+  const m = { ...read('srsStates') }
+  delete m[id]
+  write('srsStates', m)
+}
+
+export const expressionsBox = {
+  get: () => read('expressions'),
+  set: (v: Schema['expressions']) => write('expressions', v),
+}
+export const settingsBox = {
+  get: () => read('settings'),
+  set: (v: Schema['settings']) => write('settings', v),
 }
 ```
 
-`src/main/db.ts`:
+`src/main/expressions.ts`（CRUD）：
 
 ```ts
-import type { Database } from 'better-sqlite3'
-import { createSchema } from './schema'
+import { allocId, expressionsBox, setSrsState, deleteSrsState } from './store'
 
 export interface Expression {
   id: number; plain: string; advanced: string; example: string
@@ -283,52 +336,44 @@ export interface Expression {
 }
 export type NewExpression = Omit<Expression, 'id' | 'created_at'>
 
-export function initDb(db: Database): Database {
-  createSchema(db)
-  return db
+export function addExpression(e: NewExpression): Expression {
+  const expr: Expression = { ...e, id: allocId(), created_at: Date.now() }
+  expressionsBox.set([...expressionsBox.get(), expr])
+  setSrsState(expr.id, {
+    easiness: 2.5, interval: 0, repetitions: 0,
+    due_at: Date.now(), last_reviewed: null,
+  })
+  return expr
 }
 
-export function addExpression(db: Database, e: NewExpression): number {
-  const info = db.prepare(
-    `INSERT INTO expressions (plain,advanced,example,topic,source,created_at)
-     VALUES (@plain,@advanced,@example,@topic,@source,@created_at)`
-  ).run({ ...e, created_at: Date.now() })
-  const id = Number(info.lastInsertRowid)
-  db.prepare(
-    `INSERT INTO srs_state (expr_id, due_at) VALUES (?, ?)`
-  ).run(id, Date.now())
-  return id
+export function listExpressions(): Expression[] {
+  return [...expressionsBox.get()].sort((a, b) => a.id - b.id)
 }
 
-export function listExpressions(db: Database): Expression[] {
-  return db.prepare(`SELECT * FROM expressions ORDER BY id`).all() as Expression[]
+export function updateExpression(id: number, patch: Partial<NewExpression>): void {
+  expressionsBox.set(
+    expressionsBox.get().map(e => (e.id === id ? { ...e, ...patch } : e))
+  )
 }
 
-export function updateExpression(db: Database, id: number, patch: Partial<NewExpression>): void {
-  const fields = Object.keys(patch)
-  if (fields.length === 0) return
-  const set = fields.map((f) => `${f} = @${f}`).join(', ')
-  db.prepare(`UPDATE expressions SET ${set} WHERE id = @id`).run({ ...patch, id })
-}
-
-export function deleteExpression(db: Database, id: number): void {
-  db.prepare(`DELETE FROM expressions WHERE id = ?`).run(id)
-  db.prepare(`DELETE FROM srs_state WHERE expr_id = ?`).run(id)
+export function deleteExpression(id: number): void {
+  expressionsBox.set(expressionsBox.get().filter(e => e.id !== id))
+  deleteSrsState(id)
 }
 ```
 
 - [ ] **Step 4: 运行确认通过**
 
 ```bash
-npx vitest run tests/db.test.ts
-# 预期：PASS
+npx vitest run tests/expressions.test.ts
+# 预期：PASS（3 个用例全过）
 ```
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add tests/db.test.ts src/main/db.ts src/main/schema.ts
-git commit -m "feat: SQLite schema 与表达块 CRUD"
+git add tests/expressions.test.ts src/main/store.ts src/main/expressions.ts
+git commit -m "feat: electron-store 数据层与表达块 CRUD"
 ```
 
 ---
