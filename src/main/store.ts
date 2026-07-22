@@ -1,4 +1,9 @@
-import Store, { type Options } from 'electron-store'
+import StoreImport, { type Options } from 'electron-store'
+
+// electron-store v11 是纯 ESM；CJS 产物里 require(esm) 返回模块命名空间，类挂在 .default 上；
+// ESM/vitest 下 default 导入直接是类。两种产物都兼容地取构造函数。
+const Store = ((StoreImport as unknown as { default?: typeof StoreImport }).default ??
+  StoreImport) as typeof StoreImport
 
 export interface SrsState {
   easiness: number; interval: number; repetitions: number
