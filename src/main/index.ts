@@ -24,7 +24,7 @@ function createManagerWindow(): void {
 
 app.whenReady().then(() => {
   const seeded = seedIfEmpty()
-  if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置表达块`)
+  if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置生词`)
   registerIpc()
   createManagerWindow()
   const popup = createPopupWindow()

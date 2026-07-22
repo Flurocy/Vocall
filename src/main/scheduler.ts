@@ -1,15 +1,15 @@
-import type { Expression } from './expressions'
-import { listExpressions } from './expressions'
+import type { VocabItem } from './vocab'
+import { listVocab } from './vocab'
 import { getSrsState, setSrsState } from './store'
 import { review, type Grade, type SrsState } from './srs'
 
-// 到期查询：遍历全部表达块，用 getSrsState(id) 取复习状态，筛 due_at <= now 中最早到期的一条。
+// 到期查询：遍历全部生词，用 getSrsState(id) 取复习状态，筛 due_at <= now 中最早到期的一条。
 // 注意：不要直接遍历 store 里的 srsStates 域——JSON 序列化后其键是字符串，
-// 若必须遍历需 Number(key) 转回数字 id；这里改为以 expressions 数组为主遍历，天然避开该坑。
-export function getDueExpression(now: number): Expression | null {
-  let best: Expression | null = null
+// 若必须遍历需 Number(key) 转回数字 id；这里改为以 vocab 数组为主遍历，天然避开该坑。
+export function getDueExpression(now: number): VocabItem | null {
+  let best: VocabItem | null = null
   let bestDue = Infinity
-  for (const e of listExpressions()) {
+  for (const e of listVocab()) {
     const s = getSrsState(e.id)
     if (!s) continue
     if (s.due_at <= now && s.due_at < bestDue) {

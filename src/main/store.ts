@@ -11,7 +11,7 @@ export interface SrsState {
 }
 
 interface Schema {
-  expressions: import('./expressions').Expression[]
+  vocab: import('./vocab').VocabItem[]
   srsStates: Record<number, SrsState>
   settings: Record<string, string>
   nextId: number
@@ -20,7 +20,7 @@ interface Schema {
 // 测试时注入内存实现；生产用 electron-store 持久化
 let mem: Schema | null = null
 
-const defaults: Schema = { expressions: [], srsStates: {}, settings: {}, nextId: 1 }
+const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1 }
 // 显式传 projectName：Electron 外（如 vitest Node 环境）conf 无法从 app 取名，会抛错；
 // electron-store 的 Options 类型把 projectName Except 掉了（生产环境由 app 名派生），这里运行时透传给 conf，需断言
 const store = new Store<Schema>({ defaults, projectName: 'tasymize' } as Options<Schema>)
@@ -33,7 +33,7 @@ function write<K extends keyof Schema>(key: K, val: Schema[K]): void {
 }
 
 export function _resetStoreForTests(): void {
-  mem = { expressions: [], srsStates: {}, settings: {}, nextId: 1 }
+  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1 }
 }
 
 export function allocId(): number {
@@ -54,9 +54,9 @@ export function deleteSrsState(id: number): void {
   write('srsStates', m)
 }
 
-export const expressionsBox = {
-  get: () => read('expressions'),
-  set: (v: Schema['expressions']) => write('expressions', v),
+export const vocabBox = {
+  get: () => read('vocab'),
+  set: (v: Schema['vocab']) => write('vocab', v),
 }
 export const settingsBox = {
   get: () => read('settings'),

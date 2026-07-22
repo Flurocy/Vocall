@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
-import type { Expression } from './expressions'
+import type { VocabItem } from './vocab'
 
 export function createPopupWindow(): BrowserWindow {
   const { workAreaSize, workArea } = screen.getPrimaryDisplay()
@@ -28,12 +28,12 @@ export function createPopupWindow(): BrowserWindow {
   return win
 }
 
-// 当前待展示的表达块：showPopup 先存后发，渲染端可用 popup:getCurrent 主动拉取。
+// 当前待展示的生词：showPopup 先存后发，渲染端可用 popup:getCurrent 主动拉取。
 // 这样即使 'popup:show' 推送早于页面 did-finish-load 被丢弃，
 // 卡片 mount 后也能 pull 到数据，不会首弹空白。
-let currentExpr: Expression | null = null
+let currentExpr: VocabItem | null = null
 
-export function showPopup(win: BrowserWindow, expr: Expression): void {
+export function showPopup(win: BrowserWindow, expr: VocabItem): void {
   currentExpr = expr
   win.webContents.send('popup:show', expr)
   win.showInactive()

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
-import type { Expression } from '../../shared/ipc-types'
+import type { VocabItem } from '../../shared/ipc-types'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -22,11 +22,11 @@ async function playSound(): Promise<void> {
 }
 
 export default function PopupCard(): ReactElement | null {
-  const [expr, setExpr] = useState<Expression | null>(null)
+  const [expr, setExpr] = useState<VocabItem | null>(null)
   const [revealed, setRevealed] = useState(false)
   const timers = useRef<number[]>([])
 
-  const start = useCallback((e: Expression): void => {
+  const start = useCallback((e: VocabItem): void => {
     timers.current.forEach(clearTimeout)
     timers.current = []
     setExpr(e)
@@ -60,10 +60,10 @@ export default function PopupCard(): ReactElement | null {
   return (
     <div className="m-0 flex h-full w-full items-center justify-center bg-transparent">
       <div className="w-full rounded-2xl border border-white/10 bg-slate-900/80 p-5 shadow-2xl backdrop-blur-md">
-        <div className="text-sm text-slate-400">{expr.plain}</div>
+        <div className="text-sm text-slate-400">{expr.word}</div>
         {revealed ? (
           <>
-            <div className="mt-1 text-xl font-semibold text-emerald-300">{expr.advanced}</div>
+            <div className="mt-1 text-xl font-semibold text-emerald-300">{expr.meaning}</div>
             <div className="mt-2 text-xs leading-relaxed text-slate-300">{expr.example}</div>
             <div className="mt-4 flex gap-2">
               <button onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
