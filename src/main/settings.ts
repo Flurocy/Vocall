@@ -2,8 +2,9 @@ import { settingsBox } from './store'
 
 export const DEFAULT_SETTINGS: Record<string, string> = {
   popup_interval_min: '8',
-  popup_stay_sec: '8',
+  popup_stay_sec: '15',
   recall_delay_sec: '3',
+  pass_count: '3',
   popup_position: 'bottom-right',
   sound_enabled: 'true',
   sound_volume: '0.6',

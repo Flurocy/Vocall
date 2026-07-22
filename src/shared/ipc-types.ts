@@ -4,6 +4,13 @@ export interface VocabItem {
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at'>
 
+// 弹窗载荷：词条 + 连续答对进度（弹窗展示用）
+export interface PopupPayload {
+  item: VocabItem
+  repetitions: number // 当前连续答对次数（显示时封顶到 passCount）
+  passCount: number   // 过关所需次数
+}
+
 // 渲染端可调用的接口形状
 export interface TasymizeApi {
   listVocab(): Promise<VocabItem[]>
@@ -13,9 +20,12 @@ export interface TasymizeApi {
   getSettings(): Promise<Record<string, string>>
   setSetting(key: string, value: string): Promise<void>
   onShow(cb: (expr: VocabItem) => void): void
-  getCurrent(): Promise<VocabItem | null>
+  getCurrent(): Promise<PopupPayload | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
+  // 整窗拖拽：fire-and-forget，参数为鼠标 screen 坐标
+  dragStart(x: number, y: number): void
+  dragMove(x: number, y: number): void
 }
 
 declare global {

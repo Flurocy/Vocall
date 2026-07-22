@@ -1,12 +1,12 @@
 import type { BrowserWindow } from 'electron'
-import { getDueExpression } from './scheduler'
+import { getDueVocab } from './scheduler'
 import { getSetting } from './settings'
 import { showPopup } from './popup'
 
 export function startEngine(getPopup: () => BrowserWindow): void {
   const tick = (): void => {
     const now = Date.now()
-    const due = getDueExpression(now)
+    const due = getDueVocab(now)
     if (due) {
       showPopup(getPopup(), due)
       // 弹出后给一个兜底间隔，避免同一条连续弹

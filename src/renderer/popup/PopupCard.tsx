@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ReactElement } from 'react'
-import type { VocabItem } from '../../shared/ipc-types'
+import type { ReactElement, MouseEvent as ReactMouseEvent } from 'react'
+import type { PopupPayload } from '../../shared/ipc-types'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -21,21 +21,32 @@ async function playSound(): Promise<void> {
   }
 }
 
-export default function PopupCard(): ReactElement | null {
-  const [expr, setExpr] = useState<VocabItem | null>(null)
-  const [revealed, setRevealed] = useState(false)
-  const timers = useRef<number[]>([])
+// 点击/拖拽判定阈值：位移 ≤ 5px 算点击（正面则翻卡），> 5px 算拖动窗口
+const DRAG_THRESHOLD_PX = 5
 
-  const start = useCallback((e: VocabItem): void => {
+export default function PopupCard(): ReactElement | null {
+  const [payload, setPayload] = useState<PopupPayload | null>(null)
+  const [face, setFace] = useState<'front' | 'back'>('front')
+  const [exampleOpen, setExampleOpen] = useState(false)
+  const timers = useRef<number[]>([])
+  // mouseup 回调在闭包里需要读到最新 face（决定点击是否翻卡）
+  const faceRef = useRef(face)
+  faceRef.current = face
+  // 进行中的拖拽手势的清理函数（移除 window 监听器），卸载时兜底调用
+  const dragCleanup = useRef<(() => void) | null>(null)
+
+  const start = useCallback((p: PopupPayload): void => {
     timers.current.forEach(clearTimeout)
     timers.current = []
-    setExpr(e)
-    setRevealed(false)
-    // 注意：当前为硬编码，未与设置键 recall_delay_sec / popup_stay_sec 打通（Task 7 brief 要求保持硬编码）
-    const recallMs = Number(/* recall_delay_sec 默认 3 */ 3) * 1000
-    const stayMs = Number(/* popup_stay_sec 默认 8 */ 8) * 1000
-    timers.current.push(window.setTimeout(() => setRevealed(true), recallMs))
-    timers.current.push(window.setTimeout(() => window.tasymize.dismiss(), recallMs + stayMs))
+    setPayload(p)
+    setFace('front')
+    setExampleOpen(false)
+    // 唯一的定时器：从本次展示起算 popup_stay_sec 秒后自动消失（默认 15 秒，
+    // 主动翻卡需要用户操作时间，8 秒太短）。不再有自动翻卡定时器。
+    void window.tasymize.getSettings().then((settings) => {
+      const stayMs = (Number(settings.popup_stay_sec) || 15) * 1000
+      timers.current.push(window.setTimeout(() => window.tasymize.dismiss(), stayMs))
+    })
     void playSound()
   }, [])
 
@@ -43,36 +54,96 @@ export default function PopupCard(): ReactElement | null {
     // 方案A（主动 pull）：mount 后立即拉一次当前词，覆盖"启动即有到期词、
     // push 消息早于 did-finish-load 被丢弃"的场景；onShow 仅作"有词了"的信号，
     // 收到信号后同样主动拉取，不依赖推送 payload。
-    void window.tasymize.getCurrent().then((e) => { if (e) start(e) })
+    void window.tasymize.getCurrent().then((p) => { if (p) start(p) })
     window.tasymize.onShow(() => {
-      void window.tasymize.getCurrent().then((e) => { if (e) start(e) })
+      void window.tasymize.getCurrent().then((p) => { if (p) start(p) })
     })
-    return () => timers.current.forEach(clearTimeout)
+    return () => {
+      timers.current.forEach(clearTimeout)
+      dragCleanup.current?.()
+    }
   }, [start])
 
-  if (!expr) return null
+  // 整窗拖拽 + 智能区分点击：mousedown 记录起点并上报主进程；
+  // mousemove 位移 > 5px 才进入拖动（转发 screen 坐标给主进程平移窗口）；
+  // mouseup 位移 ≤ 5px 且处于正面 → 翻卡。监听器挂 window，拖出卡片也跟手。
+  const onCardMouseDown = (e: ReactMouseEvent): void => {
+    if (e.button !== 0) return
+    const startX = e.screenX
+    const startY = e.screenY
+    let dragging = false
+    window.tasymize.dragStart(startX, startY)
+    const onMove = (ev: MouseEvent): void => {
+      if (!dragging &&
+          Math.hypot(ev.screenX - startX, ev.screenY - startY) > DRAG_THRESHOLD_PX) {
+        dragging = true
+      }
+      if (dragging) window.tasymize.dragMove(ev.screenX, ev.screenY)
+    }
+    const cleanup = (): void => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+      dragCleanup.current = null
+    }
+    const onUp = (ev: MouseEvent): void => {
+      cleanup()
+      if (Math.hypot(ev.screenX - startX, ev.screenY - startY) <= DRAG_THRESHOLD_PX &&
+          faceRef.current === 'front') {
+        setFace('back')
+      }
+    }
+    dragCleanup.current = cleanup
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }
+
+  if (!payload) return null
+  const { item, repetitions, passCount } = payload
 
   const send = (g: 0 | 1 | 2): void => {
-    void window.tasymize.grade(expr.id, g)
+    void window.tasymize.grade(item.id, g)
     window.tasymize.dismiss()
   }
 
+  // 卡片内按钮必须拦住 mousedown，避免从按钮起手误触拖拽/翻卡
+  const stopMouseDown = (e: ReactMouseEvent): void => e.stopPropagation()
+
   return (
     <div className="m-0 flex h-full w-full items-center justify-center bg-transparent">
-      <div className="w-full rounded-2xl border border-white/10 bg-slate-900/80 p-5 shadow-2xl backdrop-blur-md">
-        <div className="text-sm text-slate-400">{expr.word}</div>
-        {revealed ? (
-          <>
-            <div className="mt-1 text-xl font-semibold text-emerald-300">{expr.meaning}</div>
-            <div className="mt-2 text-xs leading-relaxed text-slate-300">{expr.example}</div>
-            <div className="mt-4 flex gap-2">
-              <button onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
-              <button onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/20 py-1.5 text-sm text-amber-300 hover:bg-amber-500/30">🤔 有点印象</button>
-              <button onClick={() => send(2)} className="flex-1 rounded-lg bg-emerald-500/20 py-1.5 text-sm text-emerald-300 hover:bg-emerald-500/30">😎 记得</button>
-            </div>
-          </>
+      <div
+        onMouseDown={onCardMouseDown}
+        className="relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-white/20 bg-slate-900/90 p-5 shadow-2xl backdrop-blur-md"
+      >
+        <div className="absolute right-3 top-2 text-[10px] text-slate-500">
+          已连续答对 {Math.min(repetitions, passCount)}/{passCount}
+        </div>
+        {face === 'front' ? (
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="text-2xl font-semibold text-slate-100">{item.word}</div>
+            <div className="mt-2 text-xs text-slate-400">点击卡片查看释义</div>
+          </div>
         ) : (
-          <div className="mt-1 text-xl font-semibold text-slate-500">… 回想一下高级表达 …</div>
+          <div>
+            <div className="text-sm text-slate-400">{item.word}</div>
+            <div className="mt-1 text-xl font-semibold text-emerald-300">{item.meaning}</div>
+            <button
+              onMouseDown={stopMouseDown}
+              onClick={() => setExampleOpen((v) => !v)}
+              className="mt-2 text-xs text-slate-400 hover:text-slate-200"
+            >
+              {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
+            </button>
+            {exampleOpen && (
+              <div className="mt-1 max-h-20 overflow-y-auto text-xs leading-relaxed text-slate-300">
+                {item.example}
+              </div>
+            )}
+            <div className="mt-4 flex gap-2">
+              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/20 py-1.5 text-sm text-amber-300 hover:bg-amber-500/30">🤔 有点印象</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className="flex-1 rounded-lg bg-emerald-500/20 py-1.5 text-sm text-emerald-300 hover:bg-emerald-500/30">😎 记得</button>
+            </div>
+          </div>
         )}
       </div>
     </div>
