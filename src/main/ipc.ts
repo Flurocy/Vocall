@@ -4,6 +4,7 @@ import {
   type NewExpression,
 } from './expressions'
 import { getAllSettings, setSetting } from './settings'
+import { applyReview } from './scheduler'
 
 export function registerIpc(): void {
   ipcMain.handle('expr:list', () => listExpressions())
@@ -14,4 +15,7 @@ export function registerIpc(): void {
   ipcMain.handle('settings:getAll', () => getAllSettings())
   ipcMain.handle('settings:set', (_e, key: string, value: string) =>
     setSetting(key, value))
+  ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
+    applyReview(id, grade, Date.now())
+  })
 }

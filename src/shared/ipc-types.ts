@@ -13,6 +13,7 @@ export interface TasymizeApi {
   getSettings(): Promise<Record<string, string>>
   setSetting(key: string, value: string): Promise<void>
   onShow(cb: (expr: Expression) => void): void
+  getCurrent(): Promise<Expression | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
 }

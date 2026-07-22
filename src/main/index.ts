@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { registerIpc } from './ipc'
-import { createPopupWindow } from './popup'
+import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
 
 function createManagerWindow(): void {
@@ -25,6 +25,7 @@ app.whenReady().then(() => {
   registerIpc()
   createManagerWindow()
   const popup = createPopupWindow()
+  registerPopupIpc(() => popup)
   startEngine(() => popup)
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createManagerWindow()
