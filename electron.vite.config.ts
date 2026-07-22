@@ -14,7 +14,12 @@ export default defineConfig({
     root: 'src/renderer',
     build: {
       outDir: 'out/renderer',
-      rollupOptions: { input: { manager: resolve('src/renderer/manager/index.html') } },
+      rollupOptions: {
+        input: {
+          manager: resolve('src/renderer/manager/index.html'),
+          popup: resolve('src/renderer/popup/popup.html'),
+        },
+      },
     },
     plugins: [react()],
     resolve: { alias: { '@renderer': resolve('src/renderer') } },
