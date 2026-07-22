@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { registerIpc } from './ipc'
+import { seedIfEmpty } from './seed'
 import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
 
@@ -22,6 +23,8 @@ function createManagerWindow(): void {
 }
 
 app.whenReady().then(() => {
+  const seeded = seedIfEmpty()
+  if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置表达块`)
   registerIpc()
   createManagerWindow()
   const popup = createPopupWindow()
