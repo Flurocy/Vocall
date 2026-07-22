@@ -74,6 +74,10 @@ export default function PopupCard(): ReactElement | null {
     let dragging = false
     window.tasymize.dragStart(startX, startY)
     const onMove = (ev: MouseEvent): void => {
+      // 粘性拖拽兜底：快速甩动时 mouseup 可能投递给窗外其他窗口而丢失，
+      // 此后每次划过都会触发 onMove。发现按键已松开（buttons===0）说明手势
+      // 实际已结束，立即自我清理，避免窗口粘着光标跑。
+      if (ev.buttons === 0) { cleanup(); return }
       if (!dragging &&
           Math.hypot(ev.screenX - startX, ev.screenY - startY) > DRAG_THRESHOLD_PX) {
         dragging = true
