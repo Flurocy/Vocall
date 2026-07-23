@@ -166,7 +166,7 @@ export default function PopupCard(): ReactElement | null {
             <div className="mt-4 flex gap-2">
               <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
               <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/20 py-1.5 text-sm text-amber-300 hover:bg-amber-500/30">🤔 有点印象</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm ${theme.accentBg} ${theme.accentText} ${theme.accentBgHover}`}>😎 记得</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
             </div>
           </div>
         )}

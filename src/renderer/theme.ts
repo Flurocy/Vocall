@@ -7,8 +7,10 @@ export interface Theme {
   id: string
   label: string        // 设置界面显示名
   accentText: string   // 强调文字色（标题、meaning、角标）
-  accentBg: string     // 选中/激活背景（导航激活态、分段按钮选中、评分"记得"）
+  accentBg: string     // 选中/激活背景（导航激活态、分段按钮选中）
   accentBgHover: string // 上述激活态的 hover（含 hover: 前缀的完整字面量）
+  accentSolid: string  // 实色填充强调（评分"记得"按钮——与半透明语义色区分，防撞色）
+  accentSolidHover: string // accentSolid 的 hover（含 hover: 前缀的完整字面量）
   swatch: string       // 设置界面色板小圆点
   accentColor: string  // 原生控件 accent-color（checkbox/range）
 }
@@ -19,6 +21,8 @@ export const THEMES: Theme[] = [
     accentText: 'text-emerald-300',
     accentBg: 'bg-emerald-500/20',
     accentBgHover: 'hover:bg-emerald-500/30',
+    accentSolid: 'bg-emerald-500 text-slate-950',
+    accentSolidHover: 'hover:bg-emerald-400',
     swatch: 'bg-emerald-400',
     accentColor: 'accent-emerald-500',
   },
@@ -27,6 +31,8 @@ export const THEMES: Theme[] = [
     accentText: 'text-sky-300',
     accentBg: 'bg-sky-500/20',
     accentBgHover: 'hover:bg-sky-500/30',
+    accentSolid: 'bg-sky-500 text-slate-950',
+    accentSolidHover: 'hover:bg-sky-400',
     swatch: 'bg-sky-400',
     accentColor: 'accent-sky-500',
   },
@@ -35,6 +41,8 @@ export const THEMES: Theme[] = [
     accentText: 'text-violet-300',
     accentBg: 'bg-violet-500/20',
     accentBgHover: 'hover:bg-violet-500/30',
+    accentSolid: 'bg-violet-500 text-slate-950',
+    accentSolidHover: 'hover:bg-violet-400',
     swatch: 'bg-violet-400',
     accentColor: 'accent-violet-500',
   },
@@ -43,6 +51,8 @@ export const THEMES: Theme[] = [
     accentText: 'text-amber-300',
     accentBg: 'bg-amber-500/20',
     accentBgHover: 'hover:bg-amber-500/30',
+    accentSolid: 'bg-amber-500 text-slate-950',
+    accentSolidHover: 'hover:bg-amber-400',
     swatch: 'bg-amber-400',
     accentColor: 'accent-amber-500',
   },
@@ -51,6 +61,8 @@ export const THEMES: Theme[] = [
     accentText: 'text-rose-300',
     accentBg: 'bg-rose-500/20',
     accentBgHover: 'hover:bg-rose-500/30',
+    accentSolid: 'bg-rose-500 text-slate-950',
+    accentSolidHover: 'hover:bg-rose-400',
     swatch: 'bg-rose-400',
     accentColor: 'accent-rose-500',
   },
