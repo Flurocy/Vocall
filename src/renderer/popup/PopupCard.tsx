@@ -137,7 +137,7 @@ export default function PopupCard(): ReactElement | null {
     <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ fontSize }}>
       <div
         onMouseDown={onCardMouseDown}
-        className="relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-white/20 bg-slate-900/90 p-5 shadow-2xl backdrop-blur-md"
+        className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-white/20 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
       >
         <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
           已连续答对 {Math.min(repetitions, passCount)}/{passCount}

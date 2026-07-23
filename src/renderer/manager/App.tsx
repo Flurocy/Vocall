@@ -36,7 +36,7 @@ export default function App(): ReactElement {
 
   return (
     // 顶层 fontSize 供 em 级联；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
-    <div className="flex h-screen bg-slate-950 text-slate-100" style={{ fontSize }}>
+    <div className={`flex h-screen ${theme.bgApp} text-slate-100`} style={{ fontSize }}>
       <nav className="w-44 border-r border-white/10 p-4">
         <h1 className={`mb-6 text-lg font-bold ${theme.accentText}`}>Tasymize</h1>
         <button onClick={() => setTab('vocab')} className={navBtn(tab === 'vocab')}>生词库</button>
