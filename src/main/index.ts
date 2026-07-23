@@ -9,7 +9,10 @@ function createManagerWindow(): void {
   const win = new BrowserWindow({
     width: 960,
     height: 640,
-    // 深色底消除页面挂载/加载瞬间的白色闪边（窗口默认白底，内容盖不住时透出）
+    // 去白边：隐藏原生标题栏的白色一圈（titleBarStyle:'hidden' 保留右上角最小化/关闭控件），
+    // 移除 File/Edit/View/Window 菜单栏，深色底消除加载闪白
+    titleBarStyle: 'hidden',
+    autoHideMenuBar: true,
     backgroundColor: '#0f172a',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -17,6 +20,7 @@ function createManagerWindow(): void {
       nodeIntegration: false,
     },
   })
+  win.setMenuBarVisibility(false) // 彻底移除 File/Edit/View/Window 菜单栏
   if (process.env.ELECTRON_RENDERER_URL) {
     win.loadURL(process.env.ELECTRON_RENDERER_URL + '/manager/index.html')
   } else {
