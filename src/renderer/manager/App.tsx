@@ -31,13 +31,13 @@ export default function App(): ReactElement {
 
   const navBtn = (active: boolean): string =>
     `mb-2 block w-full rounded-lg px-3 py-2 text-left text-sm ${
-      active ? `${theme.accentBg} ${theme.accentText}` : 'text-slate-300 hover:bg-white/5'
+      active ? `${theme.accentBg} ${theme.accentText}` : 'text-slate-600 hover:bg-black/5'
     }`
 
   return (
     // 顶层 fontSize 供 em 级联；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
-    <div className={`flex h-screen ${theme.bgApp} text-slate-100`} style={{ fontSize }}>
-      <nav className="w-44 border-r border-white/10 p-4">
+    <div className={`flex h-screen ${theme.bgApp} text-slate-800`} style={{ fontSize }}>
+      <nav className="w-44 border-r border-black/10 p-4">
         <h1 className={`mb-6 text-lg font-bold ${theme.accentText}`}>Tasymize</h1>
         <button onClick={() => setTab('vocab')} className={navBtn(tab === 'vocab')}>生词库</button>
         <button onClick={() => setTab('settings')} className={navBtn(tab === 'settings')}>设置</button>

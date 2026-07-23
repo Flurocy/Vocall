@@ -10,10 +10,11 @@ function createManagerWindow(): void {
     width: 960,
     height: 640,
     // 去白边：仅移除 File/Edit/View/Window 菜单栏（用户反馈那条"白边"主要是菜单栏），
-    // 深色底消除加载闪白。不隐藏标题栏——titleBarStyle:'hidden' 会把右上角关闭按钮
+    // 浅色底（slate-100 中性浅灰）消除加载闪深/闪白——主题确定前的占位色。
+    // 不隐藏标题栏——titleBarStyle:'hidden' 会把右上角关闭按钮
     // 一并藏掉导致无法关闭窗口，故保留标准窗口框。
     autoHideMenuBar: true,
-    backgroundColor: '#0f172a',
+    backgroundColor: '#f1f5f9',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,

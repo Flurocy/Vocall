@@ -34,7 +34,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
 
-  const sectionTitle = 'mb-2 text-sm font-medium text-slate-400'
+  const sectionTitle = 'mb-2 text-sm font-medium text-slate-600'
 
   return (
     <div>
@@ -51,7 +51,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onClick={() => void update('theme', t.id)}
                 className={`h-7 w-7 rounded-full ${t.swatch} transition ${
                   t.id === currentTheme.id
-                    ? 'ring-2 ring-white/80 ring-offset-2 ring-offset-slate-950'
+                    ? 'ring-2 ring-black/40 ring-offset-2 ring-offset-transparent'
                     : 'opacity-50 hover:opacity-100'
                 }`}
               />
@@ -61,7 +61,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
 
         <section>
           <h3 className={sectionTitle}>字体大小</h3>
-          <div className="inline-flex rounded-lg bg-white/5 p-1">
+          <div className="inline-flex rounded-lg bg-black/5 p-1">
             {FONT_SIZE_OPTIONS.map((o) => (
               <button
                 key={o.id}
@@ -69,7 +69,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 className={`rounded-md px-4 py-1.5 text-sm transition ${
                   o.id === currentFont
                     ? `${theme.accentBg} ${theme.accentText}`
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 {o.label}
@@ -81,20 +81,20 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         <section className="space-y-4">
           {NUMBER_FIELDS.map((f) => (
             <label key={f.key} className="block">
-              <span className="mb-1 block text-sm text-slate-400">{f.label}</span>
+              <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
               <input
                 type="number"
                 min={f.min}
                 value={settings[f.key] ?? ''}
                 onChange={(e) => void update(f.key, e.target.value)}
-                className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm outline-none"
+                className="w-full rounded-lg bg-black/5 px-3 py-2 text-sm outline-none hover:bg-black/10"
               />
             </label>
           ))}
         </section>
 
         <section className="space-y-3">
-          <label className="flex items-center gap-2 text-sm text-slate-300">
+          <label className="flex items-center gap-2 text-sm text-slate-600">
             <input
               type="checkbox"
               checked={soundOn}
@@ -104,7 +104,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
             音效开关
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-slate-400">
+            <span className="mb-1 block text-sm text-slate-600">
               音量（{Math.round(volume * 100)}%）
             </span>
             <input

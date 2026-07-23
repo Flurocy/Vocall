@@ -9,7 +9,7 @@ describe('theme', () => {
 
   it('按 id 取主题', () => {
     expect(getTheme('sky').id).toBe('sky')
-    expect(getTheme('rose').accentText).toBe('text-rose-300')
+    expect(getTheme('rose').accentText).toBe('text-rose-700')
   })
 
   it('空值/未知 id 兜底回默认 emerald', () => {

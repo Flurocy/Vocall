@@ -137,35 +137,35 @@ export default function PopupCard(): ReactElement | null {
     <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ fontSize }}>
       <div
         onMouseDown={onCardMouseDown}
-        className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-white/20 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
+        className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
       >
         <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
           已连续答对 {Math.min(repetitions, passCount)}/{passCount}
         </div>
         {face === 'front' ? (
           <div className="flex flex-col items-center justify-center text-center">
-            <div className="text-2xl font-semibold text-slate-100">{item.word}</div>
-            <div className="mt-2 text-xs text-slate-400">点击卡片查看释义</div>
+            <div className="text-2xl font-semibold text-slate-800">{item.word}</div>
+            <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
           </div>
         ) : (
           <div>
-            <div className="text-sm text-slate-400">{item.word}</div>
+            <div className="text-sm text-slate-500">{item.word}</div>
             <div className={`mt-1 text-xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
             <button
               onMouseDown={stopMouseDown}
               onClick={() => setExampleOpen((v) => !v)}
-              className="mt-2 text-xs text-slate-400 hover:text-slate-200"
+              className="mt-2 text-xs text-slate-500 hover:text-slate-800"
             >
               {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
             </button>
             {exampleOpen && (
-              <div className="mt-1 max-h-20 overflow-y-auto text-xs leading-relaxed text-slate-300">
+              <div className="mt-1 max-h-20 overflow-y-auto text-xs leading-relaxed text-slate-600">
                 {item.example}
               </div>
             )}
             <div className="mt-4 flex gap-2">
-              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/20 py-1.5 text-sm text-amber-300 hover:bg-amber-500/30">🤔 有点印象</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-1.5 text-sm text-rose-700 hover:bg-rose-500/25">😵 忘了</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-1.5 text-sm text-amber-700 hover:bg-amber-500/25">🤔 有点印象</button>
               <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
             </div>
           </div>
