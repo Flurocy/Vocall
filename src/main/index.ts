@@ -9,6 +9,8 @@ function createManagerWindow(): void {
   const win = new BrowserWindow({
     width: 960,
     height: 640,
+    // 深色底消除页面挂载/加载瞬间的白色闪边（窗口默认白底，内容盖不住时透出）
+    backgroundColor: '#0f172a',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,

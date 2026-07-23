@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* body 兜底深色：root 未铺满或加载瞬间不透白边（与窗口 backgroundColor 一致） */
+html, body {
+  background-color: #0f172a;
+}
