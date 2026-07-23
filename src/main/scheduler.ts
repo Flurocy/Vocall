@@ -21,9 +21,9 @@ export function getDueVocab(now: number): VocabItem | null {
   return best
 }
 
-// 过关所需连续答对次数：从设置读 pass_count，NaN/0 兜底 3
+// 过关所需连续答对次数：从设置读 pass_count，NaN/0 兜底 3，负数兜底到至少 1
 function passN(): number {
-  return Number(getSetting('pass_count')) || 3
+  return Math.max(1, Number(getSetting('pass_count')) || 3)
 }
 
 // 评分回写：读出现状 → 纯函数 review 计算 → setSrsState 整体写回（含 due_at / last_reviewed）

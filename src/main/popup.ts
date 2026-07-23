@@ -41,7 +41,7 @@ export function showPopup(win: BrowserWindow, item: VocabItem): void {
   current = {
     item,
     repetitions: getSrsState(item.id)?.repetitions ?? 0,
-    passCount: Number(getSetting('pass_count')) || 3,
+    passCount: Math.max(1, Number(getSetting('pass_count')) || 3),
   }
   win.webContents.send('popup:show', item)
   win.showInactive()

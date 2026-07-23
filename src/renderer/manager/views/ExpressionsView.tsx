@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { VocabItem } from '../../../shared/ipc-types'
+import type { Theme } from '../../theme'
 
-export default function ExpressionsView(): ReactElement {
+export default function ExpressionsView({ theme }: { theme: Theme }): ReactElement {
   const [list, setList] = useState<VocabItem[]>([])
   const [word, setWord] = useState('')
   const [meaning, setMeaning] = useState('')
@@ -33,14 +34,14 @@ export default function ExpressionsView(): ReactElement {
         <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="释义 放弃；抛弃" className="rounded-lg bg-white/5 px-3 py-2 text-sm outline-none" />
         <input value={example} onChange={(e) => setExample(e.target.value)} placeholder="雅思例句（可选）" className="rounded-lg bg-white/5 px-3 py-2 text-sm outline-none" />
       </div>
-      <button onClick={() => void add()} className="mb-6 rounded-lg bg-emerald-500/80 px-4 py-2 text-sm font-medium hover:bg-emerald-500">新增生词</button>
+      <button onClick={() => void add()} className={`mb-6 rounded-lg px-4 py-2 text-sm font-medium ${theme.accentBg} ${theme.accentText} ${theme.accentBgHover}`}>新增生词</button>
       <ul className="space-y-2">
         {list.map((e) => (
           <li key={e.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3">
             <div>
               <span className="text-slate-400">{e.word}</span>
               <span className="mx-2 text-slate-600">→</span>
-              <span className="text-emerald-300">{e.meaning}</span>
+              <span className={theme.accentText}>{e.meaning}</span>
             </div>
             <button onClick={() => void remove(e.id)} className="text-xs text-rose-400 hover:text-rose-300">删除</button>
           </li>

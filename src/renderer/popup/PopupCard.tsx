@@ -1,20 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactElement, MouseEvent as ReactMouseEvent } from 'react'
 import type { PopupPayload } from '../../shared/ipc-types'
+import { getTheme, getFontSize } from '../theme'
+import type { Theme } from '../theme'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
 // dev 与 build 下都解析到 electron-vite 的 publicDir —— 即把音频放到
 // src/renderer/public/pop.mp3 即可生效。也支持绝对路径（如 C:\sounds\pop.mp3）。
-// 任何失败（文件缺失、解码失败、自动播放限制）都静默吞掉，不影响卡片。
+// 遵循 sound_enabled / sound_volume 设置；任何失败（文件缺失、解码失败、
+// 自动播放限制）都静默吞掉，不影响卡片。
 async function playSound(): Promise<void> {
   try {
     const settings = await window.tasymize.getSettings()
+    if (settings.sound_enabled === 'false') return
     const file = settings.sound_file || 'pop.mp3'
     const isAbsolute = /^([a-zA-Z]:[\\/]|\/|file:)/.test(file)
     const url = isAbsolute ? `file:///${file.replace(/\\/g, '/')}` : `../${file}`
     const audio = new Audio(url)
-    audio.volume = 0.6
+    const vol = Number(settings.sound_volume)
+    audio.volume = Number.isNaN(vol) ? 0.6 : Math.min(1, Math.max(0, vol))
     await audio.play().catch(() => {})
   } catch {
     /* 音效失败静默 */
@@ -28,7 +33,12 @@ export default function PopupCard(): ReactElement | null {
   const [payload, setPayload] = useState<PopupPayload | null>(null)
   const [face, setFace] = useState<'front' | 'back'>('front')
   const [exampleOpen, setExampleOpen] = useState(false)
+  const [theme, setTheme] = useState<Theme>(() => getTheme())
+  const [fontSize, setFontSize] = useState<string>(() => getFontSize())
   const timers = useRef<number[]>([])
+  // 卸载标志：getSettings 异步 resolve 可能晚于卸载，此时不得再 setState / push 定时器
+  // （否则该定时器永不被清理，可能在卸载后触发 dismiss）
+  const alive = useRef(true)
   // mouseup 回调在闭包里需要读到最新 face（决定点击是否翻卡）
   const faceRef = useRef(face)
   faceRef.current = face
@@ -43,12 +53,21 @@ export default function PopupCard(): ReactElement | null {
     setExampleOpen(false)
     // 唯一的定时器：从本次展示起算 popup_stay_sec 秒后自动消失（默认 15 秒，
     // 主动翻卡需要用户操作时间，8 秒太短）。不再有自动翻卡定时器。
+    // 每次弹窗重读主题/字号——设置改完后下一次弹窗即时换肤。
     void window.tasymize.getSettings().then((settings) => {
+      if (!alive.current) return
+      setTheme(getTheme(settings.theme))
+      setFontSize(getFontSize(settings.font_size))
       const stayMs = (Number(settings.popup_stay_sec) || 15) * 1000
       timers.current.push(window.setTimeout(() => window.tasymize.dismiss(), stayMs))
     })
     void playSound()
   }, [])
+
+  useEffect(() => {
+    // Tailwind 字号是 rem（相对根元素），顶层容器 style 之外需同步根元素字号
+    document.documentElement.style.fontSize = fontSize
+  }, [fontSize])
 
   useEffect(() => {
     // 方案A（主动 pull）：mount 后立即拉一次当前词，覆盖"启动即有到期词、
@@ -59,6 +78,7 @@ export default function PopupCard(): ReactElement | null {
       void window.tasymize.getCurrent().then((p) => { if (p) start(p) })
     })
     return () => {
+      alive.current = false
       timers.current.forEach(clearTimeout)
       dragCleanup.current?.()
     }
@@ -113,12 +133,13 @@ export default function PopupCard(): ReactElement | null {
   const stopMouseDown = (e: ReactMouseEvent): void => e.stopPropagation()
 
   return (
-    <div className="m-0 flex h-full w-full items-center justify-center bg-transparent">
+    // 顶层 fontSize 让内部 em/rem 级联缩放；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
+    <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ fontSize }}>
       <div
         onMouseDown={onCardMouseDown}
         className="relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-white/20 bg-slate-900/90 p-5 shadow-2xl backdrop-blur-md"
       >
-        <div className="absolute right-3 top-2 text-[10px] text-slate-500">
+        <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
           已连续答对 {Math.min(repetitions, passCount)}/{passCount}
         </div>
         {face === 'front' ? (
@@ -129,7 +150,7 @@ export default function PopupCard(): ReactElement | null {
         ) : (
           <div>
             <div className="text-sm text-slate-400">{item.word}</div>
-            <div className="mt-1 text-xl font-semibold text-emerald-300">{item.meaning}</div>
+            <div className={`mt-1 text-xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
             <button
               onMouseDown={stopMouseDown}
               onClick={() => setExampleOpen((v) => !v)}
@@ -145,7 +166,7 @@ export default function PopupCard(): ReactElement | null {
             <div className="mt-4 flex gap-2">
               <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/20 py-1.5 text-sm text-rose-300 hover:bg-rose-500/30">😵 忘了</button>
               <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/20 py-1.5 text-sm text-amber-300 hover:bg-amber-500/30">🤔 有点印象</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className="flex-1 rounded-lg bg-emerald-500/20 py-1.5 text-sm text-emerald-300 hover:bg-emerald-500/30">😎 记得</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm ${theme.accentBg} ${theme.accentText} ${theme.accentBgHover}`}>😎 记得</button>
             </div>
           </div>
         )}
