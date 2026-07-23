@@ -9,9 +9,9 @@ function createManagerWindow(): void {
   const win = new BrowserWindow({
     width: 960,
     height: 640,
-    // 去白边：隐藏原生标题栏的白色一圈（titleBarStyle:'hidden' 保留右上角最小化/关闭控件），
-    // 移除 File/Edit/View/Window 菜单栏，深色底消除加载闪白
-    titleBarStyle: 'hidden',
+    // 去白边：仅移除 File/Edit/View/Window 菜单栏（用户反馈那条"白边"主要是菜单栏），
+    // 深色底消除加载闪白。不隐藏标题栏——titleBarStyle:'hidden' 会把右上角关闭按钮
+    // 一并藏掉导致无法关闭窗口，故保留标准窗口框。
     autoHideMenuBar: true,
     backgroundColor: '#0f172a',
     webPreferences: {
