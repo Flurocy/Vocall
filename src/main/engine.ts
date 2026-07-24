@@ -9,8 +9,10 @@ export function startEngine(getPopup: () => BrowserWindow): void {
     const due = getDueVocab(now)
     if (due) {
       showPopup(getPopup(), due)
-      // 弹出后给一个兜底间隔，避免同一条连续弹
-      const minGapMs = Number(getSetting('popup_interval_min')) * 60 * 1000
+      // 弹出后给一个兜底间隔，避免同一条连续弹。
+      // 防御（评审 I-1）：设置页清空输入框存 ''，Number('')=0 会成热循环；
+      // 用 Math.max(1, ...||8) 与 pass_count 同款兜底，保证 ≥1 分钟。
+      const minGapMs = Math.max(1, Number(getSetting('popup_interval_min')) || 8) * 60 * 1000
       setTimeout(tick, minGapMs)
       return
     }

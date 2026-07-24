@@ -7,7 +7,7 @@ const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   { key: 'popup_interval_min', label: '弹出间隔（分钟）', min: 1 },
   { key: 'popup_stay_sec', label: '停留时长（秒）', min: 1 },
   { key: 'pass_count', label: '过关所需连续答对次数', min: 1 },
-  { key: 'daily_cap', label: '每日弹出上限', min: 1 },
+  // 注：'每日弹出上限'(daily_cap) 是死设置——无任何消费方，已从界面移除（评审 I-2），实现留 backlog
 ]
 
 interface Props {
