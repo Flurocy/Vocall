@@ -21,7 +21,7 @@ describe('theme', () => {
   it('每个主题的类名都是完整字面量（Tailwind JIT 可扫描）', () => {
     for (const t of THEMES) {
       // 类名不得含拼接残留或空串
-      for (const cls of [t.accentText, t.accentBg, t.accentBgHover, t.swatch, t.accentColor]) {
+      for (const cls of [t.bgApp, t.bgCard, t.accentText, t.accentBg, t.accentBgHover, t.accentSolid, t.accentSolidHover, t.swatch, t.accentColor]) {
         expect(cls.length).toBeGreaterThan(0)
         expect(cls).not.toContain('undefined')
       }
