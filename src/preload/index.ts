@@ -23,4 +23,6 @@ contextBridge.exposeInMainWorld('tasymize', {
   winMinimize: () => ipcRenderer.invoke('win:minimize'),
   winMaximize: () => ipcRenderer.invoke('win:maximize'),
   winClose: () => ipcRenderer.invoke('win:close'),
+  // AI：测试 DeepSeek 连接（key 只在主进程，渲染端拿不到）
+  testAi: () => ipcRenderer.invoke('ai:test'),
 })

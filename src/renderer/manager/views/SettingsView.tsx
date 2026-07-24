@@ -19,6 +19,8 @@ interface Props {
 // 分区标题用 accentText 建立层级，留白加大。配色全部走 theme / 中性色。
 export default function SettingsView({ theme, onSettingChanged }: Props): ReactElement {
   const [settings, setSettings] = useState<Record<string, string>>({})
+  // AI 测试连接结果：'success' | 'error' | 测试中文本
+  const [aiTestMsg, setAiTestMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
 
   useEffect(() => {
     void window.tasymize.getSettings().then(setSettings)
@@ -29,6 +31,12 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     await window.tasymize.setSetting(key, value)
     setSettings((s) => ({ ...s, [key]: value }))
     onSettingChanged(key, value)
+  }
+
+  const testAi = async (): Promise<void> => {
+    setAiTestMsg({ kind: 'busy', text: '测试中…' })
+    const r = await window.tasymize.testAi()
+    setAiTestMsg(r.ok ? { kind: 'ok', text: r.message } : { kind: 'err', text: r.message })
   }
 
   const currentTheme = getTheme(settings.theme)
@@ -125,6 +133,67 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 className={`w-full ${theme.accentColor}`}
               />
             </label>
+          </div>
+        </section>
+
+        <section className={card}>
+          <h3 className={sectionTitle}>AI（DeepSeek）</h3>
+          <div className="space-y-4">
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">API Key</span>
+              <input
+                type="password"
+                placeholder="sk-..."
+                value={settings.ai_api_key ?? ''}
+                onChange={(e) => void update('ai_api_key', e.target.value)}
+                className={inputCls}
+              />
+              <p className="mt-1 text-xs text-slate-500">
+                仅保存在本机，不会上传。到 platform.deepseek.com 申请
+              </p>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">模型</span>
+              <input
+                type="text"
+                placeholder="deepseek-v4-flash"
+                value={settings.ai_model ?? ''}
+                onChange={(e) => void update('ai_model', e.target.value)}
+                className={inputCls}
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">Base URL（可选）</span>
+              <input
+                type="text"
+                placeholder="https://api.deepseek.com"
+                value={settings.ai_base_url ?? ''}
+                onChange={(e) => void update('ai_base_url', e.target.value)}
+                className={inputCls}
+              />
+            </label>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => void testAi()}
+                disabled={aiTestMsg?.kind === 'busy'}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover} disabled:opacity-50`}
+              >
+                测试连接
+              </button>
+              {aiTestMsg && (
+                <span
+                  className={`text-sm ${
+                    aiTestMsg.kind === 'ok'
+                      ? theme.accentText
+                      : aiTestMsg.kind === 'err'
+                        ? 'text-rose-600'
+                        : 'text-slate-500'
+                  }`}
+                >
+                  {aiTestMsg.text}
+                </span>
+              )}
+            </div>
           </div>
         </section>
       </div>

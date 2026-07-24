@@ -23,6 +23,7 @@ export interface TasymizeApi {
   getCurrent(): Promise<PopupPayload | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
+  testAi(): Promise<{ ok: boolean; message: string }>
   // 整窗拖拽：fire-and-forget，参数为鼠标 screen 坐标
   dragStart(x: number, y: number): void
   dragMove(x: number, y: number): void

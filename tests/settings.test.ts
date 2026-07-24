@@ -26,7 +26,7 @@ describe('settings', () => {
   it('默认值：含 pass_count/theme/font_size，已移除 recall_delay_sec', () => {
     expect(DEFAULT_SETTINGS.pass_count).toBe('3')
     expect(DEFAULT_SETTINGS.theme).toBe('emerald')
-    expect(DEFAULT_SETTINGS.font_size).toBe('md')
+    expect(DEFAULT_SETTINGS.font_size).toBe('16') // 连续 px（滑块缩放），兼容旧档 id 见 theme.getFontSize
     expect(DEFAULT_SETTINGS).not.toHaveProperty('recall_delay_sec')
   })
 })
