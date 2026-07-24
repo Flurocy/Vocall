@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
-import { THEMES, FONT_SIZE_OPTIONS, getTheme, getFontSize } from '../../theme'
+import { THEMES, getTheme, getFontSize, FONT_SIZE_MIN, FONT_SIZE_MAX } from '../../theme'
 import type { Theme } from '../../theme'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
@@ -30,7 +30,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   }
 
   const currentTheme = getTheme(settings.theme)
-  const currentFont = FONT_SIZE_OPTIONS.find((o) => o.px === getFontSize(settings.font_size))?.id ?? 'md'
+  // font_size 现为连续 px（滑块），parseInt 兼容 '15'/'15px'；非法走 getFontSize 的默认
+  const fontPx = parseInt(getFontSize(settings.font_size), 10)
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
 
@@ -60,22 +61,19 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section>
-          <h3 className={sectionTitle}>字体大小</h3>
-          <div className="inline-flex rounded-lg bg-black/5 p-1">
-            {FONT_SIZE_OPTIONS.map((o) => (
-              <button
-                key={o.id}
-                onClick={() => void update('font_size', o.id)}
-                className={`rounded-md px-4 py-1.5 text-sm transition ${
-                  o.id === currentFont
-                    ? `${theme.accentBg} ${theme.accentText}`
-                    : 'text-slate-500 hover:text-slate-800'
-                }`}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
+          <h3 className={sectionTitle}>界面缩放 / 字体大小（{fontPx}px）</h3>
+          <input
+            type="range"
+            min={FONT_SIZE_MIN}
+            max={FONT_SIZE_MAX}
+            step={1}
+            value={fontPx}
+            onChange={(e) => void update('font_size', e.target.value)}
+            className={`w-full ${theme.accentColor}`}
+          />
+          <p className="mt-1 text-xs text-slate-500">
+            拖动整体缩放界面（字号与布局一起变大变小），左小右大
+          </p>
         </section>
 
         <section className="space-y-4">

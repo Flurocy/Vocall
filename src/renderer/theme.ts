@@ -90,14 +90,27 @@ export function getTheme(id?: string | null): Theme {
   return THEMES.find((t) => t.id === id) ?? THEMES[0]
 }
 
-// 字号档：三档映射根字号，顶层容器 style={{ fontSize }} 让 em/rem 级联缩放。
-// 只调字号，不做整窗 GUI 缩放（用户决策③）。
+// 字号/整体缩放：Tailwind 字号是 rem（相对根元素），改根 fontSize 即整窗缩放。
+// font_size 存连续 px 值（字符串），UI 用滑块无级调（用户决策：滑块无级缩放）。
+// 兼容旧三档 id（sm/md/lg）→ 映射 px。clamp 12–22px 防调崩。
+export const FONT_SIZE_MIN = 12
+export const FONT_SIZE_MAX = 22
+export const FONT_SIZE_DEFAULT = 16
+
+// 兼容旧三档预设（老配置里可能存着 'sm'/'md'/'lg'）
 export const FONT_SIZE_OPTIONS: { id: string; label: string; px: string }[] = [
   { id: 'sm', label: '小', px: '14px' },
   { id: 'md', label: '中', px: '16px' },
   { id: 'lg', label: '大', px: '18px' },
 ]
 
-export function getFontSize(id?: string | null): string {
-  return FONT_SIZE_OPTIONS.find((o) => o.id === id)?.px ?? '16px'
+// 解析 font_size 设置为 px 字符串：'15'/'15px'→'15px'，'md'→'16px'，非法→默认 16px
+export function getFontSize(value?: string | null): string {
+  if (!value) return `${FONT_SIZE_DEFAULT}px`
+  const preset = FONT_SIZE_OPTIONS.find((o) => o.id === value)
+  if (preset) return preset.px
+  const n = parseFloat(value)
+  if (Number.isNaN(n)) return `${FONT_SIZE_DEFAULT}px`
+  const clamped = Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, Math.round(n)))
+  return `${clamped}px`
 }
