@@ -26,6 +26,10 @@ export interface TasymizeApi {
   // 整窗拖拽：fire-and-forget，参数为鼠标 screen 坐标
   dragStart(x: number, y: number): void
   dragMove(x: number, y: number): void
+  // 自绘标题栏窗口控制（frame:false 后由渲染端按钮触发，作用于发送者所在窗口）
+  winMinimize(): Promise<void>
+  winMaximize(): Promise<void> // toggle：最大化/还原
+  winClose(): Promise<void>    // 主进程拦截为"隐藏到托盘"，非真退
 }
 
 declare global {

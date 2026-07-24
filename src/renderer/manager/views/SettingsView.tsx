@@ -15,6 +15,8 @@ interface Props {
   onSettingChanged: (key: string, value: string) => void
 }
 
+// 现代简洁风：每个分区一张卡片（白底半透 + 细边 + 圆角 + 轻投影），
+// 分区标题用 accentText 建立层级，留白加大。配色全部走 theme / 中性色。
 export default function SettingsView({ theme, onSettingChanged }: Props): ReactElement {
   const [settings, setSettings] = useState<Record<string, string>>({})
 
@@ -35,13 +37,16 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
 
-  const sectionTitle = 'mb-2 text-sm font-medium text-slate-600'
+  const card = 'rounded-2xl border border-black/10 bg-white/60 p-5 shadow-sm'
+  const sectionTitle = `mb-3 text-sm font-medium ${theme.accentText}`
+  const inputCls =
+    'w-full rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition hover:bg-white focus:border-black/20 focus:bg-white'
 
   return (
-    <div>
-      <h2 className="mb-4 text-xl font-semibold">设置</h2>
-      <div className="max-w-md space-y-6">
-        <section>
+    <div className="mx-auto max-w-lg">
+      <h2 className="mb-6 text-xl font-semibold">设置</h2>
+      <div className="space-y-4">
+        <section className={card}>
           <h3 className={sectionTitle}>主题色</h3>
           <div className="flex gap-3">
             {THEMES.map((t) => (
@@ -60,7 +65,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
           </div>
         </section>
 
-        <section>
+        <section className={card}>
           <h3 className={sectionTitle}>界面缩放 / 字体大小（{fontPx}px）</h3>
           <input
             type="range"
@@ -71,50 +76,56 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
             onChange={(e) => void update('font_size', e.target.value)}
             className={`w-full ${theme.accentColor}`}
           />
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-2 text-xs text-slate-500">
             拖动整体缩放界面（字号与布局一起变大变小），左小右大
           </p>
         </section>
 
-        <section className="space-y-4">
-          {NUMBER_FIELDS.map((f) => (
-            <label key={f.key} className="block">
-              <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
-              <input
-                type="number"
-                min={f.min}
-                value={settings[f.key] ?? ''}
-                onChange={(e) => void update(f.key, e.target.value)}
-                className="w-full rounded-lg bg-black/5 px-3 py-2 text-sm outline-none hover:bg-black/10"
-              />
-            </label>
-          ))}
+        <section className={card}>
+          <h3 className={sectionTitle}>弹窗与记忆</h3>
+          <div className="space-y-4">
+            {NUMBER_FIELDS.map((f) => (
+              <label key={f.key} className="block">
+                <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
+                <input
+                  type="number"
+                  min={f.min}
+                  value={settings[f.key] ?? ''}
+                  onChange={(e) => void update(f.key, e.target.value)}
+                  className={inputCls}
+                />
+              </label>
+            ))}
+          </div>
         </section>
 
-        <section className="space-y-3">
-          <label className="flex items-center gap-2 text-sm text-slate-600">
-            <input
-              type="checkbox"
-              checked={soundOn}
-              onChange={(e) => void update('sound_enabled', String(e.target.checked))}
-              className={`h-4 w-4 ${theme.accentColor}`}
-            />
-            音效开关
-          </label>
-          <label className="block">
-            <span className="mb-1 block text-sm text-slate-600">
-              音量（{Math.round(volume * 100)}%）
-            </span>
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.05}
-              value={Number.isNaN(volume) ? 0.6 : volume}
-              onChange={(e) => void update('sound_volume', e.target.value)}
-              className={`w-full ${theme.accentColor}`}
-            />
-          </label>
+        <section className={card}>
+          <h3 className={sectionTitle}>音效</h3>
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-sm text-slate-600">
+              <input
+                type="checkbox"
+                checked={soundOn}
+                onChange={(e) => void update('sound_enabled', String(e.target.checked))}
+                className={`h-4 w-4 ${theme.accentColor}`}
+              />
+              音效开关
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">
+                音量（{Math.round(volume * 100)}%）
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.05}
+                value={Number.isNaN(volume) ? 0.6 : volume}
+                onChange={(e) => void update('sound_volume', e.target.value)}
+                className={`w-full ${theme.accentColor}`}
+              />
+            </label>
+          </div>
         </section>
       </div>
     </div>

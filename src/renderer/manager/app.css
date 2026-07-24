@@ -4,3 +4,11 @@
 html, body {
   background-color: #f1f5f9;
 }
+
+/* 自绘标题栏拖拽区：-webkit-app-region 无 Tailwind 对应类，自定义两个工具类 */
+.app-drag {
+  -webkit-app-region: drag;
+}
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}

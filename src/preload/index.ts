@@ -19,4 +19,8 @@ contextBridge.exposeInMainWorld('tasymize', {
   // 拖拽用 send（fire-and-forget），不走 invoke，避免高频 mousemove 堆积 Promise
   dragStart: (x: number, y: number) => ipcRenderer.send('popup:dragStart', { x, y }),
   dragMove: (x: number, y: number) => ipcRenderer.send('popup:dragMove', { x, y }),
+  // 自绘标题栏窗口控制
+  winMinimize: () => ipcRenderer.invoke('win:minimize'),
+  winMaximize: () => ipcRenderer.invoke('win:maximize'),
+  winClose: () => ipcRenderer.invoke('win:close'),
 })
