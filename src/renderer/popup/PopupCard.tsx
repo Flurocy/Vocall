@@ -129,6 +129,13 @@ export default function PopupCard(): ReactElement | null {
     window.tasymize.dismiss()
   }
 
+  // 标为已掌握：次要操作，独立于三档评分主流程。
+  // 直接进 mastered 终态（不再出现在弹窗队列），需要时可在生词库「重新背」复活。
+  const master = async (): Promise<void> => {
+    await window.tasymize.master(item.id)
+    window.tasymize.dismiss()
+  }
+
   // 卡片内按钮必须拦住 mousedown，避免从按钮起手误触拖拽/翻卡
   const stopMouseDown = (e: ReactMouseEvent): void => e.stopPropagation()
 
@@ -168,6 +175,14 @@ export default function PopupCard(): ReactElement | null {
               <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-1.5 text-sm text-amber-700 hover:bg-amber-500/25">🤔 有点印象</button>
               <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
             </div>
+            {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}
+            <button
+              onMouseDown={stopMouseDown}
+              onClick={() => void master()}
+              className="mt-2 w-full rounded-md border border-slate-300/70 py-1 text-xs text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700"
+            >
+              标为已掌握（不再弹出）
+            </button>
           </div>
         )}
       </div>

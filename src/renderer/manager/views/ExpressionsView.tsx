@@ -30,6 +30,20 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     await reload()
   }
 
+  // 复活：mastered 词回到 learning 队列立即可弹（生词库内单条操作）
+  const revive = async (id: number): Promise<void> => {
+    await window.tasymize.revive(id)
+    await reload()
+  }
+
+  // 批量标为已掌握：勾选的词进 mastered 终态（不再弹窗）。
+  // 与批量删除并列；语义中性（归档而非销毁），不需 confirm。
+  const masterSelected = async (): Promise<void> => {
+    if (checked.size === 0) return
+    for (const id of checked) await window.tasymize.master(id)
+    await reload()
+  }
+
   const toggle = (id: number): void => {
     setChecked((s) => {
       const ns = new Set(s)
@@ -51,22 +65,28 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const inputCls =
     'rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-black/20 focus:bg-white'
 
-  // 生命周期三态浅色徽标：new=slate 灰、learning=主题 accent、review=emerald 绿
+  // 生命周期四态浅色徽标：new=slate 灰、learning=主题 accent、review=emerald 绿、mastered=amber 金
+  // （mastered 用金色区别于 review 的浅绿，传递"已结业"的成就感）
   const statusBadge = (s: VocabItem['status']): { label: string; cls: string } =>
     s === 'learning'
       ? { label: '学习中', cls: `${theme.accentBg} ${theme.accentText}` }
       : s === 'review'
         ? { label: '复习中', cls: 'bg-emerald-500/15 text-emerald-700' }
-        : { label: '新词', cls: 'bg-slate-500/10 text-slate-600' }
+        : s === 'mastered'
+          ? { label: '已掌握', cls: 'bg-amber-500/15 text-amber-700' }
+          : { label: '新词', cls: 'bg-slate-500/10 text-slate-600' }
 
-  // 分界线可视化：会出现在弹窗的词(learning+review)排线上，待学习(new)排线下。
+  // 分界线可视化：会出现在弹窗的词(learning+review)排线上，
+  // 待学习(new)排线下已掌握(mastered)再下一层——三段递进表达生命周期。
   // 组内按 id 升序保持稳定，避免删词/勾选时整列表乱跳。
   const sorted = [...list].sort((a, b) => a.id - b.id)
   const active = sorted.filter((e) => e.status === 'learning' || e.status === 'review')
   const pending = sorted.filter((e) => e.status === 'new')
+  const mastered = sorted.filter((e) => e.status === 'mastered')
 
-  // 单行渲染抽出来：active 与 pending 两段复用，避免重复。
-  const row = (e: VocabItem): ReactElement => (
+  // 单行渲染抽出来：三段共用，mastered 段通过 action 注入「重新背」按钮。
+  // 右侧操作组整体 group-hover 显示，避免每段视觉不一致。
+  const row = (e: VocabItem, action?: ReactElement): ReactElement => (
     <li
       key={e.id}
       className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
@@ -91,12 +111,15 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
           ) : null}
         </div>
       </div>
-      <button
-        onClick={() => void remove(e.id)}
-        className="ml-4 shrink-0 rounded-md px-2 py-1 text-xs text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/10 hover:text-rose-600"
-      >
-        删除
-      </button>
+      <div className="ml-4 flex shrink-0 items-center gap-1 opacity-0 transition group-hover:opacity-100">
+        {action}
+        <button
+          onClick={() => void remove(e.id)}
+          className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-rose-500/10 hover:text-rose-600"
+        >
+          删除
+        </button>
+      </div>
     </li>
   )
 
@@ -105,7 +128,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
       <header className="mb-6 flex items-baseline justify-between">
         <h2 className="text-xl font-semibold">生词库</h2>
         <span className="text-sm text-slate-500">
-          共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length}
+          共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length} · 已掌握 {mastered.length}
         </span>
       </header>
 
@@ -143,17 +166,26 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
               <input type="checkbox" checked={allChecked} onChange={toggleAll} className={`h-4 w-4 ${theme.accentColor}`} />
               全选
             </label>
-            <button
-              onClick={() => void removeSelected()}
-              disabled={checked.size === 0}
-              className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-40"
-            >
-              删除所选（{checked.size}）
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => void masterSelected()}
+                disabled={checked.size === 0}
+                className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-amber-300 hover:bg-amber-500/10 hover:text-amber-700 disabled:opacity-40"
+              >
+                标为已掌握（{checked.size}）
+              </button>
+              <button
+                onClick={() => void removeSelected()}
+                disabled={checked.size === 0}
+                className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-40"
+              >
+                删除所选（{checked.size}）
+              </button>
+            </div>
           </div>
           <ul className="space-y-2.5">
             {/* 学习中 / 复习中：会出现在弹窗的词（分界线之上） */}
-            {active.map(row)}
+            {active.map((e) => row(e))}
             {/* 分界线：以下为待学习（new 队列，暂不弹窗） */}
             {active.length > 0 && pending.length > 0 && (
               <li className="my-1 flex items-center gap-3 px-1 text-xs text-slate-400">
@@ -163,7 +195,24 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
               </li>
             )}
             {/* 待学习（分界线之下） */}
-            {pending.map(row)}
+            {pending.map((e) => row(e))}
+            {/* 分界线：以下为已掌握（mastered 终态，不再弹窗；可「重新背」复活） */}
+            {mastered.length > 0 && (
+              <li className="my-1 flex items-center gap-3 px-1 text-xs text-amber-600/80">
+                <div className="h-px flex-1 bg-amber-500/20" />
+                <span>已掌握（{mastered.length}）</span>
+                <div className="h-px flex-1 bg-amber-500/20" />
+              </li>
+            )}
+            {/* 已掌握（带「重新背」按钮，emerald 暗示回到学习池） */}
+            {mastered.map((e) => row(e, (
+              <button
+                onClick={() => void revive(e.id)}
+                className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-700"
+              >
+                重新背
+              </button>
+            )))}
           </ul>
         </>
       )}
