@@ -225,12 +225,15 @@ const NO_KEY_MSG = '请先在设置配置 DeepSeek API key'
  * key 没配 / 网络 / 解析错误一律 throw，IPC handler 透传 message 给渲染端。
  */
 export async function generateThemeVocab(theme: string, n = 30): Promise<VocabEntry[]> {
+  if (!theme.trim()) throw new Error('主题不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
   const text = await callDeepseek(cfg, {
     system: THEME_GEN_SYSTEM,
     user: `主题：「${theme}」。生成 ${n} 个雅思高频词组。`,
-    maxTokens: 4000,
+    // 8000 容纳 30 词 JSON + pro 模型 reasoning_content 思考预算；
+    // flash 默认用不满但成本可忽略，pro 不够会截断 JSON 导致解析失败误导用户。
+    maxTokens: 8000,
     temperature: 0.7,
     timeoutMs: 90_000,
   })
@@ -239,9 +242,10 @@ export async function generateThemeVocab(theme: string, n = 30): Promise<VocabEn
 
 /**
  * 生词 AI 翻译：AI 返回 {meaning, example}（预览，不入库——前端填入新增卡片供用户过目修改）。
- * 调用约束同 generateThemeVocab（统一 maxTokens 容纳最坏情况 + 留余量）。
+ * maxTokens 4000（单词翻译远够；统一上限留余量，成本忽略）。
  */
 export async function translateVocab(word: string): Promise<Translation> {
+  if (!word.trim()) throw new Error('词不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
   const text = await callDeepseek(cfg, {
