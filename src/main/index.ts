@@ -5,6 +5,7 @@ import { registerIpc } from './ipc'
 import { seedIfEmpty } from './seed'
 import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
+import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
 import { migrateVocabStatus } from './store'
 
@@ -80,6 +81,7 @@ app.whenReady().then(() => {
   createManagerWindow()
   popupWin = createPopupWindow()
   registerPopupIpc(() => popupWin as BrowserWindow)
+  fillLearningQueue(Date.now()) // 启动即把 learning 队列补满（词书 new 词解锁进来）
   startEngine(() => popupWin as BrowserWindow)
   createTray(openManager, () => {
     // 退出彻底性：先销毁弹窗，避免 frameless 窗口残留成僵尸进程
