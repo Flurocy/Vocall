@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { VocabItem } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
+import AiGenModal from './AiGenModal'
 
 // 现代简洁风：输入区与列表统一卡片化（白底半透 + 细边 + 圆角 + 轻投影），
 // 留白加大、hover 有反馈；空态给明确引导。配色全部走 theme / 中性色。
@@ -11,6 +12,12 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [meaning, setMeaning] = useState('')
   const [example, setExample] = useState('')
   const [checked, setChecked] = useState<Set<number>>(new Set()) // 批量勾选
+  const [aiGenOpen, setAiGenOpen] = useState(false) // AI 主题生成 modal 开关
+  // AI 翻译（功能 B）：word 框旁小按钮调 translate，结果填回 meaning/example，用户过目后复用现有「新增生词」入库。
+  // usedAi：本次 add 是否源自 AI 翻译（用户改 word 视作换词，清除标记；改 meaning/example 不清——微调 AI 结果仍算 AI 翻译）。
+  const [aiTranslating, setAiTranslating] = useState(false)
+  const [usedAi, setUsedAi] = useState(false)
+  const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
 
   const reload = async (): Promise<void> => {
     setList(await window.tasymize.listVocab())
@@ -20,9 +27,34 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   const add = async (): Promise<void> => {
     if (!word || !meaning) return
-    await window.tasymize.addVocab({ word, meaning, example, topic: null, source: '手动' })
+    await window.tasymize.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
     setWord(''); setMeaning(''); setExample('')
+    setUsedAi(false)
+    setAiMsg(null)
     await reload()
+  }
+
+  // AI 翻译：读 word 框值，调后端 translate，成功填入 meaning/example 让用户过目。
+  // 错误（key 没配/AI 失败/解析错）inline 文字提示，跟设置页 ai:test 同风格。
+  const aiTranslate = async (): Promise<void> => {
+    const w = word.trim()
+    if (!w) {
+      setAiMsg({ kind: 'err', text: '请先在生词框输入要翻译的词' })
+      return
+    }
+    setAiTranslating(true)
+    setAiMsg({ kind: 'busy', text: '翻译中…' })
+    try {
+      const r = await window.tasymize.translate(w)
+      setMeaning(r.meaning)
+      setExample(r.example)
+      setUsedAi(true)
+      setAiMsg({ kind: 'ok', text: '已填入释义与例句，确认后点「新增生词」入库' })
+    } catch (err) {
+      setAiMsg({ kind: 'err', text: err instanceof Error ? err.message : String(err) })
+    } finally {
+      setAiTranslating(false)
+    }
   }
 
   const remove = async (id: number): Promise<void> => {
@@ -125,21 +157,54 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   return (
     <div className="mx-auto max-w-2xl">
-      <header className="mb-6 flex items-baseline justify-between">
+      <header className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold">生词库</h2>
-        <span className="text-sm text-slate-500">
-          共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length} · 已掌握 {mastered.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-slate-500">
+            共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length} · 已掌握 {mastered.length}
+          </span>
+          {/* AI 主题生成入口（功能 A）：accentSolid 强调按钮，点击开 modal */}
+          <button
+            onClick={() => setAiGenOpen(true)}
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
+          >
+            AI 主题生成
+          </button>
+        </div>
       </header>
 
-      {/* 新增卡片 */}
+      {/* 新增卡片：word 框旁内嵌「AI 翻译」小按钮（功能 B 入口）；底部 inline 显示翻译结果消息 */}
       <section className="mb-6 rounded-2xl border border-black/10 bg-white/60 p-4 shadow-sm">
         <div className="grid grid-cols-3 gap-3">
-          <input value={word} onChange={(e) => setWord(e.target.value)} placeholder="生词 abandon" className={inputCls} />
+          <div className="flex gap-2">
+            <input
+              value={word}
+              onChange={(e) => { setWord(e.target.value); setUsedAi(false) }}
+              placeholder="生词 abandon"
+              className={`${inputCls} flex-1`}
+            />
+            <button
+              onClick={() => void aiTranslate()}
+              disabled={!word.trim() || aiTranslating}
+              title="调用 AI 填入释义和例句"
+              className="shrink-0 rounded-lg border border-black/10 px-2.5 py-2 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
+            >
+              {aiTranslating ? '…' : 'AI 译'}
+            </button>
+          </div>
           <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="释义 放弃；抛弃" className={inputCls} />
           <input value={example} onChange={(e) => setExample(e.target.value)} placeholder="雅思例句（可选）" className={inputCls} />
         </div>
-        <div className="mt-3 flex justify-end">
+        <div className="mt-3 flex items-center justify-end gap-3">
+          {aiMsg && (
+            <span
+              className={`text-xs ${
+                aiMsg.kind === 'ok' ? theme.accentText : aiMsg.kind === 'err' ? 'text-rose-600' : 'text-slate-500'
+              }`}
+            >
+              {aiMsg.text}
+            </span>
+          )}
           <button
             onClick={() => void add()}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
@@ -215,6 +280,15 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             )))}
           </ul>
         </>
+      )}
+
+      {/* AI 主题生成 modal（功能 A 入口）：onAdded 入库成功后 reload 列表 */}
+      {aiGenOpen && (
+        <AiGenModal
+          theme={theme}
+          onClose={() => setAiGenOpen(false)}
+          onAdded={() => { void reload() }}
+        />
       )}
     </div>
   )
