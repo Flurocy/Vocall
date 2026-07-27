@@ -6,6 +6,7 @@ import {
 import { getAllSettings, setSetting, getAiConfig } from './settings'
 import { applyReview } from './scheduler'
 import { callDeepseek } from './ai'
+import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan } from './wordbook'
 
 export function registerIpc(): void {
   ipcMain.handle('vocab:list', () => listVocab())
@@ -19,6 +20,10 @@ export function registerIpc(): void {
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
     applyReview(id, grade, Date.now())
   })
+  // 词书
+  ipcMain.handle('wordbook:list', () => listWordbooks())
+  ipcMain.handle('wordbook:add', (_e, bookId: string) => addWordbookToPlan(bookId))
+  ipcMain.handle('wordbook:remove', (_e, bookId: string) => removeWordbookFromPlan(bookId))
 
   // 测试 DeepSeek 连接：用极简 prompt 发一次真实调用，验证 key/网络/模型可用。
   // 统一吞异常返回 {ok,message}，渲染端据此显示成功/失败原因（key 无效/限流/网络/超时）。

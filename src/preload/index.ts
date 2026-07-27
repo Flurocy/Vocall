@@ -25,4 +25,8 @@ contextBridge.exposeInMainWorld('tasymize', {
   winClose: () => ipcRenderer.invoke('win:close'),
   // AI：测试 DeepSeek 连接（key 只在主进程，渲染端拿不到）
   testAi: () => ipcRenderer.invoke('ai:test'),
+  // 词书
+  listWordbooks: () => ipcRenderer.invoke('wordbook:list'),
+  addWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:add', bookId),
+  removeWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:remove', bookId),
 })
