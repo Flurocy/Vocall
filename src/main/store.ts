@@ -6,8 +6,9 @@ const Store = ((StoreImport as unknown as { default?: typeof StoreImport }).defa
   StoreImport) as typeof StoreImport
 
 export interface SrsState {
-  easiness: number; interval: number; repetitions: number
-  due_at: number; last_reviewed: number | null
+  easiness: number
+  repetitions: number
+  duePop: number // 第几次弹窗时该词到期（弹窗节拍队列模型，取代旧 due_at 时间戳）
 }
 
 interface Schema {
@@ -15,12 +16,13 @@ interface Schema {
   srsStates: Record<number, SrsState>
   settings: Record<string, string>
   nextId: number
+  popCount: number // 全局弹窗节拍计数器：弹一次 +1，是调度唯一的"时钟"
 }
 
 // 测试时注入内存实现；生产用 electron-store 持久化
 let mem: Schema | null = null
 
-const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1 }
+const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0 }
 // 显式传 projectName：Electron 外（如 vitest Node 环境）conf 无法从 app 取名，会抛错；
 // electron-store 的 Options 类型把 projectName Except 掉了（生产环境由 app 名派生），这里运行时透传给 conf，需断言
 const store = new Store<Schema>({ defaults, projectName: 'tasymize' } as Options<Schema>)
@@ -33,7 +35,17 @@ function write<K extends keyof Schema>(key: K, val: Schema[K]): void {
 }
 
 export function _resetStoreForTests(): void {
-  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1 }
+  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0 }
+}
+
+// 弹窗节拍计数器：engine 每弹一次调 incrementPop，调度和 SRS 用 popCount 判定到期。
+export function getPopCount(): number {
+  return read('popCount')
+}
+export function incrementPop(): number {
+  const n = read('popCount') + 1
+  write('popCount', n)
+  return n
 }
 
 export function allocId(): number {
@@ -55,7 +67,7 @@ export function deleteSrsState(id: number): void {
 }
 
 // 数据迁移：给缺少 status/book 字段的旧词补默认值（status='learning'、book=null）。
-// 已有这两个字段的词不动（保持 learning/review 等现状）。启动时调用一次，幂等可重复跑。
+// 已有这两个字段的词不动。启动时调用一次，幂等可重复跑。
 export function migrateVocabStatus(): void {
   const list = read('vocab') as unknown as Array<Record<string, unknown>>
   let changed = false
@@ -66,6 +78,26 @@ export function migrateVocabStatus(): void {
     return nw
   })
   if (changed) write('vocab', migrated as unknown as Schema['vocab'])
+}
+
+// SRS 状态迁移：旧模型（interval 分钟 + due_at 时间戳）→ 新模型（duePop 节拍数）。
+// 旧时间数据无法精确换算成节拍，统一重置为 duePop=当前 popCount（立即可弹）——立即复习无害。
+// 幂等：已是 duePop 模型的状态不动。
+export function migrateSrsToPop(): void {
+  const states = read('srsStates') as unknown as Record<string, Record<string, unknown>>
+  const now = read('popCount')
+  let changed = false
+  const next: Record<number, SrsState> = {}
+  for (const [k, v] of Object.entries(states)) {
+    if (typeof v.duePop === 'number') { next[Number(k)] = v as unknown as SrsState; continue }
+    changed = true
+    next[Number(k)] = {
+      easiness: typeof v.easiness === 'number' ? v.easiness : 2.5,
+      repetitions: typeof v.repetitions === 'number' ? v.repetitions : 0,
+      duePop: now,
+    }
+  }
+  if (changed) write('srsStates', next)
 }
 
 export const vocabBox = {

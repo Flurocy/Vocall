@@ -2,12 +2,13 @@ import type { BrowserWindow } from 'electron'
 import { getDueVocab } from './scheduler'
 import { getSetting } from './settings'
 import { showPopup } from './popup'
+import { incrementPop } from './store'
 
 export function startEngine(getPopup: () => BrowserWindow): void {
   const tick = (): void => {
-    const now = Date.now()
-    const due = getDueVocab(now)
+    const due = getDueVocab()
     if (due) {
+      incrementPop() // 弹一次，全局节拍 +1（调度的唯一"时钟"）
       showPopup(getPopup(), due)
       // 弹出后给一个兜底间隔，避免同一条连续弹。
       // 防御（评审 I-1）：设置页清空输入框存 ''，Number('')=0 会成热循环；

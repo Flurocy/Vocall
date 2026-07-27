@@ -1,4 +1,4 @@
-import { allocId, vocabBox, setSrsState, deleteSrsState } from './store'
+import { allocId, vocabBox, setSrsState, deleteSrsState, getPopCount } from './store'
 
 export interface VocabItem {
   id: number; word: string; meaning: string; example: string
@@ -20,10 +20,7 @@ export function addVocab(e: NewVocabItem): VocabItem {
     id: allocId(), created_at: Date.now(),
   }
   vocabBox.set([...vocabBox.get(), item])
-  setSrsState(item.id, {
-    easiness: 2.5, interval: 0, repetitions: 0,
-    due_at: Date.now(), last_reviewed: null,
-  })
+  setSrsState(item.id, { easiness: 2.5, repetitions: 0, duePop: getPopCount() }) // 立即可弹
   return item
 }
 

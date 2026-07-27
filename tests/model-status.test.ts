@@ -20,10 +20,10 @@ describe('包1 数据模型（status/book + 弹性数值 + 迁移）', () => {
 
   it('弹性数值默认值齐全', () => {
     expect(DEFAULT_SETTINGS.learning_cap).toBe('10')
-    expect(DEFAULT_SETTINGS.forgot_gap_min).toBe('5')
-    expect(DEFAULT_SETTINGS.fuzzy_gap_min).toBe('20')
-    expect(DEFAULT_SETTINGS.learning_step_min).toBe('10,60')
-    expect(DEFAULT_SETTINGS.review_steps_day).toBe('1,3,7,15,30')
+    expect(DEFAULT_SETTINGS.forgot_gap_pops).toBe('3')
+    expect(DEFAULT_SETTINGS.fuzzy_gap_pops).toBe('8')
+    expect(DEFAULT_SETTINGS.learning_step_pops).toBe('1,2')
+    expect(DEFAULT_SETTINGS.review_steps_pops).toBe('80,240,560,1200,2400')
     const all = getAllSettings()
     expect(all.learning_cap).toBe('10')
   })

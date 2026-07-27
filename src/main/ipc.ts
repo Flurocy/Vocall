@@ -20,7 +20,7 @@ export function registerIpc(): void {
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
-    applyReview(id, grade, Date.now())
+    applyReview(id, grade)
   })
   // 词书
   ipcMain.handle('wordbook:list', () => listWordbooks())

@@ -1,6 +1,6 @@
 import type { VocabItem } from './vocab'
 import { listVocab, updateVocab } from './vocab'
-import { getSrsState, setSrsState } from './store'
+import { getSrsState, setSrsState, getPopCount } from './store'
 import { getSetting } from './settings'
 import {
   defaultState,
@@ -8,7 +8,6 @@ import {
   reviewReview,
   type Grade,
   type ReviewOpts,
-  type SrsState,
 } from './srs'
 
 // —— 设置读取辅助：一律带兜底，防设置页存空串/非法值 ——
@@ -27,26 +26,27 @@ function listSetting(key: string, def: number[]): number[] {
 function opts(): ReviewOpts {
   return {
     passN: Math.max(1, num('pass_count', 3)),
-    forgotMin: Math.max(1, num('forgot_gap_min', 5)),
-    fuzzyMin: Math.max(1, num('fuzzy_gap_min', 20)),
-    learningSteps: listSetting('learning_step_min', [10, 60]),
-    reviewSteps: listSetting('review_steps_day', [1, 3, 7, 15, 30]),
+    forgotPops: Math.max(1, num('forgot_gap_pops', 3)),
+    fuzzyPops: Math.max(1, num('fuzzy_gap_pops', 8)),
+    learningSteps: listSetting('learning_step_pops', [1, 2]),
+    reviewSteps: listSetting('review_steps_pops', [80, 240, 560, 1200, 2400]),
   }
 }
 
-// 到期挑选：只看 learning / review（跳过 new 未解锁词），且 due_at <= now，取最早到期的一条。
-// 注意：不要直接遍历 store 里的 srsStates 域——JSON 序列化后其键是字符串，
-// 若必须遍历需 Number(key) 转回数字 id；这里以 vocab 数组为主遍历，天然避开该坑。
-export function getDueVocab(now: number): VocabItem | null {
+// 到期挑选（弹窗节拍队列）：只看 learning / review（跳过 new 未解锁词），
+// 且 duePop <= 当前 popCount，取 duePop 最小（最该见）的一条。
+// 注意：不要直接遍历 store 的 srsStates 域——其键是字符串；以 vocab 数组为主遍历避开。
+export function getDueVocab(): VocabItem | null {
+  const now = getPopCount()
   let best: VocabItem | null = null
   let bestDue = Infinity
   for (const e of listVocab()) {
     if (e.status === 'new') continue
     const s = getSrsState(e.id)
     if (!s) continue
-    if (s.due_at <= now && s.due_at < bestDue) {
+    if (s.duePop <= now && s.duePop < bestDue) {
       best = e
-      bestDue = s.due_at
+      bestDue = s.duePop
     }
   }
   return best
@@ -54,18 +54,18 @@ export function getDueVocab(now: number): VocabItem | null {
 
 // 评分路由 + 毕业 + 打回：
 // - learning：纯函数算下一态；grade 2 且 repetitions 满 passN → status 升 review（毕业），并补位
-// - review：grade 1/2 走阶梯；grade 0 → 打回 learning（repetitions 清零 + forgotMin）
-// 注意：srs.ts 的纯函数只算 { easiness, interval, repetitions }，
-// 写回时必须显式补 due_at（interval 分钟 → 毫秒时间戳）和 last_reviewed。
-export function applyReview(id: number, grade: Grade, now: number): void {
+// - review：grade 1/2 走阶梯；grade 0 → 打回 learning（repetitions 清零 + forgotPops）
+// 写回时把纯函数产出的相对 interval（弹窗次数）换算成绝对 duePop = 当前 popCount + interval。
+export function applyReview(id: number, grade: Grade): void {
   const item = listVocab().find((v) => v.id === id)
   if (!item) return
   const cur = getSrsState(id)
-  const base: SrsState = cur
-    ? { easiness: cur.easiness, interval: cur.interval, repetitions: cur.repetitions }
+  const base = cur
+    ? { easiness: cur.easiness, interval: 0, repetitions: cur.repetitions }
     : defaultState()
   const o = opts()
-  let next: SrsState
+  const now = getPopCount()
+  let next
   let newStatus = item.status
   if (item.status === 'review') {
     if (grade === 0) {
@@ -73,32 +73,34 @@ export function applyReview(id: number, grade: Grade, now: number): void {
       next = reviewLearning({ ...base, repetitions: 0 }, 0, o)
       newStatus = 'learning'
     } else {
-      next = reviewReview(base, grade, o)
+      // review 阶梯：需要当前间隔来推进。当前间隔 = duePop - popCount（剩余弹窗数），负则当 0
+      const curInterval = cur ? Math.max(0, cur.duePop - now) : 0
+      next = reviewReview({ ...base, interval: curInterval }, grade, o)
     }
   } else {
     // learning（new 不会被 getDueVocab 选中，走到这里按 learning 处理）
     next = reviewLearning(base, grade, o)
     if (grade === 2 && next.repetitions >= o.passN) newStatus = 'review' // 毕业
   }
-  setSrsState(id, { ...next, due_at: now + Math.round(next.interval * 60000), last_reviewed: now })
+  setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: now + next.interval })
   if (newStatus !== item.status) updateVocab(id, { status: newStatus })
-  if (newStatus === 'review') fillLearningQueue(now) // 毕业空位 → 补新词
+  if (newStatus === 'review') fillLearningQueue() // 毕业空位 → 补新词
 }
 
 // 补位：learning 不足 learning_cap 时，从 new 按 id 升序补（词书词先入先学）。
-// 新补的词 due_at=now（立即可弹）。
-export function fillLearningQueue(now: number): void {
+// 新补的词 duePop = 当前 popCount（立即可弹）。
+export function fillLearningQueue(): void {
   const cap = Math.max(1, num('learning_cap', 10))
   const all = listVocab()
   const learningCount = all.filter((v) => v.status === 'learning').length
   let need = cap - learningCount
   if (need <= 0) return
+  const now = getPopCount()
   const candidates = all.filter((v) => v.status === 'new').sort((a, b) => a.id - b.id)
   for (const c of candidates) {
     if (need <= 0) break
     updateVocab(c.id, { status: 'learning' })
-    const s = getSrsState(c.id)
-    setSrsState(c.id, { ...(s ?? { ...defaultState(), due_at: now, last_reviewed: null }), due_at: now })
+    setSrsState(c.id, { easiness: 2.5, repetitions: 0, duePop: now })
     need--
   }
 }

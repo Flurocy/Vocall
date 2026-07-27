@@ -7,7 +7,7 @@ import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
 import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
-import { migrateVocabStatus } from './store'
+import { migrateVocabStatus, migrateSrsToPop } from './store'
 
 // 窗口引用提升为模块级：托盘「打开」需要找回管理窗口，退出清理需要销毁弹窗
 let managerWin: BrowserWindow | null = null
@@ -74,6 +74,7 @@ function registerWindowIpc(): void {
 
 app.whenReady().then(() => {
   migrateVocabStatus() // 旧词补 status/book 默认值（幂等），须在 seed 前跑
+  migrateSrsToPop()    // 旧 SRS 时间模型 → 弹窗节拍模型（幂等）
   const seeded = seedIfEmpty()
   if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置生词`)
   registerIpc()
@@ -81,7 +82,7 @@ app.whenReady().then(() => {
   createManagerWindow()
   popupWin = createPopupWindow()
   registerPopupIpc(() => popupWin as BrowserWindow)
-  fillLearningQueue(Date.now()) // 启动即把 learning 队列补满（词书 new 词解锁进来）
+  fillLearningQueue() // 启动即把 learning 队列补满（词书 new 词解锁进来）
   startEngine(() => popupWin as BrowserWindow)
   createTray(openManager, () => {
     // 退出彻底性：先销毁弹窗，避免 frameless 窗口残留成僵尸进程

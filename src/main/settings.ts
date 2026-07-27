@@ -6,12 +6,12 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   popup_stay_sec: '15',
   // 注：旧"回想时长"键已随包2 自动翻卡一并废弃，勿再加回
   pass_count: '3',
-  // —— 记忆节奏弹性数值（词书+学习队列，详见 specs/2026-07-23-wordbook-learning-queue-design.md 第五节）——
-  learning_cap: '10',          // 学习队列容量（同时在学的词数）
-  forgot_gap_min: '5',         // 点"忘了"后多久再见（分钟）
-  fuzzy_gap_min: '20',         // 点"模糊"后多久再见（分钟）
-  learning_step_min: '10,60',  // learning 内"认识"递进间隔（分钟，逗号分隔）
-  review_steps_day: '1,3,7,15,30', // review 间隔阶梯（天，逗号分隔）
+  // —— 记忆节奏弹性数值（弹窗节拍队列模型，单位=弹窗次数，详见 specs/2026-07-24-pop-count-queue-scheduler.md 第六节）——
+  learning_cap: '10',              // 学习队列容量（同时在学的词数）
+  forgot_gap_pops: '3',            // 点"忘了"后过几次弹窗再见
+  fuzzy_gap_pops: '8',             // 点"模糊"后过几次弹窗再见
+  learning_step_pops: '1,2',       // learning 内"认识"递进（弹窗次数，逗号分隔）
+  review_steps_pops: '80,240,560,1200,2400', // review 间隔阶梯（弹窗次数，逗号分隔）
   popup_position: 'bottom-right',
   theme: 'emerald',    // 主题色 id，见 src/renderer/theme.ts 的 THEMES
   font_size: '16',     // 连续 px 值（滑块无级缩放），兼容旧档 id sm/md/lg 见 theme.getFontSize
@@ -35,8 +35,8 @@ export function setSetting(key: string, value: string): void {
 
 // 记忆节奏弹性数值键：设置页"恢复默认设置"只重置这些，外观/音效/AI 等不动
 export const ELASTIC_KEYS = [
-  'learning_cap', 'pass_count', 'forgot_gap_min',
-  'fuzzy_gap_min', 'learning_step_min', 'review_steps_day',
+  'learning_cap', 'pass_count', 'forgot_gap_pops',
+  'fuzzy_gap_pops', 'learning_step_pops', 'review_steps_pops',
 ] as const
 
 export function resetElasticSettings(): void {
