@@ -15,12 +15,12 @@ const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
 const ELASTIC_NUMBER_FIELDS: { key: string; label: string; hint: string; min: number }[] = [
   { key: 'learning_cap', label: '学习队列容量', hint: '同时在学的词数上限，学会一个才补一个新的', min: 1 },
   { key: 'pass_count', label: '过关所需连续答对次数', hint: '连续"认识"这么多次，这个词才算学会', min: 1 },
-  { key: 'forgot_gap_min', label: '"忘了"后多久再见（分钟）', hint: '点"忘了"的词，隔这么久再次出现', min: 1 },
-  { key: 'fuzzy_gap_min', label: '"模糊"后多久再见（分钟）', hint: '点"模糊"的词，隔这么久再次出现', min: 1 },
+  { key: 'forgot_gap_pops', label: '「忘了」后过几次再见（弹窗次数）', hint: '点"忘了"的词，隔这么多次弹窗后再次出现', min: 1 },
+  { key: 'fuzzy_gap_pops', label: '「模糊」后过几次再见（弹窗次数）', hint: '点"模糊"的词，隔这么多次弹窗后再次出现', min: 1 },
 ]
 const ELASTIC_LIST_FIELDS: { key: string; label: string; hint: string }[] = [
-  { key: 'learning_step_min', label: '学习递进间隔（分钟，逗号分隔）', hint: '学习中每答对一次，下次间隔按这个序列往后推' },
-  { key: 'review_steps_day', label: '复习间隔阶梯（天，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
+  { key: 'learning_step_pops', label: '学习递进间隔（弹窗次数，逗号分隔）', hint: '学习中每答对一次"认识"，下次出现的间隔按此序列往后推' },
+  { key: 'review_steps_pops', label: '复习间隔阶梯（弹窗次数，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
 ]
 
 interface Props {

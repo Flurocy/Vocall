@@ -59,11 +59,54 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         ? { label: '复习中', cls: 'bg-emerald-500/15 text-emerald-700' }
         : { label: '新词', cls: 'bg-slate-500/10 text-slate-600' }
 
+  // 分界线可视化：会出现在弹窗的词(learning+review)排线上，待学习(new)排线下。
+  // 组内按 id 升序保持稳定，避免删词/勾选时整列表乱跳。
+  const sorted = [...list].sort((a, b) => a.id - b.id)
+  const active = sorted.filter((e) => e.status === 'learning' || e.status === 'review')
+  const pending = sorted.filter((e) => e.status === 'new')
+
+  // 单行渲染抽出来：active 与 pending 两段复用，避免重复。
+  const row = (e: VocabItem): ReactElement => (
+    <li
+      key={e.id}
+      className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        <input
+          type="checkbox"
+          checked={checked.has(e.id)}
+          onChange={() => toggle(e.id)}
+          className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
+        />
+        <div className="min-w-0">
+          <div className="flex items-baseline gap-2">
+            <span className="font-medium text-slate-800">{e.word}</span>
+            <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
+              {statusBadge(e.status).label}
+            </span>
+            <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
+          </div>
+          {e.example ? (
+            <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
+          ) : null}
+        </div>
+      </div>
+      <button
+        onClick={() => void remove(e.id)}
+        className="ml-4 shrink-0 rounded-md px-2 py-1 text-xs text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/10 hover:text-rose-600"
+      >
+        删除
+      </button>
+    </li>
+  )
+
   return (
     <div className="mx-auto max-w-2xl">
       <header className="mb-6 flex items-baseline justify-between">
         <h2 className="text-xl font-semibold">生词库</h2>
-        <span className="text-sm text-slate-500">共 {list.length} 条</span>
+        <span className="text-sm text-slate-500">
+          共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length}
+        </span>
       </header>
 
       {/* 新增卡片 */}
@@ -109,39 +152,18 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             </button>
           </div>
           <ul className="space-y-2.5">
-            {list.map((e) => (
-              <li
-                key={e.id}
-                className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={checked.has(e.id)}
-                    onChange={() => toggle(e.id)}
-                    className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
-                  />
-                  <div className="min-w-0">
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-medium text-slate-800">{e.word}</span>
-                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
-                        {statusBadge(e.status).label}
-                      </span>
-                      <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
-                    </div>
-                    {e.example ? (
-                      <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
-                    ) : null}
-                  </div>
-                </div>
-                <button
-                  onClick={() => void remove(e.id)}
-                  className="ml-4 shrink-0 rounded-md px-2 py-1 text-xs text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/10 hover:text-rose-600"
-                >
-                  删除
-                </button>
+            {/* 学习中 / 复习中：会出现在弹窗的词（分界线之上） */}
+            {active.map(row)}
+            {/* 分界线：以下为待学习（new 队列，暂不弹窗） */}
+            {active.length > 0 && pending.length > 0 && (
+              <li className="my-1 flex items-center gap-3 px-1 text-xs text-slate-400">
+                <div className="h-px flex-1 bg-black/10" />
+                <span>待学习（{pending.length}）</span>
+                <div className="h-px flex-1 bg-black/10" />
               </li>
-            ))}
+            )}
+            {/* 待学习（分界线之下） */}
+            {pending.map(row)}
           </ul>
         </>
       )}
