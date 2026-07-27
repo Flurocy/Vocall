@@ -11,7 +11,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   forgot_gap_pops: '3',            // 点"忘了"后过几次弹窗再见
   fuzzy_gap_pops: '8',             // 点"模糊"后过几次弹窗再见
   learning_step_pops: '1,2',       // learning 内"认识"递进（弹窗次数，逗号分隔）
-  review_steps_pops: '80,240,560,1200,2400', // review 间隔阶梯（弹窗次数，逗号分隔）
+  review_steps_pops: '50,150,350,750,1500', // review 间隔阶梯（弹窗次数，逗号分隔）；倒数第二档=掌握档
   popup_position: 'bottom-right',
   theme: 'emerald',    // 主题色 id，见 src/renderer/theme.ts 的 THEMES
   font_size: '16',     // 连续 px 值（滑块无级缩放），兼容旧档 id sm/md/lg 见 theme.getFontSize
@@ -45,6 +45,16 @@ export function resetElasticSettings(): void {
 
 export function getAllSettings(): Record<string, string> {
   return { ...DEFAULT_SETTINGS, ...settingsBox.get() }
+}
+
+// review_steps_pops 默认值升级：旧默认 '80,240,560,1200,2400' → 新默认 '50,150,350,750,1500'
+// （50 起步适配个人自用节奏，等比缩放保持原曲线形状）。用户自定义值不动；幂等可重复跑。
+export function migrateReviewSteps(): void {
+  const OLD = '80,240,560,1200,2400'
+  const cur = settingsBox.get().review_steps_pops
+  if (cur === undefined || cur === OLD) {
+    settingsBox.set({ ...settingsBox.get(), review_steps_pops: DEFAULT_SETTINGS.review_steps_pops })
+  }
 }
 
 // 组装 AI 配置：从设置读 key/baseUrl/model，空则落默认值。

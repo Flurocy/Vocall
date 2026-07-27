@@ -4,7 +4,7 @@ import {
   type NewVocabItem,
 } from './vocab'
 import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
-import { applyReview } from './scheduler'
+import { applyReview, masterVocab, reviveVocab } from './scheduler'
 import { callDeepseek } from './ai'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 
@@ -22,6 +22,9 @@ export function registerIpc(): void {
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
     applyReview(id, grade)
   })
+  // 已掌握终态：master 标背完不再弹；revive 让 mastered 词复活重背（进 learning 立即可弹，不限 cap）
+  ipcMain.handle('vocab:master', (_e, id: number) => masterVocab(id))
+  ipcMain.handle('vocab:revive', (_e, id: number) => reviveVocab(id))
   // 词书
   ipcMain.handle('wordbook:list', () => listWordbooks())
   ipcMain.handle('wordbook:add', (_e, bookId: string) => addWordbookToPlan(bookId))

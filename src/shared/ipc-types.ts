@@ -2,7 +2,7 @@ export interface VocabItem {
   id: number; word: string; meaning: string; example: string
   topic: string | null
   book: string | null                   // 来源词书 id；手动/种子词为 null
-  status: 'new' | 'learning' | 'review' // 生命周期三态
+  status: 'new' | 'learning' | 'review' | 'mastered' // 生命周期四态：新词/学习中/复习中/已掌握
   source: string; created_at: number
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
@@ -38,6 +38,9 @@ export interface TasymizeApi {
   getCurrent(): Promise<PopupPayload | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
+  // 已掌握终态：背完不再弹；revive 让 mastered 词复活重背（直接进 learning 队列立即可弹）
+  master(id: number): Promise<void>
+  revive(id: number): Promise<void>
   testAi(): Promise<{ ok: boolean; message: string }>
   // 词书
   listWordbooks(): Promise<{ id: string; name: string; count: number; desc: string }[]>

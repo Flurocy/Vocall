@@ -29,11 +29,17 @@ function opts(): ReviewOpts {
     forgotPops: Math.max(1, num('forgot_gap_pops', 3)),
     fuzzyPops: Math.max(1, num('fuzzy_gap_pops', 8)),
     learningSteps: listSetting('learning_step_pops', [1, 2]),
-    reviewSteps: listSetting('review_steps_pops', [80, 240, 560, 1200, 2400]),
+    reviewSteps: listSetting('review_steps_pops', [50, 150, 350, 750, 1500]),
   }
 }
 
-// 到期挑选（弹窗节拍队列）：只看 learning / review（跳过 new 未解锁词），
+// 掌握档：reviewSteps 倒数第二档（5 档时 = 750）。review 内 interval >= masterStep → 触发 mastered。
+function masterStep(): number {
+  const steps = opts().reviewSteps
+  return steps.length >= 2 ? steps[steps.length - 2] : steps[0]
+}
+
+// 到期挑选（弹窗节拍队列）：只看 learning / review（跳过 new 未解锁词 和 mastered 已掌握），
 // 且 duePop <= 当前 popCount，取 duePop 最小（最该见）的一条。
 // 注意：不要直接遍历 store 的 srsStates 域——其键是字符串；以 vocab 数组为主遍历避开。
 export function getDueVocab(): VocabItem | null {
@@ -41,7 +47,7 @@ export function getDueVocab(): VocabItem | null {
   let best: VocabItem | null = null
   let bestDue = Infinity
   for (const e of listVocab()) {
-    if (e.status === 'new') continue
+    if (e.status === 'new' || e.status === 'mastered') continue
     const s = getSrsState(e.id)
     if (!s) continue
     if (s.duePop <= now && s.duePop < bestDue) {
@@ -76,6 +82,8 @@ export function applyReview(id: number, grade: Grade): void {
       // review 阶梯：需要当前间隔来推进。当前间隔 = duePop - popCount（剩余弹窗数），负则当 0
       const curInterval = cur ? Math.max(0, cur.duePop - now) : 0
       next = reviewReview({ ...base, interval: curInterval }, grade, o)
+      // grade2 推进到的间隔 >= 掌握档（倒数第二档）→ 标 mastered（背完）
+      if (grade === 2 && next.interval >= masterStep()) newStatus = 'mastered'
     }
   } else {
     // learning（new 不会被 getDueVocab 选中，走到这里按 learning 处理）
@@ -84,7 +92,20 @@ export function applyReview(id: number, grade: Grade): void {
   }
   setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: now + next.interval })
   if (newStatus !== item.status) updateVocab(id, { status: newStatus })
-  if (newStatus === 'review') fillLearningQueue() // 毕业空位 → 补新词
+  // 毕业空位 → 补新词；mastered 也腾空位（跟毕业一样补位）
+  if (newStatus === 'review' || newStatus === 'mastered') fillLearningQueue()
+}
+
+// 手动标"已掌握"：用户在 PopupCard/ExpressionsView 主动点。仅改 status；SRS 状态保持不变。
+export function masterVocab(id: number): void {
+  updateVocab(id, { status: 'mastered' })
+}
+
+// 复活重背：mastered 词回到 learning 队列立即可弹（duePop=当前 popCount，reps 清零，easiness 重置 2.5）。
+// 不受 learning_cap 限制——用户主动重背应立即进队列。
+export function reviveVocab(id: number): void {
+  updateVocab(id, { status: 'learning' })
+  setSrsState(id, { easiness: 2.5, repetitions: 0, duePop: getPopCount() })
 }
 
 // 补位：learning 不足 learning_cap 时，从 new 按 id 升序补（词书词先入先学）。

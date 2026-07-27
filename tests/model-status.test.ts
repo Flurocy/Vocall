@@ -23,7 +23,7 @@ describe('包1 数据模型（status/book + 弹性数值 + 迁移）', () => {
     expect(DEFAULT_SETTINGS.forgot_gap_pops).toBe('3')
     expect(DEFAULT_SETTINGS.fuzzy_gap_pops).toBe('8')
     expect(DEFAULT_SETTINGS.learning_step_pops).toBe('1,2')
-    expect(DEFAULT_SETTINGS.review_steps_pops).toBe('80,240,560,1200,2400')
+    expect(DEFAULT_SETTINGS.review_steps_pops).toBe('50,150,350,750,1500')
     const all = getAllSettings()
     expect(all.learning_cap).toBe('10')
   })

@@ -17,6 +17,9 @@ contextBridge.exposeInMainWorld('tasymize', {
   grade: (id: number, grade: 0 | 1 | 2) =>
     ipcRenderer.invoke('popup:grade', id, grade),
   dismiss: () => ipcRenderer.invoke('popup:dismiss'),
+  // 已掌握终态：标背完/复活重背
+  master: (id: number) => ipcRenderer.invoke('vocab:master', id),
+  revive: (id: number) => ipcRenderer.invoke('vocab:revive', id),
   // 拖拽用 send（fire-and-forget），不走 invoke，避免高频 mousemove 堆积 Promise
   dragStart: (x: number, y: number) => ipcRenderer.send('popup:dragStart', { x, y }),
   dragMove: (x: number, y: number) => ipcRenderer.send('popup:dragMove', { x, y }),

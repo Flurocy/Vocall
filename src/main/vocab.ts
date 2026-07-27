@@ -4,7 +4,7 @@ export interface VocabItem {
   id: number; word: string; meaning: string; example: string
   topic: string | null
   book: string | null                 // 来源词书 id；手动添加/种子词为 null
-  status: 'new' | 'learning' | 'review' // 生命周期三态：新词未解锁/学习中(轮回内)/复习中(轮回外)
+  status: 'new' | 'learning' | 'review' | 'mastered' // 生命周期四态：新词未解锁/学习中(轮回内)/复习中(轮回外)/已掌握(背完不再弹)
   source: string; created_at: number
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
