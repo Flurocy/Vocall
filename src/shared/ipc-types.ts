@@ -31,8 +31,8 @@ export interface TasymizeApi {
   deleteVocab(id: number): Promise<void>
   getSettings(): Promise<Record<string, string>>
   setSetting(key: string, value: string): Promise<void>
-  // 恢复默认：只重置记忆节奏弹性数值键（learning_cap/pass_count/forgot_gap_min/
-  // fuzzy_gap_min/learning_step_min/review_steps_day），外观/音效/AI 不动
+  // 恢复默认：只重置记忆节奏弹性数值键（learning_cap/pass_count/forgot_gap_pops/
+  // fuzzy_gap_pops/learning_step_pops/review_steps_pops），外观/音效/AI 不动
   resetElasticSettings(): Promise<void>
   onShow(cb: (expr: VocabItem) => void): void
   getCurrent(): Promise<PopupPayload | null>
