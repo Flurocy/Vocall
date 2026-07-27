@@ -11,12 +11,12 @@ describe('settings', () => {
   })
 
   it('未设置时返回默认值', () => {
-    expect(getSetting('popup_interval_min')).toBe(DEFAULT_SETTINGS.popup_interval_min)
+    expect(getSetting('popup_interval_sec')).toBe(DEFAULT_SETTINGS.popup_interval_sec)
   })
 
   it('写入后可读取，且覆盖默认值', () => {
-    setSetting('popup_interval_min', '10')
-    expect(getSetting('popup_interval_min')).toBe('10')
+    setSetting('popup_interval_sec', '10')
+    expect(getSetting('popup_interval_sec')).toBe('10')
   })
 
   it('getAllSettings 合并默认值与已存值', () => {

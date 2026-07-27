@@ -2,7 +2,7 @@ import { settingsBox } from './store'
 import { DEFAULT_BASE_URL, DEFAULT_MODEL, type AiConfig } from './ai'
 
 export const DEFAULT_SETTINGS: Record<string, string> = {
-  popup_interval_min: '8',
+  popup_interval_sec: '480', // 弹出间隔（秒）；旧 popup_interval_min(分钟)由 migratePopupInterval 迁移×60
   popup_stay_sec: '15',
   // 注：旧"回想时长"键已随包2 自动翻卡一并废弃，勿再加回
   pass_count: '3',
@@ -54,6 +54,17 @@ export function migrateReviewSteps(): void {
   const cur = settingsBox.get().review_steps_pops
   if (cur === undefined || cur === OLD) {
     settingsBox.set({ ...settingsBox.get(), review_steps_pops: DEFAULT_SETTINGS.review_steps_pops })
+  }
+}
+
+// 弹出间隔单位升级：旧 popup_interval_min(分钟) → popup_interval_sec(秒)。
+// 旧值 ×60 写入新键（保留用户调过的间隔）；无旧键则落默认 480s。幂等：已有新键则不动。
+export function migratePopupInterval(): void {
+  const s = settingsBox.get()
+  if (s.popup_interval_sec !== undefined) return
+  if (s.popup_interval_min !== undefined) {
+    const sec = Math.max(1, Number(s.popup_interval_min) || 8) * 60
+    settingsBox.set({ ...s, popup_interval_sec: String(sec) })
   }
 }
 

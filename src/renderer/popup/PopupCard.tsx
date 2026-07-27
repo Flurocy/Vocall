@@ -51,15 +51,13 @@ export default function PopupCard(): ReactElement | null {
     setPayload(p)
     setFace('front')
     setExampleOpen(false)
-    // 唯一的定时器：从本次展示起算 popup_stay_sec 秒后自动消失（默认 15 秒，
-    // 主动翻卡需要用户操作时间，8 秒太短）。不再有自动翻卡定时器。
-    // 每次弹窗重读主题/字号——设置改完后下一次弹窗即时换肤。
+    // 自动隐藏已改由主端 showPopup 统管（popup_stay_sec 后 hide，下个 showPopup 取消上个 hide），
+    // 渲染端不再设 dismiss 定时器——否则 interval≈stay 时，上个 stayMs 的 hide 会撞上本次 show，
+    // 弹窗闪一下消失。每次弹窗重读主题/字号——设置改完后下一次弹窗即时换肤。
     void window.tasymize.getSettings().then((settings) => {
       if (!alive.current) return
       setTheme(getTheme(settings.theme))
       setFontSize(getFontSize(settings.font_size))
-      const stayMs = (Number(settings.popup_stay_sec) || 15) * 1000
-      timers.current.push(window.setTimeout(() => window.tasymize.dismiss(), stayMs))
     })
     void playSound()
   }, [])

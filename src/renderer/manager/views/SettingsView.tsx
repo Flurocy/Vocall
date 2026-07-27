@@ -4,7 +4,7 @@ import { THEMES, getTheme, getFontSize, FONT_SIZE_MIN, FONT_SIZE_MAX } from '../
 import type { Theme } from '../../theme'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
-  { key: 'popup_interval_min', label: '弹出间隔（分钟）', min: 1 },
+  { key: 'popup_interval_sec', label: '弹出间隔（秒）', min: 1 },
   { key: 'popup_stay_sec', label: '停留时长（秒）', min: 1 },
   // 注：'每日弹出上限'(daily_cap) 是死设置——无任何消费方，已从界面移除（评审 I-2），实现留 backlog
 ]

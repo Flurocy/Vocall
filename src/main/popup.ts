@@ -36,8 +36,15 @@ export function createPopupWindow(): BrowserWindow {
 // 卡片 mount 后也能 pull 到数据，不会首弹空白。
 // 载荷带连续答对进度（repetitions/passCount），弹窗用来显示 "已连续答对 x/N"。
 let current: PopupPayload | null = null
+// 自动隐藏定时器（主端统管）：showPopup 设，dismiss / 下个 showPopup 清。
+// 取代旧版"渲染端 stayMs 定时器调 dismiss"——旧版在 popup_interval ≈ popup_stay 时，
+// 上个弹窗的 stayMs hide 会恰好覆盖本次 showPopup 的 show（弹窗"闪一下消失"）。
+// 主端统管后，下个 showPopup 直接 clearTimeout 上个 hide，竞态根除。
+let hideTimer: NodeJS.Timeout | null = null
 
 export function showPopup(win: BrowserWindow, item: VocabItem): void {
+  // 新弹窗到达：取消上个弹窗的自动隐藏，避免它的 hide 覆盖本次 show
+  if (hideTimer) { clearTimeout(hideTimer); hideTimer = null }
   current = {
     item,
     repetitions: getSrsState(item.id)?.repetitions ?? 0,
@@ -45,6 +52,9 @@ export function showPopup(win: BrowserWindow, item: VocabItem): void {
   }
   win.webContents.send('popup:show', item)
   win.showInactive()
+  // 自动隐藏：popup_stay_sec 秒后 hide。下个 showPopup 会取消它。
+  const stayMs = Math.max(1, Number(getSetting('popup_stay_sec')) || 15) * 1000
+  hideTimer = setTimeout(() => { hidePopup(win); hideTimer = null }, stayMs)
 }
 
 export function hidePopup(win: BrowserWindow): void {
@@ -53,7 +63,11 @@ export function hidePopup(win: BrowserWindow): void {
 
 export function registerPopupIpc(getPopup: () => BrowserWindow): void {
   ipcMain.handle('popup:getCurrent', () => current)
-  ipcMain.handle('popup:dismiss', () => hidePopup(getPopup()))
+  ipcMain.handle('popup:dismiss', () => {
+    // 用户主动关闭（答题/标掌握）：取消待执行的自动隐藏，立即 hide
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null }
+    hidePopup(getPopup())
+  })
 
   // 整窗拖拽（frameless + focusable:false 下自实现）：
   // 渲染端 mousedown 时上报鼠标 screen 坐标作基准，mousemove 上报新坐标，
