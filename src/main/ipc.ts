@@ -5,7 +5,7 @@ import {
 } from './vocab'
 import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
 import { applyReview, masterVocab, reviveVocab } from './scheduler'
-import { callDeepseek } from './ai'
+import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 
 export function registerIpc(): void {
@@ -46,4 +46,10 @@ export function registerIpc(): void {
       return { ok: false, message: err instanceof Error ? err.message : String(err) }
     }
   })
+
+  // AI 内容生产：主题词组生成 + 生词 AI 翻译（均返回预览数据，不入库——入库由前端 vocab:add）。
+  // key 没配 / 网络 / 解析错误一律 throw（invoke reject），渲染端 catch(err) 显示 err.message。
+  ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number) =>
+    generateThemeVocab(theme, n))
+  ipcMain.handle('ai:translate', async (_e, word: string) => translateVocab(word))
 }

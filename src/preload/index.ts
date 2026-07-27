@@ -29,6 +29,10 @@ contextBridge.exposeInMainWorld('tasymize', {
   winClose: () => ipcRenderer.invoke('win:close'),
   // AI：测试 DeepSeek 连接（key 只在主进程，渲染端拿不到）
   testAi: () => ipcRenderer.invoke('ai:test'),
+  // AI 内容生产：主题词组生成（预览，不入库——前端勾选后 vocab:add）+ 生词翻译（预览，填入新增卡片）
+  generateTheme: (theme: string, n?: number) =>
+    ipcRenderer.invoke('ai:generateTheme', theme, n),
+  translate: (word: string) => ipcRenderer.invoke('ai:translate', word),
   // 词书
   listWordbooks: () => ipcRenderer.invoke('wordbook:list'),
   addWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:add', bookId),
