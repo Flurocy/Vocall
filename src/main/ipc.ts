@@ -3,7 +3,7 @@ import {
   addVocab, deleteVocab, listVocab, updateVocab,
   type NewVocabItem,
 } from './vocab'
-import { getAllSettings, setSetting, getAiConfig } from './settings'
+import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
 import { applyReview } from './scheduler'
 import { callDeepseek } from './ai'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan } from './wordbook'
@@ -17,6 +17,8 @@ export function registerIpc(): void {
   ipcMain.handle('settings:getAll', () => getAllSettings())
   ipcMain.handle('settings:set', (_e, key: string, value: string) =>
     setSetting(key, value))
+  // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
+  ipcMain.handle('settings:resetElastic', () => resetElasticSettings())
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
     applyReview(id, grade, Date.now())
   })

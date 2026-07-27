@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('tasymize', {
   getSettings: () => ipcRenderer.invoke('settings:getAll'),
   setSetting: (key: string, value: string) =>
     ipcRenderer.invoke('settings:set', key, value),
+  resetElasticSettings: () => ipcRenderer.invoke('settings:resetElastic'),
   onShow: (cb: (expr: unknown) => void) =>
     ipcRenderer.on('popup:show', (_e, expr) => cb(expr)),
   getCurrent: () => ipcRenderer.invoke('popup:getCurrent'),

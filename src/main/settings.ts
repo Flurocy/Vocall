@@ -33,6 +33,16 @@ export function setSetting(key: string, value: string): void {
   settingsBox.set({ ...settingsBox.get(), [key]: value })
 }
 
+// 记忆节奏弹性数值键：设置页"恢复默认设置"只重置这些，外观/音效/AI 等不动
+export const ELASTIC_KEYS = [
+  'learning_cap', 'pass_count', 'forgot_gap_min',
+  'fuzzy_gap_min', 'learning_step_min', 'review_steps_day',
+] as const
+
+export function resetElasticSettings(): void {
+  for (const k of ELASTIC_KEYS) setSetting(k, DEFAULT_SETTINGS[k])
+}
+
 export function getAllSettings(): Record<string, string> {
   return { ...DEFAULT_SETTINGS, ...settingsBox.get() }
 }

@@ -1,6 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { _resetStoreForTests } from '../src/main/store'
-import { getSetting, setSetting, getAllSettings, DEFAULT_SETTINGS } from '../src/main/settings'
+import {
+  getSetting, setSetting, getAllSettings, DEFAULT_SETTINGS,
+  ELASTIC_KEYS, resetElasticSettings,
+} from '../src/main/settings'
 
 describe('settings', () => {
   beforeEach(() => {
@@ -28,5 +31,15 @@ describe('settings', () => {
     expect(DEFAULT_SETTINGS.theme).toBe('emerald')
     expect(DEFAULT_SETTINGS.font_size).toBe('16') // 连续 px（滑块缩放），兼容旧档 id 见 theme.getFontSize
     expect(DEFAULT_SETTINGS).not.toHaveProperty('recall_delay_sec')
+  })
+
+  it('resetElasticSettings：先改乱再重置，弹性键全部回默认，其余键不动', () => {
+    for (const k of ELASTIC_KEYS) setSetting(k, '999')
+    setSetting('theme', 'rose') // 非弹性键，不应被重置
+    resetElasticSettings()
+    for (const k of ELASTIC_KEYS) {
+      expect(getSetting(k)).toBe(DEFAULT_SETTINGS[k])
+    }
+    expect(getSetting('theme')).toBe('rose')
   })
 })

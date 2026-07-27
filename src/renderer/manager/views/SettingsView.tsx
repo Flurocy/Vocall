@@ -6,8 +6,21 @@ import type { Theme } from '../../theme'
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   { key: 'popup_interval_min', label: '弹出间隔（分钟）', min: 1 },
   { key: 'popup_stay_sec', label: '停留时长（秒）', min: 1 },
-  { key: 'pass_count', label: '过关所需连续答对次数', min: 1 },
   // 注：'每日弹出上限'(daily_cap) 是死设置——无任何消费方，已从界面移除（评审 I-2），实现留 backlog
+]
+
+// 记忆节奏弹性数值（详见 specs/2026-07-23-wordbook-learning-queue-design.md 第五节）：
+// 与主进程 ELASTIC_KEYS 一一对应，"恢复默认设置"按钮只重置这些键。
+// pass_count 原在"弹窗与记忆"区，移入本区——它是弹性键，挪过来跟重置范围对齐、避免同一键两个输入框。
+const ELASTIC_NUMBER_FIELDS: { key: string; label: string; hint: string; min: number }[] = [
+  { key: 'learning_cap', label: '学习队列容量', hint: '同时在学的词数上限，学会一个才补一个新的', min: 1 },
+  { key: 'pass_count', label: '过关所需连续答对次数', hint: '连续"认识"这么多次，这个词才算学会', min: 1 },
+  { key: 'forgot_gap_min', label: '"忘了"后多久再见（分钟）', hint: '点"忘了"的词，隔这么久再次出现', min: 1 },
+  { key: 'fuzzy_gap_min', label: '"模糊"后多久再见（分钟）', hint: '点"模糊"的词，隔这么久再次出现', min: 1 },
+]
+const ELASTIC_LIST_FIELDS: { key: string; label: string; hint: string }[] = [
+  { key: 'learning_step_min', label: '学习递进间隔（分钟，逗号分隔）', hint: '学习中每答对一次，下次间隔按这个序列往后推' },
+  { key: 'review_steps_day', label: '复习间隔阶梯（天，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
 ]
 
 interface Props {
@@ -39,6 +52,14 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     setAiTestMsg(r.ok ? { kind: 'ok', text: r.message } : { kind: 'err', text: r.message })
   }
 
+  // 恢复默认：主进程重置弹性数值键后整体重拉，本地 state 一并刷新。
+  // 只动记忆节奏数值，外观/音效/AI 不受影响，故无需 onSettingChanged
+  const resetElastic = async (): Promise<void> => {
+    if (!window.confirm('把"记忆节奏"相关数值恢复为默认值？外观、音效、AI 设置不受影响。')) return
+    await window.tasymize.resetElasticSettings()
+    setSettings(await window.tasymize.getSettings())
+  }
+
   const currentTheme = getTheme(settings.theme)
   // font_size 现为连续 px（滑块），parseInt 兼容 '15'/'15px'；非法走 getFontSize 的默认
   const fontPx = parseInt(getFontSize(settings.font_size), 10)
@@ -52,7 +73,15 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
 
   return (
     <div className="mx-auto max-w-lg">
-      <h2 className="mb-6 text-xl font-semibold">设置</h2>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-xl font-semibold">设置</h2>
+        <button
+          onClick={() => void resetElastic()}
+          className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:bg-black/5"
+        >
+          恢复默认设置
+        </button>
+      </div>
       <div className="space-y-4">
         <section className={card}>
           <h3 className={sectionTitle}>主题色</h3>
@@ -102,6 +131,37 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                   onChange={(e) => void update(f.key, e.target.value)}
                   className={inputCls}
                 />
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <section className={card}>
+          <h3 className={sectionTitle}>记忆节奏</h3>
+          <div className="space-y-4">
+            {ELASTIC_NUMBER_FIELDS.map((f) => (
+              <label key={f.key} className="block">
+                <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
+                <input
+                  type="number"
+                  min={f.min}
+                  value={settings[f.key] ?? ''}
+                  onChange={(e) => void update(f.key, e.target.value)}
+                  className={inputCls}
+                />
+                <p className="mt-1 text-xs text-slate-500">{f.hint}</p>
+              </label>
+            ))}
+            {ELASTIC_LIST_FIELDS.map((f) => (
+              <label key={f.key} className="block">
+                <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
+                <input
+                  type="text"
+                  value={settings[f.key] ?? ''}
+                  onChange={(e) => void update(f.key, e.target.value)}
+                  className={inputCls}
+                />
+                <p className="mt-1 text-xs text-slate-500">{f.hint}</p>
               </label>
             ))}
           </div>

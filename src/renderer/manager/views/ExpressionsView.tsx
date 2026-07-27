@@ -31,6 +31,14 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const inputCls =
     'rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-black/20 focus:bg-white'
 
+  // 生命周期三态浅色徽标：new=slate 灰、learning=主题 accent、review=emerald 绿
+  const statusBadge = (s: VocabItem['status']): { label: string; cls: string } =>
+    s === 'learning'
+      ? { label: '学习中', cls: `${theme.accentBg} ${theme.accentText}` }
+      : s === 'review'
+        ? { label: '复习中', cls: 'bg-emerald-500/15 text-emerald-700' }
+        : { label: '新词', cls: 'bg-slate-500/10 text-slate-600' }
+
   return (
     <div className="mx-auto max-w-2xl">
       <header className="mb-6 flex items-baseline justify-between">
@@ -74,6 +82,9 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
               <div className="min-w-0">
                 <div className="flex items-baseline gap-2">
                   <span className="font-medium text-slate-800">{e.word}</span>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
+                    {statusBadge(e.status).label}
+                  </span>
                   <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
                 </div>
                 {e.example ? (
