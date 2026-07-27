@@ -97,8 +97,11 @@ export function applyReview(id: number, grade: Grade): void {
 }
 
 // 手动标"已掌握"：用户在 PopupCard/ExpressionsView 主动点。仅改 status；SRS 状态保持不变。
+// 同样触发 fillLearningQueue——被标的若是 learning 词会腾槽，不补会让 learning 队列静默缩水
+// （cap 内已满则 no-op，幂等无害）。
 export function masterVocab(id: number): void {
   updateVocab(id, { status: 'mastered' })
+  fillLearningQueue()
 }
 
 // 复活重背：mastered 词回到 learning 队列立即可弹（duePop=当前 popCount，reps 清零，easiness 重置 2.5）。

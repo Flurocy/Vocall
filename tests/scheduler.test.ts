@@ -98,6 +98,15 @@ describe('mastered 终态', () => {
     expect(listVocab().find((x) => x.id === v.id)!.status).toBe('mastered')
   })
 
+  it('手动 masterVocab 一个 learning 词 → 触发 fillLearningQueue 补位（learning 队列不静默缩水）', () => {
+    setSetting('learning_cap', '2')
+    const a = make('learning', 0)
+    make('learning', 0) // 满员 2
+    const c = make('new', 0) // 队外待补
+    masterVocab(a.id) // a → mastered，应腾出 1 个槽位
+    expect(listVocab().find((x) => x.id === c.id)!.status).toBe('learning') // new 被补成 learning
+  })
+
   it('reviveVocab(id) → status=learning + duePop=当前 popCount + reps=0', () => {
     const v = make('mastered', 100)
     incrementPop(); incrementPop() // popCount = 2
