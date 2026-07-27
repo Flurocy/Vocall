@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { Theme } from '../../theme'
 
@@ -31,6 +31,18 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
   const [checked, setChecked] = useState<Set<number>>(new Set())
   const [expanded, setExpanded] = useState<Set<number>>(new Set())
   const [msg, setMsg] = useState<Msg | null>(null)
+  // 已成功入库的下标（跨重试累积）：addVocab 中途失败时已入库的不回滚，
+  // 重试「加入所选」必须跳过这些下标，避免重复词。generate 时清空（换了一批结果）。
+  const doneRef = useRef<Set<number>>(new Set())
+
+  // Esc 关闭（loading/adding 中不响应，防误关丢失 30 词待选）；deps 跟随忙闲态切换以读到最新值
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape' && !loading && !adding) onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [loading, adding, onClose])
 
   const generate = async (): Promise<void> => {
     const t = themeText.trim()
@@ -43,6 +55,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
     setResults([])
     setChecked(new Set())
     setExpanded(new Set())
+    doneRef.current = new Set() // 新一批结果，重置已入库下标
     try {
       const list = await window.tasymize.generateTheme(t, 30)
       if (list.length === 0) {
@@ -81,11 +94,19 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
 
   const addSelected = async (): Promise<void> => {
     if (checked.size === 0) return
+    const pending = [...checked].filter((i) => !doneRef.current.has(i))
+    if (pending.length === 0) {
+      // 全部已入库（用户重试时已无未完成项）——直接收尾
+      setMsg(null)
+      onAdded()
+      onClose()
+      return
+    }
     setAdding(true)
-    setMsg({ kind: 'busy', text: `正在加入 ${checked.size} 条…` })
+    setMsg({ kind: 'busy', text: `正在加入 ${pending.length} 条…` })
     const t = themeText.trim()
     try {
-      for (const i of checked) {
+      for (const i of pending) {
         const e = results[i]
         await window.tasymize.addVocab({
           word: e.word,
@@ -95,12 +116,18 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
           source: `AI主题:${t}`,
           status: 'new',
         })
+        doneRef.current.add(i) // 成功一条记一条；中途失败时已入库的不丢
       }
       setMsg(null)
       onAdded()
       onClose()
     } catch (err) {
-      setMsg({ kind: 'err', text: err instanceof Error ? err.message : String(err) })
+      // 已成功的留在 doneRef，用户重试「加入所选」时上面 filter 会跳过，不重复插
+      const done = doneRef.current.size
+      setMsg({
+        kind: 'err',
+        text: `已加入 ${done}/${checked.size} 条，可重试未完成的。原因：${err instanceof Error ? err.message : String(err)}`,
+      })
     } finally {
       setAdding(false)
     }
