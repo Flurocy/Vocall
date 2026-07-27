@@ -10,9 +10,11 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [word, setWord] = useState('')
   const [meaning, setMeaning] = useState('')
   const [example, setExample] = useState('')
+  const [checked, setChecked] = useState<Set<number>>(new Set()) // 批量勾选
 
   const reload = async (): Promise<void> => {
     setList(await window.tasymize.listVocab())
+    setChecked(new Set()) // 刷新后清空勾选（被删的 id 已失效）
   }
   useEffect(() => { void reload() }, [])
 
@@ -25,6 +27,24 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   const remove = async (id: number): Promise<void> => {
     await window.tasymize.deleteVocab(id)
+    await reload()
+  }
+
+  const toggle = (id: number): void => {
+    setChecked((s) => {
+      const ns = new Set(s)
+      if (ns.has(id)) ns.delete(id); else ns.add(id)
+      return ns
+    })
+  }
+  const allChecked = list.length > 0 && list.every((e) => checked.has(e.id))
+  const toggleAll = (): void => {
+    setChecked(allChecked ? new Set() : new Set(list.map((e) => e.id)))
+  }
+  const removeSelected = async (): Promise<void> => {
+    if (checked.size === 0) return
+    if (!window.confirm(`删除勾选的 ${checked.size} 条生词？此操作不可撤销。`)) return
+    for (const id of checked) await window.tasymize.deleteVocab(id)
     await reload()
   }
 
@@ -73,33 +93,57 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
           <p className="text-sm text-slate-500">还没有生词，先在上方添加一条吧</p>
         </div>
       ) : (
-        <ul className="space-y-2.5">
-          {list.map((e) => (
-            <li
-              key={e.id}
-              className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
+        <>
+          {/* 批量操作条 */}
+          <div className="mb-3 flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-2.5 shadow-sm">
+            <label className="flex items-center gap-2 text-sm text-slate-700">
+              <input type="checkbox" checked={allChecked} onChange={toggleAll} className={`h-4 w-4 ${theme.accentColor}`} />
+              全选
+            </label>
+            <button
+              onClick={() => void removeSelected()}
+              disabled={checked.size === 0}
+              className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-40"
             >
-              <div className="min-w-0">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-medium text-slate-800">{e.word}</span>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
-                    {statusBadge(e.status).label}
-                  </span>
-                  <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
-                </div>
-                {e.example ? (
-                  <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
-                ) : null}
-              </div>
-              <button
-                onClick={() => void remove(e.id)}
-                className="ml-4 shrink-0 rounded-md px-2 py-1 text-xs text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/10 hover:text-rose-600"
+              删除所选（{checked.size}）
+            </button>
+          </div>
+          <ul className="space-y-2.5">
+            {list.map((e) => (
+              <li
+                key={e.id}
+                className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
               >
-                删除
-              </button>
-            </li>
-          ))}
-        </ul>
+                <div className="flex min-w-0 items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={checked.has(e.id)}
+                    onChange={() => toggle(e.id)}
+                    className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
+                  />
+                  <div className="min-w-0">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-medium text-slate-800">{e.word}</span>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
+                        {statusBadge(e.status).label}
+                      </span>
+                      <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
+                    </div>
+                    {e.example ? (
+                      <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
+                    ) : null}
+                  </div>
+                </div>
+                <button
+                  onClick={() => void remove(e.id)}
+                  className="ml-4 shrink-0 rounded-md px-2 py-1 text-xs text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/10 hover:text-rose-600"
+                >
+                  删除
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   )

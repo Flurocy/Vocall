@@ -1,87 +1,143 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { Theme } from '../../theme'
+import type { WordbookWord } from '../../../shared/ipc-types'
 
-interface WordbookMeta { id: string; name: string; count: number; desc: string }
+interface BookMeta { id: string; name: string; count: number; desc: string }
 
-// 词书页：每本词书一张卡（名称/词数/简介/按钮）。
-// "已加入"判断：生词库里存在该 book 的词即视为已加入——与主进程
-// addWordbookToPlan 的幂等判断（listVocab().some(v => v.book === bookId)）一致。
-// 注意：移除只删该书仍为 new 的词，learning/review 中的保留（用户已在学），
-// 所以"移除"后若该书还有词在学，卡片仍显示"已加入"，此时再点加入是 no-op，
-// 等剩余词学完/毕业删净后自然回到未加入态。
+// 词书 = 预置的现成词库（用户决策）：点进某本书 → 勾选想要的词 → 批量加入背诵库。
+// 不整本接收、无"移除全书"概念；已在库的词标记"已在库"并禁选，防重复加入。
 export default function WordbooksView({ theme }: { theme: Theme }): ReactElement {
-  const [books, setBooks] = useState<WordbookMeta[]>([])
-  const [joined, setJoined] = useState<Set<string>>(new Set())
-  // 防连点：正在执行 IPC 的那本词书 id
-  const [busyId, setBusyId] = useState<string | null>(null)
+  const [books, setBooks] = useState<BookMeta[]>([])
+  const [openId, setOpenId] = useState<string | null>(null) // 当前点进的词书 id
 
-  const reload = async (): Promise<void> => {
-    const [bs, vocab] = await Promise.all([
-      window.tasymize.listWordbooks(),
-      window.tasymize.listVocab(),
-    ])
-    setBooks(bs)
-    setJoined(new Set(vocab.map((v) => v.book).filter((b): b is string => b !== null)))
-  }
-  useEffect(() => { void reload() }, [])
+  useEffect(() => {
+    void window.tasymize.listWordbooks().then(setBooks)
+  }, [])
 
-  const toggle = async (b: WordbookMeta): Promise<void> => {
-    setBusyId(b.id)
-    try {
-      if (joined.has(b.id)) await window.tasymize.removeWordbook(b.id)
-      else await window.tasymize.addWordbook(b.id)
-    } finally {
-      setBusyId(null)
-    }
-    await reload()
+  if (openId) {
+    const book = books.find((b) => b.id === openId)
+    return <BookDetail theme={theme} bookId={openId} bookName={book?.name ?? ''} onBack={() => setOpenId(null)} />
   }
 
   return (
     <div className="mx-auto max-w-2xl">
-      <header className="mb-6 flex items-baseline justify-between">
+      <header className="mb-2">
         <h2 className="text-xl font-semibold">词书</h2>
-        <span className="text-sm text-slate-500">共 {books.length} 本</span>
       </header>
-
+      <p className="mb-4 text-sm text-slate-500">词书是预置的现成词库，点进一本，勾选想要的词加入背诵库。</p>
       {books.length === 0 ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-black/15 bg-white/40 px-6 py-12 text-center">
           <p className="text-sm text-slate-500">还没有可用词书（data/wordbooks 目录为空）</p>
         </div>
       ) : (
         <ul className="space-y-3">
-          {books.map((b) => {
-            const isJoined = joined.has(b.id)
-            return (
-              <li
-                key={b.id}
-                className="rounded-2xl border border-black/10 bg-white/60 p-5 shadow-sm transition hover:bg-white/80"
+          {books.map((b) => (
+            <li key={b.id}>
+              <button
+                onClick={() => setOpenId(b.id)}
+                className="block w-full rounded-2xl border border-black/10 bg-white/60 p-5 text-left shadow-sm transition hover:bg-white/80"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="font-medium text-slate-800">{b.name}</h3>
-                      <span className={`shrink-0 text-xs ${theme.accentText}`}>{b.count} 词</span>
-                    </div>
-                    <p className="mt-1 text-sm text-slate-500">{b.desc}</p>
-                  </div>
-                  <button
-                    onClick={() => void toggle(b)}
-                    disabled={busyId === b.id}
-                    className={
-                      isJoined
-                        ? 'shrink-0 rounded-lg border border-black/10 px-4 py-2 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-50'
-                        : `shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover} disabled:opacity-50`
-                    }
-                  >
-                    {isJoined ? '已加入 · 移除' : '加入学习计划'}
-                  </button>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className={`font-medium ${theme.accentText}`}>{b.name}</h3>
+                  <span className="shrink-0 text-xs text-slate-500">{b.count} 词</span>
                 </div>
-              </li>
-            )
-          })}
+                <p className="mt-1 text-sm text-slate-600">{b.desc}</p>
+              </button>
+            </li>
+          ))}
         </ul>
       )}
+    </div>
+  )
+}
+
+// 单本词书详情：全词列表 + 复选框 + 全选 + 批量加入
+function BookDetail({ theme, bookId, bookName, onBack }: {
+  theme: Theme; bookId: string; bookName: string; onBack: () => void
+}): ReactElement {
+  const [words, setWords] = useState<WordbookWord[]>([])
+  const [checked, setChecked] = useState<Set<string>>(new Set())
+  const [added, setAdded] = useState<number | null>(null)
+
+  const load = async (): Promise<void> => {
+    setWords(await window.tasymize.getWordbookWords(bookId))
+    setChecked(new Set())
+  }
+  useEffect(() => { void load() }, [bookId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggle = (w: string): void => {
+    setChecked((s) => {
+      const ns = new Set(s)
+      if (ns.has(w)) ns.delete(w); else ns.add(w)
+      return ns
+    })
+  }
+
+  const selectable = words.filter((w) => !w.inLibrary)
+  const allChecked = selectable.length > 0 && selectable.every((w) => checked.has(w.word))
+  const toggleAll = (): void => {
+    setChecked(allChecked ? new Set() : new Set(selectable.map((w) => w.word)))
+  }
+
+  const addSelected = async (): Promise<void> => {
+    if (checked.size === 0) return
+    const n = await window.tasymize.addWordsToPlan(bookId, [...checked])
+    setAdded(n)
+    await load() // 刷新在库标记
+  }
+
+  const card = 'rounded-2xl border border-black/10 bg-white/60 p-4 shadow-sm'
+
+  return (
+    <div className="mx-auto max-w-2xl">
+      <div className="mb-4 flex items-center gap-3">
+        <button onClick={onBack} className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:bg-black/5">
+          ← 返回
+        </button>
+        <h2 className="text-xl font-semibold">{bookName}</h2>
+      </div>
+
+      <div className={`mb-4 flex items-center justify-between ${card}`}>
+        <label className="flex items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" checked={allChecked} onChange={toggleAll} className={`h-4 w-4 ${theme.accentColor}`} />
+          全选（可加入 {selectable.length} 词）
+        </label>
+        <button
+          onClick={() => void addSelected()}
+          disabled={checked.size === 0}
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-40 ${theme.accentSolid} ${theme.accentSolidHover}`}
+        >
+          加入所选（{checked.size}）
+        </button>
+      </div>
+
+      {added !== null && <p className="mb-3 text-sm text-emerald-600">已加入 {added} 个词到背诵库</p>}
+
+      <ul className="space-y-2">
+        {words.map((w) => (
+          <li key={w.word}>
+            <label className={`flex items-start gap-3 rounded-xl border border-black/10 p-3 transition ${
+              w.inLibrary ? 'bg-black/5 opacity-60' : 'bg-white/60 hover:bg-white/80'
+            }`}>
+              <input
+                type="checkbox"
+                checked={checked.has(w.word)}
+                disabled={w.inLibrary}
+                onChange={() => toggle(w.word)}
+                className={`mt-1 h-4 w-4 ${theme.accentColor}`}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-medium text-slate-800">{w.word}</span>
+                  {w.inLibrary && <span className="text-xs text-slate-500">已在库</span>}
+                </div>
+                <div className="text-sm text-slate-600">{w.meaning}</div>
+              </div>
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

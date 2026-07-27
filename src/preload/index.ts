@@ -30,4 +30,7 @@ contextBridge.exposeInMainWorld('tasymize', {
   listWordbooks: () => ipcRenderer.invoke('wordbook:list'),
   addWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:add', bookId),
   removeWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:remove', bookId),
+  getWordbookWords: (bookId: string) => ipcRenderer.invoke('wordbook:words', bookId),
+  addWordsToPlan: (bookId: string, words: string[]) =>
+    ipcRenderer.invoke('wordbook:addWords', bookId, words),
 })

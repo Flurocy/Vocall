@@ -49,3 +49,34 @@ export function removeWordbookFromPlan(bookId: string): number {
   for (const v of toDelete) deleteVocab(v.id)
   return toDelete.length
 }
+
+// —— 批量勾选加入（用户决策：词书是预置词库，从里面挑词加入，而非整本接收）——
+
+export interface WordbookWord {
+  word: string; meaning: string; example: string; topic: string
+  inLibrary: boolean // 该词是否已在背诵库（同书内），前端据此标记/禁选
+}
+
+// 返回某本词书的全部词 + 每个词是否已在背诵库（按 word 匹配，限同书）。
+export function getWordbookWords(bookId: string): WordbookWord[] {
+  const book = allBooks().find((b) => b.id === bookId)
+  if (!book) return []
+  const inLib = new Set(listVocab().filter((v) => v.book === bookId).map((v) => v.word))
+  return book.words.map((w) => ({ ...w, inLibrary: inLib.has(w.word) }))
+}
+
+// 批量把勾选的词加入背诵库（status=new、book=词书id）。已在库的（同书同 word）跳过。
+// 返回实际新加入的条数。
+export function addWordsToPlan(bookId: string, words: string[]): number {
+  const book = allBooks().find((b) => b.id === bookId)
+  if (!book) return 0
+  const inLib = new Set(listVocab().filter((v) => v.book === bookId).map((v) => v.word))
+  const wanted = new Set(words)
+  let added = 0
+  for (const w of book.words) {
+    if (!wanted.has(w.word) || inLib.has(w.word)) continue
+    addVocab({ ...w, book: bookId, status: 'new', source: '词书' })
+    added++
+  }
+  return added
+}

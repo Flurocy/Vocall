@@ -17,6 +17,12 @@ export interface PopupPayload {
   passCount: number   // 过关所需次数
 }
 
+// 词书词项（含"是否已在背诵库"标记）
+export interface WordbookWord {
+  word: string; meaning: string; example: string; topic: string
+  inLibrary: boolean
+}
+
 // 渲染端可调用的接口形状
 export interface TasymizeApi {
   listVocab(): Promise<VocabItem[]>
@@ -37,6 +43,8 @@ export interface TasymizeApi {
   listWordbooks(): Promise<{ id: string; name: string; count: number; desc: string }[]>
   addWordbook(bookId: string): Promise<number>
   removeWordbook(bookId: string): Promise<number>
+  getWordbookWords(bookId: string): Promise<WordbookWord[]>
+  addWordsToPlan(bookId: string, words: string[]): Promise<number>
   // 整窗拖拽：fire-and-forget，参数为鼠标 screen 坐标
   dragStart(x: number, y: number): void
   dragMove(x: number, y: number): void
