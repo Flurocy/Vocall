@@ -24,7 +24,8 @@ export function seedIfEmpty(seedPath?: string): number {
   }
   for (const it of items) {
     // addVocab 内部会自增 id 并自动初始化该条的 SRS 状态
-    addVocab({ ...it, source: '内置' })
+    // 种子词保持继续背 → status:'learning'、book:null（addVocab 也有此默认，这里显式写出表意）
+    addVocab({ ...it, book: null, status: 'learning', source: '内置' })
   }
   return items.length
 }

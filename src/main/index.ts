@@ -6,6 +6,7 @@ import { seedIfEmpty } from './seed'
 import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
 import { createTray } from './tray'
+import { migrateVocabStatus } from './store'
 
 // 窗口引用提升为模块级：托盘「打开」需要找回管理窗口，退出清理需要销毁弹窗
 let managerWin: BrowserWindow | null = null
@@ -71,6 +72,7 @@ function registerWindowIpc(): void {
 }
 
 app.whenReady().then(() => {
+  migrateVocabStatus() // 旧词补 status/book 默认值（幂等），须在 seed 前跑
   const seeded = seedIfEmpty()
   if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置生词`)
   registerIpc()

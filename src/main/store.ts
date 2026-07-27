@@ -54,6 +54,20 @@ export function deleteSrsState(id: number): void {
   write('srsStates', m)
 }
 
+// 数据迁移：给缺少 status/book 字段的旧词补默认值（status='learning'、book=null）。
+// 已有这两个字段的词不动（保持 learning/review 等现状）。启动时调用一次，幂等可重复跑。
+export function migrateVocabStatus(): void {
+  const list = read('vocab') as unknown as Array<Record<string, unknown>>
+  let changed = false
+  const migrated = list.map((w) => {
+    const nw = { ...w }
+    if (nw.status === undefined) { nw.status = 'learning'; changed = true }
+    if (nw.book === undefined) { nw.book = null; changed = true }
+    return nw
+  })
+  if (changed) write('vocab', migrated as unknown as Schema['vocab'])
+}
+
 export const vocabBox = {
   get: () => read('vocab'),
   set: (v: Schema['vocab']) => write('vocab', v),

@@ -1,8 +1,14 @@
 export interface VocabItem {
   id: number; word: string; meaning: string; example: string
-  topic: string | null; source: string; created_at: number
+  topic: string | null
+  book: string | null                   // 来源词书 id；手动/种子词为 null
+  status: 'new' | 'learning' | 'review' // 生命周期三态
+  source: string; created_at: number
 }
-export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at'>
+export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
+  status?: VocabItem['status']
+  book?: string | null
+}
 
 // 弹窗载荷：词条 + 连续答对进度（弹窗展示用）
 export interface PopupPayload {
