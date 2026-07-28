@@ -1,6 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
-import { THEMES, getTheme, getFontSize, FONT_SIZE_MIN, FONT_SIZE_MAX } from '../../theme'
+import {
+  THEMES,
+  getTheme,
+  getFontSize,
+  FONT_SIZE_MIN,
+  FONT_SIZE_MAX,
+  getPopupScale,
+  POPUP_SCALE_MIN,
+  POPUP_SCALE_MAX,
+  getPopupOpacity,
+  POPUP_OPACITY_MIN,
+  POPUP_OPACITY_MAX,
+} from '../../theme'
 import type { Theme } from '../../theme'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
@@ -132,6 +144,10 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const currentTheme = getTheme(settings.theme)
   // font_size 现为连续 px（滑块），parseInt 兼容 '15'/'15px'；非法走 getFontSize 的默认
   const fontPx = parseInt(getFontSize(settings.font_size), 10)
+  // 弹窗物理尺寸倍率 + 透明度：后端 getPopupScale/getPopupOpacity 已 parse+clamp，
+  // 滑块显示值与主进程实际 resize/setOpacity 生效值一致（含非法/超范围兜底）。
+  const scaleVal = parseFloat(getPopupScale(settings.popup_scale))
+  const opacityVal = parseFloat(getPopupOpacity(settings.popup_opacity))
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
 
@@ -172,19 +188,58 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section className={card}>
-          <h3 className={sectionTitle}>界面缩放 / 字体大小（{fontPx}px）</h3>
-          <input
-            type="range"
-            min={FONT_SIZE_MIN}
-            max={FONT_SIZE_MAX}
-            step={1}
-            value={fontPx}
-            onChange={(e) => void update('font_size', e.target.value)}
-            className={`w-full ${theme.accentColor}`}
-          />
-          <p className="mt-2 text-xs text-slate-500">
-            拖动整体缩放界面（字号与布局一起变大变小），左小右大
-          </p>
+          <h3 className={sectionTitle}>弹窗外观</h3>
+          <div className="space-y-5">
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">
+                界面大小（{Math.round(scaleVal * 100)}%）
+              </span>
+              <input
+                type="range"
+                min={POPUP_SCALE_MIN}
+                max={POPUP_SCALE_MAX}
+                step={0.05}
+                value={scaleVal}
+                onChange={(e) => void update('popup_scale', e.target.value)}
+                className={`w-full ${theme.accentColor}`}
+              />
+              <p className="mt-1.5 text-xs text-slate-500">调弹窗物理尺寸（宽高）</p>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">
+                字体大小（{fontPx}px）
+              </span>
+              <input
+                type="range"
+                min={FONT_SIZE_MIN}
+                max={FONT_SIZE_MAX}
+                step={1}
+                value={fontPx}
+                onChange={(e) => void update('font_size', e.target.value)}
+                className={`w-full ${theme.accentColor}`}
+              />
+              <p className="mt-1.5 text-xs text-slate-500">
+                字与布局同比例缩放（rem 联动，保持和谐）
+              </p>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">
+                透明度（{Math.round(opacityVal * 100)}%）
+              </span>
+              <input
+                type="range"
+                min={POPUP_OPACITY_MIN}
+                max={POPUP_OPACITY_MAX}
+                step={0.05}
+                value={opacityVal}
+                onChange={(e) => void update('popup_opacity', e.target.value)}
+                className={`w-full ${theme.accentColor}`}
+              />
+              <p className="mt-1.5 text-xs text-slate-500">
+                调弹窗透明度（0.5 半透明 ~ 1.0 不透明）
+              </p>
+            </label>
+          </div>
         </section>
 
         <section className={card}>

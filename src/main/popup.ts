@@ -5,12 +5,38 @@ import type { PopupPayload } from '../shared/ipc-types'
 import { getSrsState } from './store'
 import { getSetting } from './settings'
 
-export function createPopupWindow(): BrowserWindow {
+// 弹窗基础尺寸（scale=1.0 时的物理像素）。实际尺寸 = base × popup_scale。
+const BASE_W = 360
+const BASE_H = 240 // 背面多了例句开关，比 200 略高
+
+// 读 popup_scale 设置并 clamp 到 0.8–1.5（与 theme.ts POPUP_SCALE 范围同步）。
+// 解析策略与 theme.ts getPopupScale 一致：parseFloat（'12abc'→12）+ Number.isNaN 判非法；
+// 空/NaN → 1。0 合法走 clamp（→0.8），不再当 falsy 兜底（M1：原 Number||1 把 0 当非法）。
+function readScale(): number {
+  const n = parseFloat(getSetting('popup_scale') ?? '')
+  if (Number.isNaN(n)) return 1
+  return Math.min(1.5, Math.max(0.8, n))
+}
+
+// 读 popup_opacity 设置并 clamp 到 0.5–1.0（与 theme.ts POPUP_OPACITY 同步）。非法/空/NaN → 1。
+function readOpacity(): number {
+  const n = parseFloat(getSetting('popup_opacity') ?? '')
+  if (Number.isNaN(n)) return 1
+  return Math.min(1.0, Math.max(0.5, n))
+}
+
+// 按 scale 算实际 w/h，并锚右下角（贴边 24px，workArea 相对）。
+function popupBounds(): { x: number; y: number; width: number; height: number } {
   const { workAreaSize, workArea } = screen.getPrimaryDisplay()
-  const width = 360
-  const height = 240 // 背面多了例句开关，比 200 略高
+  const width = Math.round(BASE_W * readScale())
+  const height = Math.round(BASE_H * readScale())
   const x = workArea.x + workAreaSize.width - width - 24
   const y = workArea.y + workAreaSize.height - height - 24
+  return { x, y, width, height }
+}
+
+export function createPopupWindow(): BrowserWindow {
+  const { x, y, width, height } = popupBounds()
 
   const win = new BrowserWindow({
     width, height, x, y,
@@ -28,7 +54,22 @@ export function createPopupWindow(): BrowserWindow {
   } else {
     win.loadFile(join(__dirname, '../renderer/popup/popup.html'))
   }
+  // 启动即按用户透明度（transparent:true 窗口可直接 setOpacity）。
+  win.setOpacity(readOpacity())
   return win
+}
+
+// 设置页改 popup_scale 后实时改尺寸：重算 bounds 并一次 setBounds（x/y/w/h 同设，避免抖动）。
+// win 为 null（弹窗尚未创建）或已销毁 → no-op。
+export function resizePopup(win: BrowserWindow | null): void {
+  if (!win || win.isDestroyed()) return
+  win.setBounds(popupBounds())
+}
+
+// 设置页改 popup_opacity 后实时改透明度。win 为 null/已销毁 → no-op。
+export function applyPopupOpacity(win: BrowserWindow | null): void {
+  if (!win || win.isDestroyed()) return
+  win.setOpacity(readOpacity())
 }
 
 // 当前待展示的生词：showPopup 先存后发，渲染端可用 popup:getCurrent 主动拉取。

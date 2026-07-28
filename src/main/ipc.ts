@@ -12,6 +12,7 @@ import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
+import { resizePopup, applyPopupOpacity } from './popup'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
 // popupWin 由 index.ts 创建，通过此闭包传入（与 registerPopupIpc / startEngine 同款模式）。
@@ -32,6 +33,11 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     // 快捷键改了 → 重新注册 globalShortcut（先注销旧绑定再按新值注册）。
     // getPopup 返回 null 时 reregister/popupNow 内部自判不弹，无需断言。
     if (key === 'popup_hotkey') reregisterHotkey(getPopup)
+    // 界面大小滑块改了 → 按新 scale 重算弹窗尺寸并 resize（重锚右下角）。
+    // getPopup 可能返回 null（弹窗尚未创建），resizePopup 内部自判 no-op。
+    if (key === 'popup_scale') resizePopup(getPopup())
+    // 透明度滑块改了 → 按新 opacity setOpacity。同样 null 自判 no-op。
+    if (key === 'popup_opacity') applyPopupOpacity(getPopup())
   })
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())

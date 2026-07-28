@@ -114,3 +114,36 @@ export function getFontSize(value?: string | null): string {
   const clamped = Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, Math.round(n)))
   return `${clamped}px`
 }
+
+// 弹窗界面大小倍率（与 popup.ts readScale 范围同步）。
+// 与字体大小解耦：这里管弹窗物理尺寸（width×height × scale），font_size 管内容字号。
+// 范围 0.8–1.5（0.8=288×192，1.5=540×360），默认 1.0=360×240。
+export const POPUP_SCALE_MIN = 0.8
+export const POPUP_SCALE_MAX = 1.5
+export const POPUP_SCALE_DEFAULT = 1.0
+
+// 解析 popup_scale 设置为字符串数字：'1.2'→'1.2'，空/非法→'1'，超范围 clamp 到 0.8–1.5。
+// 保留精度（不像 getFontSize 取整/加 px）——只做 parse+clamp+String。
+export function getPopupScale(value?: string | null): string {
+  if (!value) return String(POPUP_SCALE_DEFAULT)
+  const n = parseFloat(value)
+  if (Number.isNaN(n)) return String(POPUP_SCALE_DEFAULT)
+  const clamped = Math.min(POPUP_SCALE_MAX, Math.max(POPUP_SCALE_MIN, n))
+  return String(clamped)
+}
+
+// 弹窗透明度（与 popup.ts readOpacity 范围同步）。
+// Electron BrowserWindow.setOpacity 接收 0–1；这里限 0.5–1.0（再低字看不清），默认 1.0=不透明。
+export const POPUP_OPACITY_MIN = 0.5
+export const POPUP_OPACITY_MAX = 1.0
+export const POPUP_OPACITY_DEFAULT = 1.0
+
+// 解析 popup_opacity 设置为字符串数字：'0.75'→'0.75'，空/非法→'1'，超范围 clamp 到 0.5–1.0。
+// 与 getPopupScale 同策略（parseFloat+Number.isNaN+clamp+String，不取整保留精度）。
+export function getPopupOpacity(value?: string | null): string {
+  if (!value) return String(POPUP_OPACITY_DEFAULT)
+  const n = parseFloat(value)
+  if (Number.isNaN(n)) return String(POPUP_OPACITY_DEFAULT)
+  const clamped = Math.min(POPUP_OPACITY_MAX, Math.max(POPUP_OPACITY_MIN, n))
+  return String(clamped)
+}
