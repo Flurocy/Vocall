@@ -1,0 +1,12 @@
+{
+  "id": "ielts-sample",
+  "name": "占位示例",
+  "desc": "临时占位词书：旧两本已删、新 5 本（scripts/gen-wordbook.mjs 生成）就绪前，让依赖真实词书的功能与测试可用。【删除时机】务必在【运行 gen-wordbook.mjs 之前】删除本文件——否则这 5 个占位词（significant/controversial/inevitable/fundamental/phenomenon 全是高频词）会被脚本阶段2 的全局去重拦下、永久进不了正式词书；若已生成完才删，需重跑一次脚本补缺。",
+  "words": [
+    { "word": "significant", "meaning": "adj. 显著的；重要的", "example": "There has been a significant increase in the number of people working from home.", "topic": "社会" },
+    { "word": "controversial", "meaning": "adj. 有争议的", "example": "Whether children should own smartphones remains a controversial issue.", "topic": "社会" },
+    { "word": "inevitable", "meaning": "adj. 不可避免的", "example": "With automation advancing, job displacement seems inevitable.", "topic": "科技" },
+    { "word": "fundamental", "meaning": "adj. 根本的；基本的", "example": "Access to clean water is a fundamental human right.", "topic": "社会" },
+    { "word": "phenomenon", "meaning": "n. 现象", "example": "Urbanisation is a global phenomenon that shows no signs of slowing down.", "topic": "社会" }
+  ]
+}

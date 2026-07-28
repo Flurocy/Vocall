@@ -9,7 +9,7 @@ describe('词书批量勾选加入', () => {
   beforeEach(() => _resetStoreForTests())
 
   it('getWordbookWords 返回词 + 是否在库标记（初始全不在库）', () => {
-    const words = getWordbookWords('ielts-core')
+    const words = getWordbookWords('ielts-sample')
     expect(words.length).toBeGreaterThan(0)
     expect(words.every((w) => w.inLibrary === false)).toBe(true)
     expect(words[0].word).toBeTruthy()
@@ -17,25 +17,25 @@ describe('词书批量勾选加入', () => {
   })
 
   it('已在库的词被标记 inLibrary=true', () => {
-    const first = getWordbookWords('ielts-core')[0]
-    addWordsToPlan('ielts-core', [first.word])
-    const words = getWordbookWords('ielts-core')
+    const first = getWordbookWords('ielts-sample')[0]
+    addWordsToPlan('ielts-sample', [first.word])
+    const words = getWordbookWords('ielts-sample')
     expect(words.find((w) => w.word === first.word)!.inLibrary).toBe(true)
   })
 
   it('addWordsToPlan 只加所选词，status=new、book=词书id', () => {
-    const picked = getWordbookWords('ielts-core').slice(0, 3).map((w) => w.word)
-    const n = addWordsToPlan('ielts-core', picked)
+    const picked = getWordbookWords('ielts-sample').slice(0, 3).map((w) => w.word)
+    const n = addWordsToPlan('ielts-sample', picked)
     expect(n).toBe(3)
-    const inLib = listVocab().filter((v) => v.book === 'ielts-core')
+    const inLib = listVocab().filter((v) => v.book === 'ielts-sample')
     expect(inLib).toHaveLength(3)
     expect(inLib.every((v) => v.status === 'new')).toBe(true)
   })
 
   it('addWordsToPlan 跳过已在库的（去重）', () => {
-    const w = getWordbookWords('ielts-core')[0].word
-    addWordsToPlan('ielts-core', [w])
-    expect(addWordsToPlan('ielts-core', [w])).toBe(0) // 重复加→0
+    const w = getWordbookWords('ielts-sample')[0].word
+    addWordsToPlan('ielts-sample', [w])
+    expect(addWordsToPlan('ielts-sample', [w])).toBe(0) // 重复加→0
     expect(listVocab().filter((v) => v.word === w)).toHaveLength(1)
   })
 

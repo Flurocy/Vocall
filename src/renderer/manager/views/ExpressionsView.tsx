@@ -5,6 +5,15 @@ import type { Theme } from '../../theme'
 import { playWord } from '../../playWord'
 import AiGenModal from './AiGenModal'
 
+// 剥 Electron IPC 包装前缀：err.message 形如
+// "Error invoking remote method 'vocab:add': Error: 「x」已在生词库中..."，
+// 只留内层真正原因给用户看。
+const errMsg = (err: unknown): string =>
+  (err instanceof Error ? err.message : String(err)).replace(
+    /^Error invoking remote method '[^']+':\s*Error:\s*/,
+    ''
+  )
+
 // 现代简洁风：输入区与列表统一卡片化（白底半透 + 细边 + 圆角 + 轻投影），
 // 留白加大、hover 有反馈；空态给明确引导。配色全部走 theme / 中性色。
 export default function ExpressionsView({ theme }: { theme: Theme }): ReactElement {
@@ -31,7 +40,14 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   const add = async (): Promise<void> => {
     if (!word || !meaning) return
-    await window.tasymize.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
+    try {
+      await window.tasymize.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
+    } catch (err) {
+      // 入库失败（如同词重复被主进程拦截）：inline 报错并保留表单输入，用户可改词重试
+      setAiMsg({ kind: 'err', text: errMsg(err) })
+      return
+    }
+    // 只有成功才清空表单 + 刷新列表
     setWord(''); setMeaning(''); setExample('')
     setUsedAi(false)
     setAiMsg(null)
@@ -55,7 +71,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
       setUsedAi(true)
       setAiMsg({ kind: 'ok', text: '已填入释义与例句，确认后点「新增生词」入库' })
     } catch (err) {
-      setAiMsg({ kind: 'err', text: err instanceof Error ? err.message : String(err) })
+      setAiMsg({ kind: 'err', text: errMsg(err) })
     } finally {
       setAiTranslating(false)
     }
@@ -311,12 +327,18 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         </>
       )}
 
-      {/* AI 主题生成 modal（功能 A 入口）：onAdded 入库成功后 reload 列表 */}
+      {/* AI 主题生成 modal（功能 A 入口）：onAdded 入库成功后 reload 列表；
+          有重复词被跳过时复用 aiMsg 提示（modal 已关闭，提示必须在本页显示） */}
       {aiGenOpen && (
         <AiGenModal
           theme={theme}
           onClose={() => setAiGenOpen(false)}
-          onAdded={() => { void reload() }}
+          onAdded={(added, skipped) => {
+            if (skipped > 0) {
+              setAiMsg({ kind: 'ok', text: `已加入 ${added} 条，跳过 ${skipped} 条重复词` })
+            }
+            void reload()
+          }}
         />
       )}
     </div>

@@ -80,7 +80,14 @@ app.whenReady().then(() => {
   migrateForgotCount() // 旧 SRS 状态补 forgotCount=0（幂等）
   migrateReviewSteps() // review_steps_pops 旧默认 → 新默认（幂等；用户自定义不动）
   migratePopupInterval() // 旧 popup_interval_min(分钟) → popup_interval_sec(秒，×60)；幂等
-  const seeded = seedIfEmpty()
+  // 兜底 catch：seed 任何意外（如回收站撞词之外的异常）都不能炸断后面
+  // registerIpc/建窗/引擎/托盘的启动链——否则表现为"双击没反应"。
+  let seeded = 0
+  try {
+    seeded = seedIfEmpty()
+  } catch (err) {
+    console.warn('[seed] 内置生词导入异常，跳过：', err)
+  }
   if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置生词`)
   registerIpc(() => popupWin)
   registerWindowIpc()

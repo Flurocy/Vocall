@@ -1,0 +1,3 @@
+# 词书生成脚本（gen-wordbook.mjs）的断点临时文件：本地生成状态，不提交
+.wordlist.json
+.progress.json

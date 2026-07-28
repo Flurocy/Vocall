@@ -16,7 +16,9 @@ interface VocabEntry {
 interface Props {
   theme: Theme
   onClose: () => void
-  onAdded: () => void // 入库成功后父 reload 列表
+  // 入库完成后父 reload 列表；透传 added/skipped 计数，skipped>0 时父页面展示
+  // 「已加入 X 条，跳过 Y 条重复词」（modal 随即关闭，提示必须放父页面才看得见）
+  onAdded: (added: number, skipped: number) => void
 }
 
 const QUICK_THEMES = ['教育', '科技', '环境', '社会', '文化', '健康']
@@ -98,28 +100,41 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
     if (pending.length === 0) {
       // 全部已入库（用户重试时已无未完成项）——直接收尾
       setMsg(null)
-      onAdded()
+      onAdded(0, 0)
       onClose()
       return
     }
     setAdding(true)
     setMsg({ kind: 'busy', text: `正在加入 ${pending.length} 条…` })
     const t = themeText.trim()
+    let skipped = 0 // 重复词跳过计数（重复词本就无需再入，当成功处理不中断整批）
     try {
       for (const i of pending) {
         const e = results[i]
-        await window.tasymize.addVocab({
-          word: e.word,
-          meaning: e.meaning,
-          example: e.example,
-          topic: t,
-          source: `AI主题:${t}`,
-          status: 'new',
-        })
-        doneRef.current.add(i) // 成功一条记一条；中途失败时已入库的不丢
+        try {
+          await window.tasymize.addVocab({
+            word: e.word,
+            meaning: e.meaning,
+            example: e.example,
+            topic: t,
+            source: `AI主题:${t}`,
+            status: 'new',
+          })
+        } catch (err) {
+          // 主进程同词拦截（库里或回收站已有该词）→ 记入 doneRef 跳过本条，继续下一条；
+          // 其他错误（IPC 故障等）→ rethrow 走外层 catch，显示已加入 N/M 可重试。
+          const m = err instanceof Error ? err.message : String(err)
+          if (m.includes('已在生词库')) {
+            skipped++
+          } else {
+            throw err
+          }
+        }
+        doneRef.current.add(i) // 成功或重复跳过都记一条；中途失败时已入库的不丢
       }
+      // 跳过提示不在 modal 内 setMsg（onClose 同帧卸载看不见），透传计数由父页面 aiMsg 展示
       setMsg(null)
-      onAdded()
+      onAdded(pending.length - skipped, skipped)
       onClose()
     } catch (err) {
       // 已成功的留在 doneRef，用户重试「加入所选」时上面 filter 会跳过，不重复插

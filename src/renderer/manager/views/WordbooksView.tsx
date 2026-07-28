@@ -5,6 +5,13 @@ import type { WordbookWord } from '../../../shared/ipc-types'
 
 interface BookMeta { id: string; name: string; count: number; desc: string }
 
+// 剥 Electron IPC 包装前缀（"Error invoking remote method '...': Error: 真实原因"），只留真实原因
+const errMsg = (err: unknown): string =>
+  (err instanceof Error ? err.message : String(err)).replace(
+    /^Error invoking remote method '[^']+':\s*Error:\s*/,
+    ''
+  )
+
 // 词书 = 预置的现成词库（用户决策）：点进某本书 → 勾选想要的词 → 批量加入背诵库。
 // 不整本接收、无"移除全书"概念；已在库的词标记"已在库"并禁选，防重复加入。
 export default function WordbooksView({ theme }: { theme: Theme }): ReactElement {
@@ -59,6 +66,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
   const [words, setWords] = useState<WordbookWord[]>([])
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [added, setAdded] = useState<number | null>(null)
+  const [err, setErr] = useState<string | null>(null) // 批量加入失败提示（撞词由主进程跳过，这里只兜非重复类错误）
 
   const load = async (): Promise<void> => {
     setWords(await window.tasymize.getWordbookWords(bookId))
@@ -82,9 +90,16 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
 
   const addSelected = async (): Promise<void> => {
     if (checked.size === 0) return
-    const n = await window.tasymize.addWordsToPlan(bookId, [...checked])
-    setAdded(n)
-    await load() // 刷新在库标记
+    try {
+      const n = await window.tasymize.addWordsToPlan(bookId, [...checked])
+      setAdded(n)
+      setErr(null)
+      await load() // 刷新在库标记
+    } catch (e) {
+      // 非撞词类错误（撞词主进程已跳过）：inline 报错，勾选状态保留可重试
+      setAdded(null)
+      setErr(errMsg(e))
+    }
   }
 
   const card = 'rounded-2xl border border-black/10 bg-white/60 p-4 shadow-sm'
@@ -113,6 +128,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
       </div>
 
       {added !== null && <p className="mb-3 text-sm text-emerald-600">已加入 {added} 个词到背诵库</p>}
+      {err !== null && <p className="mb-3 text-sm text-rose-600">加入失败：{err}</p>}
 
       <ul className="space-y-2">
         {words.map((w) => (

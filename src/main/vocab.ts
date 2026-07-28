@@ -13,6 +13,17 @@ export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'boo
 }
 
 export function addVocab(e: NewVocabItem): VocabItem {
+  // 同词导入拦截：归一化（trim + 小写）后与生词库、回收站（含回收站防还原后重复）逐一比对。
+  // 归一化防大小写/首尾空格漏判；命中抛错文案用原始输入展示（不 lowercase），尊重用户输入。
+  // 词书批量导入虽有自己的 inLib 跳过逻辑，但并发/边界场景仍可能漏过，这里做最终兜底。
+  // 注意：只查重时归一化，入库的 word 仍按原样存，不强制改小写。
+  const w = e.word.trim().toLowerCase()
+  const dup =
+    vocabBox.get().some((it) => it.word.trim().toLowerCase() === w) ||
+    trashBox.get().some((t) => t.item.word.trim().toLowerCase() === w)
+  if (dup) {
+    throw new Error(`「${e.word}」已在生词库中，不支持重复导入`)
+  }
   // status/book 调用方一般不传，这里兜底：手动/种子词默认 learning、book null。
   // 词书导入的包4 会显式传 status:'new'、book:词书id（此时 e 的值覆盖默认）。
   const item: VocabItem = {
