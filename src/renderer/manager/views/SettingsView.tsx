@@ -9,6 +9,9 @@ import {
   getPopupScale,
   POPUP_SCALE_MIN,
   POPUP_SCALE_MAX,
+  getPopupFontScale,
+  POPUP_FONT_SCALE_MIN,
+  POPUP_FONT_SCALE_MAX,
   getPopupOpacity,
   POPUP_OPACITY_MIN,
   POPUP_OPACITY_MAX,
@@ -147,6 +150,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   // 弹窗物理尺寸倍率 + 透明度：后端 getPopupScale/getPopupOpacity 已 parse+clamp，
   // 滑块显示值与主进程实际 resize/setOpacity 生效值一致（含非法/超范围兜底）。
   const scaleVal = parseFloat(getPopupScale(settings.popup_scale))
+  // 弹窗内容 zoom 倍率（popup_font_scale）：只放大弹窗里的字和布局，不动窗口尺寸
+  const popupFontVal = parseFloat(getPopupFontScale(settings.popup_font_scale))
   const opacityVal = parseFloat(getPopupOpacity(settings.popup_opacity))
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
@@ -207,7 +212,22 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
-                字体大小（{fontPx}px）
+                弹窗字体大小（{Math.round(popupFontVal * 100)}%）
+              </span>
+              <input
+                type="range"
+                min={POPUP_FONT_SCALE_MIN}
+                max={POPUP_FONT_SCALE_MAX}
+                step={0.05}
+                value={popupFontVal}
+                onChange={(e) => void update('popup_font_scale', e.target.value)}
+                className={`w-full ${theme.accentColor}`}
+              />
+              <p className="mt-1.5 text-xs text-slate-500">只放大弹窗里的字和布局，不动窗口大小</p>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-slate-600">
+                管理界面字体大小（{fontPx}px）
               </span>
               <input
                 type="range"
@@ -219,7 +239,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 className={`w-full ${theme.accentColor}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">
-                字与布局同比例缩放（rem 联动，保持和谐）
+                管理界面字号（rem 联动，只影响管理界面，不影响弹窗）
               </p>
             </label>
             <label className="block">

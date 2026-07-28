@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactElement, MouseEvent as ReactMouseEvent } from 'react'
 import type { PopupPayload } from '../../shared/ipc-types'
-import { getTheme, getFontSize } from '../theme'
+import { getTheme, getPopupFontScale } from '../theme'
 import type { Theme } from '../theme'
 import { playWord } from '../playWord'
 
@@ -30,12 +30,18 @@ async function playSound(): Promise<void> {
 // 点击/拖拽判定阈值：位移 ≤ 5px 算点击（正面则翻卡），> 5px 算拖动窗口
 const DRAG_THRESHOLD_PX = 5
 
+// 弹窗 rem 基准固定 16px（用户决策：彻底解耦）——与管理界面字号(font_size)无关，
+// 弹窗字体大小只由「弹窗字体大小」滑块（popup_font_scale → zoom）决定。
+const ROOT_FONT_PX = '16px'
+
 export default function PopupCard(): ReactElement | null {
   const [payload, setPayload] = useState<PopupPayload | null>(null)
   const [face, setFace] = useState<'front' | 'back'>('front')
   const [exampleOpen, setExampleOpen] = useState(false)
   const [theme, setTheme] = useState<Theme>(() => getTheme())
-  const [fontSize, setFontSize] = useState<string>(() => getFontSize())
+  // 弹窗内容 zoom 倍率（popup_font_scale）：弹窗字体的唯一调节项，
+  // rem 基准已固定 16px，不再读 font_size（与管理界面字号彻底解耦）
+  const [fontScale, setFontScale] = useState<string>(() => getPopupFontScale())
   const timers = useRef<number[]>([])
   // 卸载标志：getSettings 异步 resolve 可能晚于卸载，此时不得再 setState / push 定时器
   // （否则该定时器永不被清理，可能在卸载后触发 dismiss）
@@ -54,19 +60,22 @@ export default function PopupCard(): ReactElement | null {
     setExampleOpen(false)
     // 自动隐藏已改由主端 showPopup 统管（popup_stay_sec 后 hide，下个 showPopup 取消上个 hide），
     // 渲染端不再设 dismiss 定时器——否则 interval≈stay 时，上个 stayMs 的 hide 会撞上本次 show，
-    // 弹窗闪一下消失。每次弹窗重读主题/字号——设置改完后下一次弹窗即时换肤。
+    // 弹窗闪一下消失。每次弹窗重读主题/弹窗字体倍率——设置改完后下一次弹窗即时换肤。
     void window.tasymize.getSettings().then((settings) => {
       if (!alive.current) return
       setTheme(getTheme(settings.theme))
-      setFontSize(getFontSize(settings.font_size))
+      // 每次弹窗重读弹窗字体倍率（popup_font_scale），设置改完后下一次弹窗即时生效
+      setFontScale(getPopupFontScale(settings.popup_font_scale))
     })
     void playSound()
   }, [])
 
   useEffect(() => {
-    // Tailwind 字号是 rem（相对根元素），顶层容器 style 之外需同步根元素字号
-    document.documentElement.style.fontSize = fontSize
-  }, [fontSize])
+    // 弹窗 rem 基准固定 16px，mount 时设一次即可（依赖 []）：
+    // 与管理界面字号(font_size)彻底解耦，弹窗字体大小由 zoom(fontScale) 统管。
+    // 根容器不再 inline fontSize——em/rem 均相对 html 根的 16px（本文件无 em 用法，全 rem/px）。
+    document.documentElement.style.fontSize = ROOT_FONT_PX
+  }, [])
 
   useEffect(() => {
     // 方案A（主动 pull）：mount 后立即拉一次当前词，覆盖"启动即有到期词、
@@ -139,8 +148,10 @@ export default function PopupCard(): ReactElement | null {
   const stopMouseDown = (e: ReactMouseEvent): void => e.stopPropagation()
 
   return (
-    // 顶层 fontSize 让内部 em/rem 级联缩放；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
-    <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ fontSize }}>
+    // rem 基准已在根 html 固定 16px（见上方 useEffect），此处不再 inline fontSize；
+    // zoom 整体缩放弹窗内容（字+布局），不动窗口尺寸、不连 rem 胀间距——弹窗字体只由它决定。
+    // zoom 是 Chromium 标准化的布局级缩放（Electron 40 支持），元素重排、不糊不位移。
+    <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ zoom: fontScale }}>
       <div
         onMouseDown={onCardMouseDown}
         className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}

@@ -147,3 +147,20 @@ export function getPopupOpacity(value?: string | null): string {
   const clamped = Math.min(POPUP_OPACITY_MAX, Math.max(POPUP_OPACITY_MIN, n))
   return String(clamped)
 }
+
+// 弹窗内容 zoom 倍率（纯渲染端，作用于 PopupCard 根容器的 CSS zoom）。
+// 与 popup_scale 解耦：popup_scale 管窗口物理尺寸，这里只放大弹窗内容、不动窗口。
+// 范围 0.85–1.4（比 popup_scale 窄，避免字过大撑破小窗口），默认 1.0=不缩放。
+export const POPUP_FONT_SCALE_MIN = 0.85
+export const POPUP_FONT_SCALE_MAX = 1.4
+export const POPUP_FONT_SCALE_DEFAULT = 1.0
+
+// 解析 popup_font_scale 设置为字符串数字：'1.25'→'1.25'，空/非法→'1'，超范围 clamp 到 0.85–1.4。
+// 与 getPopupScale/getPopupOpacity 同策略（parseFloat+Number.isNaN+clamp+String，不取整保留精度）。
+export function getPopupFontScale(value?: string | null): string {
+  if (!value) return String(POPUP_FONT_SCALE_DEFAULT)
+  const n = parseFloat(value)
+  if (Number.isNaN(n)) return String(POPUP_FONT_SCALE_DEFAULT)
+  const clamped = Math.min(POPUP_FONT_SCALE_MAX, Math.max(POPUP_FONT_SCALE_MIN, n))
+  return String(clamped)
+}
