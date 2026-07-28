@@ -135,7 +135,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
           className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
         />
         <div className="min-w-0">
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-center gap-2">
             <span className="font-medium text-slate-800">{e.word}</span>
             <button
               onClick={() => void playWord(e.word)}
