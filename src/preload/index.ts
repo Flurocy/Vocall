@@ -40,6 +40,8 @@ contextBridge.exposeInMainWorld('tasymize', {
   generateTheme: (theme: string, n?: number) =>
     ipcRenderer.invoke('ai:generateTheme', theme, n),
   translate: (word: string) => ipcRenderer.invoke('ai:translate', word),
+  // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()
+  pronounce: (word: string) => ipcRenderer.invoke('audio:pronounce', word),
   // 词书
   listWordbooks: () => ipcRenderer.invoke('wordbook:list'),
   addWordbook: (bookId: string) => ipcRenderer.invoke('wordbook:add', bookId),

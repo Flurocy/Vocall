@@ -5,10 +5,11 @@ import {
   listTrash, restoreVocab, purgeVocab, clearTrash,
   type NewVocabItem,
 } from './vocab'
-import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
+import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings } from './settings'
 import { applyReview, masterVocab, reviveVocab } from './scheduler'
 import { getForgotCounts } from './store'
 import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
+import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
 
@@ -69,4 +70,11 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number) =>
     generateThemeVocab(theme, n))
   ipcMain.handle('ai:translate', async (_e, word: string) => translateVocab(word))
+
+  // 发音：读 audio_accent 设置 → fetch 有道 dictvoice → 返回 base64 data URL（渲染端 new Audio 播）。
+  // 失败抛 Error（invoke reject），渲染端 catch 静默（断网/超时不崩、不打扰）。
+  ipcMain.handle('audio:pronounce', async (_e, word: string) => {
+    const accent = getSetting('audio_accent') ?? 'british'
+    return fetchPronunciation(word, accent)
+  })
 }

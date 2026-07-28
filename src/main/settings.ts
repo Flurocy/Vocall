@@ -24,6 +24,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_base_url: '',
   ai_model: '',
   popup_hotkey: 'CommandOrControl+Shift+W', // 主动唤出全局快捷键（accelerator 字符串）；空串=禁用
+  audio_accent: 'british', // 发音口音：british(默认,雅思A类)/american；main/audio.ts accentToType 据此选 type
 }
 
 export function getSetting(key: string): string | null {

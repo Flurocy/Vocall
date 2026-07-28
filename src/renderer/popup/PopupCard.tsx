@@ -3,6 +3,7 @@ import type { ReactElement, MouseEvent as ReactMouseEvent } from 'react'
 import type { PopupPayload } from '../../shared/ipc-types'
 import { getTheme, getFontSize } from '../theme'
 import type { Theme } from '../theme'
+import { playWord } from '../playWord'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -149,7 +150,19 @@ export default function PopupCard(): ReactElement | null {
         </div>
         {face === 'front' ? (
           <div className="flex flex-col items-center justify-center text-center">
-            <div className="text-2xl font-semibold text-slate-800">{item.word}</div>
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-2xl font-semibold text-slate-800">{item.word}</span>
+              {/* 🔊 朗读：次要图标按钮，stopMouseDown 防误触翻卡/拖拽（同评分按钮模式） */}
+              <button
+                onMouseDown={stopMouseDown}
+                onClick={() => void playWord(item.word)}
+                title="朗读"
+                aria-label={`朗读 ${item.word}`}
+                className="text-base leading-none text-slate-400 transition hover:text-slate-600"
+              >
+                🔊
+              </button>
+            </div>
             <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
           </div>
         ) : (

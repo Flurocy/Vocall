@@ -311,6 +311,31 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section className={card}>
+          <h3 className={sectionTitle}>发音</h3>
+          <div className="flex gap-2">
+            {([
+              { id: 'british', label: '英音' },
+              { id: 'american', label: '美音' },
+            ] as const).map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => void update('audio_accent', opt.id)}
+                className={`flex-1 rounded-lg border px-4 py-2 text-sm transition ${
+                  (settings.audio_accent ?? 'british') === opt.id
+                    ? `border-transparent font-medium ${theme.accentBg} ${theme.accentText}`
+                    : 'border-black/10 text-slate-600 hover:bg-black/5'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-slate-500">
+            弹窗与生词库点击 🔊 朗读；雅思听力以英音为主
+          </p>
+        </section>
+
+        <section className={card}>
           <h3 className={sectionTitle}>AI（DeepSeek）</h3>
           <div className="space-y-4">
             <label className="block">

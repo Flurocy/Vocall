@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { VocabItem } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
+import { playWord } from '../../playWord'
 import AiGenModal from './AiGenModal'
 
 // 现代简洁风：输入区与列表统一卡片化（白底半透 + 细边 + 圆角 + 轻投影），
@@ -136,6 +137,14 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
             <span className="font-medium text-slate-800">{e.word}</span>
+            <button
+              onClick={() => void playWord(e.word)}
+              aria-label={`朗读 ${e.word}`}
+              title="朗读"
+              className="shrink-0 text-xs text-slate-400 transition hover:text-slate-600"
+            >
+              🔊
+            </button>
             <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
               {statusBadge(e.status).label}
             </span>

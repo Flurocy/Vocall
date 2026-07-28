@@ -60,6 +60,8 @@ export interface TasymizeApi {
   generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string }[]>
   // AI 翻译：返回 {meaning, example} 预览，前端填入新增卡片供用户过目修改
   translate(word: string): Promise<{ meaning: string; example: string }>
+  // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()；失败 reject 由调用方 catch 静默
+  pronounce(word: string): Promise<string>
   // 词书
   listWordbooks(): Promise<{ id: string; name: string; count: number; desc: string }[]>
   addWordbook(bookId: string): Promise<number>
