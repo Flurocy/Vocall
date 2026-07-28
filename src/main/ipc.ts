@@ -1,4 +1,5 @@
 import { ipcMain } from 'electron'
+import type { BrowserWindow } from 'electron'
 import {
   addVocab, deleteVocab, listVocab, updateVocab,
   type NewVocabItem,
@@ -8,16 +9,23 @@ import { applyReview, masterVocab, reviveVocab } from './scheduler'
 import { getForgotCounts } from './store'
 import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
+import { reregisterHotkey } from './hotkey'
 
-export function registerIpc(): void {
+// getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
+// popupWin 由 index.ts 创建，通过此闭包传入（与 registerPopupIpc / startEngine 同款模式）。
+export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('vocab:list', () => listVocab())
   ipcMain.handle('vocab:add', (_e, item: NewVocabItem) => addVocab(item).id)
   ipcMain.handle('vocab:update', (_e, id: number, patch: Partial<NewVocabItem>) =>
     updateVocab(id, patch))
   ipcMain.handle('vocab:delete', (_e, id: number) => deleteVocab(id))
   ipcMain.handle('settings:getAll', () => getAllSettings())
-  ipcMain.handle('settings:set', (_e, key: string, value: string) =>
-    setSetting(key, value))
+  ipcMain.handle('settings:set', (_e, key: string, value: string) => {
+    setSetting(key, value)
+    // 快捷键改了 → 重新注册 globalShortcut（先注销旧绑定再按新值注册）。
+    // getPopup 返回 null 时 reregister/popupNow 内部自判不弹，无需断言。
+    if (key === 'popup_hotkey') reregisterHotkey(getPopup)
+  })
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())
   ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {

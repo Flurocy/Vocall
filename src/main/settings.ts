@@ -23,6 +23,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_api_key: '',
   ai_base_url: '',
   ai_model: '',
+  popup_hotkey: 'CommandOrControl+Shift+W', // 主动唤出全局快捷键（accelerator 字符串）；空串=禁用
 }
 
 export function getSetting(key: string): string | null {

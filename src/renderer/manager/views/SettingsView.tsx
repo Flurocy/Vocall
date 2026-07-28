@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import { THEMES, getTheme, getFontSize, FONT_SIZE_MIN, FONT_SIZE_MAX } from '../../theme'
 import type { Theme } from '../../theme'
@@ -23,6 +23,40 @@ const ELASTIC_LIST_FIELDS: { key: string; label: string; hint: string }[] = [
   { key: 'review_steps_pops', label: '复习间隔阶梯（弹窗次数，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
 ]
 
+// 快捷键 accelerator 可读化展示：CommandOrControl → Ctrl，其余原样；空串=未设置/禁用。
+function formatHotkey(acc: string): string {
+  if (!acc) return '未设置（已禁用）'
+  return acc.replace('CommandOrControl', 'Ctrl')
+}
+
+// 渲染端 keydown 主键合法集：单字符（字母/数字）+ 下列多字符键。
+// Escape/Tab/Backspace/Enter/Space/单独 Control/Shift 等特殊键不算合法组合主键，忽略。
+const LEGAL_PRIMARY_KEYS = new Set<string>([
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+  'Home',
+  'End',
+  'PageUp',
+  'PageDown',
+  ...Array.from({ length: 12 }, (_, i) => `F${i + 1}`),
+])
+
+function isLegalPrimaryKey(key: string): boolean {
+  if (key.length === 1) return /^[a-zA-Z0-9]$/.test(key)
+  return LEGAL_PRIMARY_KEYS.has(key)
+}
+
+// Electron accelerator 要求方向键为 Left/Right/Up/Down（无 Arrow 前缀），
+// 而 DOM event.key 返回 ArrowLeft 等。组装主键前需去前缀，否则 register 静默失败。
+const ARROW_KEY_MAP: Record<string, string> = {
+  ArrowLeft: 'Left',
+  ArrowRight: 'Right',
+  ArrowUp: 'Up',
+  ArrowDown: 'Down',
+}
+
 interface Props {
   theme: Theme
   onSettingChanged: (key: string, value: string) => void
@@ -34,6 +68,9 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const [settings, setSettings] = useState<Record<string, string>>({})
   // AI 测试连接结果：'success' | 'error' | 测试中文本
   const [aiTestMsg, setAiTestMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
+  // 快捷键绑定监听态；hotkeyNotice 显示「已禁用快捷键」等一次性提示
+  const [listening, setListening] = useState(false)
+  const [hotkeyNotice, setHotkeyNotice] = useState<string | null>(null)
 
   useEffect(() => {
     void window.tasymize.getSettings().then(setSettings)
@@ -45,6 +82,41 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     setSettings((s) => ({ ...s, [key]: value }))
     onSettingChanged(key, value)
   }
+
+  // 持有最新 update 引用，供下方 listening effect 在不重挂监听的前提下调用
+  const updateRef = useRef(update)
+  updateRef.current = update
+
+  // 游戏式按键绑定：listening=true 时挂一次 keydown（capture 阶段独占），
+  // 合法组合（≥1 修饰键 + 合法主键）即组装 accelerator 保存并退出；
+  // Esc → 写空串（禁用）；非法键/无修饰键则忽略继续监听。退出时卸载避免泄漏。
+  useEffect(() => {
+    if (!listening) return
+    const onKey = (e: KeyboardEvent): void => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.key === 'Escape') {
+        void updateRef.current('popup_hotkey', '')
+        setHotkeyNotice('已禁用快捷键')
+        setListening(false)
+        return
+      }
+      const mods: string[] = []
+      if (e.ctrlKey) mods.push('CommandOrControl')
+      if (e.shiftKey) mods.push('Shift')
+      if (e.altKey) mods.push('Alt')
+      if (e.metaKey) mods.push('Meta')
+      if (mods.length === 0) return // 无修饰键，忽略继续监听
+      if (!isLegalPrimaryKey(e.key)) return // 非法主键，忽略继续监听
+      const base = e.key.length === 1 ? e.key.toUpperCase() : e.key
+      const main = ARROW_KEY_MAP[base] ?? base
+      void updateRef.current('popup_hotkey', [...mods, main].join('+'))
+      setHotkeyNotice(null)
+      setListening(false)
+    }
+    window.addEventListener('keydown', onKey, true)
+    return () => window.removeEventListener('keydown', onKey, true)
+  }, [listening])
 
   const testAi = async (): Promise<void> => {
     setAiTestMsg({ kind: 'busy', text: '测试中…' })
@@ -133,6 +205,51 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 />
               </label>
             ))}
+          </div>
+        </section>
+
+        <section className={card}>
+          <h3 className={sectionTitle}>快捷键</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm text-slate-600">主动唤出弹窗</p>
+                <p className="mt-1 text-xs text-slate-500">
+                  在任何窗口下按此组合键唤出背词弹窗；绑定态按 Esc 可禁用
+                </p>
+              </div>
+              <span
+                className={`min-w-[8rem] rounded-lg border border-black/10 bg-white/70 px-3 py-1.5 text-center font-mono text-sm ${
+                  listening ? 'text-slate-400' : 'text-slate-700'
+                }`}
+              >
+                {listening ? '等待按键…' : formatHotkey(settings.popup_hotkey ?? '')}
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => {
+                  setListening((v) => !v)
+                  setHotkeyNotice(null)
+                }}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
+              >
+                {listening ? '按下组合键…（Esc 禁用）' : '绑定'}
+              </button>
+              <button
+                onClick={() => {
+                  // 默认值字面量：与 src/main/settings.ts 的 DEFAULT_SETTINGS.popup_hotkey 保持一致。
+                  // 不直接 import（主进程模块，会污染 renderer bundle）；改默认值时两处同改。
+                  void update('popup_hotkey', 'CommandOrControl+Shift+W')
+                  setListening(false)
+                  setHotkeyNotice(null)
+                }}
+                className="rounded-lg border border-black/10 px-4 py-2 text-sm text-slate-600 transition hover:bg-black/5"
+              >
+                重置默认
+              </button>
+              {hotkeyNotice && <span className="text-sm text-slate-500">{hotkeyNotice}</span>}
+            </div>
           </div>
         </section>
 

@@ -5,6 +5,7 @@ import { registerIpc } from './ipc'
 import { seedIfEmpty } from './seed'
 import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
+import { registerHotkey } from './hotkey'
 import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
 import { migrateVocabStatus, migrateSrsToPop, migrateForgotCount } from './store'
@@ -81,11 +82,12 @@ app.whenReady().then(() => {
   migratePopupInterval() // 旧 popup_interval_min(分钟) → popup_interval_sec(秒，×60)；幂等
   const seeded = seedIfEmpty()
   if (seeded > 0) console.log(`[seed] 首次启动，导入 ${seeded} 条内置生词`)
-  registerIpc()
+  registerIpc(() => popupWin)
   registerWindowIpc()
   createManagerWindow()
   popupWin = createPopupWindow()
   registerPopupIpc(() => popupWin as BrowserWindow)
+  registerHotkey(() => popupWin) // 主动唤出全局快捷键（popupNow 内部自判 popupWin 为空则不弹）
   fillLearningQueue() // 启动即把 learning 队列补满（词书 new 词解锁进来）
   startEngine(() => popupWin as BrowserWindow)
   createTray(openManager, () => {
