@@ -92,7 +92,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   }
   const removeSelected = async (): Promise<void> => {
     if (checked.size === 0) return
-    if (!window.confirm(`删除勾选的 ${checked.size} 条生词？此操作不可撤销。`)) return
+    if (!window.confirm(`删除勾选的 ${checked.size} 条生词？将移到回收站，可还原。`)) return
     for (const id of checked) await window.tasymize.deleteVocab(id)
     await reload()
   }

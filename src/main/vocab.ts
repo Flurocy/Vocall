@@ -1,4 +1,4 @@
-import { allocId, vocabBox, setSrsState, deleteSrsState, getPopCount } from './store'
+import { allocId, vocabBox, trashBox, setSrsState, deleteSrsState, getPopCount } from './store'
 
 export interface VocabItem {
   id: number; word: string; meaning: string; example: string
@@ -35,6 +35,45 @@ export function updateVocab(id: number, patch: Partial<NewVocabItem>): void {
 }
 
 export function deleteVocab(id: number): void {
-  vocabBox.set(vocabBox.get().filter(e => e.id !== id))
+  // 软删除：从 vocab 移除 → 包装进 trash（保留 srsState 供还原）。
+  // 找不到该词（已删/不存在）→ no-op，不往 trash 塞空条目。
+  const item = vocabBox.get().find((e) => e.id === id)
+  if (!item) return
+  vocabBox.set(vocabBox.get().filter((e) => e.id !== id))
+  trashBox.set([...trashBox.get(), { item, deletedAt: Date.now() }])
+}
+
+// 硬删除：从 vocab 真删 + 清 srsState，不进回收站。
+// 用于主动批量清除场景（如移除整本词书）——非误删，不堆回收站，避免重加时 inLib 盲区导致重复入库。
+export function hardDeleteVocab(id: number): void {
+  vocabBox.set(vocabBox.get().filter((e) => e.id !== id))
   deleteSrsState(id)
+}
+
+// 回收站列表，按 deletedAt 倒序（最近删的在上）
+export function listTrash(): { item: VocabItem; deletedAt: number }[] {
+  return [...trashBox.get()].sort((a, b) => b.deletedAt - a.deletedAt)
+}
+
+// 还原：从 trash 取回 item 放回 vocab，trash 移除。srsState 不动（自然恢复到期/计数）。
+export function restoreVocab(id: number): void {
+  const entry = trashBox.get().find((e) => e.item.id === id)
+  if (!entry) return
+  vocabBox.set([...vocabBox.get(), entry.item])
+  trashBox.set(trashBox.get().filter((e) => e.item.id !== id))
+}
+
+// 彻底删除：trash 真删该条 + 清对应 srsState（不可恢复）
+export function purgeVocab(id: number): void {
+  const exists = trashBox.get().some((e) => e.item.id === id)
+  if (!exists) return
+  trashBox.set(trashBox.get().filter((e) => e.item.id !== id))
+  deleteSrsState(id)
+}
+
+// 清空回收站：trash 清空 + 删所有 trash 词的 srsState
+export function clearTrash(): void {
+  const ids = trashBox.get().map((e) => e.item.id)
+  trashBox.set([])
+  for (const id of ids) deleteSrsState(id)
 }

@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
-import { addVocab, listVocab, deleteVocab } from './vocab'
+import { addVocab, listVocab, hardDeleteVocab } from './vocab'
 
 // 词书：预生成的 JSON 词表（data/wordbooks/*.json），加入学习计划即批量进 new 状态。
 // 词书是"往词库添词的一种方式"——词进了 new 就交给学习队列补位机制统一管理，无特殊待遇。
@@ -44,9 +44,11 @@ export function addWordbookToPlan(bookId: string): number {
 }
 
 // 移出学习计划：只删该书仍处 new 的词；learning/review 中的保留（用户已在学，不能丢）。
+// 走硬删除（不进回收站）——整本移除是用户主动批量操作，非误删；且重加时 inLib 去重只扫 vocab，
+// 若软删进 trash 会让重加判定为未入库→重复入库。
 export function removeWordbookFromPlan(bookId: string): number {
   const toDelete = listVocab().filter((v) => v.book === bookId && v.status === 'new')
-  for (const v of toDelete) deleteVocab(v.id)
+  for (const v of toDelete) hardDeleteVocab(v.id)
   return toDelete.length
 }
 

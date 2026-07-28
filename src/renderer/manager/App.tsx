@@ -3,12 +3,13 @@ import type { ReactElement } from 'react'
 import TitleBar from './TitleBar'
 import ExpressionsView from './views/ExpressionsView'
 import WordbooksView from './views/WordbooksView'
+import TrashView from './views/TrashView'
 import SettingsView from './views/SettingsView'
 import { getTheme, getFontSize } from '../theme'
 import type { Theme } from '../theme'
 
 export default function App(): ReactElement {
-  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'settings'>('vocab')
+  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'settings' | 'trash'>('vocab')
   const [theme, setTheme] = useState<Theme>(() => getTheme())
   const [fontSize, setFontSize] = useState<string>(() => getFontSize())
 
@@ -45,6 +46,7 @@ export default function App(): ReactElement {
         <nav className="w-44 border-r border-black/10 p-4">
           <button onClick={() => setTab('vocab')} className={navBtn(tab === 'vocab')}>生词库</button>
           <button onClick={() => setTab('wordbooks')} className={navBtn(tab === 'wordbooks')}>词书</button>
+          <button onClick={() => setTab('trash')} className={navBtn(tab === 'trash')}>回收站</button>
           <button onClick={() => setTab('settings')} className={navBtn(tab === 'settings')}>设置</button>
         </nav>
         <main className="flex-1 overflow-auto p-6">
@@ -52,7 +54,9 @@ export default function App(): ReactElement {
             ? <ExpressionsView theme={theme} />
             : tab === 'wordbooks'
               ? <WordbooksView theme={theme} />
-              : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
+              : tab === 'trash'
+                ? <TrashView theme={theme} />
+                : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
         </main>
       </div>
     </div>

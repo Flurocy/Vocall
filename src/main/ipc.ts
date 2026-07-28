@@ -2,6 +2,7 @@ import { ipcMain } from 'electron'
 import type { BrowserWindow } from 'electron'
 import {
   addVocab, deleteVocab, listVocab, updateVocab,
+  listTrash, restoreVocab, purgeVocab, clearTrash,
   type NewVocabItem,
 } from './vocab'
 import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
@@ -19,6 +20,11 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('vocab:update', (_e, id: number, patch: Partial<NewVocabItem>) =>
     updateVocab(id, patch))
   ipcMain.handle('vocab:delete', (_e, id: number) => deleteVocab(id))
+  // 回收站：列表/还原/彻底删除/清空（deleteVocab 现为软删除）
+  ipcMain.handle('vocab:listTrash', () => listTrash())
+  ipcMain.handle('vocab:restore', (_e, id: number) => restoreVocab(id))
+  ipcMain.handle('vocab:purge', (_e, id: number) => purgeVocab(id))
+  ipcMain.handle('vocab:clearTrash', () => clearTrash())
   ipcMain.handle('settings:getAll', () => getAllSettings())
   ipcMain.handle('settings:set', (_e, key: string, value: string) => {
     setSetting(key, value)

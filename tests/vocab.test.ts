@@ -43,6 +43,6 @@ describe('vocab CRUD (electron-store)', () => {
     expect(listVocab().find(e => e.id === a.id)!.meaning).toBe('b2')
     deleteVocab(a.id)
     expect(listVocab()).toHaveLength(0)
-    expect(getSrsState(a.id)).toBeUndefined() // 删除时联动清掉 srs 状态
+    expect(getSrsState(a.id)).toBeDefined() // 软删除：srs 状态保留供回收站还原
   })
 })

@@ -7,6 +7,11 @@ contextBridge.exposeInMainWorld('tasymize', {
   updateVocab: (id: number, patch: Partial<NewVocabItem>) =>
     ipcRenderer.invoke('vocab:update', id, patch),
   deleteVocab: (id: number) => ipcRenderer.invoke('vocab:delete', id),
+  // 回收站：列表/还原/彻底删除/清空
+  listTrash: () => ipcRenderer.invoke('vocab:listTrash'),
+  restore: (id: number) => ipcRenderer.invoke('vocab:restore', id),
+  purge: (id: number) => ipcRenderer.invoke('vocab:purge', id),
+  clearTrash: () => ipcRenderer.invoke('vocab:clearTrash'),
   getSettings: () => ipcRenderer.invoke('settings:getAll'),
   setSetting: (key: string, value: string) =>
     ipcRenderer.invoke('settings:set', key, value),

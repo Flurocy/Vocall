@@ -24,12 +24,23 @@ export interface WordbookWord {
   inLibrary: boolean
 }
 
+// 回收站条目：被软删除的词 + 删除时间戳（listTrash 返回、前端 TrashView 渲染用）
+export interface TrashEntry {
+  item: VocabItem
+  deletedAt: number
+}
+
 // 渲染端可调用的接口形状
 export interface TasymizeApi {
   listVocab(): Promise<VocabItem[]>
   addVocab(e: NewVocabItem): Promise<number>
   updateVocab(id: number, patch: Partial<NewVocabItem>): Promise<void>
   deleteVocab(id: number): Promise<void>
+  // 回收站：列表（按 deletedAt 倒序）/还原/彻底删除/清空
+  listTrash(): Promise<TrashEntry[]>
+  restore(id: number): Promise<void>
+  purge(id: number): Promise<void>
+  clearTrash(): Promise<void>
   getSettings(): Promise<Record<string, string>>
   setSetting(key: string, value: string): Promise<void>
   // 恢复默认：只重置记忆节奏弹性数值键（learning_cap/pass_count/forgot_gap_pops/

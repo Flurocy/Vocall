@@ -18,12 +18,13 @@ interface Schema {
   settings: Record<string, string>
   nextId: number
   popCount: number // 全局弹窗节拍计数器：弹一次 +1，是调度唯一的"时钟"
+  trash: { item: import('./vocab').VocabItem; deletedAt: number }[] // 回收站：软删除的词包装，按 deletedAt 索引还原/清空
 }
 
 // 测试时注入内存实现；生产用 electron-store 持久化
 let mem: Schema | null = null
 
-const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0 }
+const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [] }
 // 显式传 projectName：Electron 外（如 vitest Node 环境）conf 无法从 app 取名，会抛错；
 // electron-store 的 Options 类型把 projectName Except 掉了（生产环境由 app 名派生），这里运行时透传给 conf，需断言
 const store = new Store<Schema>({ defaults, projectName: 'tasymize' } as Options<Schema>)
@@ -36,7 +37,7 @@ function write<K extends keyof Schema>(key: K, val: Schema[K]): void {
 }
 
 export function _resetStoreForTests(): void {
-  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0 }
+  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [] }
 }
 
 // 弹窗节拍计数器：engine 每弹一次调 incrementPop，调度和 SRS 用 popCount 判定到期。
@@ -127,6 +128,10 @@ export function getForgotCounts(): Record<number, number> {
 export const vocabBox = {
   get: () => read('vocab'),
   set: (v: Schema['vocab']) => write('vocab', v),
+}
+export const trashBox = {
+  get: () => read('trash'),
+  set: (v: Schema['trash']) => write('trash', v),
 }
 export const settingsBox = {
   get: () => read('settings'),

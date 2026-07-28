@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { _resetStoreForTests } from '../src/main/store'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan } from '../src/main/wordbook'
-import { addVocab, listVocab, updateVocab } from '../src/main/vocab'
+import { addVocab, listVocab, listTrash, updateVocab } from '../src/main/vocab'
 
 describe('词书（wordbook）', () => {
   beforeEach(() => _resetStoreForTests())
@@ -42,6 +42,21 @@ describe('词书（wordbook）', () => {
     expect(removed).toBe(total - 2) // 只删 new 的
     const remaining = listVocab().filter((v) => v.book === 'ielts-core')
     expect(remaining).toHaveLength(2) // learning/review 的留下
+  })
+
+  it('加入→移除→再次加入：不重复入库（移除走 hardDelete，不进回收站）', () => {
+    const n = addWordbookToPlan('ielts-core')
+    expect(n).toBeGreaterThan(0)
+    // 移除：new 词被硬删（不进 trash），learning/review 不存在故全删
+    expect(removeWordbookFromPlan('ielts-core')).toBe(n)
+    // trash 不含这些词（hardDelete 不进回收站，避免重加时 inLib 盲区导致重复）
+    expect(listTrash().filter((e) => e.item.book === 'ielts-core')).toHaveLength(0)
+    // 再次加入：vocab 里该书词只有一份，无重复副本
+    expect(addWordbookToPlan('ielts-core')).toBe(n)
+    const inLib = listVocab().filter((v) => v.book === 'ielts-core')
+    expect(inLib).toHaveLength(n)
+    const ids = inLib.map((v) => v.id)
+    expect(new Set(ids).size).toBe(ids.length) // id 唯一
   })
 
   it('移除不存在的词书返回 0，不影响其它词', () => {
