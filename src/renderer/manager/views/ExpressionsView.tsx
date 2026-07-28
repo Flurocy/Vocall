@@ -141,9 +141,13 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
               onClick={() => void playWord(e.word)}
               aria-label={`朗读 ${e.word}`}
               title="朗读"
-              className="shrink-0 text-xs text-slate-400 transition hover:text-slate-600"
+              className="shrink-0 text-slate-400 transition hover:text-slate-600"
             >
-              🔊
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 5 6 9H3v6h3l5 4z" />
+                <path d="M16 9a3 3 0 0 1 0 6" />
+                <path d="M19 6a7 7 0 0 1 0 12" />
+              </svg>
             </button>
             <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
               {statusBadge(e.status).label}

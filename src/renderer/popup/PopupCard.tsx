@@ -158,9 +158,13 @@ export default function PopupCard(): ReactElement | null {
                 onClick={() => void playWord(item.word)}
                 title="朗读"
                 aria-label={`朗读 ${item.word}`}
-                className="text-base leading-none text-slate-400 transition hover:text-slate-600"
+                className="text-slate-400 transition hover:text-slate-600"
               >
-                🔊
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M11 5 6 9H3v6h3l5 4z" />
+                  <path d="M16 9a3 3 0 0 1 0 6" />
+                  <path d="M19 6a7 7 0 0 1 0 12" />
+                </svg>
               </button>
             </div>
             <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
