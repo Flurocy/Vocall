@@ -15,7 +15,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   popup_position: 'bottom-right',
   popup_scale: '1.0', // 弹窗界面大小倍率（1.0=360×240），范围 0.8–1.5；解析见 popup.ts readScale / theme.ts getPopupScale
   popup_opacity: '1.0', // 弹窗透明度（1.0=不透明），范围 0.5–1.0；解析见 popup.ts readOpacity / theme.ts getPopupOpacity
-  popup_font_scale: '1.0', // 弹窗内容 zoom 倍率（1.0=原样），范围 0.85–1.4；解析见 theme.ts getPopupFontScale
+  popup_font_scale: '1.0', // 弹窗内容 zoom 倍率（1.0=原样），范围 0.7–1.4；解析见 theme.ts getPopupFontScale
   theme: 'emerald',    // 主题色 id，见 src/renderer/theme.ts 的 THEMES
   font_size: '16',     // 连续 px 值（滑块无级缩放），兼容旧档 id sm/md/lg 见 theme.getFontSize
   sound_enabled: 'true',
