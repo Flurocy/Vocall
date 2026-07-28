@@ -23,38 +23,33 @@ const ELASTIC_LIST_FIELDS: { key: string; label: string; hint: string }[] = [
   { key: 'review_steps_pops', label: '复习间隔阶梯（弹窗次数，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
 ]
 
-// 快捷键 accelerator 可读化展示：CommandOrControl → Ctrl，其余原样；空串=未设置/禁用。
+// 快捷键 accelerator 可读化展示：CommandOrControl → Ctrl、num1 → 小键盘1，其余原样；空串=未设置/禁用。
 function formatHotkey(acc: string): string {
   if (!acc) return '未设置（已禁用）'
-  return acc.replace('CommandOrControl', 'Ctrl')
+  return acc
+    .replace('CommandOrControl', 'Ctrl')
+    .replace(/\bnum(\d)\b/g, '小键盘$1')
 }
 
-// 渲染端 keydown 主键合法集：单字符（字母/数字）+ 下列多字符键。
-// Escape/Tab/Backspace/Enter/Space/单独 Control/Shift 等特殊键不算合法组合主键，忽略。
-const LEGAL_PRIMARY_KEYS = new Set<string>([
-  'ArrowLeft',
-  'ArrowRight',
-  'ArrowUp',
-  'ArrowDown',
-  'Home',
-  'End',
-  'PageUp',
-  'PageDown',
-  ...Array.from({ length: 12 }, (_, i) => `F${i + 1}`),
-])
-
-function isLegalPrimaryKey(key: string): boolean {
-  if (key.length === 1) return /^[a-zA-Z0-9]$/.test(key)
-  return LEGAL_PRIMARY_KEYS.has(key)
+// 按键 → Electron accelerator 主键名（用 event.code 区分大小键盘；event.key 不分 Numpad/Digit）。
+// 返回 accelerator 键名（'A'/'1'/'num1'/'F5'/'Left'…），无法识别返回 null（调用方忽略该键继续监听）。
+function codeToAccelerator(code: string): string | null {
+  if (/^Digit([0-9])$/.test(code)) return code.slice(5) // Digit1 → '1'（主键盘）
+  if (/^Numpad([0-9])$/.test(code)) return 'num' + code.slice(6) // Numpad1 → 'num1'（小键盘）
+  if (/^Key([A-Z])$/.test(code)) return code.slice(3) // KeyA → 'A'
+  if (/^F([1-9]|1[0-2])$/.test(code)) return code // F1-F12 原样
+  if (code === 'ArrowLeft') return 'Left'
+  if (code === 'ArrowRight') return 'Right'
+  if (code === 'ArrowUp') return 'Up'
+  if (code === 'ArrowDown') return 'Down'
+  if (code === 'Home' || code === 'End' || code === 'PageUp' || code === 'PageDown') return code
+  return null
 }
 
-// Electron accelerator 要求方向键为 Left/Right/Up/Down（无 Arrow 前缀），
-// 而 DOM event.key 返回 ArrowLeft 等。组装主键前需去前缀，否则 register 静默失败。
-const ARROW_KEY_MAP: Record<string, string> = {
-  ArrowLeft: 'Left',
-  ArrowRight: 'Right',
-  ArrowUp: 'Up',
-  ArrowDown: 'Down',
+// 单键（无修饰键）只允许「安全键」：小键盘数字、F1-F12。
+// 这类键少用于打字，全局拦截影响小；字母/主键盘数字单键会被全局拦截导致打字触发，必须配修饰键。
+function isSafeSingleKey(code: string): boolean {
+  return /^Numpad[0-9]$/.test(code) || /^F([1-9]|1[0-2])$/.test(code)
 }
 
 interface Props {
@@ -87,9 +82,11 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const updateRef = useRef(update)
   updateRef.current = update
 
-  // 游戏式按键绑定：listening=true 时挂一次 keydown（capture 阶段独占），
-  // 合法组合（≥1 修饰键 + 合法主键）即组装 accelerator 保存并退出；
-  // Esc → 写空串（禁用）；非法键/无修饰键则忽略继续监听。退出时卸载避免泄漏。
+  // 游戏式按键绑定：listening=true 时挂一次 keydown（capture 阶段独占），组装 accelerator 保存并退出。
+  // - Esc → 写空串（禁用）
+  // - 有修饰键（Ctrl/Shift/Alt/Meta）+ 合法主键 → 绑定
+  // - 无修饰键（单键）：仅小键盘数字 / F1-F12 允许（安全单键）；字母·主键盘数字忽略（需配修饰键）
+  // 非法主键/不合规单键忽略继续监听；退出时卸载避免泄漏。用 event.code 区分大小键盘（event.key 不分）。
   useEffect(() => {
     if (!listening) return
     const onKey = (e: KeyboardEvent): void => {
@@ -106,11 +103,11 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
       if (e.shiftKey) mods.push('Shift')
       if (e.altKey) mods.push('Alt')
       if (e.metaKey) mods.push('Meta')
-      if (mods.length === 0) return // 无修饰键，忽略继续监听
-      if (!isLegalPrimaryKey(e.key)) return // 非法主键，忽略继续监听
-      const base = e.key.length === 1 ? e.key.toUpperCase() : e.key
-      const main = ARROW_KEY_MAP[base] ?? base
-      void updateRef.current('popup_hotkey', [...mods, main].join('+'))
+      const main = codeToAccelerator(e.code)
+      if (!main) return // 无法识别的主键，忽略继续监听
+      // 单键（无修饰键）只放行安全键（小键盘数字/F1-F12）；字母·主键盘数字单键会被全局拦截打字触发
+      if (mods.length === 0 && !isSafeSingleKey(e.code)) return
+      void updateRef.current('popup_hotkey', mods.length ? [...mods, main].join('+') : main)
       setHotkeyNotice(null)
       setListening(false)
     }
@@ -215,7 +212,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
               <div>
                 <p className="text-sm text-slate-600">主动唤出弹窗</p>
                 <p className="mt-1 text-xs text-slate-500">
-                  在任何窗口下按此组合键唤出背词弹窗；绑定态按 Esc 可禁用
+                  任意窗口按此键唤出弹窗。支持组合键（Ctrl/Shift/Alt/Meta + 字母/数字/方向键）或安全单键（小键盘数字、F1-F12）；Esc 禁用
                 </p>
               </div>
               <span
@@ -226,16 +223,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 {listening ? '等待按键…' : formatHotkey(settings.popup_hotkey ?? '')}
               </span>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => {
-                  setListening((v) => !v)
-                  setHotkeyNotice(null)
-                }}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
-              >
-                {listening ? '按下组合键…（Esc 禁用）' : '绑定'}
-              </button>
+            <div className="flex flex-wrap items-center justify-end gap-3">
+              {hotkeyNotice && <span className="mr-auto text-sm text-slate-500">{hotkeyNotice}</span>}
               <button
                 onClick={() => {
                   // 默认值字面量：与 src/main/settings.ts 的 DEFAULT_SETTINGS.popup_hotkey 保持一致。
@@ -248,7 +237,15 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
               >
                 重置默认
               </button>
-              {hotkeyNotice && <span className="text-sm text-slate-500">{hotkeyNotice}</span>}
+              <button
+                onClick={() => {
+                  setListening((v) => !v)
+                  setHotkeyNotice(null)
+                }}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
+              >
+                {listening ? '按下组合键…（Esc 禁用）' : '绑定'}
+              </button>
             </div>
           </div>
         </section>
