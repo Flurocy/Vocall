@@ -20,7 +20,7 @@ export function addVocab(e: NewVocabItem): VocabItem {
     id: allocId(), created_at: Date.now(),
   }
   vocabBox.set([...vocabBox.get(), item])
-  setSrsState(item.id, { easiness: 2.5, repetitions: 0, duePop: getPopCount() }) // 立即可弹
+  setSrsState(item.id, { easiness: 2.5, repetitions: 0, duePop: getPopCount(), forgotCount: 0 }) // 立即可弹
   return item
 }
 

@@ -9,6 +9,7 @@ export interface SrsState {
   easiness: number
   repetitions: number
   duePop: number // 第几次弹窗时该词到期（弹窗节拍队列模型，取代旧 due_at 时间戳）
+  forgotCount: number // 点了几次"忘了"（grade 0），历史累计只增不减
 }
 
 interface Schema {
@@ -95,9 +96,32 @@ export function migrateSrsToPop(): void {
       easiness: typeof v.easiness === 'number' ? v.easiness : 2.5,
       repetitions: typeof v.repetitions === 'number' ? v.repetitions : 0,
       duePop: now,
+      forgotCount: 0, // 旧时间模型状态必然无忘词计数，顺手补 0（与 migrateForgotCount 同语义）
     }
   }
   if (changed) write('srsStates', next)
+}
+
+// 忘词计数迁移：旧 SRS 状态缺 forgotCount 字段的补 0；已有则不动。启动时调用一次，幂等可重复跑。
+export function migrateForgotCount(): void {
+  const states = read('srsStates') as unknown as Record<string, Record<string, unknown>>
+  let changed = false
+  const next: Record<number, SrsState> = {}
+  for (const [k, v] of Object.entries(states)) {
+    if (typeof v.forgotCount === 'number') { next[Number(k)] = v as unknown as SrsState; continue }
+    changed = true
+    next[Number(k)] = { ...(v as unknown as SrsState), forgotCount: 0 }
+  }
+  if (changed) write('srsStates', next)
+}
+
+// 汇总所有词的忘词计数（生词库列表"已忘 N"徽标 / srs:getForgotCounts IPC 用）；缺字段当 0。
+export function getForgotCounts(): Record<number, number> {
+  const out: Record<number, number> = {}
+  for (const [k, v] of Object.entries(read('srsStates'))) {
+    out[Number(k)] = (v as SrsState).forgotCount ?? 0
+  }
+  return out
 }
 
 export const vocabBox = {

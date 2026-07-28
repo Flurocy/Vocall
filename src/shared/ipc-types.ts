@@ -15,6 +15,7 @@ export interface PopupPayload {
   item: VocabItem
   repetitions: number // 当前连续答对次数（显示时封顶到 passCount）
   passCount: number   // 过关所需次数
+  forgotCount: number // 已累计"忘了"次数（弹窗展示"已忘 X 次"用）
 }
 
 // 词书词项（含"是否已在背诵库"标记）
@@ -41,6 +42,8 @@ export interface TasymizeApi {
   // 已掌握终态：背完不再弹；revive 让 mastered 词复活重背（直接进 learning 队列立即可弹）
   master(id: number): Promise<void>
   revive(id: number): Promise<void>
+  // 各词忘词计数汇总（id→forgotCount，生词库列表"已忘 N"徽标用；缺省当 0）
+  getForgotCounts(): Promise<Record<number, number>>
   testAi(): Promise<{ ok: boolean; message: string }>
   // AI 内容生产：主题词组生成（返回 [{word,meaning,example}] 预览，不入库）；n 默认 30
   generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string }[]>

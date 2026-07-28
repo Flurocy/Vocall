@@ -8,6 +8,8 @@ import AiGenModal from './AiGenModal'
 // 留白加大、hover 有反馈；空态给明确引导。配色全部走 theme / 中性色。
 export default function ExpressionsView({ theme }: { theme: Theme }): ReactElement {
   const [list, setList] = useState<VocabItem[]>([])
+  // 易忘词标记：id→forgotCount（在 SRS 状态里，VocabItem 不含），缺省当 0
+  const [forgotMap, setForgotMap] = useState<Record<number, number>>({})
   const [word, setWord] = useState('')
   const [meaning, setMeaning] = useState('')
   const [example, setExample] = useState('')
@@ -21,6 +23,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   const reload = async (): Promise<void> => {
     setList(await window.tasymize.listVocab())
+    setForgotMap(await window.tasymize.getForgotCounts())
     setChecked(new Set()) // 刷新后清空勾选（被删的 id 已失效）
   }
   useEffect(() => { void reload() }, [])
@@ -136,6 +139,11 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
               {statusBadge(e.status).label}
             </span>
+            {(forgotMap[e.id] ?? 0) > 0 && (
+              <span className="shrink-0 rounded-full bg-rose-500/10 px-1.5 py-0.5 text-[10px] text-rose-600">
+                已忘{forgotMap[e.id]}
+              </span>
+            )}
             <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
           </div>
           {e.example ? (
@@ -175,23 +183,31 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
       {/* 新增卡片：word 框旁内嵌「AI 翻译」小按钮（功能 B 入口）；底部 inline 显示翻译结果消息 */}
       <section className="mb-6 rounded-2xl border border-black/10 bg-white/60 p-4 shadow-sm">
-        <div className="grid grid-cols-3 gap-3">
-          <div className="flex gap-2">
-            <input
-              value={word}
-              onChange={(e) => { setWord(e.target.value); setUsedAi(false) }}
-              placeholder="生词 abandon"
-              className={`${inputCls} flex-1`}
-            />
+        {/* 两行布局：第一行 生词+AI译，第二行 释义+例句，避免 AI译按钮压到释义框 */}
+        <div className="flex gap-2">
+          <input
+            value={word}
+            onChange={(e) => { setWord(e.target.value); setUsedAi(false) }}
+            placeholder="生词 abandon"
+            className={`${inputCls} flex-1`}
+          />
+          {/* 自绘 tooltip：原生 title 是系统灰底不同步主题；group-hover 纯 CSS 控制，不用 JS state */}
+          <div className="group relative shrink-0">
             <button
               onClick={() => void aiTranslate()}
               disabled={!word.trim() || aiTranslating}
-              title="调用 AI 填入释义和例句"
-              className="shrink-0 rounded-lg border border-black/10 px-2.5 py-2 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
+              className="rounded-lg border border-black/10 px-2.5 py-2 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
             >
               {aiTranslating ? '…' : 'AI 译'}
             </button>
+            <span
+              className={`absolute bottom-full left-1/2 z-10 mb-1.5 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-black/10 px-2 py-1 text-xs shadow-md group-hover:block ${theme.bgCard} ${theme.accentText}`}
+            >
+              调用 AI 填入释义和例句
+            </span>
           </div>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-3">
           <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="释义 放弃；抛弃" className={inputCls} />
           <input value={example} onChange={(e) => setExample(e.target.value)} placeholder="雅思例句（可选）" className={inputCls} />
         </div>

@@ -209,11 +209,12 @@ export function parseVocabObject(text: string): Translation {
 const THEME_GEN_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+）的中国大学生生成主题相关的高频学术词组。
 要求：
 - word：英文单词或词组（雅思写作/口语高频学术词，避免太基础的如 good/bad/big）
-- meaning：简明中文释义
+- meaning：简明中文释义，开头标注词性缩写（如 n. / v. / adj. / adv. / phr.），格式「词性 释义」，例如「v. 放弃；抛弃」
 - example：地道英文例句，体现该词用法
 严格返回 JSON 数组，每个元素 {"word","meaning","example"}，不要任何额外文字、不要 markdown 代码块。`
 
 const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中文释义和地道英文例句。
+- meaning：简明中文释义，开头标注词性缩写（如 n. / v. / adj. / adv. / phr.），格式「词性 释义」，例如「v. 放弃；抛弃」
 严格返回 JSON {"meaning","example"}，不要额外文字、不要代码块。`
 
 /** key 没配的统一错误文案（IPC handler 渲染端展示用） */

@@ -7,7 +7,7 @@ import { createPopupWindow, registerPopupIpc } from './popup'
 import { startEngine } from './engine'
 import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
-import { migrateVocabStatus, migrateSrsToPop } from './store'
+import { migrateVocabStatus, migrateSrsToPop, migrateForgotCount } from './store'
 import { migrateReviewSteps, migratePopupInterval } from './settings'
 
 // 窗口引用提升为模块级：托盘「打开」需要找回管理窗口，退出清理需要销毁弹窗
@@ -76,6 +76,7 @@ function registerWindowIpc(): void {
 app.whenReady().then(() => {
   migrateVocabStatus() // 旧词补 status/book 默认值（幂等），须在 seed 前跑
   migrateSrsToPop()    // 旧 SRS 时间模型 → 弹窗节拍模型（幂等）
+  migrateForgotCount() // 旧 SRS 状态补 forgotCount=0（幂等）
   migrateReviewSteps() // review_steps_pops 旧默认 → 新默认（幂等；用户自定义不动）
   migratePopupInterval() // 旧 popup_interval_min(分钟) → popup_interval_sec(秒，×60)；幂等
   const seeded = seedIfEmpty()

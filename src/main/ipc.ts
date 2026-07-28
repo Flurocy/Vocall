@@ -5,6 +5,7 @@ import {
 } from './vocab'
 import { getAllSettings, setSetting, getAiConfig, resetElasticSettings } from './settings'
 import { applyReview, masterVocab, reviveVocab } from './scheduler'
+import { getForgotCounts } from './store'
 import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 
@@ -25,6 +26,8 @@ export function registerIpc(): void {
   // 已掌握终态：master 标背完不再弹；revive 让 mastered 词复活重背（进 learning 立即可弹，不限 cap）
   ipcMain.handle('vocab:master', (_e, id: number) => masterVocab(id))
   ipcMain.handle('vocab:revive', (_e, id: number) => reviveVocab(id))
+  // 忘词计数汇总：id→forgotCount（生词库列表"已忘 N"徽标用）
+  ipcMain.handle('srs:getForgotCounts', () => getForgotCounts())
   // 词书
   ipcMain.handle('wordbook:list', () => listWordbooks())
   ipcMain.handle('wordbook:add', (_e, bookId: string) => addWordbookToPlan(bookId))

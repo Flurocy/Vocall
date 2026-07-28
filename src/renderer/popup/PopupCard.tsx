@@ -120,7 +120,7 @@ export default function PopupCard(): ReactElement | null {
   }
 
   if (!payload) return null
-  const { item, repetitions, passCount } = payload
+  const { item, repetitions, passCount, forgotCount } = payload
 
   const send = (g: 0 | 1 | 2): void => {
     void window.tasymize.grade(item.id, g)
@@ -153,31 +153,35 @@ export default function PopupCard(): ReactElement | null {
             <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
           </div>
         ) : (
-          <div>
-            <div className="text-sm text-slate-500">{item.word}</div>
-            <div className={`mt-1 text-xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
+          // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切
+          <div className="max-h-full overflow-y-auto">
+            <div className="text-base font-medium text-slate-500">{item.word}</div>
+            {forgotCount > 0 && (
+              <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
+            )}
+            <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
             <button
               onMouseDown={stopMouseDown}
               onClick={() => setExampleOpen((v) => !v)}
-              className="mt-2 text-xs text-slate-500 hover:text-slate-800"
+              className="mt-2 text-sm text-slate-500 hover:text-slate-800"
             >
               {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
             </button>
             {exampleOpen && (
-              <div className="mt-1 max-h-20 overflow-y-auto text-xs leading-relaxed text-slate-600">
+              <div className="mt-1 max-h-28 overflow-y-auto text-sm leading-relaxed text-slate-600">
                 {item.example}
               </div>
             )}
             <div className="mt-4 flex gap-2">
-              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-1.5 text-sm text-rose-700 hover:bg-rose-500/25">😵 忘了</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-1.5 text-sm text-amber-700 hover:bg-amber-500/25">🤔 有点印象</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-1.5 text-sm font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 hover:bg-rose-500/25">😵 忘了</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 hover:bg-amber-500/25">🤔 有点印象</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-2 text-base font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
             </div>
             {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}
             <button
               onMouseDown={stopMouseDown}
               onClick={() => void master()}
-              className="mt-2 w-full rounded-md border border-slate-300/70 py-1 text-xs text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700"
+              className="mt-2 w-full rounded-md border border-slate-300/70 py-1.5 text-sm text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700"
             >
               标为已掌握（不再弹出）
             </button>

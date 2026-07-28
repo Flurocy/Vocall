@@ -90,7 +90,9 @@ export function applyReview(id: number, grade: Grade): void {
     next = reviewLearning(base, grade, o)
     if (grade === 2 && next.repetitions >= o.passN) newStatus = 'review' // 毕业
   }
-  setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: now + next.interval })
+  // 忘词计数：grade 0（两条路径殊途同归到这里）累计 +1；非 0 原样保留。从旧 cur 读，无则 0。
+  const forgot = (cur?.forgotCount ?? 0) + (grade === 0 ? 1 : 0)
+  setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: now + next.interval, forgotCount: forgot })
   if (newStatus !== item.status) updateVocab(id, { status: newStatus })
   // 毕业空位 → 补新词；mastered 也腾空位（跟毕业一样补位）
   if (newStatus === 'review' || newStatus === 'mastered') fillLearningQueue()
@@ -108,7 +110,8 @@ export function masterVocab(id: number): void {
 // 不受 learning_cap 限制——用户主动重背应立即进队列。
 export function reviveVocab(id: number): void {
   updateVocab(id, { status: 'learning' })
-  setSrsState(id, { easiness: 2.5, repetitions: 0, duePop: getPopCount() })
+  // forgotCount 保留旧值：忘词历史只增不减，复活重背不清零
+  setSrsState(id, { easiness: 2.5, repetitions: 0, duePop: getPopCount(), forgotCount: getSrsState(id)?.forgotCount ?? 0 })
 }
 
 // 补位：learning 不足 learning_cap 时，从 new 按 id 升序补（词书词先入先学）。
@@ -124,7 +127,7 @@ export function fillLearningQueue(): void {
   for (const c of candidates) {
     if (need <= 0) break
     updateVocab(c.id, { status: 'learning' })
-    setSrsState(c.id, { easiness: 2.5, repetitions: 0, duePop: now })
+    setSrsState(c.id, { easiness: 2.5, repetitions: 0, duePop: now, forgotCount: 0 })
     need--
   }
 }
