@@ -36,48 +36,45 @@ const MODEL = process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash' // 可用环境�
 const API_KEY = process.env.DEEPSEEK_API_KEY || '' // 绝不打印、不落盘
 
 // —— 批次与重试参数 ——
-const WORDLIST_BATCH = 80 // 阶段1 每批生成候选词数
+const WORDLIST_BATCH = 80 // 阶段1 每批挖词数
 const CONTENT_BATCH = 15 // 阶段2 每批配内容的词数
-const OVERGEN_RATIO = 1.2 // 阶段1 过量生成比例（预留去重损耗）
-const MAX_TOPUP_ROUNDS = 12 // 阶段1 去重后不足时的补生成轮数上限（小批量多轮后需更大上限）
+const EXHAUST_NEW_THRESHOLD = 5 // 穷举：单批新增少于此数视为低产出
+const EXHAUST_BATCHES = 2 // 穷举：连续这么多批低产出即认定话题挖尽、停止
+const MAX_BATCHES_PER_BOOK = 30 // 穷举：每本最多批数兜底（防 AI 一直吐重复词死循环）
 const MAX_CONSECUTIVE_FAILS = 3 // 阶段2 连续失败批次数上限，达到则中止
 
-// —— 五本词书定义：难度隐含递进（词量递减、topicHint 逐级走高），desc 口语化、不明写分层 ——
+// —— 五本词书：按话题聚类切分（话题互斥 → 跨本零重复；话题内按词根/词义聚类排列）。
+// 难度隐含递进（日常→校园→社会→科技→公共），desc 口语化、不明写分层。无固定词量目标（穷举式）。 ——
 const BOOKS = [
   {
-    id: 'ielts-essential',
-    name: '真题高频',
-    count: 1200,
-    topicHint: '雅思听读写最常考核心词',
-    desc: '剑桥真题里反复出现的那批词，听说读写四科通吃。量最大但也最值，想提分先从这本啃起。',
+    id: 'ielts-daily',
+    name: '居家出行',
+    topics: '住房、交通出行、饮食、购物消费、旅游、银行理财',
+    desc: '租房、点餐、购物、出行、旅游这些日常场景里高频出现的词，听力前两 section 最爱考，也是最该先眼熟的一批。',
   },
   {
-    id: 'ielts-listening-speaking',
-    name: '听说场景',
-    count: 800,
-    topicHint: '生活/校园/租房/求职等听说高频场景词',
-    desc: '租房、选课、兼职、旅游……听力对话和口语聊天里天天见的场景词。先混个耳熟，听懂说顺不难。',
+    id: 'ielts-campus',
+    name: '校园健康',
+    topics: '教育学习、课程学术、医疗就医、运动健身',
+    desc: '选课、论文、看病、运动这类校园和健康场景词，听力 section 3、口语和写作教育题反复用到。',
   },
   {
-    id: 'ielts-academic-rw',
-    name: '读写学术',
-    count: 800,
-    topicHint: '学术读写通用词(AWL类)',
-    desc: '学术文章和写作 Task 2 里的通用学术词（AWL 那一挂）。阅读提速、写作告别小学生表达都靠它。',
+    id: 'ielts-society',
+    name: '社会文娱',
+    topics: '家庭人口、社会问题、文化传统、媒体、艺术、体育',
+    desc: '家庭、社会议题、文化、媒体、艺术、体育相关词，口语拓展和写作论述里高频出现的人文向词汇。',
   },
   {
-    id: 'ielts-paraphrase',
-    name: '同义替换',
-    count: 700,
-    topicHint: '阅读定位/口语写作换表达的高阶替换词',
-    desc: '阅读定位全靠同义替换，口语写作同一个意思换个说法才不显重复。这本专收"换个高级说法"的词。',
+    id: 'ielts-tech-env',
+    name: '科技环境',
+    topics: '科技发展、互联网、环境污染、气候变化、能源、动物保护',
+    desc: '科技、互联网、环境、气候、能源话题词，写作大作文最常考的两大话题合并，议论文必备。',
   },
   {
-    id: 'ielts-advanced',
-    name: '高分进阶',
-    count: 500,
-    topicHint: '7+冲分用学术/抽象低频词',
-    desc: '冲着 7+ 去的补充弹药：偏学术、偏抽象的低频词。建议前面几本啃得差不多了再来碰它。',
+    id: 'ielts-public',
+    name: '政经法理',
+    topics: '政府政策、法律、犯罪、经济贸易、商业职场、抽象评价词',
+    desc: '政府、法律、犯罪、经济、工作及一批抽象评价/逻辑词，议论文进阶用词，冲 7+ 的高分向词汇。',
   },
 ]
 
@@ -279,58 +276,47 @@ const WORDLIST_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+�
 要求：
 - 只返回英文单词（或常见词组），小写，每批内部不重复
 - 雅思向：考试真实高频/有用的词，避免太基础的（如 good/big/happy）
+- 同话题内按词根或词义相关聚类排列：同义词族、同词根的词挨在一起（如 debate/argue/discuss/controversy/dissent；pollute/pollution/pollutant；economy/economic/economical）
 - 严格返回 JSON 数组（纯字符串数组），不要任何额外文字、不要 markdown 代码块`
 
+// 穷举式生成：针对 book.topics 反复挖词，挖到自然枯竭（连续 EXHAUST_BATCHES 批新增 < EXHAUST_NEW_THRESHOLD）即停。
+// 不设词量目标——话题能出多少出多少。pool 用数组保留 AI 返回的聚类插入序（同话题词根相近词挨着）。
+// 每批 prompt 附"已选词（前 300 截断）"让 AI 避重，提高穷举效率。assigned 是全局 Set，跨本零重复兜底。
 async function genWordlist(book, assigned) {
-  // 过量生成：目标 count 的 1.2 倍，预留全局去重损耗
-  const need = Math.ceil(book.count * OVERGEN_RATIO)
-  const batches = Math.ceil(need / WORDLIST_BATCH)
-  const pool = new Set() // 本内部候选去重
-  for (let b = 0; b < batches; b++) {
-    const n = Math.min(WORDLIST_BATCH, need - b * WORDLIST_BATCH)
-    console.log(`  批次 ${b + 1}/${batches}：生成 ${n} 个候选词…`)
+  const pool = [] // 本本已选词（数组保聚类顺序 + 供 prompt 避重）
+  const poolSet = new Set() // 快速判重
+  let lowYield = 0 // 连续低产出批数
+  for (let b = 1; b <= MAX_BATCHES_PER_BOOK; b++) {
+    const avoid = pool.slice(0, 300).join(', ') // 附已选词让 AI 避重（截断控 prompt 长度）
+    console.log(`  批次 ${b}：挖「${book.topics}」话题词（已选 ${pool.length}）…`)
     const words0 = await callAndParse(
       WORDLIST_SYSTEM,
-      `生成 ${n} 个候选词，方向：${book.topicHint}。`,
+      `话题：${book.topics}。再给 ${WORDLIST_BATCH} 个雅思向单词。${avoid ? `不要与这些已给过的词重复：${avoid}` : ''}
+同话题内按词根/同义族相关排列。`,
       8000, // 80 词 JSON 留足余量，避免 max_tokens 截断
       parseWordArray,
     )
-    for (const w of words0) pool.add(w)
-  }
-
-  // 全局分配：跳过已被前面词书占用的词（跨本零重复的关键）
-  const words = []
-  for (const w of pool) {
-    if (words.length >= book.count) break
-    if (assigned.has(w)) continue
-    assigned.add(w)
-    words.push(w)
-  }
-
-  // 去重损耗超预期 → 补生成。改小批量多轮：每批只补 ≤WORDLIST_BATCH 个，
-  // 循环直到凑够或轮数上限——避免单次要几百个导致 max_tokens 截断/content 为空。
-  for (let round = 1; words.length < book.count && round <= MAX_TOPUP_ROUNDS; round++) {
-    const shortBy = book.count - words.length
-    const n = Math.min(WORDLIST_BATCH, shortBy + 10)
-    console.log(`  [补生成] 去重后差 ${shortBy} 个，第 ${round} 轮补 ${n} 个候选…`)
-    const extra = await callAndParse(
-      WORDLIST_SYSTEM,
-      `再生成 ${n} 个候选词，方向：${book.topicHint}。不要与前面已给过的词重复。`,
-      8000,
-      parseWordArray,
-    )
-    for (const w of extra) {
-      if (words.length >= book.count) break
-      if (pool.has(w) || assigned.has(w)) continue
-      pool.add(w)
-      assigned.add(w)
-      words.push(w)
+    let added = 0
+    for (const w of words0) {
+      if (assigned.has(w) || poolSet.has(w)) continue // 跨本已占 / 本本已选 → 跳过
+      poolSet.add(w)
+      pool.push(w) // 保留聚类插入序
+      added++
+    }
+    console.log(`    本批新增 ${added}（累计 ${pool.length}）`)
+    // 自然枯竭判定：连续 EXHAUST_BATCHES 批新增 < EXHAUST_NEW_THRESHOLD 即停
+    if (added < EXHAUST_NEW_THRESHOLD) {
+      if (++lowYield >= EXHAUST_BATCHES) {
+        console.log(`  [自然枯竭] 连续 ${EXHAUST_BATCHES} 批新增 < ${EXHAUST_NEW_THRESHOLD}，话题池挖尽，停止`)
+        break
+      }
+    } else {
+      lowYield = 0
     }
   }
-  if (words.length < book.count) {
-    console.log(`  [警告] 补生成后仍只有 ${words.length}/${book.count} 个，按实际数量落盘`)
-  }
-  return words
+  // 登记到全局 assigned（跨本零重复）
+  for (const w of pool) assigned.add(w)
+  return pool
 }
 
 async function stage1(targetBooks) {
@@ -348,7 +334,7 @@ async function stage1(targetBooks) {
   const assigned = new Set() // 全局已分配词（归一化）；先装入已有词表，保证跨本零重复
   for (const words of Object.values(wordlist)) for (const w of words) assigned.add(normalize(w))
   for (const book of missing) {
-    console.log(`[${book.id}] ${book.name} 目标 ${book.count} 词…`)
+    console.log(`[${book.id}] ${book.name}（话题：${book.topics}）…`)
     wordlist[book.id] = await genWordlist(book, assigned)
     console.log(`[${book.id}] 分得 ${wordlist[book.id].length} 词（全局已分配 ${assigned.size}，估 ${estTokens} token）`)
   }
@@ -525,7 +511,7 @@ async function main() {
   }
 
   const targetBooks = opts.book ? BOOKS.filter((b) => b.id === opts.book) : BOOKS
-  console.log(`目标词书：${targetBooks.map((b) => `${b.id}(${b.count})`).join('、')}，模型 ${MODEL}`)
+  console.log(`目标词书：${targetBooks.map((b) => b.id).join('、')}，模型 ${MODEL}`)
 
   // key 检查放在真正要调 AI 之前（--help/--reset/断点全部命中都不需要 key）
   const existingList = existsSync(WORDLIST_FILE) ? readJson(WORDLIST_FILE) : {}
