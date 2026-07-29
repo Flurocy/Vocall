@@ -5,7 +5,7 @@
 // 不自动发音：仅用户主动点击 🔊 时调用（被动不打扰理念）。
 export async function playWord(word: string): Promise<void> {
   try {
-    const dataUrl = await window.tasymize.pronounce(word)
+    const dataUrl = await window.vocall.pronounce(word)
     const audio = new Audio(dataUrl)
     await audio.play().catch(() => {})
   } catch {

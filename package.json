@@ -1,13 +1,15 @@
 {
-  "name": "tasymize",
+  "name": "vocall",
   "version": "1.0.0",
-  "description": "",
+  "description": "Vocall — 被动弹窗式雅思背词桌面工具",
+  "author": "",
   "main": "out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "start": "electron-vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dist": "electron-vite build && electron-builder --win portable"
   },
   "keywords": [],
   "type": "commonjs",
@@ -27,11 +29,35 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
     "electron": "^40.10.6",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^5.0.0",
+    "png-to-ico": "^3.0.2",
     "postcss": "^8.5.20",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.9",
     "vite": "^7.3.6",
     "vitest": "^4.1.10"
+  },
+  "build": {
+    "appId": "com.vocall.app",
+    "productName": "Vocall",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "data", "to": "data" },
+      { "from": "resources", "to": "resources" }
+    ],
+    "win": {
+      "target": [{ "target": "portable", "arch": ["x64"] }],
+      "icon": "resources/icon.ico"
+    },
+    "portable": {
+      "artifactName": "Vocall-${version}-portable.exe"
+    }
   }
 }

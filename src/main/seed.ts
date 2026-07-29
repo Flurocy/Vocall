@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
-import { join } from 'path'
 import { addVocab, listVocab } from './vocab'
+import { resolveResource } from './paths'
 
 interface SeedItem {
   word: string
@@ -11,7 +11,7 @@ interface SeedItem {
 
 export function seedIfEmpty(seedPath?: string): number {
   if (listVocab().length > 0) return 0
-  const file = seedPath ?? join(process.cwd(), 'data', 'seed-vocab.json')
+  const file = seedPath ?? resolveResource('data', 'seed-vocab.json')
   // 防御（评审 I-3）：种子文件缺失/JSON损坏/从非项目根启动时，readFileSync/JSON.parse
   // 会抛异常。此处必须吞掉返回 0——否则异常会顺着 whenReady 回调炸断后续
   // registerIpc/建窗/引擎/托盘的整条启动链，表现为"双击没反应"。

@@ -27,7 +27,7 @@ let mem: Schema | null = null
 const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [] }
 // 显式传 projectName：Electron 外（如 vitest Node 环境）conf 无法从 app 取名，会抛错；
 // electron-store 的 Options 类型把 projectName Except 掉了（生产环境由 app 名派生），这里运行时透传给 conf，需断言
-const store = new Store<Schema>({ defaults, projectName: 'tasymize' } as Options<Schema>)
+const store = new Store<Schema>({ defaults, projectName: 'vocall' } as Options<Schema>)
 
 function read<K extends keyof Schema>(key: K): Schema[K] {
   return mem ? mem[key] : store.get(key)

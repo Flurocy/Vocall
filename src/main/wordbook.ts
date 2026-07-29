@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { addVocab, listVocab, hardDeleteVocab } from './vocab'
 import { trashBox } from './store'
+import { resolveResource } from './paths'
 
 // 词书：预生成的 JSON 词表（data/wordbooks/*.json），加入学习计划即批量进 new 状态。
 // 词书是"往词库添词的一种方式"——词进了 new 就交给学习队列补位机制统一管理，无特殊待遇。
@@ -13,7 +14,7 @@ interface WordbookFile {
 }
 
 function booksDir(): string {
-  return join(process.cwd(), 'data', 'wordbooks')
+  return resolveResource('data', 'wordbooks')
 }
 
 function readBook(file: string): WordbookFile {

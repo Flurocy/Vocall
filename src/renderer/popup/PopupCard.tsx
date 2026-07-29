@@ -13,7 +13,7 @@ import { playWord } from '../playWord'
 // 自动播放限制）都静默吞掉，不影响卡片。
 async function playSound(): Promise<void> {
   try {
-    const settings = await window.tasymize.getSettings()
+    const settings = await window.vocall.getSettings()
     if (settings.sound_enabled === 'false') return
     const file = settings.sound_file || 'pop.mp3'
     const isAbsolute = /^([a-zA-Z]:[\\/]|\/|file:)/.test(file)
@@ -61,7 +61,7 @@ export default function PopupCard(): ReactElement | null {
     // 自动隐藏已改由主端 showPopup 统管（popup_stay_sec 后 hide，下个 showPopup 取消上个 hide），
     // 渲染端不再设 dismiss 定时器——否则 interval≈stay 时，上个 stayMs 的 hide 会撞上本次 show，
     // 弹窗闪一下消失。每次弹窗重读主题/弹窗字体倍率——设置改完后下一次弹窗即时换肤。
-    void window.tasymize.getSettings().then((settings) => {
+    void window.vocall.getSettings().then((settings) => {
       if (!alive.current) return
       setTheme(getTheme(settings.theme))
       // 每次弹窗重读弹窗字体倍率（popup_font_scale），设置改完后下一次弹窗即时生效
@@ -81,9 +81,9 @@ export default function PopupCard(): ReactElement | null {
     // 方案A（主动 pull）：mount 后立即拉一次当前词，覆盖"启动即有到期词、
     // push 消息早于 did-finish-load 被丢弃"的场景；onShow 仅作"有词了"的信号，
     // 收到信号后同样主动拉取，不依赖推送 payload。
-    void window.tasymize.getCurrent().then((p) => { if (p) start(p) })
-    window.tasymize.onShow(() => {
-      void window.tasymize.getCurrent().then((p) => { if (p) start(p) })
+    void window.vocall.getCurrent().then((p) => { if (p) start(p) })
+    window.vocall.onShow(() => {
+      void window.vocall.getCurrent().then((p) => { if (p) start(p) })
     })
     return () => {
       alive.current = false
@@ -100,7 +100,7 @@ export default function PopupCard(): ReactElement | null {
     const startX = e.screenX
     const startY = e.screenY
     let dragging = false
-    window.tasymize.dragStart(startX, startY)
+    window.vocall.dragStart(startX, startY)
     const onMove = (ev: MouseEvent): void => {
       // 粘性拖拽兜底：快速甩动时 mouseup 可能投递给窗外其他窗口而丢失，
       // 此后每次划过都会触发 onMove。发现按键已松开（buttons===0）说明手势
@@ -110,7 +110,7 @@ export default function PopupCard(): ReactElement | null {
           Math.hypot(ev.screenX - startX, ev.screenY - startY) > DRAG_THRESHOLD_PX) {
         dragging = true
       }
-      if (dragging) window.tasymize.dragMove(ev.screenX, ev.screenY)
+      if (dragging) window.vocall.dragMove(ev.screenX, ev.screenY)
     }
     const cleanup = (): void => {
       window.removeEventListener('mousemove', onMove)
@@ -133,15 +133,15 @@ export default function PopupCard(): ReactElement | null {
   const { item, repetitions, passCount, forgotCount } = payload
 
   const send = (g: 0 | 1 | 2): void => {
-    void window.tasymize.grade(item.id, g)
-    window.tasymize.dismiss()
+    void window.vocall.grade(item.id, g)
+    window.vocall.dismiss()
   }
 
   // 标为已掌握：次要操作，独立于三档评分主流程。
   // 直接进 mastered 终态（不再出现在弹窗队列），需要时可在生词库「重新背」复活。
   const master = async (): Promise<void> => {
-    await window.tasymize.master(item.id)
-    window.tasymize.dismiss()
+    await window.vocall.master(item.id)
+    window.vocall.dismiss()
   }
 
   // 卡片内按钮必须拦住 mousedown，避免从按钮起手误触拖拽/翻卡

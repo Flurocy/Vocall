@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron'
+import { ipcMain, app, shell } from 'electron'
 import type { BrowserWindow } from 'electron'
 import {
   addVocab, deleteVocab, listVocab, updateVocab,
@@ -13,6 +13,7 @@ import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
 import { resizePopup, applyPopupOpacity } from './popup'
+import { checkUpdate } from './updater'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
 // popupWin 由 index.ts 创建，通过此闭包传入（与 registerPopupIpc / startEngine 同款模式）。
@@ -82,5 +83,14 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('audio:pronounce', async (_e, word: string) => {
     const accent = getSetting('audio_accent') ?? 'british'
     return fetchPronunciation(word, accent)
+  })
+
+  // 版本与更新检查（GitHub releases/latest）+ 外链跳转（shell.openExternal 开系统浏览器）。
+  // checkUpdate 一律 resolve（失败返回 error），渲染端据此显示"已是最新/发现新版本/检查失败"。
+  ipcMain.handle('app:getVersion', () => app.getVersion())
+  ipcMain.handle('app:checkUpdate', () => checkUpdate())
+  ipcMain.handle('app:openExternal', (_e, url: string) => {
+    // 只放行 http(s)，防任意协议跳转
+    if (typeof url === 'string' && /^https?:\/\//.test(url)) shell.openExternal(url)
   })
 }

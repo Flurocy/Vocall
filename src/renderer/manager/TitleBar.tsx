@@ -13,7 +13,7 @@ export default function TitleBar({ theme }: { theme: Theme }): ReactElement {
       className={`app-drag flex h-9 shrink-0 items-center justify-between border-b border-black/10 pl-4 ${theme.bgApp}`}
     >
       <span className={`select-none text-sm font-semibold tracking-wide ${theme.accentText}`}>
-        Tasymize
+        Vocall
       </span>
       <div className="flex">
         <button
@@ -21,7 +21,7 @@ export default function TitleBar({ theme }: { theme: Theme }): ReactElement {
           title="最小化"
           aria-label="最小化"
           className={btn}
-          onClick={() => void window.tasymize.winMinimize()}
+          onClick={() => void window.vocall.winMinimize()}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.2">
             <line x1="1" y1="6" x2="11" y2="6" />
@@ -32,7 +32,7 @@ export default function TitleBar({ theme }: { theme: Theme }): ReactElement {
           title="最大化 / 还原"
           aria-label="最大化"
           className={btn}
-          onClick={() => void window.tasymize.winMaximize()}
+          onClick={() => void window.vocall.winMaximize()}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.2">
             <rect x="1.5" y="1.5" width="9" height="9" rx="1" />
@@ -43,7 +43,7 @@ export default function TitleBar({ theme }: { theme: Theme }): ReactElement {
           title="关闭（隐藏到托盘）"
           aria-label="关闭"
           className="app-no-drag flex h-9 w-11 items-center justify-center text-slate-600 transition-colors hover:bg-rose-500 hover:text-white"
-          onClick={() => void window.tasymize.winClose()}
+          onClick={() => void window.vocall.winClose()}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.2">
             <line x1="1.5" y1="1.5" x2="10.5" y2="10.5" />

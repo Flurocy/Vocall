@@ -32,7 +32,7 @@ export interface TrashEntry {
 }
 
 // 渲染端可调用的接口形状
-export interface TasymizeApi {
+export interface VocallApi {
   listVocab(): Promise<VocabItem[]>
   addVocab(e: NewVocabItem): Promise<number>
   updateVocab(id: number, patch: Partial<NewVocabItem>): Promise<void>
@@ -76,10 +76,23 @@ export interface TasymizeApi {
   winMinimize(): Promise<void>
   winMaximize(): Promise<void> // toggle：最大化/还原
   winClose(): Promise<void>    // 主进程拦截为"隐藏到托盘"，非真退
+  // 版本/更新检查 + 外链跳转
+  getVersion(): Promise<string>
+  checkUpdate(): Promise<UpdateInfo>
+  openExternal(url: string): Promise<void>
+}
+
+// 检查更新返回结构（updater.ts 产出，renderer 消费）
+export interface UpdateInfo {
+  current: string       // 本地版本
+  latest: string | null // 远端最新版（去 v 前缀）；null = 未发布或拉取失败
+  hasUpdate: boolean    // latest > current
+  releaseUrl: string | null
+  error?: string        // 失败原因
 }
 
 declare global {
   interface Window {
-    tasymize: TasymizeApi
+    vocall: VocallApi
   }
 }

@@ -59,7 +59,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
     setExpanded(new Set())
     doneRef.current = new Set() // 新一批结果，重置已入库下标
     try {
-      const list = await window.tasymize.generateTheme(t, 30)
+      const list = await window.vocall.generateTheme(t, 30)
       if (list.length === 0) {
         setMsg({ kind: 'err', text: 'AI 返回为空，换个主题或稍后重试' })
         return
@@ -112,7 +112,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
       for (const i of pending) {
         const e = results[i]
         try {
-          await window.tasymize.addVocab({
+          await window.vocall.addVocab({
             word: e.word,
             meaning: e.meaning,
             example: e.example,

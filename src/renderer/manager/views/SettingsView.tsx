@@ -81,14 +81,18 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   // 快捷键绑定监听态；hotkeyNotice 显示「已禁用快捷键」等一次性提示
   const [listening, setListening] = useState(false)
   const [hotkeyNotice, setHotkeyNotice] = useState<string | null>(null)
+  // 版本号 + 检查更新结果（kind:'ok' 且有 url 时附"前往下载"跳 release 页）
+  const [version, setVersion] = useState('')
+  const [updateMsg, setUpdateMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string; url?: string | null } | null>(null)
 
   useEffect(() => {
-    void window.tasymize.getSettings().then(setSettings)
+    void window.vocall.getSettings().then(setSettings)
+    void window.vocall.getVersion().then(setVersion)
   }, [])
 
   // 即时保存：写入主进程 + 刷新本地 state；主题/字号另通知 App 立即换肤
   const update = async (key: string, value: string): Promise<void> => {
-    await window.tasymize.setSetting(key, value)
+    await window.vocall.setSetting(key, value)
     setSettings((s) => ({ ...s, [key]: value }))
     onSettingChanged(key, value)
   }
@@ -132,16 +136,29 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
 
   const testAi = async (): Promise<void> => {
     setAiTestMsg({ kind: 'busy', text: '测试中…' })
-    const r = await window.tasymize.testAi()
+    const r = await window.vocall.testAi()
     setAiTestMsg(r.ok ? { kind: 'ok', text: r.message } : { kind: 'err', text: r.message })
+  }
+
+  // 检查更新（GitHub releases/latest）：有新版→附 releaseUrl 跳下载；失败/无更新/超时各有提示。
+  const doCheckUpdate = async (): Promise<void> => {
+    setUpdateMsg({ kind: 'busy', text: '检查中…' })
+    const r = await window.vocall.checkUpdate()
+    if (r.error) {
+      setUpdateMsg({ kind: 'err', text: r.error, url: r.releaseUrl })
+    } else if (r.hasUpdate) {
+      setUpdateMsg({ kind: 'ok', text: `发现新版本 v${r.latest}`, url: r.releaseUrl })
+    } else {
+      setUpdateMsg({ kind: 'ok', text: '已是最新版本' })
+    }
   }
 
   // 恢复默认：主进程重置弹性数值键后整体重拉，本地 state 一并刷新。
   // 只动记忆节奏数值，外观/音效/AI 不受影响，故无需 onSettingChanged
   const resetElastic = async (): Promise<void> => {
     if (!window.confirm('把"记忆节奏"相关数值恢复为默认值？外观、音效、AI 设置不受影响。')) return
-    await window.tasymize.resetElasticSettings()
-    setSettings(await window.tasymize.getSettings())
+    await window.vocall.resetElasticSettings()
+    setSettings(await window.vocall.getSettings())
   }
 
   const currentTheme = getTheme(settings.theme)
@@ -468,6 +485,42 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 </span>
               )}
             </div>
+          </div>
+        </section>
+
+        <section className={card}>
+          <h3 className={sectionTitle}>关于</h3>
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">版本 {version || '…'}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => void doCheckUpdate()}
+                disabled={updateMsg?.kind === 'busy'}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover} disabled:opacity-50`}
+              >
+                检查更新
+              </button>
+              {updateMsg && (
+                <span
+                  className={`text-sm ${
+                    updateMsg.kind === 'ok' ? theme.accentText : updateMsg.kind === 'err' ? 'text-rose-600' : 'text-slate-500'
+                  }`}
+                >
+                  {updateMsg.text}
+                  {updateMsg.url && (
+                    <button
+                      onClick={() => void window.vocall.openExternal(updateMsg.url!)}
+                      className="ml-2 underline"
+                    >
+                      前往下载
+                    </button>
+                  )}
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-slate-500">
+              数据保存在本机 AppData\Vocall，更新覆盖不会丢失。
+            </p>
           </div>
         </section>
       </div>

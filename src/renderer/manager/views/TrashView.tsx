@@ -10,19 +10,19 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
   const [list, setList] = useState<TrashEntry[]>([])
 
   const reload = async (): Promise<void> => {
-    setList(await window.tasymize.listTrash())
+    setList(await window.vocall.listTrash())
   }
   useEffect(() => { void reload() }, [])
 
   const restore = async (id: number): Promise<void> => {
-    await window.tasymize.restore(id)
+    await window.vocall.restore(id)
     await reload()
   }
 
   // 彻底删除：从回收站真删 + 清对应 srsState，不可恢复，需 confirm。
   const purge = async (id: number): Promise<void> => {
     if (!window.confirm('彻底删除这个词？不可恢复。')) return
-    await window.tasymize.purge(id)
+    await window.vocall.purge(id)
     await reload()
   }
 
@@ -30,7 +30,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
   const clearAll = async (): Promise<void> => {
     if (list.length === 0) return
     if (!window.confirm('彻底清空所有已删除的词？此操作不可恢复。')) return
-    await window.tasymize.clearTrash()
+    await window.vocall.clearTrash()
     await reload()
   }
 

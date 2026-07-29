@@ -32,8 +32,8 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
 
   const reload = async (): Promise<void> => {
-    setList(await window.tasymize.listVocab())
-    setForgotMap(await window.tasymize.getForgotCounts())
+    setList(await window.vocall.listVocab())
+    setForgotMap(await window.vocall.getForgotCounts())
     setChecked(new Set()) // 刷新后清空勾选（被删的 id 已失效）
   }
   useEffect(() => { void reload() }, [])
@@ -44,7 +44,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     if (!word.trim()) { setAiMsg({ kind: 'err', text: '请输入单词' }); return }
     if (!meaning.trim()) { setAiMsg({ kind: 'err', text: '请补充释义' }); return }
     try {
-      await window.tasymize.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
+      await window.vocall.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
     } catch (err) {
       // 入库失败（如同词重复被主进程拦截）：inline 报错并保留表单输入，用户可改词重试
       setAiMsg({ kind: 'err', text: errMsg(err) })
@@ -68,7 +68,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     setAiTranslating(true)
     setAiMsg({ kind: 'busy', text: '翻译中…' })
     try {
-      const r = await window.tasymize.translate(w)
+      const r = await window.vocall.translate(w)
       setMeaning(r.meaning)
       setExample(r.example)
       setUsedAi(true)
@@ -81,13 +81,13 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   }
 
   const remove = async (id: number): Promise<void> => {
-    await window.tasymize.deleteVocab(id)
+    await window.vocall.deleteVocab(id)
     await reload()
   }
 
   // 复活：mastered 词回到 learning 队列立即可弹（生词库内单条操作）
   const revive = async (id: number): Promise<void> => {
-    await window.tasymize.revive(id)
+    await window.vocall.revive(id)
     await reload()
   }
 
@@ -95,7 +95,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   // 与批量删除并列；语义中性（归档而非销毁），不需 confirm。
   const masterSelected = async (): Promise<void> => {
     if (checked.size === 0) return
-    for (const id of checked) await window.tasymize.master(id)
+    for (const id of checked) await window.vocall.master(id)
     await reload()
   }
 
@@ -113,7 +113,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const removeSelected = async (): Promise<void> => {
     if (checked.size === 0) return
     if (!window.confirm(`删除勾选的 ${checked.size} 条生词？将移到回收站，可还原。`)) return
-    for (const id of checked) await window.tasymize.deleteVocab(id)
+    for (const id of checked) await window.vocall.deleteVocab(id)
     await reload()
   }
 

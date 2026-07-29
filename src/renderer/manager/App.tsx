@@ -20,7 +20,7 @@ export default function App(): ReactElement {
   }, [fontSize])
 
   useEffect(() => {
-    void window.tasymize.getSettings().then((s) => {
+    void window.vocall.getSettings().then((s) => {
       setTheme(getTheme(s.theme))
       setFontSize(getFontSize(s.font_size))
     })

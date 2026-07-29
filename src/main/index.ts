@@ -49,7 +49,7 @@ function createManagerWindow(): void {
   }
 }
 
-// 托盘「打开 Tasymize」：已有窗口则显示聚焦，已被销毁则重建
+// 托盘「打开 Vocall」：已有窗口则显示聚焦，已被销毁则重建
 function openManager(): void {
   if (managerWin && !managerWin.isDestroyed()) {
     managerWin.show()

@@ -3,3 +3,7 @@ out/
 dist/
 *.log
 .DS_Store
+
+# 开发思考文档（plans/specs，含开发过程与本机路径，不进发布也不上 GitHub）
+docs/superpowers/
+.superpowers/

@@ -19,7 +19,7 @@ export default function WordbooksView({ theme }: { theme: Theme }): ReactElement
   const [openId, setOpenId] = useState<string | null>(null) // 当前点进的词书 id
 
   useEffect(() => {
-    void window.tasymize.listWordbooks().then(setBooks)
+    void window.vocall.listWordbooks().then(setBooks)
   }, [])
 
   if (openId) {
@@ -69,7 +69,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
   const [err, setErr] = useState<string | null>(null) // 批量加入失败提示（撞词由主进程跳过，这里只兜非重复类错误）
 
   const load = async (): Promise<void> => {
-    setWords(await window.tasymize.getWordbookWords(bookId))
+    setWords(await window.vocall.getWordbookWords(bookId))
     setChecked(new Set())
   }
   useEffect(() => { void load() }, [bookId]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -91,7 +91,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
   const addSelected = async (): Promise<void> => {
     if (checked.size === 0) return
     try {
-      const n = await window.tasymize.addWordsToPlan(bookId, [...checked])
+      const n = await window.vocall.addWordsToPlan(bookId, [...checked])
       setAdded(n)
       setErr(null)
       await load() // 刷新在库标记

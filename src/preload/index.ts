@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { NewVocabItem } from '../shared/ipc-types'
 
-contextBridge.exposeInMainWorld('tasymize', {
+contextBridge.exposeInMainWorld('vocall', {
   listVocab: () => ipcRenderer.invoke('vocab:list'),
   addVocab: (e: NewVocabItem) => ipcRenderer.invoke('vocab:add', e),
   updateVocab: (id: number, patch: Partial<NewVocabItem>) =>
@@ -49,4 +49,8 @@ contextBridge.exposeInMainWorld('tasymize', {
   getWordbookWords: (bookId: string) => ipcRenderer.invoke('wordbook:words', bookId),
   addWordsToPlan: (bookId: string, words: string[]) =>
     ipcRenderer.invoke('wordbook:addWords', bookId, words),
+  // 版本/更新检查 + 外链跳转
+  getVersion: () => ipcRenderer.invoke('app:getVersion'),
+  checkUpdate: () => ipcRenderer.invoke('app:checkUpdate'),
+  openExternal: (url: string) => ipcRenderer.invoke('app:openExternal', url),
 })
