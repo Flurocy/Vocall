@@ -1,0 +1,1423 @@
+{
+  "id": "ielts-public",
+  "name": "政经法理",
+  "desc": "政府、法律、犯罪、经济、工作及一批抽象评价/逻辑词,议论文进阶用词,冲 7+ 的高分向词汇。",
+  "words": [
+    {
+      "word": "administer",
+      "meaning": "v. 管理,治理",
+      "example": "The ministry was established to administer the new healthcare programme.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "administration",
+      "meaning": "n. 行政,管理",
+      "example": "The new administration pledged to reform the tax system within its first year.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "administrative",
+      "meaning": "adj. 行政的,管理的",
+      "example": "Bureaucratic delays often stem from inefficient administrative procedures.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "authority",
+      "meaning": "n. 权力,当局",
+      "example": "Local authorities are responsible for implementing national policy at the municipal level.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "authorize",
+      "meaning": "v. 授权,批准",
+      "example": "Only parliament can authorize the allocation of emergency public funds.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "autonomy",
+      "meaning": "n. 自治,自主权",
+      "example": "Regional governments have demanded greater autonomy over education and healthcare.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "bureaucracy",
+      "meaning": "n. 官僚体制",
+      "example": "Excessive bureaucracy often stifles innovation and discourages foreign investment.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "bureaucratic",
+      "meaning": "adj. 官僚的,繁文缛节的",
+      "example": "Citizens frequently complain about the bureaucratic hurdles involved in obtaining permits.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "centralize",
+      "meaning": "v. 集中,集权",
+      "example": "Many states have centralised fiscal policy to streamline national decision-making.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "decentralize",
+      "meaning": "v. 分权,下放",
+      "example": "Decentralising administrative power allows local governments to respond more swiftly to regional needs.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "citizen",
+      "meaning": "n. 公民",
+      "example": "Citizens are entitled to hold their elected representatives accountable for policy outcomes.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "comply",
+      "meaning": "v. 遵守,服从",
+      "example": "Companies must comply with environmental regulations or face substantial fines.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "compliance",
+      "meaning": "n. 遵守,合规",
+      "example": "Strict compliance with safety standards is non-negotiable for pharmaceutical manufacturers.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "constituency",
+      "meaning": "n. 选区,选民群体",
+      "example": "The senator's constituency has been hit hardest by the recent trade layoffs.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "constituent",
+      "meaning": "n. 选民,组成部分",
+      "example": "Elected officials have a duty to represent the interests of their constituents.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "democratize",
+      "meaning": "v. 民主化",
+      "example": "The internet has helped to democratize access to political information.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "democratization",
+      "meaning": "n. 民主化",
+      "example": "Democratization in the region has been slow but remarkably peaceful.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "elect",
+      "meaning": "v. 选举",
+      "example": "Voters elect representatives to deliberate on legislation in parliament.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "electorate",
+      "meaning": "n. 全体选民",
+      "example": "The electorate has grown disillusioned with conventional party politics.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "eligible",
+      "meaning": "adj. 有资格的",
+      "example": "Only citizens over the age of eighteen are eligible to vote in national elections.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "enforce",
+      "meaning": "v. 执行,实施",
+      "example": "The government lacks the resources to enforce environmental regulations in rural areas.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "enforcement",
+      "meaning": "n. 执行,强制",
+      "example": "Weak enforcement of labour laws leaves many workers vulnerable to exploitation.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "govern",
+      "meaning": "v. 治理,统治",
+      "example": "Politicians are elected to govern in the interests of the broader public, not narrow elites.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "governance",
+      "meaning": "n. 治理,管理方式",
+      "example": "Good governance depends on transparency, accountability, and the rule of law.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "implement",
+      "meaning": "v. 实施,贯彻",
+      "example": "Governments often struggle to implement policies that were promising on paper.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "implementation",
+      "meaning": "n. 实施,执行",
+      "example": "The implementation of the new curriculum has been delayed by funding shortages.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "initiative",
+      "meaning": "n. 倡议,主动行动",
+      "example": "The mayor launched a new initiative to combat urban poverty and homelessness.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legislate",
+      "meaning": "v. 立法",
+      "example": "Parliament must legislate to close loopholes that allow tax avoidance.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legislation",
+      "meaning": "n. 立法,法律",
+      "example": "The government introduced legislation to regulate carbon emissions from heavy industry.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legislative",
+      "meaning": "adj. 立法的",
+      "example": "The legislative process often moves slowly through multiple committees and reviews.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legislature",
+      "meaning": "n. 立法机关",
+      "example": "The state legislature passed a bill allocating additional funds to public schools.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legitimate",
+      "meaning": "adj. 合法的,正当的",
+      "example": "Citizens have a legitimate expectation that their tax contributions will be spent wisely.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "legitimize",
+      "meaning": "v. 使合法化,使正当",
+      "example": "Official recognition can legitimize marginalized social movements.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "mandate",
+      "meaning": "n. 授权,委托",
+      "example": "The newly elected government claimed a clear mandate to overhaul the welfare system.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "mandatory",
+      "meaning": "adj. 强制的,义务的",
+      "example": "Mandatory sentencing laws have been criticized for removing judicial discretion.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "minister",
+      "meaning": "n. 部长,大臣",
+      "example": "The health minister announced a comprehensive review of hospital funding.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "ministry",
+      "meaning": "n. (政府)部",
+      "example": "The Ministry of Finance is responsible for setting fiscal policy.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "ministerial",
+      "meaning": "adj. 部长的,内阁的",
+      "example": "The ministerial committee will review the proposals before they reach parliament.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "partisan",
+      "meaning": "adj. 党派的,偏袒的",
+      "example": "Partisan disagreements have repeatedly stalled progress on immigration reform.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "bipartisan",
+      "meaning": "adj. 两党的",
+      "example": "A bipartisan coalition supported the legislation despite deep ideological divisions.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "regulatory",
+      "meaning": "adj. 监管的",
+      "example": "Regulatory bodies must keep pace with rapid technological change.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "deregulate",
+      "meaning": "v. 解除管制",
+      "example": "Proponents argue that deregulating markets encourages competition and innovation.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "subsidize",
+      "meaning": "v. 补贴",
+      "example": "The government continues to subsidize public transport to reduce urban congestion.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "treasury",
+      "meaning": "n. 财政部,国库",
+      "example": "The treasury estimates that the reform will cost upwards of two billion dollars.",
+      "topic": "政府政策"
+    },
+    {
+      "word": "abolish",
+      "meaning": "v. 废除,废止",
+      "example": "Campaigners have long demanded that the government abolish the inheritance tax.",
+      "topic": "法律"
+    },
+    {
+      "word": "abolition",
+      "meaning": "n. 废除",
+      "example": "The abolition of school fees dramatically increased enrolment rates in rural areas.",
+      "topic": "法律"
+    },
+    {
+      "word": "acquit",
+      "meaning": "v. 宣判无罪",
+      "example": "The jury chose to acquit the defendant due to insufficient evidence.",
+      "topic": "法律"
+    },
+    {
+      "word": "acquittal",
+      "meaning": "n. 宣判无罪",
+      "example": "The acquittal sparked public debate about the reliability of eyewitness testimony.",
+      "topic": "法律"
+    },
+    {
+      "word": "amendment",
+      "meaning": "n. 修正案",
+      "example": "The first amendment guarantees freedom of speech and of the press.",
+      "topic": "法律"
+    },
+    {
+      "word": "appeal",
+      "meaning": "v. 上诉,申诉",
+      "example": "The defendant plans to appeal the verdict to a higher court.",
+      "topic": "法律"
+    },
+    {
+      "word": "breach",
+      "meaning": "n. 违反,违背",
+      "example": "The company was fined for a serious breach of environmental regulations.",
+      "topic": "法律"
+    },
+    {
+      "word": "clause",
+      "meaning": "n. 条款",
+      "example": "The contract includes a clause that prohibits employees from working for competitors.",
+      "topic": "法律"
+    },
+    {
+      "word": "code",
+      "meaning": "n. 法典,准则",
+      "example": "The penal code distinguishes between different categories of criminal offence.",
+      "topic": "法律"
+    },
+    {
+      "word": "constitution",
+      "meaning": "n. 宪法",
+      "example": "The country's constitution guarantees equal protection under the law.",
+      "topic": "法律"
+    },
+    {
+      "word": "constitutional",
+      "meaning": "adj. 宪法的",
+      "example": "The supreme court ruled that the new statute was constitutional.",
+      "topic": "法律"
+    },
+    {
+      "word": "decree",
+      "meaning": "n. 法令,政令",
+      "example": "The president issued a decree suspending imports of certain agricultural goods.",
+      "topic": "法律"
+    },
+    {
+      "word": "defendant",
+      "meaning": "n. 被告",
+      "example": "The defendant declined to testify on his own behalf during the trial.",
+      "topic": "法律"
+    },
+    {
+      "word": "enact",
+      "meaning": "v. 制定(法律)",
+      "example": "Parliament plans to enact stricter regulations on industrial emissions.",
+      "topic": "法律"
+    },
+    {
+      "word": "exempt",
+      "meaning": "adj. 免除的",
+      "example": "Charitable organizations are largely exempt from corporate taxation.",
+      "topic": "法律"
+    },
+    {
+      "word": "exemption",
+      "meaning": "n. 免除,豁免",
+      "example": "The new law grants an exemption to small businesses with limited revenue.",
+      "topic": "法律"
+    },
+    {
+      "word": "jurisdiction",
+      "meaning": "n. 司法权,管辖权",
+      "example": "The court lacks jurisdiction over offences committed outside national borders.",
+      "topic": "法律"
+    },
+    {
+      "word": "lawful",
+      "meaning": "adj. 合法的, lawful的",
+      "example": "Peaceful protest remains a lawful means of expressing political dissent.",
+      "topic": "法律"
+    },
+    {
+      "word": "lawsuit",
+      "meaning": "n. 诉讼",
+      "example": "The corporation faces a lawsuit alleging widespread environmental damage.",
+      "topic": "法律"
+    },
+    {
+      "word": "attorney",
+      "meaning": "n. 律师,代理人",
+      "example": "The defendant's attorney argued that the evidence had been obtained illegally.",
+      "topic": "法律"
+    },
+    {
+      "word": "liability",
+      "meaning": "n. 责任,债务",
+      "example": "The company denied any liability for injuries sustained on its premises.",
+      "topic": "法律"
+    },
+    {
+      "word": "liable",
+      "meaning": "adj. 有法律责任的",
+      "example": "Manufacturers can be held liable for defects in their products.",
+      "topic": "法律"
+    },
+    {
+      "word": "litigate",
+      "meaning": "v. 诉讼,打官司",
+      "example": "The organisation chose to litigate rather than accept an out-of-court settlement.",
+      "topic": "法律"
+    },
+    {
+      "word": "litigation",
+      "meaning": "n. 诉讼",
+      "example": "Prolonged litigation has drained the company's financial reserves.",
+      "topic": "法律"
+    },
+    {
+      "word": "obligate",
+      "meaning": "v. 强迫,使有义务",
+      "example": "The contract obligates the supplier to deliver goods within thirty days.",
+      "topic": "法律"
+    },
+    {
+      "word": "obligation",
+      "meaning": "n. 义务,责任",
+      "example": "Citizens have a legal obligation to report certain categories of income.",
+      "topic": "法律"
+    },
+    {
+      "word": "penal",
+      "meaning": "adj. 刑事的,刑罚的",
+      "example": "The country's penal system emphasizes rehabilitation over punishment.",
+      "topic": "法律"
+    },
+    {
+      "word": "penalize",
+      "meaning": "v. 处罚,惩罚",
+      "example": "The regulator will penalize firms that fail to meet emissions targets.",
+      "topic": "法律"
+    },
+    {
+      "word": "petition",
+      "meaning": "n. 请愿书,申请",
+      "example": "Activists submitted a petition signed by thousands of citizens.",
+      "topic": "法律"
+    },
+    {
+      "word": "plaintiff",
+      "meaning": "n. 原告",
+      "example": "The plaintiff claimed that the company had misled investors about its finances.",
+      "topic": "法律"
+    },
+    {
+      "word": "prosecute",
+      "meaning": "v. 起诉,检控",
+      "example": "The state decided to prosecute the corporation for environmental violations.",
+      "topic": "法律"
+    },
+    {
+      "word": "prosecution",
+      "meaning": "n. 起诉,检控",
+      "example": "The prosecution failed to establish the defendant's motive beyond reasonable doubt.",
+      "topic": "法律"
+    },
+    {
+      "word": "provision",
+      "meaning": "n. 条款,规定",
+      "example": "The act includes a provision requiring companies to disclose executive salaries.",
+      "topic": "法律"
+    },
+    {
+      "word": "ratify",
+      "meaning": "v. 批准,签署",
+      "example": "The senate voted unanimously to ratify the international climate agreement.",
+      "topic": "法律"
+    },
+    {
+      "word": "ratification",
+      "meaning": "n. 批准",
+      "example": "Ratification of the treaty requires approval from two-thirds of the legislature.",
+      "topic": "法律"
+    },
+    {
+      "word": "repeal",
+      "meaning": "v. 废除,撤销",
+      "example": "The incoming government pledged to repeal the controversial surveillance law.",
+      "topic": "法律"
+    },
+    {
+      "word": "statute",
+      "meaning": "n. 成文法,法规",
+      "example": "The statute explicitly prohibits discrimination on the basis of age.",
+      "topic": "法律"
+    },
+    {
+      "word": "sue",
+      "meaning": "v. 起诉,控告",
+      "example": "Customers threatened to sue the company after the data breach was disclosed.",
+      "topic": "法律"
+    },
+    {
+      "word": "treaty",
+      "meaning": "n. 条约",
+      "example": "Several nations refused to sign the treaty on the grounds of national sovereignty.",
+      "topic": "法律"
+    },
+    {
+      "word": "tribunal",
+      "meaning": "n. 法庭,裁判所",
+      "example": "An independent tribunal was established to investigate the corruption allegations.",
+      "topic": "法律"
+    },
+    {
+      "word": "verdict",
+      "meaning": "n. 裁决,判决",
+      "example": "The jury reached a unanimous verdict after three days of deliberation.",
+      "topic": "法律"
+    },
+    {
+      "word": "violate",
+      "meaning": "v. 违反,违背",
+      "example": "The corporation was found to have violated multiple environmental regulations.",
+      "topic": "法律"
+    },
+    {
+      "word": "violation",
+      "meaning": "n. 违反,违背",
+      "example": "Violations of building safety codes contributed to the disaster.",
+      "topic": "法律"
+    },
+    {
+      "word": "accomplice",
+      "meaning": "n. 同谋,帮凶",
+      "example": "The prosecution argued that the defendant had acted as an accomplice in the robbery.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "allege",
+      "meaning": "v. 指控,声称",
+      "example": "Several employees alleged that the company had systematically underpaid them.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "allegation",
+      "meaning": "n. 指控",
+      "example": "The senator denied the allegations and accused the media of fabrication.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "arson",
+      "meaning": "n. 纵火罪",
+      "example": "Investigators suspect arson was the cause of the warehouse fire last week.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "assault",
+      "meaning": "n. 袭击,攻击",
+      "example": "The rate of violent assault has declined sharply in the past decade.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "blackmail",
+      "meaning": "n. 勒索,敲诈",
+      "example": "The executive was a victim of blackmail after his affair became public.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "burglar",
+      "meaning": "n. 窃贼,夜贼",
+      "example": "Burglars typically target homes that appear unoccupied during working hours.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "burglary",
+      "meaning": "n. 入室盗窃",
+      "example": "Burglary rates have fallen sharply since the introduction of neighbourhood watch schemes.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "coerce",
+      "meaning": "v. 强迫,胁迫",
+      "example": "Witnesses claimed they were coerced into signing false confessions.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "coercion",
+      "meaning": "n. 强迫,胁迫",
+      "example": "Confessions obtained under coercion are inadmissible in a court of law.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "culprit",
+      "meaning": "n. 罪犯,肇事者",
+      "example": "Police believe the same culprit is responsible for a string of recent burglaries.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "detain",
+      "meaning": "v. 拘留,扣押",
+      "example": "The authorities detained several journalists covering the protest.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "detention",
+      "meaning": "n. 拘留,扣押",
+      "example": "Indefinite detention without trial violates fundamental human rights.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "embezzle",
+      "meaning": "v. 贪污,挪用",
+      "example": "The accountant was charged with attempting to embezzle pension funds.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "embezzlement",
+      "meaning": "n. 贪污,挪用",
+      "example": "Embezzlement of public funds carries severe penalties in most jurisdictions.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "extortion",
+      "meaning": "n. 勒索,敲诈",
+      "example": "Organised crime groups often rely on extortion to finance their operations.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "felony",
+      "meaning": "n. 重罪",
+      "example": "Armed robbery is classified as a felony under federal law.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "forge",
+      "meaning": "v. 伪造",
+      "example": "The forger was arrested for attempting to forge signatures on official documents.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "forgery",
+      "meaning": "n. 伪造(罪)",
+      "example": "The painting was exposed as a forgery after expert authentication.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "guilty",
+      "meaning": "adj. 有罪的",
+      "example": "The jury found the executive guilty of insider trading.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "hijack",
+      "meaning": "v. 劫持",
+      "example": "Terrorists attempted to hijack a commercial flight bound for the capital.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "homicide",
+      "meaning": "n. 凶杀,杀人(罪)",
+      "example": "Homicide rates vary dramatically across different urban neighbourhoods.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "hostage",
+      "meaning": "n. 人质",
+      "example": "Negotiators worked through the night to secure the release of the hostages.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "interrogate",
+      "meaning": "v. 审问,质询",
+      "example": "Detectives interrogated the suspect for hours before any charges were filed.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "kidnap",
+      "meaning": "v. 绑架",
+      "example": "Aid workers were kidnapped by an armed group near the border.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "launder",
+      "meaning": "v. 洗(钱)",
+      "example": "The cartel used legitimate businesses to launder billions in illicit profits.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "manslaughter",
+      "meaning": "n. 过失杀人(罪)",
+      "example": "The driver was charged with manslaughter after the fatal collision.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "mug",
+      "meaning": "v. 抢劫",
+      "example": "Tourists are often warned that they may be mugged in poorly lit areas.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "mugging",
+      "meaning": "n. 行凶抢劫",
+      "example": "Mugging has become more common in areas with inadequate street lighting.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "parole",
+      "meaning": "n. 假释",
+      "example": "The inmate was released on parole after serving half of his sentence.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "perpetrate",
+      "meaning": "v. 实施(犯罪)",
+      "example": "The individuals who perpetrated the attack remain at large.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "perpetrator",
+      "meaning": "n. 犯罪者,作恶者",
+      "example": "Victims should be supported in confronting perpetrators in a safe setting.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "plead",
+      "meaning": "v. 申辩,恳求",
+      "example": "The defendant chose to plead guilty in exchange for a reduced sentence.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "probation",
+      "meaning": "n. 缓刑(期)",
+      "example": "First-time offenders are often sentenced to probation rather than prison.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "suspect",
+      "meaning": "n. 嫌疑犯",
+      "example": "The police arrested a suspect in connection with the bank robbery.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "terrorism",
+      "meaning": "n. 恐怖主义",
+      "example": "The government has introduced new measures to combat international terrorism.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "traffick",
+      "meaning": "v. (非法)买卖,贩运",
+      "example": "Gangs continue to traffick people across the southern border.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "trespass",
+      "meaning": "v. 非法侵入",
+      "example": "The company sued protesters who trespassed on private property.",
+      "topic": "犯罪"
+    },
+    {
+      "word": "allocate",
+      "meaning": "v. 分配,配置",
+      "example": "Governments must allocate resources efficiently to maximize social welfare.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "allocation",
+      "meaning": "n. 分配,配置",
+      "example": "The allocation of public funds should prioritise education and healthcare.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "asset",
+      "meaning": "n. 资产",
+      "example": "Property remains the most common asset held by middle-class households.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "bankruptcy",
+      "meaning": "n. 破产",
+      "example": "The airline filed for bankruptcy following a sharp drop in passenger numbers.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "capital",
+      "meaning": "n. 资本,资金",
+      "example": "Foreign investors have injected significant capital into the technology sector.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "consumer",
+      "meaning": "n. 消费者",
+      "example": "Consumers have grown increasingly sensitive to the environmental impact of their purchases.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "corporation",
+      "meaning": "n. 大公司,企业",
+      "example": "Multinational corporations wield considerable influence over global trade policy.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "deficit",
+      "meaning": "n. 赤字,逆差",
+      "example": "The trade deficit widened as imports outpaced exports for the third consecutive quarter.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "demand",
+      "meaning": "n. 需求",
+      "example": "Strong consumer demand has driven prices upward across the sector.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "supply",
+      "meaning": "n. 供应",
+      "example": "Disruptions to the global supply chain have caused widespread shortages.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "devalue",
+      "meaning": "v. 使(货币)贬值",
+      "example": "The central bank chose to devalue the currency to stimulate exports.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "devaluation",
+      "meaning": "n. 贬值",
+      "example": "Devaluation can make exports cheaper but increases the cost of imported goods.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "distribute",
+      "meaning": "v. 分配,分销",
+      "example": "The company distributes its products through a network of regional wholesalers.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "distribution",
+      "meaning": "n. 分配,分销",
+      "example": "Unequal distribution of wealth remains a persistent challenge in many economies.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "entrepreneur",
+      "meaning": "n. 企业家",
+      "example": "Successful entrepreneurs often credit their achievements to persistence rather than talent.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "equilibrium",
+      "meaning": "n. 均衡",
+      "example": "Markets tend to move toward equilibrium as prices adjust to supply and demand.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "export",
+      "meaning": "v. 出口",
+      "example": "The country exports most of its agricultural produce to neighbouring markets.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "fiscal",
+      "meaning": "adj. 财政的",
+      "example": "The government's fiscal policy aims to balance growth with debt reduction.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "fluctuate",
+      "meaning": "v. 波动,起伏",
+      "example": "Commodity prices fluctuate in response to shifts in global demand.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "fluctuation",
+      "meaning": "n. 波动",
+      "example": "Fluctuations in exchange rates can significantly affect international trade.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "gdp",
+      "meaning": "n. 国内生产总值",
+      "example": "The country's GDP grew by 3.2 percent in the last quarter.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "globalize",
+      "meaning": "v. 全球化",
+      "example": "As markets globalize, domestic industries face stiffer international competition.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "globalization",
+      "meaning": "n. 全球化",
+      "example": "Globalization has lifted millions out of poverty but has also widened inequality.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "import",
+      "meaning": "v. 进口",
+      "example": "The nation imports most of its energy from neighbouring countries.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "incentive",
+      "meaning": "n. 激励,刺激",
+      "example": "Tax breaks serve as an incentive for companies to invest in research.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "index",
+      "meaning": "n. 指数,索引",
+      "example": "The consumer price index rose faster than economists had predicted.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "industrialize",
+      "meaning": "v. 工业化",
+      "example": "Many developing nations are struggling to industrialize without damaging the environment.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "inflate",
+      "meaning": "v. 使膨胀,涨价",
+      "example": "Speculation can inflate asset prices beyond their underlying value.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "inflation",
+      "meaning": "n. 通货膨胀",
+      "example": "Central banks raised interest rates to curb rising inflation.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "insolvent",
+      "meaning": "adj. 资不抵债的",
+      "example": "The bank was declared insolvent after a wave of customer withdrawals.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "liquid",
+      "meaning": "adj. 流动的,易变现的",
+      "example": "The company holds substantial liquid assets to cover short-term obligations.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "liquidity",
+      "meaning": "n. 流动性,变现能力",
+      "example": "A sudden shortage of liquidity forced several banks to seek emergency funding.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "macroeconomic",
+      "meaning": "adj. 宏观经济的",
+      "example": "Macroeconomic indicators suggest the economy is entering a period of stagnation.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "manufacture",
+      "meaning": "v. 制造,生产",
+      "example": "The country manufactures most of the world's consumer electronics.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "monetary",
+      "meaning": "adj. 货币的,金融的",
+      "example": "The central bank adjusted its monetary policy in response to slowing growth.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "quota",
+      "meaning": "n. 配额,限额",
+      "example": "Import quotas were introduced to protect domestic producers from foreign competition.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "recession",
+      "meaning": "n. 衰退",
+      "example": "The country slipped into recession after two consecutive quarters of negative growth.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "sanction",
+      "meaning": "n. 制裁",
+      "example": "International sanctions were imposed in response to the country's nuclear programme.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "surplus",
+      "meaning": "n. 顺差,剩余",
+      "example": "A budget surplus allows the government to reduce its outstanding debt.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "tariff",
+      "meaning": "n. 关税",
+      "example": "The government imposed tariffs on imported steel to protect domestic producers.",
+      "topic": "经济贸易"
+    },
+    {
+      "word": "applicant",
+      "meaning": "n. 申请人",
+      "example": "The position attracted more than five hundred qualified applicants.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "appoint",
+      "meaning": "v. 任命,委派",
+      "example": "The board voted to appoint a new chief executive after months of searching.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "bonus",
+      "meaning": "n. 奖金",
+      "example": "Senior executives often receive substantial annual bonuses tied to performance.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "candidate",
+      "meaning": "n. 候选人",
+      "example": "The company interviewed twelve candidates before making a final decision.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "client",
+      "meaning": "n. 客户",
+      "example": "Maintaining long-term relationships with clients is essential for any service business.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "colleague",
+      "meaning": "n. 同事",
+      "example": "Effective teams rely on trust and open communication among colleagues.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "compensate",
+      "meaning": "v. 补偿,报酬",
+      "example": "Firms must compensate employees fairly for overtime work.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "compensation",
+      "meaning": "n. 薪酬,补偿",
+      "example": "Executive compensation has risen far faster than average wages.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "delegate",
+      "meaning": "v. 委派,下放(权力)",
+      "example": "Effective managers delegate routine tasks so they can focus on strategic decisions.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "dismiss",
+      "meaning": "v. 解雇,驳回",
+      "example": "The company dismissed three employees after an internal investigation.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "employee",
+      "meaning": "n. 雇员",
+      "example": "Employees are entitled to a safe and healthy working environment.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "employer",
+      "meaning": "n. 雇主",
+      "example": "Employers have a responsibility to provide adequate training and protective equipment.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "enterprise",
+      "meaning": "n. 企业,事业",
+      "example": "Small and medium-sized enterprises account for most of the country's employment.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "executive",
+      "meaning": "n. 主管,高管",
+      "example": "Senior executives are increasingly held accountable for corporate misconduct.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "expertise",
+      "meaning": "n. 专业知识,专长",
+      "example": "Technical expertise alone is no longer sufficient for career advancement.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "freelance",
+      "meaning": "v. 从事自由职业",
+      "example": "Many young professionals now freelance rather than accept permanent contracts.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "hierarchy",
+      "meaning": "n. 等级制度",
+      "example": "Rigid corporate hierarchies can stifle innovation and discourage initiative.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "invoice",
+      "meaning": "n. 发票",
+      "example": "The supplier submitted an invoice for the goods delivered last month.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "junior",
+      "meaning": "adj. 初级的,资历浅的",
+      "example": "Junior staff often work long hours in the hope of faster promotion.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "leadership",
+      "meaning": "n. 领导力,领导层",
+      "example": "Effective leadership is critical during periods of organisational change.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "manage",
+      "meaning": "v. 管理",
+      "example": "Successful organisations manage their resources with both efficiency and foresight.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "management",
+      "meaning": "n. 管理",
+      "example": "Senior management underestimated the scale of the challenge ahead.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "occupation",
+      "meaning": "n. 职业,工作",
+      "example": "Manual occupations have declined steadily over the past fifty years.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "overtime",
+      "meaning": "n. 加班",
+      "example": "Employees who work overtime should be compensated accordingly.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "partner",
+      "meaning": "n. 合伙人,伙伴",
+      "example": "She was promoted to partner at one of the city's most prestigious law firms.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "personnel",
+      "meaning": "n. 人事,全体员工",
+      "example": "The company has reduced its personnel costs through automation.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "promote",
+      "meaning": "v. 晋升,推广",
+      "example": "Hardworking employees should be promoted on the basis of merit, not seniority.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "qualification",
+      "meaning": "n. 资格,学历",
+      "example": "Academic qualifications alone are rarely sufficient for senior roles.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "recruit",
+      "meaning": "v. 招聘",
+      "example": "Multinational firms now recruit talent from a genuinely global pool.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "recruitment",
+      "meaning": "n. 招聘",
+      "example": "The company has revamped its recruitment process to attract diverse candidates.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "resign",
+      "meaning": "v. 辞职",
+      "example": "The minister resigned after allegations of financial misconduct surfaced.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "stakeholder",
+      "meaning": "n. 利益相关者",
+      "example": "Companies must balance the interests of all stakeholders, not just shareholders.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "subordinate",
+      "meaning": "n. 下属",
+      "example": "Effective leaders empower their subordinates rather than micromanaging every task.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "turnover",
+      "meaning": "n. 人员流动率,营业额",
+      "example": "High staff turnover is often a symptom of poor management.",
+      "topic": "商业职场"
+    },
+    {
+      "word": "ambiguous",
+      "meaning": "adj. 模糊的,有歧义的",
+      "example": "The minister's statement was deliberately ambiguous on the question of tax rises.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "ambiguity",
+      "meaning": "n. 模糊,歧义",
+      "example": "Legal ambiguity often leads to protracted disputes over interpretation.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "analyse",
+      "meaning": "v. 分析",
+      "example": "Researchers analysed data from over thirty countries to test the hypothesis.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "assumption",
+      "meaning": "n. 假设",
+      "example": "The model rests on the questionable assumption that markets are perfectly competitive.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "catalyst",
+      "meaning": "n. 催化剂,促使因素",
+      "example": "The scandal proved to be a catalyst for much-needed regulatory reform.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "coherent",
+      "meaning": "adj. 连贯的,条理清楚的",
+      "example": "A coherent argument requires both logical structure and supporting evidence.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "comprise",
+      "meaning": "v. 由...组成,构成",
+      "example": "The committee comprises representatives from twelve member states.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "consist",
+      "meaning": "v. 由...组成",
+      "example": "The examination consists of three written papers and an oral interview.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "constitute",
+      "meaning": "v. 构成,组成",
+      "example": "Such behaviour constitutes a clear breach of professional ethics.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "constraint",
+      "meaning": "n. 限制,约束",
+      "example": "Budget constraints forced the team to abandon the more ambitious proposal.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "contribute",
+      "meaning": "v. 促成,贡献",
+      "example": "Several factors contributed to the company's rapid collapse.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "controversial",
+      "meaning": "adj. 有争议的",
+      "example": "The proposed reform remains highly controversial among senior policymakers.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "controversy",
+      "meaning": "n. 争议",
+      "example": "The minister's remarks sparked a controversy that lasted for weeks.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "conversely",
+      "meaning": "adv. 相反地",
+      "example": "Higher taxes may reduce consumption; conversely, they may simply encourage evasion.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "criterion",
+      "meaning": "n. 标准,准则",
+      "example": "Reliability is the most important criterion when evaluating scientific research.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "crucial",
+      "meaning": "adj. 至关重要的",
+      "example": "Early intervention is crucial to the success of any educational reform.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "debate",
+      "meaning": "n. 辩论,争论",
+      "example": "The proposal has reignited a long-running debate about civil liberties.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "deduce",
+      "meaning": "v. 推断,演绎",
+      "example": "From these observations, researchers deduced that the theory was flawed.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "derive",
+      "meaning": "v. 得出,源于",
+      "example": "Many English legal terms derive from Latin and Old French.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "detrimental",
+      "meaning": "adj. 有害的,不利的",
+      "example": "Prolonged exposure to stress is detrimental to both physical and mental health.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "dispute",
+      "meaning": "v. 争议,反驳",
+      "example": "Scholars continue to dispute the causes of the economic crisis.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "distort",
+      "meaning": "v. 歪曲,扭曲",
+      "example": "Media coverage can distort public perception of complex policy issues.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "entail",
+      "meaning": "v. 需要,涉及",
+      "example": "The reform will entail significant changes to the existing tax structure.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "infer",
+      "meaning": "v. 推断",
+      "example": "From the data, one can reasonably infer that the policy has had limited effect.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "inherent",
+      "meaning": "adj. 固有的,内在的",
+      "example": "There is an inherent tension between individual liberty and collective security.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "integral",
+      "meaning": "adj. 不可或缺的",
+      "example": "Civic education is an integral part of any functioning democracy.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "invalid",
+      "meaning": "adj. 无效的,站不住脚的",
+      "example": "The court ruled that the contract was invalid due to lack of mutual consent.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "irrational",
+      "meaning": "adj. 不理性的",
+      "example": "Panic buying is often an irrational response to exaggerated rumours.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "justify",
+      "meaning": "v. 证明...有理,为...辩护",
+      "example": "The government struggled to justify the cost of the programme to taxpayers.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "manifest",
+      "meaning": "v. 显现,表现",
+      "example": "The benefits of the reform manifest themselves only over the long term.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "misleading",
+      "meaning": "adj. 误导性的",
+      "example": "Statistics can be deeply misleading when presented without proper context.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "paradox",
+      "meaning": "n. 悖论,矛盾",
+      "example": "It is a paradox that greater choice often leaves consumers less satisfied.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "plausible",
+      "meaning": "adj. 似有道理的,貌似可信的",
+      "example": "The hypothesis seems plausible, but further research is needed to confirm it.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "premise",
+      "meaning": "n. 前提",
+      "example": "The entire argument rests on the questionable premise that growth reduces inequality.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "prevalent",
+      "meaning": "adj. 普遍的,盛行的",
+      "example": "Corruption remains prevalent in countries where oversight institutions are weak.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "profound",
+      "meaning": "adj. 深刻的,深远的",
+      "example": "The internet has had a profound impact on virtually every aspect of modern life.",
+      "topic": "抽象评价"
+    },
+    {
+      "word": "substantiate",
+      "meaning": "v. 证实,证明",
+      "example": "The committee asked the researchers to substantiate their claims with data.",
+      "topic": "抽象评价"
+    }
+  ]
+}

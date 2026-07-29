@@ -85,19 +85,19 @@ describe('词书导入遇撞词', () => {
   })
 
   it('addWordsToPlan 跳过与用户手动词撞车的词，其余正常入库，保留用户那条', () => {
-    // significant 是 ielts-sample 词书里的词；用户已手动加过
+    // accommodate 是 ielts-daily 词书里的词；用户已手动加过
     addVocab({
-      word: 'significant', meaning: '手动释义', example: 'e', topic: null, source: '手动',
+      word: 'accommodate', meaning: '手动释义', example: 'e', topic: null, source: '手动',
     })
-    const n = addWordsToPlan('ielts-sample', ['significant', 'controversial'])
-    expect(n).toBe(1) // 撞车的 significant 跳过，controversial 正常入
+    const n = addWordsToPlan('ielts-daily', ['accommodate', 'tenant'])
+    expect(n).toBe(1) // 撞车的 accommodate 跳过，tenant 正常入
     const all = listVocab()
     expect(all).toHaveLength(2)
-    const sig = all.find((e) => e.word === 'significant')!
-    expect(sig.source).toBe('手动') // 保留用户那条，不被词书覆盖
-    expect(sig.book).toBeNull()
-    const con = all.find((e) => e.word === 'controversial')!
-    expect(con.book).toBe('ielts-sample')
-    expect(con.status).toBe('new')
+    const acc = all.find((e) => e.word === 'accommodate')!
+    expect(acc.source).toBe('手动') // 保留用户那条，不被词书覆盖
+    expect(acc.book).toBeNull()
+    const ten = all.find((e) => e.word === 'tenant')!
+    expect(ten.book).toBe('ielts-daily')
+    expect(ten.status).toBe('new')
   })
 })

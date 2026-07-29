@@ -1,0 +1,3343 @@
+{
+  "id": "ielts-society",
+  "name": "社会文娱",
+  "desc": "家庭、社会议题、文化、媒体、艺术、体育相关词，口语拓展和写作论述里高频出现的人文向词汇。",
+  "words": [
+    {
+      "word": "populate",
+      "meaning": "v. 居住于；构成人口",
+      "example": "The coastal region is densely populated.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "population",
+      "meaning": "n. 人口",
+      "example": "The population of the city has doubled in a decade.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "populous",
+      "meaning": "adj. 人口稠密的",
+      "example": "It is the most populous metropolis in Asia.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "overpopulate",
+      "meaning": "v. 使人口过剩",
+      "example": "The valley has become severely overpopulated.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "overpopulated",
+      "meaning": "adj. 人口过剩的",
+      "example": "Overpopulated cities face chronic housing shortages.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "underpopulate",
+      "meaning": "v. 人口稀少",
+      "example": "Many rural provinces are steadily underpopulated.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "demographic",
+      "meaning": "adj. 人口（统计）的",
+      "example": "The country is undergoing significant demographic changes.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "demography",
+      "meaning": "n. 人口学",
+      "example": "Demography helps governments forecast demand for schools.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "census",
+      "meaning": "n. 人口普查",
+      "example": "A national census is conducted every ten years.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "householder",
+      "meaning": "n. 户主",
+      "example": "Every householder must register for the new local tax.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "nuclear family",
+      "meaning": "n. 核心家庭",
+      "example": "The nuclear family has become the dominant form in cities.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "extended family",
+      "meaning": "n. 大家庭",
+      "example": "Extended families often share child-rearing duties in rural areas.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "single-parent",
+      "meaning": "adj. 单亲的",
+      "example": "Single-parent households often face financial strain.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "generation",
+      "meaning": "n. 一代人",
+      "example": "The younger generation is more comfortable with technology.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "generational",
+      "meaning": "adj. 世代的",
+      "example": "There is a clear generational divide over social values.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "intergenerational",
+      "meaning": "adj. 代际的",
+      "example": "Intergenerational bonding strengthens community cohesion.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "offspring",
+      "meaning": "n. 后代",
+      "example": "Parents invest heavily in their offspring's education.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "descendant",
+      "meaning": "n. 后裔",
+      "example": "The descendants of the original settlers still live here.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "ancestor",
+      "meaning": "n. 祖先",
+      "example": "Many families honour their ancestors during festivals.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "ancestry",
+      "meaning": "n. 祖先；血统",
+      "example": "A large share of citizens trace their ancestry to Europe.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "forefather",
+      "meaning": "n. 祖先；先驱",
+      "example": "Our forefathers fought to secure these rights.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "sibling",
+      "meaning": "n. 兄弟姐妹",
+      "example": "Siblings often compete for parental attention.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "kin",
+      "meaning": "n. 亲属",
+      "example": "She invited all her kin to the reunion.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "kinship",
+      "meaning": "n. 亲属关系",
+      "example": "Kinship ties remain strong in rural communities.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "marital",
+      "meaning": "adj. 婚姻的",
+      "example": "Marital status frequently affects insurance premiums.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "marriage",
+      "meaning": "n. 婚姻",
+      "example": "Arranged marriage remains common in some cultures.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "marry",
+      "meaning": "v. 结婚",
+      "example": "They plan to marry next spring.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "remarry",
+      "meaning": "v. 再婚",
+      "example": "Many divorced individuals choose to remarry later in life.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "divorce",
+      "meaning": "n./v. 离婚",
+      "example": "The divorce rate has risen steadily over the decade.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "separation",
+      "meaning": "n. 分居",
+      "example": "The couple agreed to a trial separation.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "widow",
+      "meaning": "n. 遗孀",
+      "example": "The widow received a modest state pension.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "widower",
+      "meaning": "n. 鳏夫",
+      "example": "The widower lives alone after his wife's passing.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "cohabit",
+      "meaning": "v. 同居",
+      "example": "Many young couples cohabit before getting married.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "cohabitation",
+      "meaning": "n. 同居",
+      "example": "Cohabitation has become widely accepted in cities.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "fertility",
+      "meaning": "n. 生育率",
+      "example": "The fertility rate has dropped below replacement level.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "birth rate",
+      "meaning": "n. 出生率",
+      "example": "The birth rate is declining across developed nations.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "mortality",
+      "meaning": "n. 死亡率",
+      "example": "Infant mortality has fallen sharply in the past decade.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "life expectancy",
+      "meaning": "n. 预期寿命",
+      "example": "Life expectancy has risen thanks to better healthcare.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "ageing",
+      "meaning": "n./adj. 老龄化",
+      "example": "An ageing population places heavy pressure on services.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "elderly",
+      "meaning": "n. 老年人",
+      "example": "The elderly often require specialised medical care.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "senior",
+      "meaning": "n. 长者",
+      "example": "Many seniors live on fixed pensions.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "retire",
+      "meaning": "v. 退休",
+      "example": "He plans to retire at the age of sixty-five.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "retirement",
+      "meaning": "n. 退休",
+      "example": "She enjoys a quiet retirement in the countryside.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "pensioner",
+      "meaning": "n. 退休者",
+      "example": "Pensioners rely on stable cost-of-living adjustments.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "teenager",
+      "meaning": "n. 青少年",
+      "example": "Teenagers spend hours each day on social media.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "adolescent",
+      "meaning": "n. 青少年",
+      "example": "Adolescents need clear guidance from adults.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "adolescence",
+      "meaning": "n. 青春期",
+      "example": "Adolescence is a period of rapid emotional change.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "infant",
+      "meaning": "n. 婴儿",
+      "example": "Infants need constant attention and care.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "toddler",
+      "meaning": "n. 学步儿童",
+      "example": "Toddlers acquire new words at remarkable speed.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "upbringing",
+      "meaning": "n. 教养",
+      "example": "Her strict upbringing shaped her later values.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "nurture",
+      "meaning": "v. 养育",
+      "example": "Parents nurture their children's natural talents.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "rear",
+      "meaning": "v. 抚养",
+      "example": "She was reared by her grandparents in the village.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "parental",
+      "meaning": "adj. 父母的",
+      "example": "Parental involvement boosts children's academic success.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "parenthood",
+      "meaning": "n. 父母身份",
+      "example": "Parenthood brings both profound joy and responsibility.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "maternal",
+      "meaning": "adj. 母亲的",
+      "example": "Maternal leave policies vary widely across countries.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "paternal",
+      "meaning": "adj. 父亲的",
+      "example": "Paternal influence is often underestimated in studies.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "breadwinner",
+      "meaning": "n. 养家糊口者",
+      "example": "She is the sole breadwinner in her household.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "dependant",
+      "meaning": "n. 受抚养者",
+      "example": "He lists two dependants on his tax return.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "childcare",
+      "meaning": "n. 育儿",
+      "example": "Affordable childcare enables more parents to work.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "babysit",
+      "meaning": "v. 看护",
+      "example": "She babysits at weekends to earn extra money.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "custody",
+      "meaning": "n. 抚养权",
+      "example": "Joint custody has become increasingly common.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "inhabit",
+      "meaning": "v. 居住",
+      "example": "Several indigenous tribes inhabit the mountainous region.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "dweller",
+      "meaning": "n. 居住者",
+      "example": "Urban dwellers face soaring housing costs.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "migrate",
+      "meaning": "v. 迁徙",
+      "example": "Many skilled workers migrate in search of better pay.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "migration",
+      "meaning": "n. 迁徙",
+      "example": "Rural-to-urban migration is a defining global trend.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "migrant",
+      "meaning": "n. 移工；迁徙者",
+      "example": "Migrant workers often accept low-paying jobs.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "immigrant",
+      "meaning": "n. 移民",
+      "example": "Immigrants have enriched the local culture.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "emigrate",
+      "meaning": "v. 移居国外",
+      "example": "Many young professionals emigrate for higher salaries.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "immigrate",
+      "meaning": "v. 移入",
+      "example": "Their family decided to immigrate to Australia.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "patriarchal",
+      "meaning": "adj. 父权的",
+      "example": "Patriarchal structures are slowly being challenged.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "matriarchal",
+      "meaning": "adj. 母系的",
+      "example": "Some societies follow a distinctly matriarchal system.",
+      "topic": "家庭人口"
+    },
+    {
+      "word": "poverty",
+      "meaning": "n. 贫困",
+      "example": "Poverty remains a persistent social issue.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "impoverished",
+      "meaning": "adj. 贫困的",
+      "example": "Impoverished families struggle to feed their children.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "destitute",
+      "meaning": "adj. 赤贫的",
+      "example": "The earthquake left thousands destitute overnight.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "needy",
+      "meaning": "adj. 贫困的",
+      "example": "The charity focuses on helping the needy.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "underprivileged",
+      "meaning": "adj. 弱势的",
+      "example": "Underprivileged children often lack educational resources.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "disadvantaged",
+      "meaning": "adj. 处于劣势的",
+      "example": "Disadvantaged groups need targeted policy support.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "deprived",
+      "meaning": "adj. 匮乏的",
+      "example": "Children from deprived backgrounds face many hurdles.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "inequality",
+      "meaning": "n. 不平等",
+      "example": "Wealth inequality continues to widen.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "disparity",
+      "meaning": "n. 差距",
+      "example": "Income disparity fuels growing social tension.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "unequal",
+      "meaning": "adj. 不平等的",
+      "example": "The persistent pay gap reflects an unequal society.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "gap",
+      "meaning": "n. 差距",
+      "example": "The gap between rich and poor keeps widening.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "divide",
+      "meaning": "n. 分化",
+      "example": "A digital divide excludes many rural communities.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "discriminate",
+      "meaning": "v. 歧视",
+      "example": "Employers must not discriminate on the basis of age.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "discrimination",
+      "meaning": "n. 歧视",
+      "example": "Racial discrimination is illegal in most workplaces.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "prejudice",
+      "meaning": "n. 偏见",
+      "example": "Prejudice often stems from sheer ignorance.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "biased",
+      "meaning": "adj. 有偏见的",
+      "example": "The report was widely criticized as biased.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "stereotype",
+      "meaning": "n. 刻板印象",
+      "example": "Stereotypes distort how we perceive other groups.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "stereotypical",
+      "meaning": "adj. 刻板的",
+      "example": "She rejected the stereotypical roles assigned to women.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "racism",
+      "meaning": "n. 种族主义",
+      "example": "Racism has no place in a modern society.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "racist",
+      "meaning": "adj. 种族主义的",
+      "example": "Racist remarks were condemned across the chamber.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "sexism",
+      "meaning": "n. 性别歧视",
+      "example": "Sexism persists in many senior professions.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "ageism",
+      "meaning": "n. 年龄歧视",
+      "example": "Ageism affects older workers seeking re-employment.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "homophobia",
+      "meaning": "n. 同性恋恐惧",
+      "example": "Homophobia remains entrenched in some communities.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "segregate",
+      "meaning": "v. 隔离",
+      "example": "Communities were once segregated by law.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "segregation",
+      "meaning": "n. 隔离",
+      "example": "School segregation was outlawed decades ago.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "integrate",
+      "meaning": "v. 融合",
+      "example": "Newcomers gradually integrate into the host society.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "integration",
+      "meaning": "n. 融合",
+      "example": "Successful integration benefits the entire community.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "marginalise",
+      "meaning": "v. 边缘化",
+      "example": "Some groups feel marginalised by mainstream culture.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "marginalised",
+      "meaning": "adj. 边缘化的",
+      "example": "Marginalised voices deserve to be heard.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "empower",
+      "meaning": "v. 赋权",
+      "example": "Education empowers young people to shape their future.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "empowerment",
+      "meaning": "n. 赋权",
+      "example": "Women's empowerment drives broader economic growth.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "equality",
+      "meaning": "n. 平等",
+      "example": "Gender equality remains a distant goal in many fields.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "equity",
+      "meaning": "n. 公平",
+      "example": "Health equity requires carefully targeted policies.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "justice",
+      "meaning": "n. 正义",
+      "example": "Social justice demands fair treatment for all.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "injustice",
+      "meaning": "n. 不公",
+      "example": "Many protest against long-standing systemic injustice.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "homeless",
+      "meaning": "adj. 无家可归的",
+      "example": "Homeless people urgently need shelter and support.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "homelessness",
+      "meaning": "n. 无家可归",
+      "example": "Homelessness has risen sharply in major cities.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "housing",
+      "meaning": "n. 住房",
+      "example": "Affordable housing is in chronically short supply.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "shelter",
+      "meaning": "n. 住所",
+      "example": "The charity provides temporary shelter for refugees.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "slum",
+      "meaning": "n. 贫民窟",
+      "example": "Children growing up in slums lack basic services.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "beggar",
+      "meaning": "n. 乞丐",
+      "example": "Beggars remain a common sight in tourist districts.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "beg",
+      "meaning": "v. 乞讨",
+      "example": "Some homeless people beg on busy city streets.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "crime",
+      "meaning": "n. 犯罪",
+      "example": "Violent crime has decreased over the past decade.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "criminal",
+      "meaning": "n. 罪犯",
+      "example": "The criminal was sentenced to ten years in prison.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "offender",
+      "meaning": "n. 违法者",
+      "example": "First-time offenders may receive lighter sentences.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "offence",
+      "meaning": "n. 罪行",
+      "example": "Minor offences often carry only a small fine.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "delinquency",
+      "meaning": "n. 不法行为",
+      "example": "Juvenile delinquency worries many parents and teachers.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "juvenile",
+      "meaning": "adj. 青少年的",
+      "example": "Juvenile crime requires a different justice approach.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "violent",
+      "meaning": "adj. 暴力的",
+      "example": "Violent crime undermines a community's sense of safety.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "violence",
+      "meaning": "n. 暴力",
+      "example": "Domestic violence remains a hidden epidemic.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "abuse",
+      "meaning": "n. 虐待",
+      "example": "Child abuse can leave lifelong psychological scars.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "abusive",
+      "meaning": "adj. 虐待的",
+      "example": "She finally left an abusive relationship.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "victim",
+      "meaning": "n. 受害者",
+      "example": "Victims deserve prompt support and justice.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "vulnerable",
+      "meaning": "adj. 脆弱的",
+      "example": "Children are among the most vulnerable members of society.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "addict",
+      "meaning": "n. 上瘾者",
+      "example": "Drug addicts need medical help rather than prison.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "addiction",
+      "meaning": "n. 上瘾",
+      "example": "Smartphone addiction is rising among adolescents.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "addictive",
+      "meaning": "adj. 使人上瘾的",
+      "example": "Social media platforms can be highly addictive.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "substance abuse",
+      "meaning": "n. 药物滥用",
+      "example": "Substance abuse ruins many young lives each year.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "alcoholism",
+      "meaning": "n. 酗酒",
+      "example": "Alcoholism often runs in families across generations.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "convict",
+      "meaning": "v. 定罪",
+      "example": "He was convicted of serious financial fraud.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "conviction",
+      "meaning": "n. 定罪；坚信",
+      "example": "His conviction was overturned on appeal.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "law-abiding",
+      "meaning": "adj. 守法的",
+      "example": "The vast majority of citizens are law-abiding.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "corrupt",
+      "meaning": "adj. 腐败的",
+      "example": "Corrupt officials divert funds from public projects.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "corruption",
+      "meaning": "n. 腐败",
+      "example": "Corruption seriously undermines public trust.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "bribe",
+      "meaning": "n./v. 贿赂",
+      "example": "He offered a substantial bribe to the official.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "bribery",
+      "meaning": "n. 贿赂",
+      "example": "Bribery is treated as a serious criminal offence.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "gang",
+      "meaning": "n. 帮派",
+      "example": "Youth gangs terrorise some inner-city neighbourhoods.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "vandalise",
+      "meaning": "v. 故意破坏",
+      "example": "Hooligans vandalised benches in the public park.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "vandalism",
+      "meaning": "n. 故意破坏",
+      "example": "Vandalism costs the city millions each year.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "bully",
+      "meaning": "v. 欺凌",
+      "example": "Some students bully their peers on social media.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "bullying",
+      "meaning": "n. 欺凌",
+      "example": "Bullying can scar its victims for life.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "harass",
+      "meaning": "v. 骚扰",
+      "example": "No employee should be harassed at work.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "harassment",
+      "meaning": "n. 骚扰",
+      "example": "Sexual harassment is finally being taken seriously.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "suicide",
+      "meaning": "n. 自杀",
+      "example": "Suicide rates among teenagers are deeply alarming.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "depression",
+      "meaning": "n. 抑郁症",
+      "example": "Depression affects millions of people worldwide.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "unemployment",
+      "meaning": "n. 失业",
+      "example": "Unemployment drives many families into poverty.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "unemployed",
+      "meaning": "adj. 失业的",
+      "example": "The long-term unemployed struggle to re-enter the workforce.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "jobless",
+      "meaning": "adj. 失业的",
+      "example": "Jobless rates have hit their highest level in years.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "layoff",
+      "meaning": "n. 解雇",
+      "example": "Mass layoffs followed the sudden recession.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "welfare",
+      "meaning": "n. 福利",
+      "example": "Welfare programmes support the most vulnerable families.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "subsidy",
+      "meaning": "n. 补贴",
+      "example": "Farm subsidies remain a politically sensitive issue.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "subsidise",
+      "meaning": "v. 资助",
+      "example": "The state subsidises public transport for students.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "burden",
+      "meaning": "n. 负担",
+      "example": "The tax burden falls heaviest on the poorest.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "consequence",
+      "meaning": "n. 后果",
+      "example": "Poverty has severe long-term consequences.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "repercussion",
+      "meaning": "n. 影响",
+      "example": "The new policy had global repercussions.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "protest",
+      "meaning": "n./v. 抗议",
+      "example": "Citizens took to the streets to protest the policy.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "demonstration",
+      "meaning": "n. 示威",
+      "example": "The peaceful demonstration drew tens of thousands.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "rally",
+      "meaning": "n. 集会",
+      "example": "A large rally was held in the central square.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "riot",
+      "meaning": "n. 暴乱",
+      "example": "The riots caused widespread damage to businesses.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "unrest",
+      "meaning": "n. 动荡",
+      "example": "Civil unrest followed the controversial verdict.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "civic",
+      "meaning": "adj. 公民的",
+      "example": "Voting is regarded as a core civic duty.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "citizenship",
+      "meaning": "n. 公民身份",
+      "example": "Citizenship brings both rights and responsibilities.",
+      "topic": "社会问题"
+    },
+    {
+      "word": "tradition",
+      "meaning": "n. 传统",
+      "example": "The festival is a centuries-old local tradition.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "traditional",
+      "meaning": "adj. 传统的",
+      "example": "Many still wear traditional dress on special occasions.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "traditionally",
+      "meaning": "adv. 传统地",
+      "example": "Bread has traditionally been the staple food here.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "culture",
+      "meaning": "n. 文化",
+      "example": "The country boasts a remarkably rich culture.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "cultural",
+      "meaning": "adj. 文化的",
+      "example": "Cultural differences should be celebrated, not feared.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "cross-cultural",
+      "meaning": "adj. 跨文化的",
+      "example": "Cross-cultural communication is an essential workplace skill.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "multicultural",
+      "meaning": "adj. 多元文化的",
+      "example": "London is a genuinely multicultural city.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "intercultural",
+      "meaning": "adj. 跨文化的",
+      "example": "Intercultural dialogue fosters mutual respect.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "legacy",
+      "meaning": "n. 遗产",
+      "example": "The dynasty left an enduring architectural legacy.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "custom",
+      "meaning": "n. 习俗",
+      "example": "Giving red envelopes is a long-standing custom.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "customary",
+      "meaning": "adj. 习俗的",
+      "example": "It is customary to remove shoes before entering.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "conventional",
+      "meaning": "adj. 传统的",
+      "example": "She rejected the conventional path expected of her.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ritual",
+      "meaning": "n. 仪式",
+      "example": "The tea ceremony is a solemn daily ritual.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "rite",
+      "meaning": "n. 仪式",
+      "example": "Coming-of-age rites mark the transition to adulthood.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ceremony",
+      "meaning": "n. 仪式",
+      "example": "The wedding ceremony lasted an entire day.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ceremonial",
+      "meaning": "adj. 仪式的",
+      "example": "He plays a largely ceremonial role in the village.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "festival",
+      "meaning": "n. 节日",
+      "example": "The annual festival attracts thousands of visitors.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "festive",
+      "meaning": "adj. 节日的",
+      "example": "The streets took on a festive atmosphere.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "celebrate",
+      "meaning": "v. 庆祝",
+      "example": "Families gather to celebrate the new year together.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "celebration",
+      "meaning": "n. 庆祝",
+      "example": "The celebration brought the whole neighbourhood together.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "belief",
+      "meaning": "n. 信仰",
+      "example": "Religious beliefs shape many daily practices.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "faith",
+      "meaning": "n. 信仰",
+      "example": "People of every faith are welcome here.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "religion",
+      "meaning": "n. 宗教",
+      "example": "Religion continues to influence public life.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "religious",
+      "meaning": "adj. 宗教的",
+      "example": "Religious observances mark the rhythm of the year.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "worship",
+      "meaning": "v./n. 崇拜",
+      "example": "Devotees gather to worship at the temple.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "pray",
+      "meaning": "v. 祈祷",
+      "example": "The faithful kneel to pray each evening.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "prayer",
+      "meaning": "n. 祈祷",
+      "example": "Daily prayers are observed five times a day.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "spiritual",
+      "meaning": "adj. 精神的",
+      "example": "Many seek spiritual meaning beyond material success.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "sacred",
+      "meaning": "adj. 神圣的",
+      "example": "The mountain is regarded as a sacred site.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "holy",
+      "meaning": "adj. 神圣的",
+      "example": "The river is considered holy by pilgrims.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "divine",
+      "meaning": "adj. 神的",
+      "example": "Kings once claimed divine right to rule.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "pilgrim",
+      "meaning": "n. 朝圣者",
+      "example": "Pilims travel vast distances to reach the shrine.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "pilgrimage",
+      "meaning": "n. 朝圣",
+      "example": "The annual pilgrimage draws millions of believers.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "shrine",
+      "meaning": "n. 神龛",
+      "example": "Villagers light incense at the ancestral shrine.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "temple",
+      "meaning": "n. 寺庙",
+      "example": "The ancient temple dominates the old town.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "monastery",
+      "meaning": "n. 修道院",
+      "example": "The monastery sits perched on a remote hillside.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "monk",
+      "meaning": "n. 僧侣",
+      "example": "Monks chant sutras at the break of dawn.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "baptise",
+      "meaning": "v. 施洗礼",
+      "example": "The infant was baptised in the village church.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "baptism",
+      "meaning": "n. 洗礼",
+      "example": "The baptism was attended by the extended family.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "folklore",
+      "meaning": "n. 民间传说",
+      "example": "Local folklore is filled with tales of river spirits.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "legend",
+      "meaning": "n. 传说",
+      "example": "The legend has been retold for generations.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "myth",
+      "meaning": "n. 神话",
+      "example": "The story is a creation myth of the culture.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "mythical",
+      "meaning": "adj. 神话的",
+      "example": "Dragons occupy a central place in mythical traditions.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "superstition",
+      "meaning": "n. 迷信",
+      "example": "Old superstitions still influence daily choices.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "superstitious",
+      "meaning": "adj. 迷信的",
+      "example": "Some people are superstitious about the number thirteen.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "taboo",
+      "meaning": "n. 禁忌",
+      "example": "Discussing money openly is a social taboo here.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "indigenous",
+      "meaning": "adj. 本土的",
+      "example": "Indigenous communities have guarded these lands for centuries.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "native",
+      "meaning": "adj. 本土的",
+      "example": "She returned to her native village for the harvest.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "aboriginal",
+      "meaning": "adj. 土著的",
+      "example": "Aboriginal art has gained international recognition.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ethnic",
+      "meaning": "adj. 民族的",
+      "example": "Dozens of ethnic groups coexist in the region.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ethnicity",
+      "meaning": "n. 民族",
+      "example": "Ethnicity can shape identity in powerful ways.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "dialect",
+      "meaning": "n. 方言",
+      "example": "Each valley in the region speaks its own dialect.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "vernacular",
+      "meaning": "n. 本地话",
+      "example": "The novelist writes entirely in the local vernacular.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "mother tongue",
+      "meaning": "n. 母语",
+      "example": "Children are losing fluency in their mother tongue.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "identity",
+      "meaning": "n. 身份认同",
+      "example": "Cultural identity gives people a sense of belonging.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "belonging",
+      "meaning": "n. 归属感",
+      "example": "Community rituals foster a strong sense of belonging.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "values",
+      "meaning": "n. 价值观",
+      "example": "Traditional values still guide many family decisions.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "norm",
+      "meaning": "n. 规范",
+      "example": "Social norms change only slowly over time.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "moral",
+      "meaning": "adj. 道德的",
+      "example": "Moral judgments vary sharply across cultures.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "morality",
+      "meaning": "n. 道德",
+      "example": "Public morality is often reflected in the laws of a nation.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ethic",
+      "meaning": "n. 伦理",
+      "example": "A strong work ethic is valued in many societies.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "ethical",
+      "meaning": "adj. 伦理的",
+      "example": "The research raised difficult ethical questions.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "etiquette",
+      "meaning": "n. 礼仪",
+      "example": "Business etiquette differs markedly between countries.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "preserve",
+      "meaning": "v. 保护",
+      "example": "Communities work to preserve their ancestral traditions.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "preservation",
+      "meaning": "n. 保护",
+      "example": "The preservation of old customs requires deliberate effort.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "conserve",
+      "meaning": "v. 保存",
+      "example": "The museum works to conserve fragile manuscripts.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "pass down",
+      "meaning": "v. 流传",
+      "example": "Skills are passed down from one generation to the next.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "hand down",
+      "meaning": "v. 传下来",
+      "example": "Stories are handed down within families for centuries.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "inherit",
+      "meaning": "v. 继承",
+      "example": "Children inherit both property and cultural practices.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "inheritance",
+      "meaning": "n. 继承",
+      "example": "The cottage became her inheritance from her grandmother.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "culinary",
+      "meaning": "adj. 烹饪的",
+      "example": "The region boasts a distinctive culinary tradition.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "costume",
+      "meaning": "n. 服装",
+      "example": "Dancers wore elaborate traditional costumes.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "attire",
+      "meaning": "n. 服装",
+      "example": "Formal attire is required for the ceremony.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "garment",
+      "meaning": "n. 衣服",
+      "example": "Each garment is hand-woven by local artisans.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "handicraft",
+      "meaning": "n. 手工艺",
+      "example": "Local markets sell beautiful handicrafts.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "artisan",
+      "meaning": "n. 工匠",
+      "example": "Skilled artisans shape clay into elegant pots.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "mainstream",
+      "meaning": "adj. 主流的",
+      "example": "Indigenous music has finally entered the mainstream.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "orthodox",
+      "meaning": "adj. 正统的",
+      "example": "He holds rather orthodox views on family life.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "exotic",
+      "meaning": "adj. 异国的",
+      "example": "Tourists are drawn to the exotic flavours of the market.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "worldview",
+      "meaning": "n. 世界观",
+      "example": "Travel can broaden a person's entire worldview.",
+      "topic": "文化传统"
+    },
+    {
+      "word": "broadcast",
+      "meaning": "v./n. 广播",
+      "example": "The speech was broadcast live to the nation.",
+      "topic": "媒体"
+    },
+    {
+      "word": "broadcasting",
+      "meaning": "n. 广播",
+      "example": "Public broadcasting is funded by the licence fee.",
+      "topic": "媒体"
+    },
+    {
+      "word": "broadcaster",
+      "meaning": "n. 广播公司",
+      "example": "The national broadcaster reaches every household.",
+      "topic": "媒体"
+    },
+    {
+      "word": "televise",
+      "meaning": "v. 电视播送",
+      "example": "The final match will be televised worldwide.",
+      "topic": "媒体"
+    },
+    {
+      "word": "telecast",
+      "meaning": "n. 电视广播",
+      "example": "The ceremony received a live telecast across Asia.",
+      "topic": "媒体"
+    },
+    {
+      "word": "air",
+      "meaning": "v. 播出",
+      "example": "The controversial documentary will air tonight.",
+      "topic": "媒体"
+    },
+    {
+      "word": "footage",
+      "meaning": "n. 影像",
+      "example": "The channel obtained exclusive footage of the event.",
+      "topic": "媒体"
+    },
+    {
+      "word": "publication",
+      "meaning": "n. 出版物",
+      "example": "The article appeared in a respected weekly publication.",
+      "topic": "媒体"
+    },
+    {
+      "word": "publisher",
+      "meaning": "n. 出版商",
+      "example": "The publisher commissioned a new translation.",
+      "topic": "媒体"
+    },
+    {
+      "word": "journalism",
+      "meaning": "n. 新闻业",
+      "example": "Investigative journalism plays a vital democratic role.",
+      "topic": "媒体"
+    },
+    {
+      "word": "journalist",
+      "meaning": "n. 记者",
+      "example": "Journalists risk their lives to cover conflicts.",
+      "topic": "媒体"
+    },
+    {
+      "word": "journalistic",
+      "meaning": "adj. 新闻的",
+      "example": "She upholds the highest journalistic standards.",
+      "topic": "媒体"
+    },
+    {
+      "word": "report",
+      "meaning": "v./n. 报道",
+      "example": "Several outlets reported a sharp rise in cases.",
+      "topic": "媒体"
+    },
+    {
+      "word": "reporter",
+      "meaning": "n. 记者",
+      "example": "A reporter quizzed the minister on the scandal.",
+      "topic": "媒体"
+    },
+    {
+      "word": "coverage",
+      "meaning": "n. 报道",
+      "example": "The scandal received blanket media coverage.",
+      "topic": "媒体"
+    },
+    {
+      "word": "headline",
+      "meaning": "n. 标题",
+      "example": "The scandal dominated the morning headlines.",
+      "topic": "媒体"
+    },
+    {
+      "word": "editorial",
+      "meaning": "n. 社论",
+      "example": "A scathing editorial criticised the government's response.",
+      "topic": "媒体"
+    },
+    {
+      "word": "column",
+      "meaning": "n. 专栏",
+      "example": "She writes a weekly column on social affairs.",
+      "topic": "媒体"
+    },
+    {
+      "word": "columnist",
+      "meaning": "n. 专栏作家",
+      "example": "The columnist is known for her sharp commentary.",
+      "topic": "媒体"
+    },
+    {
+      "word": "press",
+      "meaning": "n. 新闻界",
+      "example": "Freedom of the press is a cornerstone of democracy.",
+      "topic": "媒体"
+    },
+    {
+      "word": "media",
+      "meaning": "n. 媒体",
+      "example": "Social media has reshaped political debate.",
+      "topic": "媒体"
+    },
+    {
+      "word": "advertise",
+      "meaning": "v. 做广告",
+      "example": "Companies advertise heavily during prime time.",
+      "topic": "媒体"
+    },
+    {
+      "word": "advertisement",
+      "meaning": "n. 广告",
+      "example": "The flashy advertisement drew swift complaints.",
+      "topic": "媒体"
+    },
+    {
+      "word": "advertising",
+      "meaning": "n. 广告业",
+      "example": "Online advertising now exceeds print in revenue.",
+      "topic": "媒体"
+    },
+    {
+      "word": "advertiser",
+      "meaning": "n. 广告商",
+      "example": "Major advertisers pulled funding from the show.",
+      "topic": "媒体"
+    },
+    {
+      "word": "commercial",
+      "meaning": "n. 商业广告",
+      "example": "The commercial aired during the Super Bowl.",
+      "topic": "媒体"
+    },
+    {
+      "word": "sponsor",
+      "meaning": "v. 赞助",
+      "example": "Several banks sponsor the annual arts festival.",
+      "topic": "媒体"
+    },
+    {
+      "word": "sponsorship",
+      "meaning": "n. 赞助",
+      "example": "Corporate sponsorship keeps the channel afloat.",
+      "topic": "媒体"
+    },
+    {
+      "word": "censor",
+      "meaning": "v. 审查",
+      "example": "The regime routinely censors foreign films.",
+      "topic": "媒体"
+    },
+    {
+      "word": "censorship",
+      "meaning": "n. 审查",
+      "example": "Internet censorship stifles public debate.",
+      "topic": "媒体"
+    },
+    {
+      "word": "editor",
+      "meaning": "n. 编辑",
+      "example": "The editor defended the decision to publish.",
+      "topic": "媒体"
+    },
+    {
+      "word": "circulate",
+      "meaning": "v. 流传",
+      "example": "The rumour circulated widely within hours.",
+      "topic": "媒体"
+    },
+    {
+      "word": "circulation",
+      "meaning": "n. 发行量",
+      "example": "The newspaper's circulation has halved since 2000.",
+      "topic": "媒体"
+    },
+    {
+      "word": "subscribe",
+      "meaning": "v. 订阅",
+      "example": "Millions subscribe to the streaming service.",
+      "topic": "媒体"
+    },
+    {
+      "word": "viewer",
+      "meaning": "n. 观众",
+      "example": "Viewers complained about the biased segment.",
+      "topic": "媒体"
+    },
+    {
+      "word": "audience",
+      "meaning": "n. 受众",
+      "example": "The programme appeals to a younger audience.",
+      "topic": "媒体"
+    },
+    {
+      "word": "listener",
+      "meaning": "n. 听众",
+      "example": "The station boasts over two million daily listeners.",
+      "topic": "媒体"
+    },
+    {
+      "word": "channel",
+      "meaning": "n. 频道",
+      "example": "The documentary airs on a specialist channel.",
+      "topic": "媒体"
+    },
+    {
+      "word": "station",
+      "meaning": "n. 电台",
+      "example": "Local radio stations have lost listeners to apps.",
+      "topic": "媒体"
+    },
+    {
+      "word": "documentary",
+      "meaning": "n. 纪录片",
+      "example": "The wildlife documentary was filmed over four years.",
+      "topic": "媒体"
+    },
+    {
+      "word": "podcast",
+      "meaning": "n. 播客",
+      "example": "She hosts a popular weekly podcast on culture.",
+      "topic": "媒体"
+    },
+    {
+      "word": "forum",
+      "meaning": "n. 论坛",
+      "example": "Online forums host heated debates on policy.",
+      "topic": "媒体"
+    },
+    {
+      "word": "vlog",
+      "meaning": "n. 视频博客",
+      "example": "Her travel vlog has a global following.",
+      "topic": "媒体"
+    },
+    {
+      "word": "influencer",
+      "meaning": "n. 网红",
+      "example": "Brands pay influencers vast sums for endorsements.",
+      "topic": "媒体"
+    },
+    {
+      "word": "blogger",
+      "meaning": "n. 博主",
+      "example": "The food blogger reviews restaurants across the city.",
+      "topic": "媒体"
+    },
+    {
+      "word": "celebrity",
+      "meaning": "n. 名人",
+      "example": "Celebrity endorsements can lift sales sharply.",
+      "topic": "媒体"
+    },
+    {
+      "word": "viral",
+      "meaning": "adj. 病毒式传播的",
+      "example": "The clip went viral within hours of posting.",
+      "topic": "媒体"
+    },
+    {
+      "word": "trend",
+      "meaning": "n. 趋势",
+      "example": "The hashtag quickly became a worldwide trend.",
+      "topic": "媒体"
+    },
+    {
+      "word": "trending",
+      "meaning": "adj. 热门的",
+      "example": "The topic has been trending all morning.",
+      "topic": "媒体"
+    },
+    {
+      "word": "gossip",
+      "meaning": "n. 八卦",
+      "example": "Tabloids thrive on celebrity gossip.",
+      "topic": "媒体"
+    },
+    {
+      "word": "rumour",
+      "meaning": "n. 谣言",
+      "example": "The rumour spread rapidly across social platforms.",
+      "topic": "媒体"
+    },
+    {
+      "word": "scandal",
+      "meaning": "n. 丑闻",
+      "example": "The scandal forced the minister to resign.",
+      "topic": "媒体"
+    },
+    {
+      "word": "paparazzi",
+      "meaning": "n. 狗仔队",
+      "example": "Paparazzi stalk the singer's every move.",
+      "topic": "媒体"
+    },
+    {
+      "word": "tabloid",
+      "meaning": "n. 小报",
+      "example": "The tabloid ran a sensational front-page story.",
+      "topic": "媒体"
+    },
+    {
+      "word": "sensational",
+      "meaning": "adj. 耸人听闻的",
+      "example": "Sensational headlines often exaggerate the truth.",
+      "topic": "媒体"
+    },
+    {
+      "word": "sensationalism",
+      "meaning": "n. 耸人听闻",
+      "example": "Critics accuse the channel of sheer sensationalism.",
+      "topic": "媒体"
+    },
+    {
+      "word": "exaggerate",
+      "meaning": "v. 夸大",
+      "example": "The report tends to exaggerate the risks involved.",
+      "topic": "媒体"
+    },
+    {
+      "word": "clickbait",
+      "meaning": "n. 标题党",
+      "example": "The headline was dismissed as obvious clickbait.",
+      "topic": "媒体"
+    },
+    {
+      "word": "hype",
+      "meaning": "n. 炒作",
+      "example": "The marketing hype far exceeded the actual product.",
+      "topic": "媒体"
+    },
+    {
+      "word": "propaganda",
+      "meaning": "n. 宣传",
+      "example": "State media pumps out steady propaganda.",
+      "topic": "媒体"
+    },
+    {
+      "word": "slanted",
+      "meaning": "adj. 有倾向性的",
+      "example": "Critics say the network's coverage is heavily slanted.",
+      "topic": "媒体"
+    },
+    {
+      "word": "credible",
+      "meaning": "adj. 可信的",
+      "example": "Only credible sources should be cited in essays.",
+      "topic": "媒体"
+    },
+    {
+      "word": "trustworthy",
+      "meaning": "adj. 值得信赖的",
+      "example": "Readers expect trustworthy reporting.",
+      "topic": "媒体"
+    },
+    {
+      "word": "misinformation",
+      "meaning": "n. 错误信息",
+      "example": "Misinformation spreads faster than verified news.",
+      "topic": "媒体"
+    },
+    {
+      "word": "disinformation",
+      "meaning": "n. 虚假信息",
+      "example": "Disinformation campaigns aim to manipulate voters.",
+      "topic": "媒体"
+    },
+    {
+      "word": "cyberbullying",
+      "meaning": "n. 网络欺凌",
+      "example": "Cyberbullying has become a serious concern in schools.",
+      "topic": "媒体"
+    },
+    {
+      "word": "troll",
+      "meaning": "n./v. 网络喷子",
+      "example": "Trolls flood the comment section with abuse.",
+      "topic": "媒体"
+    },
+    {
+      "word": "privacy",
+      "meaning": "n. 隐私",
+      "example": "Online privacy is increasingly hard to protect.",
+      "topic": "媒体"
+    },
+    {
+      "word": "leak",
+      "meaning": "v./n. 泄露",
+      "example": "A senior official leaked documents to the press.",
+      "topic": "媒体"
+    },
+    {
+      "word": "expose",
+      "meaning": "v. 曝光",
+      "example": "The investigation exposed widespread fraud.",
+      "topic": "媒体"
+    },
+    {
+      "word": "investigative",
+      "meaning": "adj. 调查性的",
+      "example": "Investigative reporters uncovered the abuse.",
+      "topic": "媒体"
+    },
+    {
+      "word": "commentator",
+      "meaning": "n. 评论员",
+      "example": "Political commentators dissected the debate.",
+      "topic": "媒体"
+    },
+    {
+      "word": "commentary",
+      "meaning": "n. 评论",
+      "example": "Her commentary challenged the official narrative.",
+      "topic": "媒体"
+    },
+    {
+      "word": "stream",
+      "meaning": "v. 流播",
+      "example": "The concert will stream live on Saturday.",
+      "topic": "媒体"
+    },
+    {
+      "word": "streaming",
+      "meaning": "n. 流媒体",
+      "example": "Streaming has overtaken traditional television.",
+      "topic": "媒体"
+    },
+    {
+      "word": "sitcom",
+      "meaning": "n. 情景喜剧",
+      "example": "The popular sitcom ran for ten consecutive seasons.",
+      "topic": "媒体"
+    },
+    {
+      "word": "live",
+      "meaning": "adj. 现场的",
+      "example": "The announcement was broadcast live.",
+      "topic": "媒体"
+    },
+    {
+      "word": "art",
+      "meaning": "n. 艺术",
+      "example": "Public funding for the arts remains controversial.",
+      "topic": "艺术"
+    },
+    {
+      "word": "artist",
+      "meaning": "n. 艺术家",
+      "example": "The gallery spotlights emerging local artists.",
+      "topic": "艺术"
+    },
+    {
+      "word": "artistic",
+      "meaning": "adj. 艺术的",
+      "example": "Artistic expression often challenges social norms.",
+      "topic": "艺术"
+    },
+    {
+      "word": "artwork",
+      "meaning": "n. 艺术品",
+      "example": "Several artworks were loaned from private collections.",
+      "topic": "艺术"
+    },
+    {
+      "word": "paint",
+      "meaning": "v. 绘画",
+      "example": "She paints in oils during the long evenings.",
+      "topic": "艺术"
+    },
+    {
+      "word": "painting",
+      "meaning": "n. 画作",
+      "example": "The painting fetched a record price at auction.",
+      "topic": "艺术"
+    },
+    {
+      "word": "painter",
+      "meaning": "n. 画家",
+      "example": "The painter is celebrated for his vivid use of colour.",
+      "topic": "艺术"
+    },
+    {
+      "word": "draw",
+      "meaning": "v. 画",
+      "example": "Children love to draw figures from their imagination.",
+      "topic": "艺术"
+    },
+    {
+      "word": "drawing",
+      "meaning": "n. 图画",
+      "example": "The architect produced detailed drawings of the façade.",
+      "topic": "艺术"
+    },
+    {
+      "word": "sketch",
+      "meaning": "n./v. 素描",
+      "example": "The artist sketched the cathedral in a few bold strokes.",
+      "topic": "艺术"
+    },
+    {
+      "word": "sculpt",
+      "meaning": "v. 雕刻",
+      "example": "The bronze figure was sculpted by a master craftsman.",
+      "topic": "艺术"
+    },
+    {
+      "word": "sculpture",
+      "meaning": "n. 雕塑",
+      "example": "Modern sculptures line the riverside promenade.",
+      "topic": "艺术"
+    },
+    {
+      "word": "sculptor",
+      "meaning": "n. 雕塑家",
+      "example": "The sculptor works exclusively with reclaimed metal.",
+      "topic": "艺术"
+    },
+    {
+      "word": "statue",
+      "meaning": "n. 雕像",
+      "example": "A bronze statue commemorates the national hero.",
+      "topic": "艺术"
+    },
+    {
+      "word": "canvas",
+      "meaning": "n. 画布",
+      "example": "He prefers to work on a large blank canvas.",
+      "topic": "艺术"
+    },
+    {
+      "word": "palette",
+      "meaning": "n. 调色板",
+      "example": "Her palette favours warm earth tones.",
+      "topic": "艺术"
+    },
+    {
+      "word": "exhibition",
+      "meaning": "n. 展览",
+      "example": "A major retrospective exhibition opens next week.",
+      "topic": "艺术"
+    },
+    {
+      "word": "exhibit",
+      "meaning": "v./n. 展览",
+      "example": "The museum exhibits contemporary photographs.",
+      "topic": "艺术"
+    },
+    {
+      "word": "gallery",
+      "meaning": "n. 画廊",
+      "example": "The small gallery showcases rising local talent.",
+      "topic": "艺术"
+    },
+    {
+      "word": "museum",
+      "meaning": "n. 博物馆",
+      "example": "The city's museums attract millions of visitors.",
+      "topic": "艺术"
+    },
+    {
+      "word": "showcase",
+      "meaning": "v. 展示",
+      "example": "The festival showcases the best of regional dance.",
+      "topic": "艺术"
+    },
+    {
+      "word": "display",
+      "meaning": "n./v. 展示",
+      "example": "The display spans three centuries of design.",
+      "topic": "艺术"
+    },
+    {
+      "word": "masterpiece",
+      "meaning": "n. 杰作",
+      "example": "The fresco is widely regarded as a Renaissance masterpiece.",
+      "topic": "艺术"
+    },
+    {
+      "word": "architecture",
+      "meaning": "n. 建筑",
+      "example": "The city is famed for its striking modern architecture.",
+      "topic": "艺术"
+    },
+    {
+      "word": "architect",
+      "meaning": "n. 建筑师",
+      "example": "The architect designed several landmark buildings.",
+      "topic": "艺术"
+    },
+    {
+      "word": "architectural",
+      "meaning": "adj. 建筑的",
+      "example": "The bridge is an architectural marvel of its era.",
+      "topic": "艺术"
+    },
+    {
+      "word": "photograph",
+      "meaning": "n. 照片",
+      "example": "Each photograph captures a fleeting moment of street life.",
+      "topic": "艺术"
+    },
+    {
+      "word": "photography",
+      "meaning": "n. 摄影",
+      "example": "Documentary photography can drive social change.",
+      "topic": "艺术"
+    },
+    {
+      "word": "photographer",
+      "meaning": "n. 摄影师",
+      "example": "The photographer travels widely for her work.",
+      "topic": "艺术"
+    },
+    {
+      "word": "portrait",
+      "meaning": "n. 肖像",
+      "example": "The royal portrait hangs in the entrance hall.",
+      "topic": "艺术"
+    },
+    {
+      "word": "realistic",
+      "meaning": "adj. 写实的",
+      "example": "His style is grounded in realistic detail.",
+      "topic": "艺术"
+    },
+    {
+      "word": "contemporary",
+      "meaning": "adj. 当代的",
+      "example": "The institute promotes contemporary visual arts.",
+      "topic": "艺术"
+    },
+    {
+      "word": "classical",
+      "meaning": "adj. 古典的",
+      "example": "She trained in the classical tradition from a young age.",
+      "topic": "艺术"
+    },
+    {
+      "word": "creative",
+      "meaning": "adj. 创造性的",
+      "example": "The programme nurtures creative talent in schools.",
+      "topic": "艺术"
+    },
+    {
+      "word": "creativity",
+      "meaning": "n. 创造力",
+      "example": "Creativity thrives when children are given freedom.",
+      "topic": "艺术"
+    },
+    {
+      "word": "originality",
+      "meaning": "n. 独创性",
+      "example": "Judges praised the striking originality of the work.",
+      "topic": "艺术"
+    },
+    {
+      "word": "aesthetic",
+      "meaning": "adj. 美学的",
+      "example": "The building has considerable aesthetic appeal.",
+      "topic": "艺术"
+    },
+    {
+      "word": "expressive",
+      "meaning": "adj. 富有表现力的",
+      "example": "Her expressive dance moved the audience to tears.",
+      "topic": "艺术"
+    },
+    {
+      "word": "inspire",
+      "meaning": "v. 启发",
+      "example": "Great art has the power to inspire generations.",
+      "topic": "艺术"
+    },
+    {
+      "word": "inspiration",
+      "meaning": "n. 灵感",
+      "example": "The countryside provided endless inspiration.",
+      "topic": "艺术"
+    },
+    {
+      "word": "inspirational",
+      "meaning": "adj. 鼓舞人心的",
+      "example": "Her story is genuinely inspirational to young artists.",
+      "topic": "艺术"
+    },
+    {
+      "word": "interpret",
+      "meaning": "v. 诠释",
+      "example": "Each performer interprets the role differently.",
+      "topic": "艺术"
+    },
+    {
+      "word": "interpretation",
+      "meaning": "n. 诠释",
+      "example": "His interpretation brought fresh meaning to the play.",
+      "topic": "艺术"
+    },
+    {
+      "word": "critique",
+      "meaning": "n./v. 评论",
+      "example": "The review offered a thoughtful critique of the show.",
+      "topic": "艺术"
+    },
+    {
+      "word": "critic",
+      "meaning": "n. 评论家",
+      "example": "Theatre critics were divided over the production.",
+      "topic": "艺术"
+    },
+    {
+      "word": "review",
+      "meaning": "n. 评论",
+      "example": "The film opened to glowing reviews.",
+      "topic": "艺术"
+    },
+    {
+      "word": "perform",
+      "meaning": "v. 表演",
+      "example": "The orchestra will perform in the city tonight.",
+      "topic": "艺术"
+    },
+    {
+      "word": "performance",
+      "meaning": "n. 表演",
+      "example": "Her performance earned a standing ovation.",
+      "topic": "艺术"
+    },
+    {
+      "word": "performer",
+      "meaning": "n. 表演者",
+      "example": "Street performers entertain crowds along the quay.",
+      "topic": "艺术"
+    },
+    {
+      "word": "act",
+      "meaning": "v. 表演",
+      "example": "He acted in several award-winning films.",
+      "topic": "艺术"
+    },
+    {
+      "word": "actor",
+      "meaning": "n. 演员",
+      "example": "The lead actor delivered a powerful monologue.",
+      "topic": "艺术"
+    },
+    {
+      "word": "actress",
+      "meaning": "n. 女演员",
+      "example": "The actress received a lifetime achievement award.",
+      "topic": "艺术"
+    },
+    {
+      "word": "cast",
+      "meaning": "n. 卡司",
+      "example": "The cast rehearsed for weeks before opening night.",
+      "topic": "艺术"
+    },
+    {
+      "word": "role",
+      "meaning": "n. 角色",
+      "example": "She was offered the lead role in the play.",
+      "topic": "艺术"
+    },
+    {
+      "word": "rehearse",
+      "meaning": "v. 排练",
+      "example": "The dancers rehearse for up to eight hours a day.",
+      "topic": "艺术"
+    },
+    {
+      "word": "rehearsal",
+      "meaning": "n. 排练",
+      "example": "Final rehearsals take place the night before.",
+      "topic": "艺术"
+    },
+    {
+      "word": "stage",
+      "meaning": "n. 舞台",
+      "example": "The actor has trodden the stage for thirty years.",
+      "topic": "艺术"
+    },
+    {
+      "word": "theatre",
+      "meaning": "n. 戏剧",
+      "example": "The city's historic theatre recently reopened.",
+      "topic": "艺术"
+    },
+    {
+      "word": "theatrical",
+      "meaning": "adj. 戏剧的",
+      "example": "Her gestures had an unmistakably theatrical quality.",
+      "topic": "艺术"
+    },
+    {
+      "word": "drama",
+      "meaning": "n. 戏剧",
+      "example": "She studied drama at a leading conservatoire.",
+      "topic": "艺术"
+    },
+    {
+      "word": "dramatic",
+      "meaning": "adj. 戏剧的",
+      "example": "The score builds to a dramatic climax.",
+      "topic": "艺术"
+    },
+    {
+      "word": "dance",
+      "meaning": "n./v. 舞蹈",
+      "example": "Traditional dance is taught alongside ballet.",
+      "topic": "艺术"
+    },
+    {
+      "word": "dancer",
+      "meaning": "n. 舞者",
+      "example": "The principal dancer is just twenty years old.",
+      "topic": "艺术"
+    },
+    {
+      "word": "choreograph",
+      "meaning": "v. 编舞",
+      "example": "She choreographed the entire routine herself.",
+      "topic": "艺术"
+    },
+    {
+      "word": "choreography",
+      "meaning": "n. 编舞",
+      "example": "The choreography blends modern and classical styles.",
+      "topic": "艺术"
+    },
+    {
+      "word": "musician",
+      "meaning": "n. 音乐家",
+      "example": "Accomplished musicians often tour internationally.",
+      "topic": "艺术"
+    },
+    {
+      "word": "musical",
+      "meaning": "adj. 音乐的",
+      "example": "Her musical talent was evident from an early age.",
+      "topic": "艺术"
+    },
+    {
+      "word": "compose",
+      "meaning": "v. 作曲",
+      "example": "He composes music for films and theatre.",
+      "topic": "艺术"
+    },
+    {
+      "word": "composer",
+      "meaning": "n. 作曲家",
+      "example": "The composer conducted the symphony himself.",
+      "topic": "艺术"
+    },
+    {
+      "word": "composition",
+      "meaning": "n. 作品",
+      "example": "The composition was written for a small ensemble.",
+      "topic": "艺术"
+    },
+    {
+      "word": "instrument",
+      "meaning": "n. 乐器",
+      "example": "Children should be encouraged to learn an instrument.",
+      "topic": "艺术"
+    },
+    {
+      "word": "instrumental",
+      "meaning": "adj. 器乐的",
+      "example": "The piece is entirely instrumental in form.",
+      "topic": "艺术"
+    },
+    {
+      "word": "orchestra",
+      "meaning": "n. 管弦乐队",
+      "example": "The orchestra tours prestigious concert halls each season.",
+      "topic": "艺术"
+    },
+    {
+      "word": "symphony",
+      "meaning": "n. 交响乐",
+      "example": "The symphony builds to a thunderous finale.",
+      "topic": "艺术"
+    },
+    {
+      "word": "melody",
+      "meaning": "n. 旋律",
+      "example": "The simple melody lingers long after the song ends.",
+      "topic": "艺术"
+    },
+    {
+      "word": "rhythm",
+      "meaning": "n. 节奏",
+      "example": "The dancers move in perfect rhythm with the drums.",
+      "topic": "艺术"
+    },
+    {
+      "word": "script",
+      "meaning": "n. 剧本",
+      "example": "The script went through ten drafts before filming.",
+      "topic": "艺术"
+    },
+    {
+      "word": "screenplay",
+      "meaning": "n. 剧本",
+      "example": "She won an award for her original screenplay.",
+      "topic": "艺术"
+    },
+    {
+      "word": "plot",
+      "meaning": "n. 情节",
+      "example": "The plot twists kept audiences guessing throughout.",
+      "topic": "艺术"
+    },
+    {
+      "word": "novel",
+      "meaning": "n. 小说",
+      "example": "Her debut novel became an instant bestseller.",
+      "topic": "艺术"
+    },
+    {
+      "word": "novelist",
+      "meaning": "n. 小说家",
+      "example": "The novelist draws on her childhood in her work.",
+      "topic": "艺术"
+    },
+    {
+      "word": "fiction",
+      "meaning": "n. 小说",
+      "example": "He prefers reading fiction to watching television.",
+      "topic": "艺术"
+    },
+    {
+      "word": "literary",
+      "meaning": "adj. 文学的",
+      "example": "The festival attracts prominent literary figures.",
+      "topic": "艺术"
+    },
+    {
+      "word": "poetry",
+      "meaning": "n. 诗歌",
+      "example": "Modern poetry often defies simple interpretation.",
+      "topic": "艺术"
+    },
+    {
+      "word": "poet",
+      "meaning": "n. 诗人",
+      "example": "The poet read aloud to a hushed hall.",
+      "topic": "艺术"
+    },
+    {
+      "word": "poem",
+      "meaning": "n. 诗",
+      "example": "Each poem captures a fleeting moment of wonder.",
+      "topic": "艺术"
+    },
+    {
+      "word": "genre",
+      "meaning": "n. 体裁",
+      "example": "The director works across several film genres.",
+      "topic": "艺术"
+    },
+    {
+      "word": "film",
+      "meaning": "n. 电影",
+      "example": "The film was shot on location in the mountains.",
+      "topic": "艺术"
+    },
+    {
+      "word": "cinema",
+      "meaning": "n. 电影",
+      "example": "Cinema remains one of the most popular art forms.",
+      "topic": "艺术"
+    },
+    {
+      "word": "direct",
+      "meaning": "v. 导演",
+      "example": "She will direct her first feature film this year.",
+      "topic": "艺术"
+    },
+    {
+      "word": "director",
+      "meaning": "n. 导演",
+      "example": "The director is known for his distinctive visual style.",
+      "topic": "艺术"
+    },
+    {
+      "word": "produce",
+      "meaning": "v. 制作",
+      "example": "The studio produces several films a year.",
+      "topic": "艺术"
+    },
+    {
+      "word": "producer",
+      "meaning": "n. 制作人",
+      "example": "The producer secured funding for the documentary.",
+      "topic": "艺术"
+    },
+    {
+      "word": "animate",
+      "meaning": "v. 制作动画",
+      "example": "The studio animates each frame by hand.",
+      "topic": "艺术"
+    },
+    {
+      "word": "animation",
+      "meaning": "n. 动画",
+      "example": "Computer animation has transformed the industry.",
+      "topic": "艺术"
+    },
+    {
+      "word": "subtitle",
+      "meaning": "n. 字幕",
+      "example": "Foreign films are usually shown with subtitles.",
+      "topic": "艺术"
+    },
+    {
+      "word": "dub",
+      "meaning": "v. 配音",
+      "example": "The cartoon was dubbed into twenty languages.",
+      "topic": "艺术"
+    },
+    {
+      "word": "screen",
+      "meaning": "v. 放映",
+      "example": "The film will screen in selected cinemas.",
+      "topic": "艺术"
+    },
+    {
+      "word": "premiere",
+      "meaning": "n./v. 首映",
+      "example": "The film premiered to enthusiastic reviews.",
+      "topic": "艺术"
+    },
+    {
+      "word": "venue",
+      "meaning": "n. 场地",
+      "example": "The old warehouse makes an unusual concert venue.",
+      "topic": "艺术"
+    },
+    {
+      "word": "auditorium",
+      "meaning": "n. 礼堂",
+      "example": "The auditorium seats over two thousand people.",
+      "topic": "艺术"
+    },
+    {
+      "word": "applaud",
+      "meaning": "v. 鼓掌",
+      "example": "The crowd rose to applaud the soloist.",
+      "topic": "艺术"
+    },
+    {
+      "word": "applause",
+      "meaning": "n. 掌声",
+      "example": "Thunderous applause greeted the final curtain.",
+      "topic": "艺术"
+    },
+    {
+      "word": "debut",
+      "meaning": "n. 首演",
+      "example": "The young violinist made her solo debut last night.",
+      "topic": "艺术"
+    },
+    {
+      "word": "sport",
+      "meaning": "n. 运动",
+      "example": "Team sport teaches children the value of cooperation.",
+      "topic": "体育"
+    },
+    {
+      "word": "sporting",
+      "meaning": "adj. 体育的",
+      "example": "The country has a rich sporting tradition.",
+      "topic": "体育"
+    },
+    {
+      "word": "athletic",
+      "meaning": "adj. 运动的",
+      "example": "She showed athletic promise from a young age.",
+      "topic": "体育"
+    },
+    {
+      "word": "athletics",
+      "meaning": "n. 田径",
+      "example": "He competes in track and field athletics.",
+      "topic": "体育"
+    },
+    {
+      "word": "competitor",
+      "meaning": "n. 选手",
+      "example": "Each competitor must follow strict anti-doping rules.",
+      "topic": "体育"
+    },
+    {
+      "word": "competitive",
+      "meaning": "adj. 竞争激烈的",
+      "example": "International sport has become intensely competitive.",
+      "topic": "体育"
+    },
+    {
+      "word": "race",
+      "meaning": "n. 比赛",
+      "example": "She led the race from start to finish.",
+      "topic": "体育"
+    },
+    {
+      "word": "racing",
+      "meaning": "n. 赛跑",
+      "example": "Motor racing draws huge television audiences.",
+      "topic": "体育"
+    },
+    {
+      "word": "champion",
+      "meaning": "n. 冠军",
+      "example": "The defending champion cruised into the final.",
+      "topic": "体育"
+    },
+    {
+      "word": "fixture",
+      "meaning": "n. 安排的比赛",
+      "example": "Saturday's fixture was postponed due to rain.",
+      "topic": "体育"
+    },
+    {
+      "word": "season",
+      "meaning": "n. 赛季",
+      "example": "He missed most of the season through injury.",
+      "topic": "体育"
+    },
+    {
+      "word": "olympic",
+      "meaning": "adj. 奥运的",
+      "example": "Winning an Olympic medal is the pinnacle of the sport.",
+      "topic": "体育"
+    },
+    {
+      "word": "medal",
+      "meaning": "n. 奖牌",
+      "example": "She claimed her second gold medal at the games.",
+      "topic": "体育"
+    },
+    {
+      "word": "trophy",
+      "meaning": "n. 奖杯",
+      "example": "The captain lifted the trophy before roaring fans.",
+      "topic": "体育"
+    },
+    {
+      "word": "record",
+      "meaning": "n. 记录",
+      "example": "She smashed the world record by half a second.",
+      "topic": "体育"
+    },
+    {
+      "word": "train",
+      "meaning": "v. 训练",
+      "example": "The squad trains at high altitude each summer.",
+      "topic": "体育"
+    },
+    {
+      "word": "teamwork",
+      "meaning": "n. 团队合作",
+      "example": "Success in team sport hinges on tight teamwork.",
+      "topic": "体育"
+    },
+    {
+      "word": "teammate",
+      "meaning": "n. 队友",
+      "example": "He praised his teammates for their support.",
+      "topic": "体育"
+    },
+    {
+      "word": "umpire",
+      "meaning": "n. 裁判",
+      "example": "The umpire called the player out of bounds.",
+      "topic": "体育"
+    },
+    {
+      "word": "goal",
+      "meaning": "n. 进球",
+      "example": "He headed the winning goal in extra time.",
+      "topic": "体育"
+    },
+    {
+      "word": "win",
+      "meaning": "v. 获胜",
+      "example": "The underdogs stunned everyone to win the final.",
+      "topic": "体育"
+    },
+    {
+      "word": "winner",
+      "meaning": "n. 胜者",
+      "example": "The winner will be decided by a penalty shoot-out.",
+      "topic": "体育"
+    },
+    {
+      "word": "loss",
+      "meaning": "n. 失败",
+      "example": "The team bounced back from a heavy loss.",
+      "topic": "体育"
+    },
+    {
+      "word": "fit",
+      "meaning": "adj. 健康的",
+      "example": "Regular exercise keeps you physically fit.",
+      "topic": "体育"
+    },
+    {
+      "word": "arena",
+      "meaning": "n. 竞技场",
+      "example": "The indoor arena hosts basketball and concerts.",
+      "topic": "体育"
+    },
+    {
+      "word": "swimming",
+      "meaning": "n. 游泳",
+      "example": "Swimming offers a full-body cardiovascular workout.",
+      "topic": "体育"
+    },
+    {
+      "word": "boxing",
+      "meaning": "n. 拳击",
+      "example": "Professional boxing requires immense discipline.",
+      "topic": "体育"
+    },
+    {
+      "word": "wrestling",
+      "meaning": "n. 摔跤",
+      "example": "Wrestling is among the oldest Olympic sports.",
+      "topic": "体育"
+    },
+    {
+      "word": "gymnastics",
+      "meaning": "n. 体操",
+      "example": "Chinese gymnasts swept the medals table.",
+      "topic": "体育"
+    },
+    {
+      "word": "gymnast",
+      "meaning": "n. 体操运动员",
+      "example": "The young gymnast executed a flawless routine.",
+      "topic": "体育"
+    },
+    {
+      "word": "dive",
+      "meaning": "v. 跳水",
+      "example": "She dived with remarkable grace from the platform.",
+      "topic": "体育"
+    },
+    {
+      "word": "diving",
+      "meaning": "n. 跳水",
+      "example": "Diving demands both courage and precision.",
+      "topic": "体育"
+    },
+    {
+      "word": "surf",
+      "meaning": "v. 冲浪",
+      "example": "Locals surf the same break at dawn each day.",
+      "topic": "体育"
+    },
+    {
+      "word": "surfing",
+      "meaning": "n. 冲浪",
+      "example": "Surfing has a thriving subculture of its own.",
+      "topic": "体育"
+    },
+    {
+      "word": "ski",
+      "meaning": "v. 滑雪",
+      "example": "Families ski together during the winter break.",
+      "topic": "体育"
+    },
+    {
+      "word": "skiing",
+      "meaning": "n. 滑雪",
+      "example": "Skiing is the mainstay of the alpine economy.",
+      "topic": "体育"
+    },
+    {
+      "word": "skate",
+      "meaning": "v. 滑冰",
+      "example": "Children skate on the frozen pond all afternoon.",
+      "topic": "体育"
+    },
+    {
+      "word": "skating",
+      "meaning": "n. 滑冰",
+      "example": "Figure skating draws large television audiences.",
+      "topic": "体育"
+    },
+    {
+      "word": "row",
+      "meaning": "v. 划船",
+      "example": "The crew rowed in perfect unison down the river.",
+      "topic": "体育"
+    },
+    {
+      "word": "climb",
+      "meaning": "v. 攀登",
+      "example": "They plan to climb the north face next summer.",
+      "topic": "体育"
+    },
+    {
+      "word": "hike",
+      "meaning": "v. 徒步",
+      "example": "We hiked for hours to reach the viewpoint.",
+      "topic": "体育"
+    },
+    {
+      "word": "fan",
+      "meaning": "n. 球迷",
+      "example": "Devoted fans travelled across the country to attend.",
+      "topic": "体育"
+    },
+    {
+      "word": "supporter",
+      "meaning": "n. 支持者",
+      "example": "Supporters packed the away end of the ground.",
+      "topic": "体育"
+    },
+    {
+      "word": "cheer",
+      "meaning": "v. 欢呼",
+      "example": "The home crowd cheered every tackle.",
+      "topic": "体育"
+    },
+    {
+      "word": "chant",
+      "meaning": "v. 喊口号",
+      "example": "Fans chanted the captain's name long after the whistle.",
+      "topic": "体育"
+    },
+    {
+      "word": "kickoff",
+      "meaning": "n. 开球",
+      "example": "Kickoff is scheduled for eight o'clock sharp.",
+      "topic": "体育"
+    },
+    {
+      "word": "whistle",
+      "meaning": "n. 哨声",
+      "example": "The referee's whistle ended a thrilling match.",
+      "topic": "体育"
+    },
+    {
+      "word": "penalty",
+      "meaning": "n. 罚球",
+      "example": "The striker converted the penalty with ease.",
+      "topic": "体育"
+    },
+    {
+      "word": "foul",
+      "meaning": "n. 犯规",
+      "example": "A late foul gave away a dangerous free kick.",
+      "topic": "体育"
+    },
+    {
+      "word": "sportsmanship",
+      "meaning": "n. 体育精神",
+      "example": "True sportsmanship matters more than winning.",
+      "topic": "体育"
+    },
+    {
+      "word": "fair play",
+      "meaning": "n. 公平竞争",
+      "example": "The award recognises exemplary fair play.",
+      "topic": "体育"
+    },
+    {
+      "word": "doping",
+      "meaning": "n. 使用兴奋剂",
+      "example": "Doping scandals have tarnished the sport's reputation.",
+      "topic": "体育"
+    },
+    {
+      "word": "steroid",
+      "meaning": "n. 类固醇",
+      "example": "Several athletes tested positive for steroids.",
+      "topic": "体育"
+    },
+    {
+      "word": "muscular",
+      "meaning": "adj. 肌肉的",
+      "example": "Sprinters tend to have muscular physiques.",
+      "topic": "体育"
+    },
+    {
+      "word": "rigorous",
+      "meaning": "adj. 严格的",
+      "example": "Rigorous training regimes leave little free time.",
+      "topic": "体育"
+    },
+    {
+      "word": "recreational",
+      "meaning": "adj. 娱乐的",
+      "example": "Recreational cycling has boomed in the pandemic era.",
+      "topic": "体育"
+    },
+    {
+      "word": "outdoor",
+      "meaning": "adj. 户外的",
+      "example": "Outdoor pursuits attract increasing numbers of city dwellers.",
+      "topic": "体育"
+    },
+    {
+      "word": "extreme",
+      "meaning": "adj. 极限的",
+      "example": "Extreme sports appeal to thrill-seeking teenagers.",
+      "topic": "体育"
+    },
+    {
+      "word": "exercise",
+      "meaning": "n. 锻炼",
+      "example": "Regular exercise is widely regarded as the cornerstone of good health.",
+      "topic": "体育"
+    },
+    {
+      "word": "workout",
+      "meaning": "n. 锻炼",
+      "example": "She fits in a thirty-minute workout before her morning lectures.",
+      "topic": "体育"
+    },
+    {
+      "word": "fitness",
+      "meaning": "n. 体能/健康",
+      "example": "Joining a sports club is a simple way to improve overall fitness.",
+      "topic": "体育"
+    },
+    {
+      "word": "gym",
+      "meaning": "n. 健身房",
+      "example": "The campus gym offers free classes for all registered students.",
+      "topic": "体育"
+    },
+    {
+      "word": "stadium",
+      "meaning": "n. 体育场",
+      "example": "The annual athletics meet is held in the main stadium.",
+      "topic": "体育"
+    },
+    {
+      "word": "track",
+      "meaning": "n. 跑道",
+      "example": "Joggers gathered on the running track before sunrise.",
+      "topic": "体育"
+    },
+    {
+      "word": "court",
+      "meaning": "n. 球场",
+      "example": "The tennis court must be booked at least a day in advance.",
+      "topic": "体育"
+    },
+    {
+      "word": "pool",
+      "meaning": "n. 泳池",
+      "example": "The indoor pool is open for lane swimming every evening.",
+      "topic": "体育"
+    },
+    {
+      "word": "athlete",
+      "meaning": "n. 运动员",
+      "example": "Student athletes must balance training with their academic workload.",
+      "topic": "体育"
+    },
+    {
+      "word": "coach",
+      "meaning": "n. 教练",
+      "example": "The coach emphasised the value of teamwork over individual talent.",
+      "topic": "体育"
+    },
+    {
+      "word": "trainer",
+      "meaning": "n. 健身教练",
+      "example": "A personal trainer helped her design a safe strength programme.",
+      "topic": "体育"
+    },
+    {
+      "word": "training",
+      "meaning": "n. 训练",
+      "example": "Consistent training over months is what builds real endurance.",
+      "topic": "体育"
+    },
+    {
+      "word": "warm up",
+      "meaning": "v. 热身",
+      "example": "Always warm up before lifting heavy weights to avoid injury.",
+      "topic": "体育"
+    },
+    {
+      "word": "stretch",
+      "meaning": "v. 拉伸",
+      "example": "Stretch gently after each run to keep muscles flexible.",
+      "topic": "体育"
+    },
+    {
+      "word": "cool down",
+      "meaning": "v. 放松整理",
+      "example": "A slow walk makes an effective cool-down after hard training.",
+      "topic": "体育"
+    },
+    {
+      "word": "aerobic",
+      "meaning": "adj. 有氧的",
+      "example": "Aerobic exercise such as cycling strengthens the heart and lungs.",
+      "topic": "体育"
+    },
+    {
+      "word": "anaerobic",
+      "meaning": "adj. 无氧的",
+      "example": "Sprinting and weightlifting are forms of anaerobic exercise.",
+      "topic": "体育"
+    },
+    {
+      "word": "cardio",
+      "meaning": "n. 有氧运动",
+      "example": "He added twenty minutes of cardio to his daily routine.",
+      "topic": "体育"
+    },
+    {
+      "word": "endurance",
+      "meaning": "n. 耐力",
+      "example": "Long-distance running builds both physical and mental endurance.",
+      "topic": "体育"
+    },
+    {
+      "word": "stamina",
+      "meaning": "n. 体力",
+      "example": "Swimming is an excellent way to develop stamina over time.",
+      "topic": "体育"
+    },
+    {
+      "word": "strength",
+      "meaning": "n. 力量",
+      "example": "Lower-body strength is vital for most team sports.",
+      "topic": "体育"
+    },
+    {
+      "word": "muscle",
+      "meaning": "n. 肌肉",
+      "example": "Resistance training helps preserve muscle mass as we age.",
+      "topic": "体育"
+    },
+    {
+      "word": "flexibility",
+      "meaning": "n. 柔韧性",
+      "example": "Regular stretching improves joint flexibility and posture.",
+      "topic": "体育"
+    },
+    {
+      "word": "agility",
+      "meaning": "n. 灵敏性",
+      "example": "Badminton demands quick reflexes and agility in footwork.",
+      "topic": "体育"
+    },
+    {
+      "word": "coordination",
+      "meaning": "n. 协调",
+      "example": "Team sports develop hand-eye coordination in young players.",
+      "topic": "体育"
+    },
+    {
+      "word": "reflex",
+      "meaning": "n. 反应",
+      "example": "A goalkeeper relies on sharp reflexes to make quick saves.",
+      "topic": "体育"
+    },
+    {
+      "word": "heart rate",
+      "meaning": "n. 心率",
+      "example": "A fitness tracker can monitor your heart rate during exercise.",
+      "topic": "体育"
+    },
+    {
+      "word": "calorie",
+      "meaning": "n. 卡路里",
+      "example": "The workout is estimated to burn around four hundred calories.",
+      "topic": "体育"
+    },
+    {
+      "word": "sweat",
+      "meaning": "v. 出汗",
+      "example": "You will sweat more during intense exercise in warm weather.",
+      "topic": "体育"
+    },
+    {
+      "word": "hydrate",
+      "meaning": "v. 补水",
+      "example": "Remember to hydrate well before, during and after exercise.",
+      "topic": "体育"
+    },
+    {
+      "word": "jog",
+      "meaning": "v. 慢跑",
+      "example": "Many students jog around the campus lake each morning.",
+      "topic": "体育"
+    },
+    {
+      "word": "sprint",
+      "meaning": "v. 冲刺",
+      "example": "The final sprint decided the outcome of the race.",
+      "topic": "体育"
+    },
+    {
+      "word": "swim",
+      "meaning": "v. 游泳",
+      "example": "Learning to swim competently is an important life skill.",
+      "topic": "体育"
+    },
+    {
+      "word": "cycle",
+      "meaning": "v. 骑车",
+      "example": "More commuters are choosing to cycle to work each day.",
+      "topic": "体育"
+    },
+    {
+      "word": "lift weights",
+      "meaning": "v. 举重",
+      "example": "She began to lift weights to build strength for rowing.",
+      "topic": "体育"
+    },
+    {
+      "word": "yoga",
+      "meaning": "n. 瑜伽",
+      "example": "A weekly yoga class helps students manage exam stress.",
+      "topic": "体育"
+    },
+    {
+      "word": "pilates",
+      "meaning": "n. 普拉提",
+      "example": "Pilates focuses on core strength and controlled breathing.",
+      "topic": "体育"
+    },
+    {
+      "word": "martial arts",
+      "meaning": "n. 武术",
+      "example": "The club offers classes in several martial arts for beginners.",
+      "topic": "体育"
+    },
+    {
+      "word": "football",
+      "meaning": "n. 足球",
+      "example": "The university football team trains three evenings a week.",
+      "topic": "体育"
+    },
+    {
+      "word": "basketball",
+      "meaning": "n. 篮球",
+      "example": "A pick-up game of basketball is a quick way to make friends.",
+      "topic": "体育"
+    },
+    {
+      "word": "tennis",
+      "meaning": "n. 网球",
+      "example": "Tennis requires both physical fitness and tactical thinking.",
+      "topic": "体育"
+    },
+    {
+      "word": "badminton",
+      "meaning": "n. 羽毛球",
+      "example": "Badminton is a popular social sport in many Asian countries.",
+      "topic": "体育"
+    },
+    {
+      "word": "volleyball",
+      "meaning": "n. 排球",
+      "example": "Beach volleyball attracts large crowds during the summer.",
+      "topic": "体育"
+    },
+    {
+      "word": "cricket",
+      "meaning": "n. 板球",
+      "example": "Cricket matches can last anything from a few hours to several days.",
+      "topic": "体育"
+    },
+    {
+      "word": "rugby",
+      "meaning": "n. 橄榄球",
+      "example": "Rugby is known for its physical intensity and teamwork.",
+      "topic": "体育"
+    },
+    {
+      "word": "hockey",
+      "meaning": "n. 曲棍球",
+      "example": "Field hockey is played on artificial turf at the college.",
+      "topic": "体育"
+    },
+    {
+      "word": "golf",
+      "meaning": "n. 高尔夫",
+      "example": "Golf demands patience and precision more than raw power.",
+      "topic": "体育"
+    },
+    {
+      "word": "compete",
+      "meaning": "v. 竞争",
+      "example": "Students compete for a place on the national squad each year.",
+      "topic": "体育"
+    },
+    {
+      "word": "competition",
+      "meaning": "n. 比赛",
+      "example": "The inter-hall competition attracts entries from across the campus.",
+      "topic": "体育"
+    },
+    {
+      "word": "tournament",
+      "meaning": "n. 锦标赛",
+      "example": "The chess tournament runs over the course of three weekends.",
+      "topic": "体育"
+    },
+    {
+      "word": "championship",
+      "meaning": "n. 冠军赛",
+      "example": "She won the national championship for the second year running.",
+      "topic": "体育"
+    },
+    {
+      "word": "league",
+      "meaning": "n. 联赛",
+      "example": "The amateur league runs from October through to March.",
+      "topic": "体育"
+    },
+    {
+      "word": "match",
+      "meaning": "n. 比赛",
+      "example": "Tickets for the final match sold out within an hour.",
+      "topic": "体育"
+    },
+    {
+      "word": "referee",
+      "meaning": "n. 裁判",
+      "example": "The referee stopped the match to check on an injured player.",
+      "topic": "体育"
+    },
+    {
+      "word": "score",
+      "meaning": "n. 比分",
+      "example": "The final score was two goals to one in favour of the home side.",
+      "topic": "体育"
+    },
+    {
+      "word": "victory",
+      "meaning": "n. 胜利",
+      "example": "The team celebrated a narrow victory in the closing seconds.",
+      "topic": "体育"
+    },
+    {
+      "word": "defeat",
+      "meaning": "n. 失败",
+      "example": "The coach took full responsibility for the team's defeat.",
+      "topic": "体育"
+    },
+    {
+      "word": "injury",
+      "meaning": "n. 受伤",
+      "example": "A knee injury kept him out of the game for several months.",
+      "topic": "体育"
+    },
+    {
+      "word": "sprain",
+      "meaning": "n. 扭伤",
+      "example": "She played through a mild ankle sprain in the second half.",
+      "topic": "体育"
+    },
+    {
+      "word": "strain",
+      "meaning": "n. 拉伤",
+      "example": "A muscle strain forced him to withdraw from the tournament.",
+      "topic": "体育"
+    },
+    {
+      "word": "bruise",
+      "meaning": "n. 淤青",
+      "example": "The tackle left him with a painful bruise on his thigh.",
+      "topic": "体育"
+    },
+    {
+      "word": "fracture",
+      "meaning": "n. 骨折",
+      "example": "An x-ray confirmed a hairline fracture in his collarbone.",
+      "topic": "体育"
+    },
+    {
+      "word": "rehabilitate",
+      "meaning": "v. 康复",
+      "example": "The physiotherapist helped him rehabilitate after the operation.",
+      "topic": "体育"
+    },
+    {
+      "word": "rehabilitation",
+      "meaning": "n. 康复治疗",
+      "example": "Rehabilitation can take many months following a serious injury.",
+      "topic": "体育"
+    },
+    {
+      "word": "leisure",
+      "meaning": "n. 休闲",
+      "example": "Students should set aside regular time for leisure and rest.",
+      "topic": "体育"
+    },
+    {
+      "word": "recreation",
+      "meaning": "n. 娱乐",
+      "example": "The recreation centre offers activities from climbing to dance.",
+      "topic": "体育"
+    },
+    {
+      "word": "active",
+      "meaning": "adj. 活跃的",
+      "example": "An active lifestyle helps ward off many chronic diseases.",
+      "topic": "体育"
+    },
+    {
+      "word": "sedentary",
+      "meaning": "adj. 久坐的",
+      "example": "A sedentary routine is now seen as a major health risk.",
+      "topic": "体育"
+    },
+    {
+      "word": "physique",
+      "meaning": "n. 体格",
+      "example": "Swimming builds a lean and powerful physique over time.",
+      "topic": "体育"
+    },
+    {
+      "word": "marathon",
+      "meaning": "n. 马拉松",
+      "example": "Training for a marathon takes months of disciplined effort.",
+      "topic": "体育"
+    },
+    {
+      "word": "spectator",
+      "meaning": "n. 观众",
+      "example": "Thousands of spectators lined the route of the city marathon.",
+      "topic": "体育"
+    },
+    {
+      "word": "professional",
+      "meaning": "adj. 职业的",
+      "example": "Only a handful of athletes ever turn fully professional.",
+      "topic": "体育"
+    },
+    {
+      "word": "amateur",
+      "meaning": "n. 业余爱好者",
+      "example": "Most of the competitors are keen amateurs rather than paid stars.",
+      "topic": "体育"
+    },
+    {
+      "word": "obstacle",
+      "meaning": "n. 障碍",
+      "example": "An obstacle course tests both stamina and problem-solving.",
+      "topic": "体育"
+    }
+  ]
+}

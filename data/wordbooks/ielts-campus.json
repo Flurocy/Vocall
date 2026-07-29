@@ -1,0 +1,1339 @@
+{
+  "id": "ielts-campus",
+  "name": "校园健康",
+  "desc": "选课、论文、看病、运动这类校园和健康场景词，听力 section 3、口语和写作教育题反复用到。",
+  "words": [
+    {
+      "word": "pedagogy",
+      "meaning": "n. 教学法",
+      "example": "Modern pedagogy encourages critical thinking rather than rote memorisation.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "pedagogical",
+      "meaning": "adj. 教学法的",
+      "example": "The lecturers adopted a more pedagogical approach to first-year tutorials.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "curriculum",
+      "meaning": "n. 课程体系",
+      "example": "The new curriculum places greater emphasis on independent research.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "syllabus",
+      "meaning": "n. 教学大纲",
+      "example": "Students should read the syllabus carefully before the semester begins.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "module",
+      "meaning": "n. 模块课程",
+      "example": "She chose an optional module in behavioural psychology this term.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "tuition",
+      "meaning": "n. 学费",
+      "example": "International students are charged higher tuition fees than domestic ones.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "scholarship",
+      "meaning": "n. 奖学金",
+      "example": "He was awarded a scholarship covering his full tuition and accommodation.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "grant",
+      "meaning": "n. 助学金",
+      "example": "The university offers maintenance grants to students from low-income families.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "stipend",
+      "meaning": "n. 津贴",
+      "example": "PhD candidates receive a monthly stipend for their teaching assistance.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "enroll",
+      "meaning": "v. 注册入学",
+      "example": "Students can enroll online during the registration week in September.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "enrollment",
+      "meaning": "n. 注册",
+      "example": "Late enrollment may result in limited choice of elective modules.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "admission",
+      "meaning": "n. 录取",
+      "example": "Admission to the programme depends on academic performance and an interview.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "admit",
+      "meaning": "v. 录取",
+      "example": "The college admits roughly two hundred undergraduates each year.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "academic",
+      "meaning": "adj. 学术的",
+      "example": "A strong academic background is essential for postgraduate study.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "academia",
+      "meaning": "n. 学术界",
+      "example": "Many graduates eventually pursue a career in academia.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "faculty",
+      "meaning": "n. 院系/教职员工",
+      "example": "The faculty of science offers both taught and research degrees.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "department",
+      "meaning": "n. 系",
+      "example": "The economics department has expanded its intake of postgraduates.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "professor",
+      "meaning": "n. 教授",
+      "example": "The professor delivered a guest lecture on climate modelling.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "lecturer",
+      "meaning": "n. 讲师",
+      "example": "Our sociology lecturer also supervises final-year dissertations.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "lecture",
+      "meaning": "n. 讲座/讲课",
+      "example": "Attendance at lectures is recorded but not strictly compulsory.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "tutorial",
+      "meaning": "n. 辅导课",
+      "example": "Each tutorial group contains no more than ten students.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "seminar",
+      "meaning": "n. 研讨会",
+      "example": "The weekly seminar gives students a chance to debate set readings.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "workshop",
+      "meaning": "n. 工作坊",
+      "example": "The library runs a workshop on academic writing each term.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "supervise",
+      "meaning": "v. 指导",
+      "example": "Professor Lee will supervise her master's thesis this year.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "supervisor",
+      "meaning": "n. 导师",
+      "example": "Her supervisor suggested broadening the scope of the literature review.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "mentor",
+      "meaning": "n. 导师/良师益友",
+      "example": "Every first-year student is assigned a peer mentor for guidance.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "mentorship",
+      "meaning": "n. 导师制",
+      "example": "The mentorship scheme pairs juniors with senior students in the same major.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "cognitive",
+      "meaning": "adj. 认知的",
+      "example": "Puzzles are thought to support cognitive development in young children.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "cognition",
+      "meaning": "n. 认知",
+      "example": "Sleep has a measurable effect on cognition and memory consolidation.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "intellect",
+      "meaning": "n. 智力",
+      "example": "Academic debate sharpens the intellect over the course of a degree.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "intellectual",
+      "meaning": "adj. 智力的",
+      "example": "University life should foster intellectual curiosity and independence.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "literacy",
+      "meaning": "n. 读写能力",
+      "example": "Digital literacy is now treated as a core graduate skill.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "literate",
+      "meaning": "adj. 有读写能力的",
+      "example": "All applicants must be literate in at least one programming language.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "illiterate",
+      "meaning": "adj. 不识字的",
+      "example": "A significant share of adults in the region remains functionally illiterate.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "discipline",
+      "meaning": "n. 学科/纪律",
+      "example": "Sociology draws on methods from several related disciplines.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "disciplinary",
+      "meaning": "adj. 学科的",
+      "example": "The project takes a cross-disciplinary approach to urban planning.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "compulsory",
+      "meaning": "adj. 必修的",
+      "example": "Statistics is a compulsory module for all psychology students.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "elective",
+      "meaning": "adj. 选修的",
+      "example": "She picked two elective courses outside her main major.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "optional",
+      "meaning": "adj. 可选的",
+      "example": "Attendance at the revision lecture is entirely optional.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "prerequisite",
+      "meaning": "n. 先修课程",
+      "example": "Calculus is a prerequisite for the advanced economics module.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "assess",
+      "meaning": "v. 评估",
+      "example": "Tutors assess each essay against a published marking scheme.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "assessment",
+      "meaning": "n. 评估",
+      "example": "Continuous assessment reduces the pressure of final exams.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "evaluate",
+      "meaning": "v. 评价",
+      "example": "The committee will evaluate each candidate on academic merit.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "examination",
+      "meaning": "n. 考试",
+      "example": "Final examinations are scheduled at the end of each semester.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "degree",
+      "meaning": "n. 学位",
+      "example": "He completed his degree in three years instead of the usual four.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "diploma",
+      "meaning": "n. 文凭",
+      "example": "The college offers a one-year diploma in graphic design.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "certificate",
+      "meaning": "n. 证书",
+      "example": "Students receive a certificate upon finishing the summer programme.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "bachelor",
+      "meaning": "n. 学士",
+      "example": "She graduated with a bachelor of science in chemistry.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "master",
+      "meaning": "n. 硕士",
+      "example": "A master of arts typically takes one year to complete.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "doctorate",
+      "meaning": "n. 博士学位",
+      "example": "He left industry to pursue a doctorate in renewable energy.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "undergraduate",
+      "meaning": "n. 本科生",
+      "example": "Most undergraduates live in halls of residence during their first year.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "postgraduate",
+      "meaning": "n. 研究生",
+      "example": "The department recruits around thirty postgraduates each autumn.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "freshman",
+      "meaning": "n. 大一新生",
+      "example": "The orientation week helps freshmen settle into campus life.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "alumnus",
+      "meaning": "n. 校友",
+      "example": "The prize was funded by a distinguished alumnus of the college.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "alumni",
+      "meaning": "n. 校友(复数)",
+      "example": "The alumni network offers mentoring to recent graduates.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "campus",
+      "meaning": "n. 校园",
+      "example": "The new sports centre is located on the north side of campus.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "orientation",
+      "meaning": "n. 入学指导",
+      "example": "Orientation events introduce students to campus services and staff.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "cram",
+      "meaning": "v. 临时抱佛脚",
+      "example": "Cramming the night before an exam rarely produces lasting knowledge.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "rote",
+      "meaning": "n. 死记硬背",
+      "example": "Rote learning is still common in many primary school classrooms.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "comprehend",
+      "meaning": "v. 理解",
+      "example": "It took several readings to fully comprehend the dense theory.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "comprehension",
+      "meaning": "n. 理解力",
+      "example": "Reading widely builds both vocabulary and comprehension.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "assimilate",
+      "meaning": "v. 吸收/掌握",
+      "example": "Learners need time to assimilate new grammatical structures.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "retain",
+      "meaning": "v. 记忆/保留",
+      "example": "Students retain more when they review notes at spaced intervals.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "retention",
+      "meaning": "n. 记忆力",
+      "example": "Active recall is a proven technique for improving retention.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "grasp",
+      "meaning": "v. 掌握(概念)",
+      "example": "She quickly grasped the underlying logic of the model.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "deadline",
+      "meaning": "n. 截止日期",
+      "example": "The essay deadline has been extended to next Friday.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "submit",
+      "meaning": "v. 提交",
+      "example": "All coursework must be submitted through the online portal.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "attendance",
+      "meaning": "n. 出勤",
+      "example": "Regular attendance correlates strongly with final grades.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "absent",
+      "meaning": "adj. 缺席的",
+      "example": "Students who are absent must provide a medical certificate.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "proficiency",
+      "meaning": "n. 熟练度",
+      "example": "The test measures proficiency in academic English writing.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "proficient",
+      "meaning": "adj. 熟练的",
+      "example": "By the third year she had become proficient in statistical software.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "semester",
+      "meaning": "n. 学期",
+      "example": "Each semester runs for twelve teaching weeks plus exams.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "term",
+      "meaning": "n. 学期",
+      "example": "The spring term begins in the second week of January.",
+      "topic": "教育学习"
+    },
+    {
+      "word": "essay",
+      "meaning": "n. 论文",
+      "example": "The essay should present a clear and original argument.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "paper",
+      "meaning": "n. 论文",
+      "example": "She presented her research paper at an international conference.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "thesis",
+      "meaning": "n. 论文/论点",
+      "example": "Her doctoral thesis examined migration patterns in South-East Asia.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "dissertation",
+      "meaning": "n. 学位论文",
+      "example": "The undergraduate dissertation is worth a third of the final year.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "hypothesis",
+      "meaning": "n. 假设",
+      "example": "The experiment was designed to test their initial hypothesis.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "methodology",
+      "meaning": "n. 方法论",
+      "example": "The chapter on methodology justifies the choice of qualitative approach.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "method",
+      "meaning": "n. 方法",
+      "example": "Researchers compared two teaching methods over a single term.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "analyze",
+      "meaning": "v. 分析",
+      "example": "The team will analyze the survey data using regression models.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "analysis",
+      "meaning": "n. 分析",
+      "example": "A thematic analysis revealed three recurring student concerns.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "analytical",
+      "meaning": "adj. 分析的",
+      "example": "The course develops analytical as well as writing skills.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "data",
+      "meaning": "n. 数据",
+      "example": "The raw data are available in the appendix of the report.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "statistic",
+      "meaning": "n. 统计数据",
+      "example": "The statistic cited in the lecture came from a national survey.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "statistical",
+      "meaning": "adj. 统计的",
+      "example": "The difference between the two groups was statistically significant.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "survey",
+      "meaning": "n. 调查",
+      "example": "A recent survey polled undergraduates about their study habits.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "questionnaire",
+      "meaning": "n. 问卷",
+      "example": "Participants completed a short questionnaire after the session.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "interview",
+      "meaning": "n. 访谈",
+      "example": "The findings draw on semi-structured interviews with twenty students.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "sample",
+      "meaning": "n. 样本",
+      "example": "The sample consisted of five hundred randomly selected households.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "sampling",
+      "meaning": "n. 抽样",
+      "example": "Random sampling helps ensure that results can be generalised.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "variable",
+      "meaning": "n. 变量",
+      "example": "Income was treated as the independent variable in the model.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "correlation",
+      "meaning": "n. 相关性",
+      "example": "The study found a strong correlation between sleep and grades.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "phenomenon",
+      "meaning": "n. 现象",
+      "example": "Grade inflation is a well-documented phenomenon in many universities.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "concept",
+      "meaning": "n. 概念",
+      "example": "The lecturer introduced the concept of sustainable development.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "conceptual",
+      "meaning": "adj. 概念的",
+      "example": "The framework remains at a fairly conceptual level of detail.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "theory",
+      "meaning": "n. 理论",
+      "example": "The paper challenges the prevailing theory of motivation.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "theoretical",
+      "meaning": "adj. 理论的",
+      "example": "The course balances theoretical study with hands-on practice.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "principle",
+      "meaning": "n. 原理",
+      "example": "The design follows the same principles as earlier experiments.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "framework",
+      "meaning": "n. 框架",
+      "example": "The researchers proposed a new framework for analysing online learning.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "paradigm",
+      "meaning": "n. 范式",
+      "example": "The shift to remote teaching represented a new paradigm in education.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "perspective",
+      "meaning": "n. 视角",
+      "example": "The essay examines the issue from an economic perspective.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "approach",
+      "meaning": "n. 方法",
+      "example": "The lecturer favours a problem-based approach to teaching.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "cite",
+      "meaning": "v. 引用",
+      "example": "Students must cite all sources used in their coursework.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "citation",
+      "meaning": "n. 引用",
+      "example": "Each citation should follow the style guide exactly.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "reference",
+      "meaning": "n. 参考文献",
+      "example": "A full reference list must appear at the end of the dissertation.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "bibliography",
+      "meaning": "n. 参考文献目录",
+      "example": "The annotated bibliography is due at the end of week six.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "plagiarism",
+      "meaning": "n. 剽窃",
+      "example": "Plagiarism is treated as a serious academic offence.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "paraphrase",
+      "meaning": "v. 改写",
+      "example": "You should paraphrase the source rather than copying it word for word.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "quote",
+      "meaning": "v. 引述",
+      "example": "The author quotes extensively from primary archival material.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "quotation",
+      "meaning": "n. 引文",
+      "example": "Keep direct quotation to a minimum in academic writing.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "draft",
+      "meaning": "n. 草稿",
+      "example": "She submitted a first draft to her tutor for comment.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "outline",
+      "meaning": "n. 大纲",
+      "example": "An outline helps organise ideas before drafting the essay.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "summarize",
+      "meaning": "v. 总结",
+      "example": "The abstract summarises the main findings in under two hundred words.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "summary",
+      "meaning": "n. 总结",
+      "example": "Write a brief summary of each chapter as you read.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "abstract",
+      "meaning": "n. 摘要",
+      "example": "The abstract should state the aim, method and main results.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "conclude",
+      "meaning": "v. 得出结论",
+      "example": "The authors conclude that early intervention has clear benefits.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "conclusion",
+      "meaning": "n. 结论",
+      "example": "The conclusion restates the main argument of the essay.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "finding",
+      "meaning": "n. 研究发现",
+      "example": "The findings have implications for both policy and practice.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "result",
+      "meaning": "n. 结果",
+      "example": "Results were consistent across three separate experiments.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "outcome",
+      "meaning": "n. 结果",
+      "example": "Educational outcomes vary widely between regions of the country.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "significant",
+      "meaning": "adj. 显著的",
+      "example": "The improvement in scores was statistically significant.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "significance",
+      "meaning": "n. 显著性/意义",
+      "example": "The study discusses the practical significance of its findings.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "reveal",
+      "meaning": "v. 揭示",
+      "example": "The survey revealed widespread dissatisfaction with cafeteria food.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "demonstrate",
+      "meaning": "v. 证明",
+      "example": "The results demonstrate a clear link between study time and performance.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "indicate",
+      "meaning": "v. 表明",
+      "example": "The data indicate a steady decline in library borrowing.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "suggest",
+      "meaning": "v. 暗示",
+      "example": "These findings suggest that peer feedback can aid learning.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "imply",
+      "meaning": "v. 暗示",
+      "example": "The report implies that funding has not kept pace with demand.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "illustrate",
+      "meaning": "v. 说明",
+      "example": "Two case studies are used to illustrate the main argument.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "argue",
+      "meaning": "v. 论证",
+      "example": "The author argues that smaller classes improve attainment.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "argument",
+      "meaning": "n. 论点",
+      "example": "The central argument rests on three pieces of evidence.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "claim",
+      "meaning": "n. 主张",
+      "example": "Each claim must be supported by a credible source.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "evidence",
+      "meaning": "n. 证据",
+      "example": "The committee weighed the evidence before reaching its verdict.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "empirical",
+      "meaning": "adj. 经验的",
+      "example": "The paper draws on empirical data from three European countries.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "qualitative",
+      "meaning": "adj. 定性的",
+      "example": "A qualitative study can capture nuance that numbers may miss.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "quantitative",
+      "meaning": "adj. 定量的",
+      "example": "Quantitative methods allow researchers to test hypotheses formally.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "research",
+      "meaning": "n. 研究",
+      "example": "Her research focuses on language acquisition in young children.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "investigate",
+      "meaning": "v. 调查",
+      "example": "The team will investigate the impact of class size on results.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "investigation",
+      "meaning": "n. 调查",
+      "example": "The investigation covered more than two thousand undergraduates.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "explore",
+      "meaning": "v. 探索",
+      "example": "The essay explores the relationship between poverty and attainment.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "publish",
+      "meaning": "v. 发表",
+      "example": "The findings were published in a leading education journal.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "journal",
+      "meaning": "n. 学术期刊",
+      "example": "Submissions to the journal are reviewed by two anonymous referees.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "periodical",
+      "meaning": "n. 期刊",
+      "example": "The library subscribes to over a hundred academic periodicals.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "literature",
+      "meaning": "n. 文献",
+      "example": "The review covers literature published in the last decade.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "peer review",
+      "meaning": "n. 同行评议",
+      "example": "Peer review helps maintain the quality of published research.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "bias",
+      "meaning": "n. 偏见",
+      "example": "Researchers must disclose any potential sources of bias.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "objective",
+      "meaning": "adj. 客观的",
+      "example": "Markers strive to be objective when grading unseen scripts.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "validity",
+      "meaning": "n. 有效性",
+      "example": "The validity of the test was checked against a larger sample.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "reliability",
+      "meaning": "n. 可靠性",
+      "example": "Inter-rater reliability was high across all three markers.",
+      "topic": "课程学术"
+    },
+    {
+      "word": "diagnose",
+      "meaning": "v. 诊断",
+      "example": "The doctor diagnosed the condition after a brief examination.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "diagnosis",
+      "meaning": "n. 诊断",
+      "example": "An early diagnosis greatly improves the chances of recovery.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "diagnostic",
+      "meaning": "adj. 诊断的",
+      "example": "The hospital has upgraded its diagnostic imaging equipment.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "symptom",
+      "meaning": "n. 症状",
+      "example": "Common symptoms include a high fever and a persistent cough.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "syndrome",
+      "meaning": "n. 综合征",
+      "example": "The condition is sometimes called chronic fatigue syndrome.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "chronic",
+      "meaning": "adj. 慢性的",
+      "example": "He suffers from a chronic back condition that flares up in winter.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "acute",
+      "meaning": "adj. 急性的",
+      "example": "The patient was admitted with acute abdominal pain.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "prescribe",
+      "meaning": "v. 开处方",
+      "example": "The doctor prescribed a course of antibiotics for the infection.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "prescription",
+      "meaning": "n. 处方",
+      "example": "Some prescriptions are only valid for a limited period.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "medication",
+      "meaning": "n. 药物治疗",
+      "example": "Patients should complete the full course of medication.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "dose",
+      "meaning": "n. 剂量",
+      "example": "Never exceed the recommended daily dose of painkillers.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "dosage",
+      "meaning": "n. 用量",
+      "example": "The correct dosage depends on the age and weight of the child.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "vaccine",
+      "meaning": "n. 疫苗",
+      "example": "A new vaccine was rolled out ahead of the winter flu season.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "vaccinate",
+      "meaning": "v. 接种疫苗",
+      "example": "All staff at the clinic are vaccinated against hepatitis.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "vaccination",
+      "meaning": "n. 疫苗接种",
+      "example": "Childhood vaccination is offered free of charge at local clinics.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "immunity",
+      "meaning": "n. 免疫力",
+      "example": "Good nutrition helps maintain a healthy immune system and immunity.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "immune",
+      "meaning": "adj. 免疫的",
+      "example": "Stress can leave the body less able to fight off infection when immune function drops.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "infection",
+      "meaning": "n. 感染",
+      "example": "The wound was cleaned to reduce the risk of infection.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "infect",
+      "meaning": "v. 感染",
+      "example": "The virus can infect people of all age groups.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "infectious",
+      "meaning": "adj. 传染性的",
+      "example": "Measles is among the most infectious diseases known.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "contagious",
+      "meaning": "adj. 传染性的",
+      "example": "Patients remain contagious for several days after symptoms fade.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "virus",
+      "meaning": "n. 病毒",
+      "example": "The new strain of the virus spreads more easily than the old one.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "bacteria",
+      "meaning": "n. 细菌",
+      "example": "Not all bacteria are harmful; many aid digestion.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "antibiotic",
+      "meaning": "n. 抗生素",
+      "example": "Overuse of antibiotics can lead to resistant strains of bacteria.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "antibody",
+      "meaning": "n. 抗体",
+      "example": "A blood test can detect antibodies to the virus.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "patient",
+      "meaning": "n. 病人",
+      "example": "Patients were asked to rate their experience at the clinic.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "outpatient",
+      "meaning": "n. 门诊病人",
+      "example": "Most outpatients attend the clinic once a week for treatment.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "inpatient",
+      "meaning": "n. 住院病人",
+      "example": "The ward currently has twenty inpatients recovering from surgery.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "clinic",
+      "meaning": "n. 诊所",
+      "example": "The university clinic offers free consultations to registered students.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "ward",
+      "meaning": "n. 病房",
+      "example": "Visiting hours on the children's ward are strictly limited.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "emergency",
+      "meaning": "n. 急诊",
+      "example": "In an emergency, dial the local ambulance number at once.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "surgeon",
+      "meaning": "n. 外科医生",
+      "example": "The surgeon explained the risks before the operation.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "surgery",
+      "meaning": "n. 手术",
+      "example": "He is recovering well after surgery on his knee.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "operation",
+      "meaning": "n. 手术",
+      "example": "The operation was carried out under local anaesthetic.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "treat",
+      "meaning": "v. 治疗",
+      "example": "The condition is usually treated with a short course of tablets.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "treatment",
+      "meaning": "n. 治疗",
+      "example": "Treatment is most effective when the disease is caught early.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "therapy",
+      "meaning": "n. 疗法",
+      "example": "Physical therapy helped her regain movement after the injury.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "therapist",
+      "meaning": "n. 治疗师",
+      "example": "The therapist sees each patient for one session a week.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "cure",
+      "meaning": "n. 治愈",
+      "example": "There is currently no known cure for the condition.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "recover",
+      "meaning": "v. 康复",
+      "example": "Most patients recover fully within a couple of weeks.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "recovery",
+      "meaning": "n. 康复",
+      "example": "A full recovery can take several months of rest.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "heal",
+      "meaning": "v. 痊愈",
+      "example": "The wound took longer than expected to heal completely.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "examine",
+      "meaning": "v. 检查",
+      "example": "The doctor will examine your throat and listen to your chest.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "check-up",
+      "meaning": "n. 体检",
+      "example": "An annual check-up can detect problems before they worsen.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "scan",
+      "meaning": "n. 扫描",
+      "example": "The scan showed no sign of further complications.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "x-ray",
+      "meaning": "n. X 光",
+      "example": "An x-ray confirmed a small fracture in her wrist.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "pulse",
+      "meaning": "n. 脉搏",
+      "example": "The nurse checked his pulse and blood pressure on arrival.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "blood pressure",
+      "meaning": "n. 血压",
+      "example": "High blood pressure often goes unnoticed without regular checks.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "fever",
+      "meaning": "n. 发烧",
+      "example": "The child was kept at home until the fever had passed.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "cough",
+      "meaning": "n. 咳嗽",
+      "example": "A persistent cough lasting more than two weeks should be checked.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "sore throat",
+      "meaning": "n. 喉咙痛",
+      "example": "A sore throat is often the first sign of a cold.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "headache",
+      "meaning": "n. 头痛",
+      "example": "She took a short break to ease a tension headache.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "fatigue",
+      "meaning": "n. 疲劳",
+      "example": "Persistent fatigue can sometimes signal an underlying illness.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "exhaustion",
+      "meaning": "n. 精疲力竭",
+      "example": "He collapsed from exhaustion after days of little sleep.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "dehydration",
+      "meaning": "n. 脱水",
+      "example": "Drink plenty of water during exercise to avoid dehydration.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "allergy",
+      "meaning": "n. 过敏",
+      "example": "She carries an auto-injector because of a severe nut allergy.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "allergic",
+      "meaning": "adj. 过敏的",
+      "example": "He is allergic to pollen and sneezes throughout the spring.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "vitamin",
+      "meaning": "n. 维生素",
+      "example": "Vitamin D helps the body absorb calcium from food.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "protein",
+      "meaning": "n. 蛋白质",
+      "example": "Athletes often increase their protein intake during training.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "metabolism",
+      "meaning": "n. 新陈代谢",
+      "example": "Regular exercise can raise the body's resting metabolism.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "hygiene",
+      "meaning": "n. 卫生",
+      "example": "Good hand hygiene is one of the simplest ways to prevent infection.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "sanitation",
+      "meaning": "n. 卫生设施",
+      "example": "Poor sanitation remains a major cause of disease in some regions.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "epidemic",
+      "meaning": "n. 流行病",
+      "example": "The flu epidemic placed enormous strain on local hospitals.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "pandemic",
+      "meaning": "n. 大流行病",
+      "example": "The pandemic prompted a rapid shift to online learning worldwide.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "well-being",
+      "meaning": "n. 健康/福祉",
+      "example": "The university has invested in services that support student well-being.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "pharmacy",
+      "meaning": "n. 药房",
+      "example": "A prescription can be filled at the pharmacy next to the clinic.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "pharmacist",
+      "meaning": "n. 药剂师",
+      "example": "The pharmacist explained the possible side effects of the drug.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "physician",
+      "meaning": "n. 医生",
+      "example": "Consult a physician before starting any new exercise programme.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "monitor",
+      "meaning": "v. 监测",
+      "example": "Doctors monitor the patient's progress at weekly intervals.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "vital signs",
+      "meaning": "n. 生命体征",
+      "example": "A nurse records the patient's vital signs every two hours.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "prognosis",
+      "meaning": "n. 预后",
+      "example": "The prognosis is good provided treatment begins early.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "relapse",
+      "meaning": "n. 复发",
+      "example": "The patient suffered a relapse and was readmitted to hospital.",
+      "topic": "医疗就医"
+    },
+    {
+      "word": "intake",
+      "meaning": "n. 摄入",
+      "example": "The doctor advised reducing his daily intake of caffeine.",
+      "topic": "医疗就医"
+    }
+  ]
+}

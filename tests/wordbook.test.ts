@@ -8,8 +8,8 @@ describe('词书（wordbook）', () => {
 
   it('listWordbooks 返回词书且词数>0', () => {
     const books = listWordbooks()
-    // 旧两本已删、新 5 本未生成期间只有占位 ielts-sample，故先断言 >=1；新词书就绪后可恢复 >=2
-    expect(books.length).toBeGreaterThanOrEqual(1)
+    // 内置 5 本话题词书（居家出行/校园健康/社会文娱/科技环境/政经法理）
+    expect(books.length).toBeGreaterThanOrEqual(5)
     for (const b of books) {
       expect(b.count).toBeGreaterThan(0)
       expect(b.name).toBeTruthy()
@@ -17,44 +17,44 @@ describe('词书（wordbook）', () => {
   })
 
   it('加入词书：词以 status=new、book=词书id 入库', () => {
-    const n = addWordbookToPlan('ielts-sample')
+    const n = addWordbookToPlan('ielts-daily')
     expect(n).toBeGreaterThan(0)
-    const inLib = listVocab().filter((v) => v.book === 'ielts-sample')
+    const inLib = listVocab().filter((v) => v.book === 'ielts-daily')
     expect(inLib).toHaveLength(n)
     expect(inLib.every((v) => v.status === 'new')).toBe(true)
   })
 
   it('重复加入同书 → 返回 0', () => {
-    addWordbookToPlan('ielts-sample')
-    expect(addWordbookToPlan('ielts-sample')).toBe(0)
+    addWordbookToPlan('ielts-daily')
+    expect(addWordbookToPlan('ielts-daily')).toBe(0)
   })
 
   it('移除只删 status=new 的词，learning/review 中的保留', () => {
-    addWordbookToPlan('ielts-sample')
+    addWordbookToPlan('ielts-daily')
     // 把其中两个词改成 learning/review（模拟已在学）
-    const core = listVocab().filter((v) => v.book === 'ielts-sample')
+    const core = listVocab().filter((v) => v.book === 'ielts-daily')
     const total = core.length
     const [a, b] = core
     // 直接通过 updateVocab 改 status（绕过调度）
     updateVocab(a.id, { status: 'learning' })
     updateVocab(b.id, { status: 'review' })
 
-    const removed = removeWordbookFromPlan('ielts-sample')
+    const removed = removeWordbookFromPlan('ielts-daily')
     expect(removed).toBe(total - 2) // 只删 new 的
-    const remaining = listVocab().filter((v) => v.book === 'ielts-sample')
+    const remaining = listVocab().filter((v) => v.book === 'ielts-daily')
     expect(remaining).toHaveLength(2) // learning/review 的留下
   })
 
   it('加入→移除→再次加入：不重复入库（移除走 hardDelete，不进回收站）', () => {
-    const n = addWordbookToPlan('ielts-sample')
+    const n = addWordbookToPlan('ielts-daily')
     expect(n).toBeGreaterThan(0)
     // 移除：new 词被硬删（不进 trash），learning/review 不存在故全删
-    expect(removeWordbookFromPlan('ielts-sample')).toBe(n)
+    expect(removeWordbookFromPlan('ielts-daily')).toBe(n)
     // trash 不含这些词（hardDelete 不进回收站，避免重加时 inLib 盲区导致重复）
-    expect(listTrash().filter((e) => e.item.book === 'ielts-sample')).toHaveLength(0)
+    expect(listTrash().filter((e) => e.item.book === 'ielts-daily')).toHaveLength(0)
     // 再次加入：vocab 里该书词只有一份，无重复副本
-    expect(addWordbookToPlan('ielts-sample')).toBe(n)
-    const inLib = listVocab().filter((v) => v.book === 'ielts-sample')
+    expect(addWordbookToPlan('ielts-daily')).toBe(n)
+    const inLib = listVocab().filter((v) => v.book === 'ielts-daily')
     expect(inLib).toHaveLength(n)
     const ids = inLib.map((v) => v.id)
     expect(new Set(ids).size).toBe(ids.length) // id 唯一

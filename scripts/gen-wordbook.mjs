@@ -36,11 +36,11 @@ const MODEL = process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash' // 可用环境�
 const API_KEY = process.env.DEEPSEEK_API_KEY || '' // 绝不打印、不落盘
 
 // —— 批次与重试参数 ——
-const WORDLIST_BATCH = 80 // 阶段1 每批挖词数
+const WORDLIST_BATCH = 80 // 阶段1 每批挖词数（单次 80 词 AI 秒出；prompt 极简不带长 avoid 列表）
 const CONTENT_BATCH = 15 // 阶段2 每批配内容的词数
-const EXHAUST_NEW_THRESHOLD = 5 // 穷举：单批新增少于此数视为低产出
-const EXHAUST_BATCHES = 2 // 穷举：连续这么多批低产出即认定话题挖尽、停止
-const MAX_BATCHES_PER_BOOK = 30 // 穷举：每本最多批数兜底（防 AI 一直吐重复词死循环）
+const EXHAUST_NEW_THRESHOLD = 5 // 穷举：某子话题一轮新增少于此数视为低产出
+const EXHAUST_BATCHES = 2 // 穷举：连续这么多轮低产出即认定该子话题挖尽、转下一个
+const MAX_ROUNDS_PER_SUBTOPIC = 4 // 每个子话题最多挖词轮数兜底（防死循环）
 const MAX_CONSECUTIVE_FAILS = 3 // 阶段2 连续失败批次数上限，达到则中止
 
 // —— 五本词书：按话题聚类切分（话题互斥 → 跨本零重复；话题内按词根/词义聚类排列）。
@@ -282,36 +282,41 @@ const WORDLIST_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+�
 // 穷举式生成：针对 book.topics 反复挖词，挖到自然枯竭（连续 EXHAUST_BATCHES 批新增 < EXHAUST_NEW_THRESHOLD）即停。
 // 不设词量目标——话题能出多少出多少。pool 用数组保留 AI 返回的聚类插入序（同话题词根相近词挨着）。
 // 每批 prompt 附"已选词（前 300 截断）"让 AI 避重，提高穷举效率。assigned 是全局 Set，跨本零重复兜底。
+// 话题穷举（串行 + 子话题轮换）：把 book.topics 按中文逗号拆成子话题，逐个子话题挖词到枯竭。
+// 关键提速点：prompt 极简（只指定子话题，不带长 avoid 列表）——单次 80 词 AI 秒出。
+// 多样性靠子话题轮换保证（不同子话题词天然不同），重复靠 poolSet 去重 + assigned 跨本兜底。
+// 聚类：按子话题顺序分块，子话题内按 AI 返回的词根/同义聚类序。
 async function genWordlist(book, assigned) {
-  const pool = [] // 本本已选词（数组保聚类顺序 + 供 prompt 避重）
+  const subtopics = String(book.topics).split('、').map((s) => s.trim()).filter(Boolean)
+  const pool = [] // 本本已选词（数组保子话题分块 + 子话题内聚类序）
   const poolSet = new Set() // 快速判重
-  let lowYield = 0 // 连续低产出批数
-  for (let b = 1; b <= MAX_BATCHES_PER_BOOK; b++) {
-    const avoid = pool.slice(0, 300).join(', ') // 附已选词让 AI 避重（截断控 prompt 长度）
-    console.log(`  批次 ${b}：挖「${book.topics}」话题词（已选 ${pool.length}）…`)
-    const words0 = await callAndParse(
-      WORDLIST_SYSTEM,
-      `话题：${book.topics}。再给 ${WORDLIST_BATCH} 个雅思向单词。${avoid ? `不要与这些已给过的词重复：${avoid}` : ''}
-同话题内按词根/同义族相关排列。`,
-      8000, // 80 词 JSON 留足余量，避免 max_tokens 截断
-      parseWordArray,
-    )
-    let added = 0
-    for (const w of words0) {
-      if (assigned.has(w) || poolSet.has(w)) continue // 跨本已占 / 本本已选 → 跳过
-      poolSet.add(w)
-      pool.push(w) // 保留聚类插入序
-      added++
-    }
-    console.log(`    本批新增 ${added}（累计 ${pool.length}）`)
-    // 自然枯竭判定：连续 EXHAUST_BATCHES 批新增 < EXHAUST_NEW_THRESHOLD 即停
-    if (added < EXHAUST_NEW_THRESHOLD) {
-      if (++lowYield >= EXHAUST_BATCHES) {
-        console.log(`  [自然枯竭] 连续 ${EXHAUST_BATCHES} 批新增 < ${EXHAUST_NEW_THRESHOLD}，话题池挖尽，停止`)
-        break
+  for (const sub of subtopics) {
+    let lowYield = 0 // 该子话题连续低产出轮数
+    for (let r = 1; r <= MAX_ROUNDS_PER_SUBTOPIC; r++) {
+      console.log(`  「${sub}」第 ${r}/${MAX_ROUNDS_PER_SUBTOPIC} 轮（本本已选 ${pool.length}）…`)
+      const words0 = await callAndParse(
+        WORDLIST_SYSTEM,
+        `话题领域：${sub}（雅思考试向）。给 ${WORDLIST_BATCH} 个该领域常用单词，小写、互不重复。`,
+        8000, // 80 词 JSON 留足余量，避免 max_tokens 截断
+        parseWordArray,
+      )
+      let added = 0
+      for (const w of words0) {
+        if (assigned.has(w) || poolSet.has(w)) continue // 跨本已占 / 本本已选 → 跳过
+        poolSet.add(w)
+        pool.push(w) // 保留子话题分块 + 聚类插入序
+        added++
       }
-    } else {
-      lowYield = 0
+      console.log(`    新增 ${added}（累计 ${pool.length}）`)
+      // 该子话题自然枯竭：连续 EXHAUST_BATCHES 轮新增 < 阈值 → 转下一个子话题
+      if (added < EXHAUST_NEW_THRESHOLD) {
+        if (++lowYield >= EXHAUST_BATCHES) {
+          console.log(`  [${sub} 挖尽] 连续 ${EXHAUST_BATCHES} 轮低产出，转下一个子话题`)
+          break
+        }
+      } else {
+        lowYield = 0
+      }
     }
   }
   // 登记到全局 assigned（跨本零重复）
