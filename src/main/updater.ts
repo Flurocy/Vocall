@@ -2,7 +2,7 @@ import { app } from 'electron'
 import type { UpdateInfo } from '../shared/ipc-types'
 
 // GitHub 仓库 owner/repo。检查更新访问 https://api.github.com/repos/{OWNER}/{REPO}/releases/latest。
-const OWNER = 'Tasymize'
+const OWNER = 'Flurocy'
 const REPO = 'Vocall'
 
 // 检查 GitHub 最新 release，与本地版本语义化比对。
