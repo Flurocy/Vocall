@@ -26,11 +26,19 @@ describe('vocab 同词导入拦截', () => {
     expect(() => addVocab(entry('Significant'))).toThrow(/已在生词库/)
   })
 
-  it('删除到回收站后再加同词仍抛错（含回收站查重）', () => {
+  it('删除到回收站后再加同词抛"在回收站"（含回收站查重 + 文案区分）', () => {
     const a = addVocab(entry('significant'))
     deleteVocab(a.id) // 软删除进回收站
     expect(listVocab()).toHaveLength(0)
-    expect(() => addVocab(entry('significant'))).toThrow(/已在生词库/)
+    expect(() => addVocab(entry('significant'))).toThrow(/在回收站/)
+    // 反向断言：不再抛"已在生词库"，确保 addVocab 文案与回收站场景区分（用户决策：让用户知道去回收站处理）
+    expect(() => addVocab(entry('significant'))).not.toThrow(/已在生词库/)
+  })
+
+  it('回收站含同词不同大小写时抛"在回收站"（归一化对 trashBox 同样生效）', () => {
+    const a = addVocab(entry('Significant')) // 原始大小写
+    deleteVocab(a.id)
+    expect(() => addVocab(entry('significant'))).toThrow(/在回收站/) // 小写再撞
   })
 
   it('回收站还原后该词仍在，再加同词仍抛错（还原不绕过查重）', () => {

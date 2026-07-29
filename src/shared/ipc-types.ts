@@ -18,10 +18,11 @@ export interface PopupPayload {
   forgotCount: number // 已累计"忘了"次数（弹窗展示"已忘 X 次"用）
 }
 
-// 词书词项（含"是否已在背诵库"标记）
+// 词书词项（含"是否已在背诵库""是否在回收站"标记）
 export interface WordbookWord {
   word: string; meaning: string; example: string; topic: string
   inLibrary: boolean
+  inTrash: boolean
 }
 
 // 回收站条目：被软删除的词 + 删除时间戳（listTrash 返回、前端 TrashView 渲染用）

@@ -17,12 +17,14 @@ export function addVocab(e: NewVocabItem): VocabItem {
   // 归一化防大小写/首尾空格漏判；命中抛错文案用原始输入展示（不 lowercase），尊重用户输入。
   // 词书批量导入虽有自己的 inLib 跳过逻辑，但并发/边界场景仍可能漏过，这里做最终兜底。
   // 注意：只查重时归一化，入库的 word 仍按原样存，不强制改小写。
+  // 文案区分（用户决策）：词库已有 → "已在生词库"；回收站已有 → "在回收站"。
+  // 上层 isDupError/seed/AiGenModal 都用 /已在生词库|在回收站/ 统一识别为 dup。
   const w = e.word.trim().toLowerCase()
-  const dup =
-    vocabBox.get().some((it) => it.word.trim().toLowerCase() === w) ||
-    trashBox.get().some((t) => t.item.word.trim().toLowerCase() === w)
-  if (dup) {
+  if (vocabBox.get().some((it) => it.word.trim().toLowerCase() === w)) {
     throw new Error(`「${e.word}」已在生词库中，不支持重复导入`)
+  }
+  if (trashBox.get().some((t) => t.item.word.trim().toLowerCase() === w)) {
+    throw new Error(`「${e.word}」在回收站中，先还原或彻底删除后才能重新加入`)
   }
   // status/book 调用方一般不传，这里兜底：手动/种子词默认 learning、book null。
   // 词书导入的包4 会显式传 status:'new'、book:词书id（此时 e 的值覆盖默认）。

@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { addVocab, listVocab, hardDeleteVocab } from './vocab'
+import { trashBox } from './store'
 
 // 词书：预生成的 JSON 词表（data/wordbooks/*.json），加入学习计划即批量进 new 状态。
 // 词书是"往词库添词的一种方式"——词进了 new 就交给学习队列补位机制统一管理，无特殊待遇。
@@ -33,7 +34,7 @@ export function listWordbooks(): WordbookMeta[] {
 
 // 加入学习计划：该书的词以 status=new、book=词书id 入库（不立即弹，靠补位机制逐个解锁）。
 // 重复加入返回 0（库里已有该书的词即视为已加入）。
-// 单条撞词（与用户手动词/回收站词重复，addVocab 抛「已在生词库」）→ 跳过该词不中断整批，
+// 单条撞词（与用户手动词/回收站词重复，addVocab 抛「已在生词库」或「在回收站」）→ 跳过该词不中断整批，
 // 保留用户那条；返回实际新加入的条数。
 export function addWordbookToPlan(bookId: string): number {
   const book = allBooks().find((b) => b.id === bookId)
@@ -62,34 +63,47 @@ export function removeWordbookFromPlan(bookId: string): number {
 
 // —— 批量勾选加入（用户决策：词书是预置词库，从里面挑词加入，而非整本接收）——
 
-// addVocab 同词拦截的判定：撞词（用户手动词/回收站词）跳过保留用户那条，不算失败
+// addVocab 同词拦截的判定：两种 dup 都算（生词库已有 / 回收站已有），批量导入跳过不中断整批
 function isDupError(err: unknown): boolean {
-  return (err instanceof Error ? err.message : String(err)).includes('已在生词库')
+  return /已在生词库|在回收站/.test(err instanceof Error ? err.message : String(err))
 }
 
 export interface WordbookWord {
   word: string; meaning: string; example: string; topic: string
-  inLibrary: boolean // 该词是否已在背诵库（同书内），前端据此标记/禁选
+  inLibrary: boolean // 该词是否已在背诵库（全库归一化比对，不限同书），前端据此标记/禁选
+  inTrash: boolean   // 该词是否在回收站，前端标 rose"回收站"并禁选，引导用户去回收站主动处理
 }
 
-// 返回某本词书的全部词 + 每个词是否已在背诵库（按 word 匹配，限同书）。
+// 返回某本词书的全部词 + 每个词的在库/在回收站标记（均按 word 归一化扫全库，不限同书）。
 export function getWordbookWords(bookId: string): WordbookWord[] {
   const book = allBooks().find((b) => b.id === bookId)
   if (!book) return []
-  const inLib = new Set(listVocab().filter((v) => v.book === bookId).map((v) => v.word))
-  return book.words.map((w) => ({ ...w, inLibrary: inLib.has(w.word) }))
+  // 修复"同书盲区"：原来只扫同书 vocab，会让"已在其它书/手动加入/在回收站"的词显示为可加入，
+  // 但 addVocab 实际会拦截。改全库归一化扫，前端标记与 addVocab 行为一致。
+  const norm = (s: string) => s.trim().toLowerCase()
+  const inLib = new Set(listVocab().map((v) => norm(v.word)))
+  const inTrash = new Set(trashBox.get().map((t) => norm(t.item.word)))
+  return book.words.map((w) => ({
+    ...w,
+    inLibrary: inLib.has(norm(w.word)),
+    inTrash: inTrash.has(norm(w.word)),
+  }))
 }
 
-// 批量把勾选的词加入背诵库（status=new、book=词书id）。已在库的（同书同 word）跳过。
-// 与用户手动词/回收站词撞车的单条也跳过不中断整批（保留用户那条）。返回实际新加入的条数。
+// 批量把勾选的词加入背诵库（status=new、book=词书id）。
+// 已在库 / 在回收站的词跳过（与 getWordbookWords 标记一致，避免前端禁选的词仍被尝试加入）。
+// 与用户手动词撞车的单条也跳过不中断整批（保留用户那条）。返回实际新加入的条数。
 export function addWordsToPlan(bookId: string, words: string[]): number {
   const book = allBooks().find((b) => b.id === bookId)
   if (!book) return 0
-  const inLib = new Set(listVocab().filter((v) => v.book === bookId).map((v) => v.word))
+  // 与 getWordbookWords 一致：全库归一化扫，避免前端禁选的词仍被尝试加入
+  const norm = (s: string) => s.trim().toLowerCase()
+  const inLib = new Set(listVocab().map((v) => norm(v.word)))
+  const inTrash = new Set(trashBox.get().map((t) => norm(t.item.word)))
   const wanted = new Set(words)
   let added = 0
   for (const w of book.words) {
-    if (!wanted.has(w.word) || inLib.has(w.word)) continue
+    if (!wanted.has(w.word) || inLib.has(norm(w.word)) || inTrash.has(norm(w.word))) continue
     try {
       addVocab({ ...w, book: bookId, status: 'new', source: '词书' })
       added++

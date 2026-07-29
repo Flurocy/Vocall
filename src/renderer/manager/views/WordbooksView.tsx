@@ -82,7 +82,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
     })
   }
 
-  const selectable = words.filter((w) => !w.inLibrary)
+  const selectable = words.filter((w) => !w.inLibrary && !w.inTrash)
   const allChecked = selectable.length > 0 && selectable.every((w) => checked.has(w.word))
   const toggleAll = (): void => {
     setChecked(allChecked ? new Set() : new Set(selectable.map((w) => w.word)))
@@ -134,12 +134,12 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
         {words.map((w) => (
           <li key={w.word}>
             <label className={`flex items-start gap-3 rounded-xl border border-black/10 p-3 transition ${
-              w.inLibrary ? 'bg-black/5 opacity-60' : 'bg-white/60 hover:bg-white/80'
+              (w.inLibrary || w.inTrash) ? 'bg-black/5 opacity-60' : 'bg-white/60 hover:bg-white/80'
             }`}>
               <input
                 type="checkbox"
                 checked={checked.has(w.word)}
-                disabled={w.inLibrary}
+                disabled={w.inLibrary || w.inTrash}
                 onChange={() => toggle(w.word)}
                 className={`mt-1 h-4 w-4 ${theme.accentColor}`}
               />
@@ -147,6 +147,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
                 <div className="flex items-baseline gap-2">
                   <span className="font-medium text-slate-800">{w.word}</span>
                   {w.inLibrary && <span className="text-xs text-slate-500">已在库</span>}
+                  {w.inTrash && <span className="text-xs text-rose-600">回收站</span>}
                 </div>
                 <div className="text-sm text-slate-600">{w.meaning}</div>
               </div>

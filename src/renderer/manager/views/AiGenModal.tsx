@@ -123,8 +123,9 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
         } catch (err) {
           // 主进程同词拦截（库里或回收站已有该词）→ 记入 doneRef 跳过本条，继续下一条；
           // 其他错误（IPC 故障等）→ rethrow 走外层 catch，显示已加入 N/M 可重试。
+          // 文案两种：「已在生词库」/「在回收站」，都用同一正则识别为 dup。
           const m = err instanceof Error ? err.message : String(err)
-          if (m.includes('已在生词库')) {
+          if (/已在生词库|在回收站/.test(m)) {
             skipped++
           } else {
             throw err

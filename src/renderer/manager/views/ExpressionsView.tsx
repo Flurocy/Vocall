@@ -39,7 +39,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   useEffect(() => { void reload() }, [])
 
   const add = async (): Promise<void> => {
-    if (!word || !meaning) return
+    // 分别提示：原来 !word || !meaning 静默返回，用户只填 word 没填 meaning 时点了没反应。
+    // 用 trim 防止纯空格误判；setAiMsg 走已有 err 通道在表单旁 inline 显示。
+    if (!word.trim()) { setAiMsg({ kind: 'err', text: '请输入单词' }); return }
+    if (!meaning.trim()) { setAiMsg({ kind: 'err', text: '请补充释义' }); return }
     try {
       await window.tasymize.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
     } catch (err) {
