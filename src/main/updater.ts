@@ -1,10 +1,9 @@
 import { app } from 'electron'
 import type { UpdateInfo } from '../shared/ipc-types'
 
-// ⚠️ 建好 GitHub repo 后改成实际的 owner/repo（占位 yourname/vocall）。
-// 检查更新访问 https://api.github.com/repos/{OWNER}/{REPO}/releases/latest。
-const OWNER = 'yourname'
-const REPO = 'vocall'
+// GitHub 仓库 owner/repo。检查更新访问 https://api.github.com/repos/{OWNER}/{REPO}/releases/latest。
+const OWNER = 'Tasymize'
+const REPO = 'Vocall'
 
 // 检查 GitHub 最新 release，与本地版本语义化比对。
 // 一律 resolve（不抛）——失败返回 error，渲染端据此显示"检查失败/可手动访问 GitHub"。
