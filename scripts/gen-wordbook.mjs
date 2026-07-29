@@ -39,7 +39,7 @@ const API_KEY = process.env.DEEPSEEK_API_KEY || '' // 绝不打印、不落盘
 const WORDLIST_BATCH = 80 // 阶段1 每批生成候选词数
 const CONTENT_BATCH = 15 // 阶段2 每批配内容的词数
 const OVERGEN_RATIO = 1.2 // 阶段1 过量生成比例（预留去重损耗）
-const MAX_TOPUP_ROUNDS = 2 // 阶段1 去重后不足时的补生成轮数上限
+const MAX_TOPUP_ROUNDS = 12 // 阶段1 去重后不足时的补生成轮数上限（小批量多轮后需更大上限）
 const MAX_CONSECUTIVE_FAILS = 3 // 阶段2 连续失败批次数上限，达到则中止
 
 // —— 五本词书定义：难度隐含递进（词量递减、topicHint 逐级走高），desc 口语化、不明写分层 ——
@@ -140,14 +140,22 @@ async function callDeepseek(system, user, maxTokens) {
 // ============================================================================
 
 // strip ```json 围栏 + 定位首尾括号切出 JSON 片段
+// 容错：数组被 max_tokens 截断（缺 `]` 收尾）时，退到最后一个完整元素截断，捞出能用的词
 function extractJsonArray(text) {
   let body = text.trim()
   const fence = body.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/)
   if (fence) body = fence[1].trim()
   const start = body.indexOf('[')
-  const end = body.lastIndexOf(']')
-  if (start === -1 || end === -1 || end < start) throw new Error('AI 返回中未找到 JSON 数组')
-  return body.slice(start, end + 1)
+  if (start === -1) throw new Error('AI 返回中未找到 JSON 数组')
+  let end = body.lastIndexOf(']')
+  if (end > start) return body.slice(start, end + 1) // 完整数组
+  // 截断容错：缺 `]` → 退到最后一个完整元素（字符串数组找最后一个 `"`，对象数组找最后一个 `}`）
+  const tail = body.slice(start + 1)
+  const lastStr = tail.lastIndexOf('"')
+  const lastObj = tail.lastIndexOf('}')
+  const cut = Math.max(lastStr, lastObj)
+  if (cut <= 0) throw new Error('AI 返回中未找到 JSON 数组（疑似截断且无完整元素）')
+  return body.slice(start, start + 1 + cut + 1) + ']'
 }
 
 function parseJsonArray(text) {
@@ -216,6 +224,38 @@ function saveProgress(p) {
   writeJson(PROGRESS_FILE, p)
 }
 
+// ============================================================================
+// 带重试的"调 AI + 解析 JSON 数组"包装
+// AI 输出会抖动（返回对话式文字/截断 JSON），一遇解析错就中止太脆——
+// 瞬时失败自动重试几次；最终失败时打印 AI 原文片段便于定位（不打印 key）。
+// ============================================================================
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+async function callAndParse(system, user, maxTokens, parseFn, { retries = 3 } = {}) {
+  let lastErr
+  let lastText = ''
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const text = await callDeepseek(system, user, maxTokens)
+      lastText = text
+      return parseFn(text)
+    } catch (err) {
+      lastErr = err
+      const msg = err instanceof Error ? err.message : String(err)
+      // key 无效/余额不足这类致命错误重试无意义，直接抛
+      if (/HTTP 401|HTTP 402/.test(msg)) throw err
+      console.log(`  [重试 ${attempt}/${retries}] ${msg}`)
+      if (attempt < retries) await sleep(2000 * attempt) // 退避：2s/4s
+    }
+  }
+  // 最终失败：打印 AI 原文片段（截断，不含 key）便于定位是格式抖动还是内容问题
+  if (lastText) {
+    const preview = lastText.replace(/\s+/g, ' ').slice(0, 400)
+    console.log(`  [调试] AI 原文片段：${preview}${lastText.length > 400 ? ' …' : ''}`)
+  }
+  throw new Error(`重试 ${retries} 次仍失败：${lastErr instanceof Error ? lastErr.message : String(lastErr)}`)
+}
+
 // 扫描 data/wordbooks/ 现有全部词书的词（归一化），阶段2 去重兜底用
 function collectExistingWords() {
   const set = new Set()
@@ -249,12 +289,13 @@ async function genWordlist(book, assigned) {
   for (let b = 0; b < batches; b++) {
     const n = Math.min(WORDLIST_BATCH, need - b * WORDLIST_BATCH)
     console.log(`  批次 ${b + 1}/${batches}：生成 ${n} 个候选词…`)
-    const text = await callDeepseek(
+    const words0 = await callAndParse(
       WORDLIST_SYSTEM,
       `生成 ${n} 个候选词，方向：${book.topicHint}。`,
-      4000,
+      8000, // 80 词 JSON 留足余量，避免 max_tokens 截断
+      parseWordArray,
     )
-    for (const w of parseWordArray(text)) pool.add(w)
+    for (const w of words0) pool.add(w)
   }
 
   // 全局分配：跳过已被前面词书占用的词（跨本零重复的关键）
@@ -266,16 +307,19 @@ async function genWordlist(book, assigned) {
     words.push(w)
   }
 
-  // 去重损耗超预期 → 补生成（最多 MAX_TOPUP_ROUNDS 轮）
+  // 去重损耗超预期 → 补生成。改小批量多轮：每批只补 ≤WORDLIST_BATCH 个，
+  // 循环直到凑够或轮数上限——避免单次要几百个导致 max_tokens 截断/content 为空。
   for (let round = 1; words.length < book.count && round <= MAX_TOPUP_ROUNDS; round++) {
     const shortBy = book.count - words.length
-    console.log(`  [补生成] 去重后差 ${shortBy} 个，第 ${round} 轮补 ${shortBy + 10} 个候选…`)
-    const text = await callDeepseek(
+    const n = Math.min(WORDLIST_BATCH, shortBy + 10)
+    console.log(`  [补生成] 去重后差 ${shortBy} 个，第 ${round} 轮补 ${n} 个候选…`)
+    const extra = await callAndParse(
       WORDLIST_SYSTEM,
-      `再生成 ${shortBy + 10} 个候选词，方向：${book.topicHint}。不要与常见雅思词表重复。`,
-      4000,
+      `再生成 ${n} 个候选词，方向：${book.topicHint}。不要与前面已给过的词重复。`,
+      8000,
+      parseWordArray,
     )
-    for (const w of parseWordArray(text)) {
+    for (const w of extra) {
       if (words.length >= book.count) break
       if (pool.has(w) || assigned.has(w)) continue
       pool.add(w)
@@ -344,12 +388,13 @@ async function stage2Book(book, words, progress) {
 
     let items
     try {
-      const text = await callDeepseek(
+      items = await callAndParse(
         CONTENT_SYSTEM,
         `为以下 ${batch.length} 个词生成内容：${batch.join(', ')}`,
         4000,
+        parseContentArray,
+        { retries: 2 }, // 单批先内层重试 2 次兜抖动；再失败才走外层记 failed 继续
       )
-      items = parseContentArray(text)
       consecutiveFails = 0 // 成功即清零连续失败计数
     } catch (err) {
       consecutiveFails++
