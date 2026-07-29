@@ -7,3 +7,6 @@ dist/
 # 开发思考文档（plans/specs，含开发过程与本机路径，不进发布也不上 GitHub）
 docs/superpowers/
 .superpowers/
+# 交接文档（开发状态/坑，不公开）+ 源码包（交别人打包用）
+HANDOFF.md
+vocall-*-src.zip
