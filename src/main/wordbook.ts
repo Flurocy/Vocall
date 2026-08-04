@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
-import { addVocab, listVocab, hardDeleteVocab } from './vocab'
+import { addVocabBatch, listVocab, hardDeleteVocab } from './vocab'
 import { trashBox } from './store'
 import { resolveResource } from './paths'
 
@@ -35,22 +35,13 @@ export function listWordbooks(): WordbookMeta[] {
 
 // 加入学习计划：该书的词以 status=new、book=词书id 入库（不立即弹，靠补位机制逐个解锁）。
 // 重复加入返回 0（库里已有该书的词即视为已加入）。
-// 单条撞词（与用户手动词/回收站词重复，addVocab 抛「已在生词库」或「在回收站」）→ 跳过该词不中断整批，
-// 保留用户那条；返回实际新加入的条数。
+// 单条撞词（与用户手动词/回收站词重复）→ 批量版静默跳过该词不中断整批，保留用户那条；返回实际新加入条数。
+// 走 addVocabBatch：整本数百词内存组装 + 三次写盘，避免逐词各写三次全量导致的卡顿。
 export function addWordbookToPlan(bookId: string): number {
   const book = allBooks().find((b) => b.id === bookId)
   if (!book) return 0
   if (listVocab().some((v) => v.book === bookId)) return 0
-  let added = 0
-  for (const w of book.words) {
-    try {
-      addVocab({ ...w, book: bookId, status: 'new', source: '词书' })
-      added++
-    } catch (err) {
-      if (!isDupError(err)) throw err // 撞词跳过，其他错误上抛
-    }
-  }
-  return added
+  return addVocabBatch(book.words.map((w) => ({ ...w, book: bookId, status: 'new' as const, source: '词书' })))
 }
 
 // 移出学习计划：只删该书仍处 new 的词；learning/review 中的保留（用户已在学，不能丢）。
@@ -63,11 +54,6 @@ export function removeWordbookFromPlan(bookId: string): number {
 }
 
 // —— 批量勾选加入（用户决策：词书是预置词库，从里面挑词加入，而非整本接收）——
-
-// addVocab 同词拦截的判定：两种 dup 都算（生词库已有 / 回收站已有），批量导入跳过不中断整批
-function isDupError(err: unknown): boolean {
-  return /已在生词库|在回收站/.test(err instanceof Error ? err.message : String(err))
-}
 
 export interface WordbookWord {
   word: string; meaning: string; example: string; topic: string
@@ -94,23 +80,12 @@ export function getWordbookWords(bookId: string): WordbookWord[] {
 // 批量把勾选的词加入背诵库（status=new、book=词书id）。
 // 已在库 / 在回收站的词跳过（与 getWordbookWords 标记一致，避免前端禁选的词仍被尝试加入）。
 // 与用户手动词撞车的单条也跳过不中断整批（保留用户那条）。返回实际新加入的条数。
+// 走 addVocabBatch：内存组装 + 三次写盘，修"导入 200 词低配机卡顿"。
 export function addWordsToPlan(bookId: string, words: string[]): number {
   const book = allBooks().find((b) => b.id === bookId)
   if (!book) return 0
   // 与 getWordbookWords 一致：全库归一化扫，避免前端禁选的词仍被尝试加入
-  const norm = (s: string) => s.trim().toLowerCase()
-  const inLib = new Set(listVocab().map((v) => norm(v.word)))
-  const inTrash = new Set(trashBox.get().map((t) => norm(t.item.word)))
   const wanted = new Set(words)
-  let added = 0
-  for (const w of book.words) {
-    if (!wanted.has(w.word) || inLib.has(norm(w.word)) || inTrash.has(norm(w.word))) continue
-    try {
-      addVocab({ ...w, book: bookId, status: 'new', source: '词书' })
-      added++
-    } catch (err) {
-      if (!isDupError(err)) throw err // 撞词跳过，其他错误上抛
-    }
-  }
-  return added
+  const toAdd = book.words.filter((w) => wanted.has(w.word))
+  return addVocabBatch(toAdd.map((w) => ({ ...w, book: bookId, status: 'new' as const, source: '词书' })))
 }

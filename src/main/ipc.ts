@@ -1,7 +1,7 @@
 import { ipcMain, app, shell } from 'electron'
 import type { BrowserWindow } from 'electron'
 import {
-  addVocab, deleteVocab, listVocab, updateVocab,
+  addVocab, addVocabBatch, deleteVocab, listVocab, updateVocab,
   listTrash, restoreVocab, purgeVocab, clearTrash,
   type NewVocabItem,
 } from './vocab'
@@ -20,6 +20,9 @@ import { checkUpdate } from './updater'
 export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('vocab:list', () => listVocab())
   ipcMain.handle('vocab:add', (_e, item: NewVocabItem) => addVocab(item).id)
+  // 批量添加（AI 主题生成勾选入库）：一次 IPC + 内存组装 + 三次写盘，修逐词 IPC 卡顿。
+  // 返回实际加入条数（撞库/回收站/批内重复的已静默跳过），前端据此算 skipped = 想加 − 实际。
+  ipcMain.handle('vocab:addBatch', (_e, items: NewVocabItem[]) => addVocabBatch(items))
   ipcMain.handle('vocab:update', (_e, id: number, patch: Partial<NewVocabItem>) =>
     updateVocab(id, patch))
   ipcMain.handle('vocab:delete', (_e, id: number) => deleteVocab(id))

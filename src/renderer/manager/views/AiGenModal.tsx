@@ -107,42 +107,32 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
     setAdding(true)
     setMsg({ kind: 'busy', text: `正在加入 ${pending.length} 条…` })
     const t = themeText.trim()
-    let skipped = 0 // 重复词跳过计数（重复词本就无需再入，当成功处理不中断整批）
     try {
-      for (const i of pending) {
+      // 批量入库：一次 IPC 整批提交（修逐词 invoke 往返卡顿）。主进程静默跳过
+      // 撞库/回收站/批内重复的词，返回实际加入数；skipped = 想加数 − 实际加入数。
+      const items = pending.map((i) => {
         const e = results[i]
-        try {
-          await window.vocall.addVocab({
-            word: e.word,
-            meaning: e.meaning,
-            example: e.example,
-            topic: t,
-            source: `AI主题:${t}`,
-            status: 'new',
-          })
-        } catch (err) {
-          // 主进程同词拦截（库里或回收站已有该词）→ 记入 doneRef 跳过本条，继续下一条；
-          // 其他错误（IPC 故障等）→ rethrow 走外层 catch，显示已加入 N/M 可重试。
-          // 文案两种：「已在生词库」/「在回收站」，都用同一正则识别为 dup。
-          const m = err instanceof Error ? err.message : String(err)
-          if (/已在生词库|在回收站/.test(m)) {
-            skipped++
-          } else {
-            throw err
-          }
+        return {
+          word: e.word,
+          meaning: e.meaning,
+          example: e.example,
+          topic: t,
+          source: `AI主题:${t}`,
+          status: 'new' as const,
         }
-        doneRef.current.add(i) // 成功或重复跳过都记一条；中途失败时已入库的不丢
-      }
+      })
+      const added = await window.vocall.addVocabBatch(items)
+      const skipped = pending.length - added
+      pending.forEach((i) => doneRef.current.add(i)) // 本批全部处理完（成功或被跳过）
       // 跳过提示不在 modal 内 setMsg（onClose 同帧卸载看不见），透传计数由父页面 aiMsg 展示
       setMsg(null)
-      onAdded(pending.length - skipped, skipped)
+      onAdded(added, skipped)
       onClose()
     } catch (err) {
-      // 已成功的留在 doneRef，用户重试「加入所选」时上面 filter 会跳过，不重复插
-      const done = doneRef.current.size
+      // 批量是原子提交（内存组装后一次写盘），失败=整批未入，doneRef 不动，可整体重试
       setMsg({
         kind: 'err',
-        text: `已加入 ${done}/${checked.size} 条，可重试未完成的。原因：${err instanceof Error ? err.message : String(err)}`,
+        text: `加入失败：${err instanceof Error ? err.message : String(err)}`,
       })
     } finally {
       setAdding(false)

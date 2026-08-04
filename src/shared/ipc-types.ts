@@ -35,6 +35,8 @@ export interface TrashEntry {
 export interface VocallApi {
   listVocab(): Promise<VocabItem[]>
   addVocab(e: NewVocabItem): Promise<number>
+  // 批量添加：一次 IPC 整批入库，返回实际加入条数（撞库/回收站/批内重复已静默跳过）
+  addVocabBatch(items: NewVocabItem[]): Promise<number>
   updateVocab(id: number, patch: Partial<NewVocabItem>): Promise<void>
   deleteVocab(id: number): Promise<void>
   // 回收站：列表（按 deletedAt 倒序）/还原/彻底删除/清空

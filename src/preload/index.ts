@@ -4,6 +4,8 @@ import type { NewVocabItem } from '../shared/ipc-types'
 contextBridge.exposeInMainWorld('vocall', {
   listVocab: () => ipcRenderer.invoke('vocab:list'),
   addVocab: (e: NewVocabItem) => ipcRenderer.invoke('vocab:add', e),
+  // 批量添加（AI 主题生成勾选入库）：一次 IPC 整批，避免逐词 invoke 往返卡顿。返回实际加入条数。
+  addVocabBatch: (items: NewVocabItem[]) => ipcRenderer.invoke('vocab:addBatch', items),
   updateVocab: (id: number, patch: Partial<NewVocabItem>) =>
     ipcRenderer.invoke('vocab:update', id, patch),
   deleteVocab: (id: number) => ipcRenderer.invoke('vocab:delete', id),

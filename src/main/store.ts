@@ -60,12 +60,24 @@ export function allocId(): number {
   write('nextId', id + 1)
   return id
 }
+// 批量导入用的 id 区间分配：peek 只读起点不写，reserveNextId 一次性把 nextId 推进 n 格。
+// 配合 addVocabBatch——全程内存发 id，最后 reserve 一次写盘（替代逐词 allocId 各写一次）。
+export function peekNextId(): number {
+  return read('nextId')
+}
+export function reserveNextId(n: number): void {
+  write('nextId', read('nextId') + n)
+}
 
 export function getSrsState(id: number): SrsState | undefined {
   return read('srsStates')[id]
 }
 export function setSrsState(id: number, s: SrsState): void {
   write('srsStates', { ...read('srsStates'), [id]: s })
+}
+// 批量合并 srsStates：一次写盘（替代逐个 setSrsState 各写一次全量）。addVocabBatch 用。
+export function setSrsStateBatch(batch: Record<number, SrsState>): void {
+  write('srsStates', { ...read('srsStates'), ...batch })
 }
 export function deleteSrsState(id: number): void {
   const m = { ...read('srsStates') }

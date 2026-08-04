@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { _resetStoreForTests } from '../src/main/store'
+import { _resetStoreForTests, getSrsState, peekNextId } from '../src/main/store'
 import {
   listWordbooks, getWordbookWords, addWordsToPlan, addWordbookToPlan,
 } from '../src/main/wordbook'
-import { listVocab, addVocab, deleteVocab } from '../src/main/vocab'
+import { listVocab, addVocab, addVocabBatch, deleteVocab } from '../src/main/vocab'
 
 describe('词书批量勾选加入', () => {
   beforeEach(() => _resetStoreForTests())
@@ -72,5 +72,61 @@ describe('词书批量勾选加入', () => {
     const n = addWordsToPlan('ielts-daily', [first.word, another])
     expect(n).toBe(1) // 回收站那条跳过，只加 another
     expect(listVocab().filter((v) => v.word === first.word)).toHaveLength(0) // 回收站原词未被覆盖
+  })
+})
+
+// addVocabBatch：批量导入的性能优化实现（内存组装 + 三次写盘），语义与 addVocab 一致
+describe('addVocabBatch 批量添加', () => {
+  beforeEach(() => _resetStoreForTests())
+
+  const entry = (word: string) => ({ word, meaning: 'm', example: 'e', topic: null, source: 's' })
+
+  it('批量加 N 词：全入库、status 默认 learning、各配 srsState', () => {
+    const n = addVocabBatch([entry('a'), entry('b'), entry('c')])
+    expect(n).toBe(3)
+    expect(listVocab()).toHaveLength(3)
+    expect(listVocab().every((v) => v.status === 'learning')).toBe(true)
+    for (const v of listVocab()) expect(getSrsState(v.id)).toBeTruthy()
+  })
+
+  it('库内查重：已在生词库的词跳过，返回实际加入数', () => {
+    addVocab(entry('dup'))
+    const n = addVocabBatch([entry('dup'), entry('fresh')])
+    expect(n).toBe(1)
+    expect(listVocab().filter((v) => v.word === 'dup')).toHaveLength(1) // 未重复
+  })
+
+  it('回收站查重：在回收站的词跳过', () => {
+    const v = addVocab(entry('trashee'))
+    deleteVocab(v.id) // 进回收站
+    const n = addVocabBatch([entry('trashee'), entry('ok')])
+    expect(n).toBe(1)
+    expect(listVocab().filter((x) => x.word === 'trashee')).toHaveLength(0)
+  })
+
+  it('批内查重：同一批里的重复词只入一次', () => {
+    const n = addVocabBatch([entry('same'), entry('same'), entry('SAME ')]) // 大小写/空格归一化后同源
+    expect(n).toBe(1)
+    expect(listVocab()).toHaveLength(1)
+  })
+
+  it('id 连续分配且无浪费：nextId 只推进实际加入的条数', () => {
+    addVocab(entry('exist'))
+    const before = peekNextId()
+    addVocabBatch([entry('exist'), entry('x1'), entry('x2')]) // exist 撞库跳过，只加 2 个
+    expect(peekNextId()).toBe(before + 2) // 跳过的不占 id
+    const ids = listVocab().map((v) => v.id)
+    expect(new Set(ids).size).toBe(ids.length) // id 唯一
+  })
+
+  it('全撞库时返回 0 且不写 vocab', () => {
+    addVocab(entry('only'))
+    const n = addVocabBatch([entry('only')])
+    expect(n).toBe(0)
+    expect(listVocab()).toHaveLength(1)
+  })
+
+  it('空批次返回 0', () => {
+    expect(addVocabBatch([])).toBe(0)
   })
 })
