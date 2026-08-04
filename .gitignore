@@ -10,3 +10,6 @@ docs/superpowers/
 # 交接文档（开发状态/坑，不公开）+ 源码包（交别人打包用）
 HANDOFF.md
 vocall-*-src.zip
+
+# 打包产物（portable exe 等二进制，不入库）
+*.exe

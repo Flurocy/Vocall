@@ -1,6 +1,7 @@
 import type { VocabItem } from './vocab'
 import { listVocab, updateVocab } from './vocab'
-import { getSrsState, setSrsState, getPopCount } from './store'
+import { getSrsState, setSrsState, getPopCount, setPopCount } from './store'
+import { logSchedule } from './logger'
 import { getSetting } from './settings'
 import {
   defaultState,
@@ -58,6 +59,29 @@ export function getDueVocab(): VocabItem | null {
   return best
 }
 
+// 时钟快进（修"再也不弹词"死锁）：
+// 死锁成因——popCount 只在"弹词"那一刻 +1（engine.incrementPop），而弹词又要求 duePop <= popCount，
+// 二者互为前提。一旦所有 learning/review 词的 duePop 都 > popCount（学完一本书全毕业 / 单词小库
+// 答完题 duePop=popCount+interval），getDueVocab 恒为 null → 不弹 → popCount 停摆 → 永远都在未来 → 再不弹。
+// 解法：引擎空转时调本函数，把 popCount 直接追到最近的到期点，让最该见的词立即到期。
+// 返回 { advanced, nextDue }：是否发生了快进、追到的目标值（无学习/复习词时 nextDue=null）。
+export function advancePopToNextDue(): { advanced: boolean; nextDue: number | null } {
+  const now = getPopCount()
+  let nextDue = Infinity
+  for (const e of listVocab()) {
+    if (e.status === 'new' || e.status === 'mastered') continue
+    const s = getSrsState(e.id)
+    if (!s) continue
+    if (s.duePop < nextDue) nextDue = s.duePop
+  }
+  if (nextDue === Infinity) return { advanced: false, nextDue: null } // 队列空（无学习/复习词）
+  if (nextDue > now) {
+    setPopCount(nextDue) // 时钟落后 → 追到最近到期点
+    return { advanced: true, nextDue }
+  }
+  return { advanced: false, nextDue } // 时钟没落后（已有到期词），不动
+}
+
 // 评分路由 + 毕业 + 打回：
 // - learning：纯函数算下一态；grade 2 且 repetitions 满 passN → status 升 review（毕业），并补位
 // - review：grade 1/2 走阶梯；grade 0 → 打回 learning（repetitions 清零 + forgotPops）
@@ -92,8 +116,13 @@ export function applyReview(id: number, grade: Grade): void {
   }
   // 忘词计数：grade 0（两条路径殊途同归到这里）累计 +1；非 0 原样保留。从旧 cur 读，无则 0。
   const forgot = (cur?.forgotCount ?? 0) + (grade === 0 ? 1 : 0)
-  setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: now + next.interval, forgotCount: forgot })
+  const newDue = now + next.interval
+  setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: newDue, forgotCount: forgot })
   if (newStatus !== item.status) updateVocab(id, { status: newStatus })
+  logSchedule(
+    `review | 「${item.word}」grade=${grade} | duePop ${now}→${newDue}（+${next.interval}）` +
+    (newStatus !== item.status ? ` | ${item.status}→${newStatus}` : ''),
+  )
   // 毕业空位 → 补新词；mastered 也腾空位（跟毕业一样补位）
   if (newStatus === 'review' || newStatus === 'mastered') fillLearningQueue()
 }

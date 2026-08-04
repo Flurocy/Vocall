@@ -49,6 +49,11 @@ export function incrementPop(): number {
   write('popCount', n)
   return n
 }
+// 直接设定节拍数：仅用于"时钟快进"——引擎空转时把 popCount 追到最近到期点，
+// 消除"所有词 duePop 都在未来、popCount 却因不弹而停摆"的死锁（详见 scheduler.advancePopToNextDue）。
+export function setPopCount(n: number): void {
+  write('popCount', n)
+}
 
 export function allocId(): number {
   const id = read('nextId')
