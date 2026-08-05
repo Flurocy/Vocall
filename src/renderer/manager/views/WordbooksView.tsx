@@ -145,7 +145,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-medium text-slate-800">{w.word}</span>
+                  <span className="word-font font-semibold tracking-wide text-slate-800">{w.word}</span>
                   {w.inLibrary && <span className="text-xs text-slate-500">已在库</span>}
                   {w.inTrash && <span className="text-xs text-rose-600">回收站</span>}
                 </div>

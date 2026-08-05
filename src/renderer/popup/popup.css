@@ -1,3 +1,13 @@
 @import "tailwindcss";
 
 html, body, #root { height: 100%; background: transparent; }
+
+/* UI 字体栈：Windows 现代 sans 优先，中文回落雅黑（与 manager 端一致） */
+body {
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
+}
+
+/* 英文单词展示字体：Georgia 衬线（词典感，主角内容与 UI 文字分层） */
+.word-font {
+  font-family: Georgia, 'Times New Roman', serif;
+}

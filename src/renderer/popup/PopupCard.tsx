@@ -174,7 +174,7 @@ export default function PopupCard(): ReactElement | null {
         {face === 'front' ? (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="flex items-center justify-center gap-2">
-              <span className="text-2xl font-semibold text-slate-800">{item.word}</span>
+              <span className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</span>
               {/* 🔊 朗读：次要图标按钮，stopMouseDown 防误触翻卡/拖拽（同评分按钮模式） */}
               <button
                 onMouseDown={stopMouseDown}
@@ -195,7 +195,7 @@ export default function PopupCard(): ReactElement | null {
         ) : (
           // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切
           <div className="max-h-full overflow-y-auto">
-            <div className="text-2xl font-semibold text-slate-800">{item.word}</div>
+            <div className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</div>
             {forgotCount > 0 && (
               <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
             )}
@@ -220,7 +220,7 @@ export default function PopupCard(): ReactElement | null {
               {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
             </button>
             {exampleOpen && (
-              <div className="mt-1 max-h-28 overflow-y-auto text-base leading-relaxed text-slate-600">
+              <div className="word-font mt-1 max-h-28 overflow-y-auto text-base italic leading-relaxed text-slate-600">
                 {item.example}
               </div>
             )}

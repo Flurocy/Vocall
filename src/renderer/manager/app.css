@@ -5,6 +5,18 @@ html, body {
   background-color: #f1f5f9;
 }
 
+/* UI 字体栈：Windows 现代 sans 优先（Segoe UI Variable），中文回落雅黑。
+   离线桌面应用不引网络字体，全部用系统字体。 */
+body {
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
+}
+
+/* 英文单词展示字体：Georgia 衬线。单词是背词软件的主角内容，
+   与普通 UI 文字（sans）拉开层级——词典感；用于单词本身与英文例句。 */
+.word-font {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
 /* 自绘标题栏拖拽区：-webkit-app-region 无 Tailwind 对应类，自定义两个工具类 */
 .app-drag {
   -webkit-app-region: drag;
