@@ -7,11 +7,6 @@ body {
   font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
 }
 
-/* 英文单词展示字体：Georgia 衬线（词典感，主角内容与 UI 文字分层） */
-.word-font {
-  font-family: Georgia, 'Times New Roman', serif;
-}
-
 /* 弹窗入场：轻微上浮 + 淡入 + 微缩放回弹（0.28s 短促，被动弹窗不打扰是底线）。
    挂在卡片根容器，配合 React key=词id 重挂载实现"每弹一窗播一次"。 */
 @keyframes popup-enter {

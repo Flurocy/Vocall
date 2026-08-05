@@ -211,7 +211,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="word-font font-semibold tracking-wide text-slate-800">{e.word}</span>
+                <span className="font-medium text-slate-800">{e.word}</span>
                 <button
                   onClick={() => void playWord(e.word)}
                   aria-label={`朗读 ${e.word}`}

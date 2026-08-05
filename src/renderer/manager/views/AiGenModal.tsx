@@ -258,7 +258,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
                         onClick={() => toggleExpand(i)}
                         className="flex min-w-0 flex-1 items-baseline justify-between gap-2 text-left"
                       >
-                        <span className="word-font font-semibold tracking-wide text-slate-800">{e.word}</span>
+                        <span className="font-medium text-slate-800">{e.word}</span>
                         <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
                       </button>
                       <button

@@ -79,7 +79,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
                 <div className="flex min-w-0 items-center gap-3">
                   <div className="min-w-0">
                     <div className="flex items-baseline gap-2">
-                      <span className="word-font font-semibold tracking-wide text-slate-800">{e.item.word}</span>
+                      <span className="font-medium text-slate-800">{e.item.word}</span>
                       <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${b.cls}`}>
                         {b.label}
                       </span>
