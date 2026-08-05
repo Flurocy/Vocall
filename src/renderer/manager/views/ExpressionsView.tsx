@@ -199,7 +199,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     return (
       <li
         key={e.id}
-        className="group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
+        className="group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
       >
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 items-center gap-3">

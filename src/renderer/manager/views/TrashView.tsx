@@ -74,7 +74,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
             return (
               <li
                 key={e.item.id}
-                className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
+                className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <div className="min-w-0">

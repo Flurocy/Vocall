@@ -80,9 +80,15 @@ export default function App(): ReactElement {
   return (
     // 顶层 fontSize 供 em 级联；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
     // 纵向布局：自绘标题栏置顶（frame:false），下方为原侧栏+内容
-    <div className={`flex h-screen flex-col ${theme.bgApp} text-slate-800`} style={{ fontSize }}>
+    <div className={`relative flex h-screen flex-col ${theme.bgApp} text-slate-800`} style={{ fontSize }}>
+      {/* 氛围光：窗口顶部一抹主题色径向微渐变，给纯色底加"光感"（克制，不喧宾夺主）。
+          颜色走 theme.glow（rgba JS 值，inline style 不受 Tailwind JIT 字面量约束） */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-80"
+        style={{ background: `radial-gradient(65% 100% at 50% 0%, ${theme.glow}, transparent 72%)` }}
+      />
       <TitleBar theme={theme} />
-      <div className="flex min-h-0 flex-1">
+      <div className="relative flex min-h-0 flex-1">
         <nav className="w-44 border-r border-black/10 p-4 pt-5">
           {NAV_ITEMS.map((item) => (
             <button key={item.id} onClick={() => setTab(item.id)} className={navBtn(tab === item.id)}>

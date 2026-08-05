@@ -166,8 +166,13 @@ export default function PopupCard(): ReactElement | null {
     <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ zoom: fontScale }}>
       <div
         onMouseDown={onCardMouseDown}
-        className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
+        className={`relative flex h-full w-full select-none flex-col justify-center overflow-hidden rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
       >
+        {/* 卡片顶部氛围光：同主题径向微渐变，卡片与主题背景的呼应（overflow-hidden 收圆角） */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-24"
+          style={{ background: `radial-gradient(80% 100% at 50% 0%, ${theme.glow}, transparent 75%)` }}
+        />
         <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
           {payload.preview ? '外观预览' : `已连续答对 ${Math.min(repetitions, passCount)}/${passCount}`}
         </div>

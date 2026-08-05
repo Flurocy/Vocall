@@ -18,6 +18,7 @@ export interface Theme {
   accentSolidHover: string // accentSolid 的 hover（含 hover: 前缀的完整字面量）
   swatch: string       // 设置界面色板小圆点（显示该主题背景基调）
   accentColor: string  // 原生控件 accent-color（checkbox/range）
+  glow: string         // 氛围光颜色（rgba 主题色，JS 值非 Tailwind 类——用于 inline radial-gradient）
 }
 
 export const THEMES: Theme[] = [
@@ -32,6 +33,7 @@ export const THEMES: Theme[] = [
     accentSolidHover: 'hover:bg-emerald-500',
     swatch: 'bg-emerald-200',
     accentColor: 'accent-emerald-600',
+    glow: 'rgba(16, 185, 129, 0.14)',
   },
   {
     id: 'sky', label: '天青',
@@ -44,6 +46,7 @@ export const THEMES: Theme[] = [
     accentSolidHover: 'hover:bg-sky-500',
     swatch: 'bg-sky-200',
     accentColor: 'accent-sky-600',
+    glow: 'rgba(14, 165, 233, 0.14)',
   },
   {
     id: 'violet', label: '薰衣草',
@@ -56,6 +59,7 @@ export const THEMES: Theme[] = [
     accentSolidHover: 'hover:bg-violet-500',
     swatch: 'bg-violet-200',
     accentColor: 'accent-violet-600',
+    glow: 'rgba(139, 92, 246, 0.14)',
   },
   {
     id: 'amber', label: '蜜杏',
@@ -68,6 +72,7 @@ export const THEMES: Theme[] = [
     accentSolidHover: 'hover:bg-amber-500',
     swatch: 'bg-amber-200',
     accentColor: 'accent-amber-600',
+    glow: 'rgba(245, 158, 11, 0.14)',
   },
   {
     id: 'rose', label: '樱粉',
@@ -80,6 +85,7 @@ export const THEMES: Theme[] = [
     accentSolidHover: 'hover:bg-rose-500',
     swatch: 'bg-rose-200',
     accentColor: 'accent-rose-600',
+    glow: 'rgba(244, 63, 94, 0.12)',
   },
 ]
 

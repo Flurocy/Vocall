@@ -43,7 +43,7 @@ export default function WordbooksView({ theme }: { theme: Theme }): ReactElement
             <li key={b.id}>
               <button
                 onClick={() => setOpenId(b.id)}
-                className="block w-full rounded-2xl border border-black/10 bg-white/60 p-5 text-left shadow-sm transition hover:bg-white/80"
+                className="block w-full rounded-2xl border border-black/10 bg-white/60 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
               >
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className={`font-medium ${theme.accentText}`}>{b.name}</h3>
