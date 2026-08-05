@@ -7,1609 +7,3297 @@
       "word": "innovate",
       "meaning": "v. 创新；革新",
       "example": "Companies that fail to innovate risk being left behind in an increasingly competitive global market.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "创新；革新"
+        }
+      ]
     },
     {
       "word": "innovation",
-      "meaning": "n. 创新；革新；新方法",
+      "meaning": "n. 创新；新事物；新方法",
       "example": "Technological innovation has fundamentally transformed the way people communicate and work.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "创新；新事物；新方法"
+        }
+      ]
     },
     {
       "word": "innovative",
-      "meaning": "adj. 创新的；革新的；富有创新精神的",
+      "meaning": "adj. 创新的；革新的",
       "example": "Schools should encourage students to develop innovative thinking rather than simply memorising facts.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "创新的；革新的"
+        }
+      ]
     },
     {
       "word": "advance",
-      "meaning": "v. 推进；促进；取得进展；n. 进步；前进",
+      "meaning": "v. 前进；推进；促进",
       "example": "Medical science continues to advance at an unprecedented pace, saving countless lives each year.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "前进；推进；促进"
+        },
+        {
+          "pos": "n.",
+          "meaning": "进步；进展；预付款"
+        }
+      ]
     },
     {
       "word": "advancement",
-      "meaning": "n. 进步；推进；提升",
+      "meaning": "n. 进步；提升；促进",
       "example": "The advancement of artificial intelligence has sparked both excitement and ethical concerns.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "进步；提升；促进"
+        }
+      ]
     },
     {
       "word": "advanced",
-      "meaning": "adj. 先进的；高级的；晚期的",
+      "meaning": "adj. 先进的；高级的",
       "example": "Developed nations should share advanced agricultural technology with poorer countries.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "先进的；高级的"
+        }
+      ]
     },
     {
       "word": "breakthrough",
       "meaning": "n. 突破；重大进展",
       "example": "The recent breakthrough in gene editing could revolutionise the treatment of hereditary diseases.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "突破；重大进展"
+        }
+      ]
     },
     {
       "word": "cutting-edge",
-      "meaning": "adj. 尖端的；前沿的；最先进的",
+      "meaning": "adj. 尖端的；前沿的",
       "example": "Cutting-edge robotics are now widely used in manufacturing to improve efficiency and precision.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "尖端的；前沿的"
+        }
+      ]
     },
     {
       "word": "state-of-the-art",
-      "meaning": "adj. 最先进的；尖端的",
+      "meaning": "adj. 最先进的；最新型的",
       "example": "The hospital is equipped with state-of-the-art diagnostic equipment imported from abroad.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "最先进的；最新型的"
+        }
+      ]
     },
     {
       "word": "automate",
       "meaning": "v. 使自动化",
       "example": "Many factories have automated their production lines to reduce labour costs and human error.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "使自动化"
+        }
+      ]
     },
     {
       "word": "automation",
       "meaning": "n. 自动化",
       "example": "While automation boosts productivity, it also threatens millions of jobs across various industries.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "自动化"
+        }
+      ]
     },
     {
       "word": "autonomous",
       "meaning": "adj. 自主的；自治的；自动的",
       "example": "Autonomous vehicles are expected to dramatically reduce traffic accidents caused by human error.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "自主的；自治的；自动的"
+        }
+      ]
     },
     {
       "word": "digitalize",
       "meaning": "v. 数字化",
       "example": "Governments worldwide are striving to digitalize public services to improve efficiency and transparency.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "数字化"
+        }
+      ]
     },
     {
       "word": "digitalization",
       "meaning": "n. 数字化",
       "example": "The digitalization of education has made learning resources accessible to students in remote areas.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "数字化"
+        }
+      ]
     },
     {
       "word": "obsolete",
-      "meaning": "adj. 过时的；淘汰的；废弃的",
+      "meaning": "adj. 过时的；淘汰的",
       "example": "Rapid technological change renders many skills obsolete within just a few years.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "过时的；淘汰的"
+        }
+      ]
     },
     {
       "word": "obsolescence",
-      "meaning": "n. 过时；淘汰；废弃",
+      "meaning": "n. 过时；淘汰",
       "example": "Planned obsolescence in consumer electronics has led to a dramatic increase in electronic waste.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "过时；淘汰"
+        }
+      ]
     },
     {
       "word": "disrupt",
       "meaning": "v. 扰乱；颠覆；中断",
       "example": "Ride-hailing apps have completely disrupted the traditional taxi industry in most major cities.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "扰乱；颠覆；中断"
+        }
+      ]
     },
     {
       "word": "disruptive",
-      "meaning": "adj. 颠覆性的；引起混乱的；打破常规的",
+      "meaning": "adj. 颠覆性的；破坏性的",
       "example": "Disruptive technologies often create new markets while destroying established ones.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "颠覆性的；破坏性的"
+        }
+      ]
     },
     {
       "word": "pioneer",
-      "meaning": "n. 先驱；开拓者；创始人；v. 开辟；倡导",
+      "meaning": "n. 先驱；开拓者",
       "example": "The company pioneered the use of renewable materials in mass-produced consumer goods.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "先驱；开拓者"
+        },
+        {
+          "pos": "v.",
+          "meaning": "开创；倡导"
+        }
+      ]
     },
     {
       "word": "pioneering",
-      "meaning": "adj. 先驱的；开拓性的；首创的",
+      "meaning": "adj. 开创性的；先驱的",
       "example": "Her pioneering research on clean energy has inspired a new generation of scientists.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "开创性的；先驱的"
+        }
+      ]
     },
     {
       "word": "patent",
-      "meaning": "n. 专利；专利权；v. 取得……的专利",
+      "meaning": "n. 专利；专利权",
       "example": "Pharmaceutical companies rely on patents to protect the enormous investment behind new drugs.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "专利；专利权"
+        },
+        {
+          "pos": "v.",
+          "meaning": "获得专利；申请专利"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "明显的；专利的"
+        }
+      ]
     },
     {
       "word": "prototype",
-      "meaning": "n. 原型；样品；雏形",
+      "meaning": "n. 原型；样机；样品",
       "example": "Engineers built a working prototype before mass-producing the new device.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "原型；样机；样品"
+        }
+      ]
     },
     {
       "word": "biotechnology",
-      "meaning": "n. 生物技术",
+      "meaning": "n. 生物技术；生物工程",
       "example": "Biotechnology offers promising solutions to global food shortages and disease outbreaks.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生物技术；生物工程"
+        }
+      ]
     },
     {
       "word": "nanotechnology",
       "meaning": "n. 纳米技术",
       "example": "Nanotechnology is increasingly used in medicine to deliver drugs precisely to affected cells.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "纳米技术"
+        }
+      ]
     },
     {
       "word": "semiconductor",
       "meaning": "n. 半导体",
       "example": "The global shortage of semiconductors has disrupted the production of cars and electronics worldwide.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "半导体"
+        }
+      ]
     },
     {
       "word": "compatible",
-      "meaning": "adj. 兼容的；能共存的；相容的",
+      "meaning": "adj. 兼容的；相容的；可共存的",
       "example": "New software should be compatible with older devices to avoid unnecessary electronic waste.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "兼容的；相容的；可共存的"
+        }
+      ]
     },
     {
       "word": "transform",
-      "meaning": "v. 改变；使变形；改造",
+      "meaning": "v. 转变；改造；使变形",
       "example": "The Internet has transformed nearly every aspect of modern life, from shopping to socialising.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "转变；改造；使变形"
+        }
+      ]
     },
     {
       "word": "transformation",
-      "meaning": "n. 转变；变革；变形",
+      "meaning": "n. 转变；变革；转化",
       "example": "The digital transformation of businesses has accelerated sharply since the pandemic.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "转变；变革；转化"
+        }
+      ]
     },
     {
       "word": "revolutionize",
-      "meaning": "v. 彻底改变；使发生革命性剧变",
+      "meaning": "v. 彻底改变；革命化",
       "example": "Online learning platforms may revolutionise the way knowledge is delivered in developing countries.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "彻底改变；革命化"
+        }
+      ]
     },
     {
       "word": "revolutionary",
-      "meaning": "adj. 革命性的；突破性的；n. 革命者",
+      "meaning": "adj. 革命性的；创新的；突破性的",
       "example": "The invention of the smartphone was a revolutionary step in personal communication.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "革命性的；创新的；突破性的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "革命者"
+        }
+      ]
     },
     {
       "word": "sophisticated",
-      "meaning": "adj. 复杂精密的；高级的；老练的",
+      "meaning": "adj. 复杂的；精密的；老练的；先进的",
       "example": "Modern aircraft rely on highly sophisticated navigation systems to ensure passenger safety.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "复杂的；精密的；老练的；先进的"
+        }
+      ]
     },
     {
       "word": "deploy",
-      "meaning": "v. 部署；展开；有效利用",
+      "meaning": "v. 部署；调动；运用",
       "example": "Tech giants have deployed thousands of satellites to expand global internet coverage.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "部署；调动；运用"
+        }
+      ]
     },
     {
       "word": "deployment",
-      "meaning": "n. 部署；展开；调度",
+      "meaning": "n. 部署；调动；运用",
       "example": "The deployment of 5G networks will enable faster and more reliable mobile communication.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "部署；调动；运用"
+        }
+      ]
     },
     {
       "word": "harness",
       "meaning": "v. 利用；驾驭；控制",
       "example": "If properly harnessed, artificial intelligence could help solve some of humanity's greatest challenges.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "利用；驾驭；控制"
+        },
+        {
+          "pos": "n.",
+          "meaning": "马具；挽具"
+        }
+      ]
     },
     {
       "word": "viable",
-      "meaning": "adj. 可行的；能存活的；可实施的",
+      "meaning": "adj. 可行的；可实施的；能存活的",
       "example": "Solar power has finally become a commercially viable alternative to fossil fuels.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "可行的；可实施的；能存活的"
+        }
+      ]
     },
     {
       "word": "feasibility",
       "meaning": "n. 可行性；可能性",
       "example": "Before investing, companies must carefully assess the feasibility of a new technology.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "可行性；可能性"
+        }
+      ]
     },
     {
       "word": "widespread",
-      "meaning": "adj. 广泛的；普遍的；遍布的",
+      "meaning": "adj. 广泛的；普遍的；分布广的",
       "example": "The widespread use of smartphones has changed the way people interact with one another.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "广泛的；普遍的；分布广的"
+        }
+      ]
     },
     {
       "word": "adoption",
-      "meaning": "n. 采用；推行；收养",
+      "meaning": "n. 采用；采纳；收养",
       "example": "The adoption of electric vehicles has grown rapidly thanks to government subsidies.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "采用；采纳；收养"
+        }
+      ]
     },
     {
       "word": "proliferation",
-      "meaning": "n. 激增；扩散；大量繁殖",
+      "meaning": "n. 激增；扩散；增殖",
       "example": "The proliferation of smart devices has raised serious concerns about data privacy.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "激增；扩散；增殖"
+        }
+      ]
     },
     {
       "word": "inevitable",
-      "meaning": "adj. 不可避免的；必然的",
+      "meaning": "adj. 不可避免的；必然发生的",
       "example": "Some argue that the rise of artificial intelligence makes job losses in certain sectors inevitable.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "不可避免的；必然发生的"
+        }
+      ]
     },
     {
       "word": "double-edged sword",
-      "meaning": "n. 双刃剑；有利有弊的事物",
+      "meaning": "phr. 双刃剑；有利有弊的事物",
       "example": "Social media is a double-edged sword, connecting people while also spreading misinformation.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "双刃剑；有利有弊的事物"
+        }
+      ]
     },
     {
       "word": "outweigh",
-      "meaning": "v. 比……更重要；超过；重于",
+      "meaning": "v. 超过；比…更重要",
       "example": "Many believe the benefits of renewable energy far outweigh the costs of transition.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "超过；比…更重要"
+        }
+      ]
     },
     {
       "word": "drawback",
-      "meaning": "n. 缺点；不利因素；障碍",
+      "meaning": "n. 缺点；不利条件",
       "example": "The main drawback of online shopping is the inability to inspect products before purchase.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "缺点；不利条件"
+        }
+      ]
     },
     {
       "word": "limitation",
-      "meaning": "n. 局限；限制；缺陷",
+      "meaning": "n. 限制；局限；缺点",
       "example": "Despite its impressive capabilities, facial recognition technology has significant limitations.",
-      "topic": "科技发展"
+      "topic": "科技发展",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "限制；局限；缺点"
+        }
+      ]
     },
     {
       "word": "connectivity",
-      "meaning": "n. 连接性；互联性；连通性",
+      "meaning": "n. 连接性；连通性",
       "example": "Improved internet connectivity has enabled millions of people to work from home during the pandemic.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "连接性；连通性"
+        }
+      ]
     },
     {
       "word": "bandwidth",
-      "meaning": "n. 带宽；频宽",
+      "meaning": "n. 带宽；处理能力",
       "example": "Video conferencing requires considerable bandwidth, which remains unavailable in many rural regions.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "带宽；处理能力"
+        }
+      ]
     },
     {
       "word": "broadband",
-      "meaning": "n. 宽带；宽频",
+      "meaning": "n. 宽带",
       "example": "Governments should invest in broadband infrastructure to bridge the digital divide between cities and countryside.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "宽带"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "宽带的"
+        }
+      ]
     },
     {
       "word": "e-commerce",
       "meaning": "n. 电子商务",
       "example": "The rapid growth of e-commerce has forced many traditional retailers to close their physical stores.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "电子商务"
+        }
+      ]
     },
     {
       "word": "digital divide",
-      "meaning": "n. 数字鸿沟；信息鸿沟",
+      "meaning": "phr. 数字鸿沟；信息差距",
       "example": "The digital divide between urban and rural areas prevents equal access to educational resources.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "数字鸿沟；信息差距"
+        }
+      ]
     },
     {
       "word": "cybercrime",
       "meaning": "n. 网络犯罪",
       "example": "As more transactions move online, cybercrime has become one of the fastest-growing forms of illegal activity.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "网络犯罪"
+        }
+      ]
     },
     {
       "word": "cybersecurity",
       "meaning": "n. 网络安全",
       "example": "Companies must invest heavily in cybersecurity to protect their customers' personal information.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "网络安全"
+        }
+      ]
     },
     {
       "word": "cyberattack",
       "meaning": "n. 网络攻击",
       "example": "A major cyberattack recently paralysed the computer systems of several large hospitals.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "网络攻击"
+        }
+      ]
     },
     {
       "word": "surveillance",
-      "meaning": "n. 监控；监视",
+      "meaning": "n. 监视；监控",
       "example": "Mass surveillance programmes have sparked a fierce debate between security and civil liberties.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "监视；监控"
+        }
+      ]
     },
     {
       "word": "data breach",
-      "meaning": "n. 数据泄露",
+      "meaning": "phr. 数据泄露",
       "example": "A massive data breach at the social network exposed the personal details of millions of users.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "数据泄露"
+        }
+      ]
     },
     {
       "word": "hack",
-      "meaning": "v. 黑客入侵；非法侵入；n. 技巧；窍门",
+      "meaning": "v. 非法侵入（计算机系统）；破解",
       "example": "Criminals managed to hack into the bank's system and steal millions of dollars.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "非法侵入（计算机系统）；破解"
+        },
+        {
+          "pos": "n.",
+          "meaning": "黑客攻击；破解行为"
+        }
+      ]
     },
     {
       "word": "hacking",
       "meaning": "n. 黑客行为；非法入侵",
       "example": "Hacking has become a serious threat to national security in the digital age.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "黑客行为；非法入侵"
+        }
+      ]
     },
     {
       "word": "malware",
       "meaning": "n. 恶意软件",
       "example": "Users should install reliable antivirus software to protect their devices from malware.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "恶意软件"
+        }
+      ]
     },
     {
       "word": "phishing",
-      "meaning": "n. 钓鱼攻击；网络钓鱼",
+      "meaning": "n. 网络钓鱼；钓鱼诈骗",
       "example": "Phishing emails often impersonate banks in order to trick users into revealing their passwords.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "网络钓鱼；钓鱼诈骗"
+        }
+      ]
     },
     {
       "word": "social media",
-      "meaning": "n. 社交媒体",
+      "meaning": "phr. 社交媒体",
       "example": "Social media has become a powerful tool for political campaigns and social movements.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "社交媒体"
+        }
+      ]
     },
     {
       "word": "cloud computing",
-      "meaning": "n. 云计算",
+      "meaning": "phr. 云计算",
       "example": "Cloud computing allows businesses to store and process vast amounts of data without expensive hardware.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "云计算"
+        }
+      ]
     },
     {
       "word": "database",
-      "meaning": "n. 数据库；资料库",
+      "meaning": "n. 数据库",
       "example": "The government maintains a vast database of citizens' records, raising concerns about misuse.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "数据库"
+        }
+      ]
     },
     {
       "word": "browse",
-      "meaning": "v. 浏览；随意翻阅；（在商店）随便看看",
+      "meaning": "v. 浏览；随意翻阅",
       "example": "People now spend hours each day browsing the internet rather than reading books.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "浏览；随意翻阅"
+        }
+      ]
     },
     {
       "word": "navigate",
-      "meaning": "v. 导航；浏览操作；驾驶",
+      "meaning": "v. 导航；航行；浏览（网站等）",
       "example": "Even older users can easily navigate modern websites thanks to intuitive interface design.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "导航；航行；浏览（网站等）"
+        }
+      ]
     },
     {
       "word": "interface",
-      "meaning": "n. 界面；接口；交接处",
+      "meaning": "n. 界面；接口；交互方式",
       "example": "A well-designed user interface is essential for the success of any mobile application.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "界面；接口；交互方式"
+        }
+      ]
     },
     {
       "word": "user-friendly",
       "meaning": "adj. 用户友好的；易用的",
       "example": "Educational apps should be user-friendly so that young children can use them without assistance.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "用户友好的；易用的"
+        }
+      ]
     },
     {
       "word": "virtual",
-      "meaning": "adj. 虚拟的；实际上的；事实上的",
+      "meaning": "adj. 虚拟的；实际上的",
       "example": "Virtual reality technology is increasingly used to train surgeons before they operate on real patients.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "虚拟的；实际上的"
+        }
+      ]
     },
     {
       "word": "augmented reality",
       "meaning": "n. 增强现实",
       "example": "Augmented reality applications allow shoppers to visualise furniture in their own homes before buying.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "增强现实"
+        }
+      ]
     },
     {
       "word": "metaverse",
-      "meaning": "n. 元宇宙",
+      "meaning": "n. 元宇宙；虚拟世界",
       "example": "Some technology firms envision a future in which people work and socialise within the metaverse.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "元宇宙；虚拟世界"
+        }
+      ]
     },
     {
       "word": "fake news",
-      "meaning": "n. 假新闻；虚假信息",
+      "meaning": "n. 假新闻",
       "example": "Social media platforms are struggling to curb the spread of fake news during election periods.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "假新闻"
+        }
+      ]
     },
     {
       "word": "regulate",
-      "meaning": "v. 监管；规范；调节",
+      "meaning": "v. 管理；调节；控制",
       "example": "Many argue that governments should regulate social media companies more strictly.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "管理；调节；控制"
+        }
+      ]
     },
     {
       "word": "regulation",
-      "meaning": "n. 监管；法规；规章制度",
+      "meaning": "n. 规章；法规；管理",
       "example": "Effective regulation of the tech industry is needed to protect consumers without stifling innovation.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "规章；法规；管理"
+        }
+      ]
     },
     {
       "word": "screen time",
-      "meaning": "n. 屏幕时间",
+      "meaning": "n. 屏幕使用时间",
       "example": "Parents should limit their children's screen time to protect both their eyesight and mental health.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "屏幕使用时间"
+        }
+      ]
     },
     {
       "word": "isolate",
-      "meaning": "v. 孤立；使隔离；使分离",
+      "meaning": "v. 隔离；孤立；使分离",
       "example": "Paradoxically, heavy social media use can leave young people feeling more isolated than ever.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "隔离；孤立；使分离"
+        }
+      ]
     },
     {
       "word": "isolation",
-      "meaning": "n. 孤立；隔离；隔绝",
+      "meaning": "n. 隔离；孤立；孤独",
       "example": "The isolation caused by excessive screen time is linked to rising rates of teenage depression.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "隔离；孤立；孤独"
+        }
+      ]
     },
     {
       "word": "anonymity",
       "meaning": "n. 匿名；匿名性",
       "example": "The anonymity provided by the internet sometimes brings out the worst in human behaviour.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "匿名；匿名性"
+        }
+      ]
     },
     {
       "word": "verify",
-      "meaning": "v. 核实；证实；证明",
+      "meaning": "v. 核实；验证；证明",
       "example": "Journalists must carefully verify online information before publishing it as news.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "核实；验证；证明"
+        }
+      ]
     },
     {
       "word": "verification",
-      "meaning": "n. 核实；证实；查证",
+      "meaning": "n. 核实；验证；证明",
       "example": "Fact-checking platforms play a crucial role in the verification of viral claims.",
-      "topic": "互联网"
+      "topic": "互联网",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "核实；验证；证明"
+        }
+      ]
     },
     {
       "word": "pollute",
       "meaning": "v. 污染；弄脏",
       "example": "Heavy industries continue to pollute rivers and skies despite repeated warnings from scientists.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "污染；弄脏"
+        }
+      ]
     },
     {
       "word": "pollution",
       "meaning": "n. 污染；污染物",
       "example": "Air pollution in major cities is responsible for thousands of premature deaths each year.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "污染；污染物"
+        }
+      ]
     },
     {
       "word": "pollutant",
       "meaning": "n. 污染物；污染源",
       "example": "Many industrial pollutants take decades to break down naturally in the environment.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "污染物；污染源"
+        }
+      ]
     },
     {
       "word": "contaminate",
-      "meaning": "v. 污染；弄脏；毒害",
+      "meaning": "v. 污染；弄脏",
       "example": "Chemical fertilisers often contaminate the groundwater that supplies nearby towns and villages.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "污染；弄脏"
+        }
+      ]
     },
     {
       "word": "contamination",
-      "meaning": "n. 污染；沾染",
+      "meaning": "n. 污染；污染物",
       "example": "The contamination of drinking water remains a serious problem in many developing countries.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "污染；污染物"
+        }
+      ]
     },
     {
       "word": "toxic",
       "meaning": "adj. 有毒的；中毒的",
       "example": "Many older factories still release toxic chemicals directly into nearby rivers.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "有毒的；中毒的"
+        }
+      ]
     },
     {
       "word": "hazardous",
       "meaning": "adj. 危险的；有害的",
       "example": "Improper disposal of hazardous waste poses a severe threat to both human health and ecosystems.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "危险的；有害的"
+        }
+      ]
     },
     {
       "word": "emit",
-      "meaning": "v. 排放；散发；发出",
+      "meaning": "v. 排放；发出（光、热、气体等）",
       "example": "Coal-fired power plants emit large quantities of carbon dioxide into the atmosphere.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "排放；发出（光、热、气体等）"
+        }
+      ]
     },
     {
       "word": "exhaust",
-      "meaning": "n. 尾气；废气；v. 耗尽；使筋疲力尽",
+      "meaning": "n. 废气；排气",
       "example": "Traffic congestion means that cities are constantly filled with poisonous vehicle exhaust.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "废气；排气"
+        },
+        {
+          "pos": "v.",
+          "meaning": "耗尽；使精疲力竭"
+        }
+      ]
     },
     {
       "word": "carbon footprint",
-      "meaning": "n. 碳足迹",
+      "meaning": "n. 碳足迹（个人或活动产生的温室气体总量）",
       "example": "Individuals can reduce their carbon footprint by flying less and eating less meat.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "碳足迹（个人或活动产生的温室气体总量）"
+        }
+      ]
     },
     {
       "word": "vehicle emission",
-      "meaning": "n. 汽车尾气排放；车辆排放物",
+      "meaning": "n. 车辆排放物",
       "example": "Tighter regulations on vehicle emissions have led to a noticeable improvement in urban air quality.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "车辆排放物"
+        }
+      ]
     },
     {
       "word": "industrial waste",
-      "meaning": "n. 工业废料；工业废弃物",
+      "meaning": "n. 工业废物",
       "example": "Factories along the river discharge industrial waste with little regard for the environment.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "工业废物"
+        }
+      ]
     },
     {
       "word": "sewage",
       "meaning": "n. 污水；下水道污物",
       "example": "Untreated sewage is still pumped directly into the sea in many coastal cities.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "污水；下水道污物"
+        }
+      ]
     },
     {
       "word": "runoff",
       "meaning": "n. 径流；地表径流",
       "example": "Agricultural runoff carrying fertilisers has caused severe damage to coastal coral reefs.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "径流；地表径流"
+        }
+      ]
     },
     {
       "word": "landfill",
       "meaning": "n. 垃圾填埋场；垃圾填埋",
       "example": "Most of the plastic we discard ends up rotting in vast landfills for centuries.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "垃圾填埋场；垃圾填埋"
+        }
+      ]
     },
     {
       "word": "incinerate",
-      "meaning": "v. 焚化；烧成灰",
+      "meaning": "v. 焚烧；焚化",
       "example": "Some cities choose to incinerate their waste, which can release harmful gases into the air.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "焚烧；焚化"
+        }
+      ]
     },
     {
       "word": "incineration",
-      "meaning": "n. 焚化；焚烧",
+      "meaning": "n. 焚烧；焚化",
       "example": "While incineration reduces the volume of waste, it raises serious concerns about air pollution.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "焚烧；焚化"
+        }
+      ]
     },
     {
       "word": "pesticide",
-      "meaning": "n. 农药；杀虫剂",
+      "meaning": "n. 杀虫剂；农药",
       "example": "Excessive use of pesticide has devastated populations of bees and other pollinating insects.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "杀虫剂；农药"
+        }
+      ]
     },
     {
       "word": "fertilizer",
-      "meaning": "n. 化肥；肥料",
+      "meaning": "n. 肥料；化肥",
       "example": "Runoff containing fertilizer has caused toxic algae blooms in lakes and coastal waters.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "肥料；化肥"
+        }
+      ]
     },
     {
       "word": "herbicide",
       "meaning": "n. 除草剂",
       "example": "Certain herbicides have been linked to a sharp decline in farmland bird populations.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "除草剂"
+        }
+      ]
     },
     {
       "word": "degrade",
-      "meaning": "v. 退化；降解；降低",
+      "meaning": "v. 降解；退化；降低（质量或价值）",
       "example": "Once fertile soil degrades rapidly when intensive farming strips it of its natural nutrients.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "降解；退化；降低（质量或价值）"
+        }
+      ]
     },
     {
       "word": "degradation",
-      "meaning": "n. 退化；降解；恶化",
+      "meaning": "n. 降解；退化；恶化",
       "example": "Environmental degradation threatens the livelihoods of millions who depend on natural resources.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "降解；退化；恶化"
+        }
+      ]
     },
     {
       "word": "deteriorate",
-      "meaning": "v. 恶化；变坏；退化",
+      "meaning": "v. 恶化；变坏",
       "example": "Water quality in the lake has continued to deteriorate despite years of clean-up efforts.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "恶化；变坏"
+        }
+      ]
     },
     {
       "word": "deterioration",
-      "meaning": "n. 恶化；退化；变坏",
+      "meaning": "n. 恶化；退化",
       "example": "The steady deterioration of urban air quality demands urgent government action.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "恶化；退化"
+        }
+      ]
     },
     {
       "word": "smog",
-      "meaning": "n. 烟雾",
+      "meaning": "n. 烟雾；雾霾",
       "example": "Thick smog regularly blankets the city, forcing schools to keep children indoors.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "烟雾；雾霾"
+        }
+      ]
     },
     {
       "word": "acid rain",
       "meaning": "n. 酸雨",
       "example": "Acid rain caused by factory emissions has destroyed forests across large parts of Europe.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "酸雨"
+        }
+      ]
     },
     {
       "word": "ozone layer",
       "meaning": "n. 臭氧层",
       "example": "International agreements to protect the ozone layer are considered a model of global cooperation.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "臭氧层"
+        }
+      ]
     },
     {
       "word": "particulate matter",
-      "meaning": "n. 颗粒物；悬浮微粒",
+      "meaning": "n. 颗粒物；微粒物质",
       "example": "High levels of particulate matter in the air have been linked to a rise in respiratory diseases.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "颗粒物；微粒物质"
+        }
+      ]
     },
     {
       "word": "respiratory",
       "meaning": "adj. 呼吸的；呼吸系统的",
       "example": "Children exposed to heavy air pollution are far more likely to develop respiratory illnesses.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "呼吸的；呼吸系统的"
+        }
+      ]
     },
     {
       "word": "biodegradable",
       "meaning": "adj. 可生物降解的",
       "example": "Consumers should choose biodegradable packaging to reduce the burden on landfill sites.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "可生物降解的"
+        }
+      ]
     },
     {
       "word": "non-biodegradable",
       "meaning": "adj. 不可生物降解的",
       "example": "Plastic bags are non-biodegradable and can persist in the environment for hundreds of years.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "不可生物降解的"
+        }
+      ]
     },
     {
       "word": "decompose",
-      "meaning": "v. 分解；腐烂；降解",
+      "meaning": "v. 分解；腐烂",
       "example": "A plastic bottle may take several centuries to decompose completely in a landfill.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "分解；腐烂"
+        }
+      ]
     },
     {
       "word": "conservation",
-      "meaning": "n. 保护；保存；节约",
+      "meaning": "n. 保护；节约",
       "example": "Effective conservation of forests requires both government regulation and public cooperation.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "保护；节约"
+        }
+      ]
     },
     {
       "word": "recycle",
-      "meaning": "v. 回收利用；再循环；n. 回收",
+      "meaning": "v. 回收利用；再循环",
       "example": "Cities should make it easier for households to recycle their everyday waste.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "回收利用；再循环"
+        }
+      ]
     },
     {
       "word": "recyclable",
-      "meaning": "adj. 可回收的；可再利用的",
+      "meaning": "adj. 可回收利用的",
       "example": "Manufacturers ought to use recyclable materials to reduce the environmental impact of their products.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "可回收利用的"
+        }
+      ]
     },
     {
       "word": "reuse",
       "meaning": "v. 再利用；重复使用",
       "example": "Consumers can significantly cut waste by reusing bags, bottles and containers.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "再利用；重复使用"
+        }
+      ]
     },
     {
       "word": "zero-waste",
-      "meaning": "adj. 零废弃的",
+      "meaning": "adj. 零浪费的",
       "example": "Several cities have adopted ambitious zero-waste policies to minimise the amount of rubbish sent to landfill.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "零浪费的"
+        }
+      ]
     },
     {
       "word": "sustainable",
-      "meaning": "adj. 可持续的；不破坏环境的",
+      "meaning": "adj. 可持续的",
       "example": "Economic growth must be sustainable if it is to benefit future as well as present generations.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "可持续的"
+        }
+      ]
     },
     {
       "word": "sustainability",
-      "meaning": "n. 可持续性；永续性",
+      "meaning": "n. 可持续性",
       "example": "Many companies now regard sustainability as central to their long-term business strategy.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "可持续性"
+        }
+      ]
     },
     {
       "word": "environmentally friendly",
       "meaning": "adj. 环保的；对环境友好的",
       "example": "Governments should subsidise environmentally friendly technologies to accelerate their adoption.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "环保的；对环境友好的"
+        }
+      ]
     },
     {
       "word": "eco-friendly",
-      "meaning": "adj. 生态友好的；环保的",
+      "meaning": "adj. 环保的；生态友好的",
       "example": "An increasing number of consumers prefer eco-friendly products even if they cost slightly more.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "环保的；生态友好的"
+        }
+      ]
     },
     {
       "word": "carbon neutral",
       "meaning": "adj. 碳中和的",
       "example": "Several countries have pledged to become carbon neutral by the middle of this century.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "碳中和的"
+        }
+      ]
     },
     {
       "word": "plastic waste",
-      "meaning": "n. 塑料垃圾；塑料废弃物",
+      "meaning": "n. 塑料废物",
       "example": "Vast quantities of plastic waste enter the world's oceans every single year.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "塑料废物"
+        }
+      ]
     },
     {
       "word": "marine debris",
       "meaning": "n. 海洋垃圾；海洋废弃物",
       "example": "Marine debris kills millions of seabirds and marine mammals through ingestion and entanglement.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "海洋垃圾；海洋废弃物"
+        }
+      ]
     },
     {
       "word": "soil contamination",
       "meaning": "n. 土壤污染",
       "example": "Soil contamination from heavy metals makes large areas of land unsuitable for farming.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "土壤污染"
+        }
+      ]
     },
     {
       "word": "oil spill",
-      "meaning": "n. 石油泄漏；漏油事件",
+      "meaning": "n. 石油泄漏；漏油事故",
       "example": "The oil spill devastated coastal wildlife and ruined the local fishing industry for years.",
-      "topic": "环境污染"
+      "topic": "环境污染",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "石油泄漏；漏油事故"
+        }
+      ]
     },
     {
       "word": "climate change",
       "meaning": "n. 气候变化",
       "example": "Climate change is widely regarded as the greatest threat facing humanity in the twenty-first century.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "气候变化"
+        }
+      ]
     },
     {
       "word": "global warming",
       "meaning": "n. 全球变暖",
       "example": "Sceptics continue to question the causes of global warming despite overwhelming scientific evidence.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "全球变暖"
+        }
+      ]
     },
     {
       "word": "greenhouse effect",
       "meaning": "n. 温室效应",
       "example": "Without the natural greenhouse effect, the Earth would be far too cold to support life.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "温室效应"
+        }
+      ]
     },
     {
       "word": "meteorological",
       "meaning": "adj. 气象的；气象学的",
       "example": "Meteorological records show that the last decade was the hottest ever recorded.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "气象的；气象学的"
+        }
+      ]
     },
     {
       "word": "carbon dioxide",
       "meaning": "n. 二氧化碳",
       "example": "Burning fossil fuels releases carbon dioxide, the main driver of global warming.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "二氧化碳"
+        }
+      ]
     },
     {
       "word": "methane",
-      "meaning": "n. 甲烷；沼气",
+      "meaning": "n. 甲烷",
       "example": "Methane released by cattle is a far more potent greenhouse gas than carbon dioxide.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "甲烷"
+        }
+      ]
     },
     {
       "word": "carbon emission",
-      "meaning": "n. 碳排放；碳排放物",
+      "meaning": "n. 碳排放",
       "example": "Developed nations must take the lead in cutting carbon emissions to slow global warming.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "碳排放"
+        }
+      ]
     },
     {
       "word": "greenhouse gas",
       "meaning": "n. 温室气体",
       "example": "International summits have repeatedly failed to agree on binding limits for greenhouse gases.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "温室气体"
+        }
+      ]
     },
     {
       "word": "drought",
       "meaning": "n. 干旱；旱灾",
       "example": "Prolonged drought has destroyed harvests and pushed millions of people to the brink of starvation.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "干旱；旱灾"
+        }
+      ]
     },
     {
       "word": "flood",
-      "meaning": "n. 洪水；水灾；v. 淹没；大量涌入",
+      "meaning": "n. 洪水；水灾",
       "example": "The frequency and severity of floods have increased markedly as the climate has warmed.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "洪水；水灾"
+        },
+        {
+          "pos": "v.",
+          "meaning": "淹没；泛滥"
+        }
+      ]
     },
     {
       "word": "hurricane",
-      "meaning": "n. 飓风；暴风雨",
+      "meaning": "n. 飓风",
       "example": "Warmer oceans are producing hurricanes that are more powerful and destructive than ever before.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "飓风"
+        }
+      ]
     },
     {
       "word": "typhoon",
       "meaning": "n. 台风",
       "example": "Coastal cities in Asia are increasingly vulnerable to devastating typhoons each summer.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "台风"
+        }
+      ]
     },
     {
       "word": "extreme weather",
       "meaning": "n. 极端天气",
       "example": "Extreme weather events such as heatwaves and storms are becoming frighteningly common.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "极端天气"
+        }
+      ]
     },
     {
       "word": "precipitation",
-      "meaning": "n. 降水；降水量；沉淀",
+      "meaning": "n. 降水；降水量",
       "example": "Changes in precipitation patterns are disrupting agriculture in many parts of the world.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "降水；降水量"
+        }
+      ]
     },
     {
       "word": "glacier",
-      "meaning": "n. 冰川；冰河",
+      "meaning": "n. 冰川",
       "example": "Mountain glaciers are melting at an alarming rate, threatening the water supply of millions downstream.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "冰川"
+        }
+      ]
     },
     {
       "word": "ice cap",
       "meaning": "n. 冰盖；冰冠",
       "example": "The polar ice caps are shrinking rapidly, with profound consequences for global sea levels.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "冰盖；冰冠"
+        }
+      ]
     },
     {
       "word": "sea level rise",
       "meaning": "n. 海平面上升",
       "example": "Sea level rise threatens to submerge low-lying island nations within this century.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "海平面上升"
+        }
+      ]
     },
     {
       "word": "coastal",
       "meaning": "adj. 沿海的；海岸的",
       "example": "Many coastal cities may have to build enormous flood barriers to hold back the rising sea.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "沿海的；海岸的"
+        }
+      ]
     },
     {
       "word": "melt",
-      "meaning": "v. 融化；熔化；消散",
+      "meaning": "v. 融化；熔化",
       "example": "As the permafrost begins to melt, huge quantities of trapped methane are released into the atmosphere.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "融化；熔化"
+        },
+        {
+          "pos": "n.",
+          "meaning": "融化；熔化物"
+        }
+      ]
     },
     {
       "word": "carbon sink",
-      "meaning": "n. 碳汇",
+      "meaning": "n. 碳汇（吸收二氧化碳的生态系统）",
       "example": "Forests and oceans act as vital carbon sinks, absorbing billions of tonnes of carbon dioxide each year.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "碳汇（吸收二氧化碳的生态系统）"
+        }
+      ]
     },
     {
       "word": "carbon offset",
       "meaning": "n. 碳补偿；碳抵消",
       "example": "Airlines now allow passengers to pay a small fee as a carbon offset for their flights.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "碳补偿；碳抵消"
+        }
+      ]
     },
     {
       "word": "sequestration",
-      "meaning": "n. 封存；扣押",
+      "meaning": "n. （碳的）封存；隔离",
       "example": "Carbon capture and sequestration may prove essential in the fight against global warming.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "（碳的）封存；隔离"
+        }
+      ]
     },
     {
       "word": "carbon capture",
-      "meaning": "n. 碳捕获",
+      "meaning": "n. 碳捕集；碳捕获",
       "example": "Carbon capture technology could allow us to continue using fossil fuels without heating the planet.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "碳捕集；碳捕获"
+        }
+      ]
     },
     {
       "word": "deforestation",
       "meaning": "n. 森林砍伐；毁林",
       "example": "Deforestation in the Amazon releases vast amounts of carbon and destroys irreplaceable habitats.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "森林砍伐；毁林"
+        }
+      ]
     },
     {
       "word": "afforestation",
-      "meaning": "n. 植树造林；造林",
+      "meaning": "n. 造林；植树造林",
       "example": "Large-scale afforestation could absorb significant amounts of carbon dioxide from the atmosphere.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "造林；植树造林"
+        }
+      ]
     },
     {
       "word": "reforestation",
-      "meaning": "n. 重新造林；森林恢复",
+      "meaning": "n. 再造林；重新植树",
       "example": "Reforestation programmes have successfully restored damaged ecosystems in several regions.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "再造林；重新植树"
+        }
+      ]
     },
     {
       "word": "ecosystem disruption",
-      "meaning": "n. 生态系统破坏；生态失调",
+      "meaning": "n. 生态系统破坏；生态紊乱",
       "example": "Even a small rise in temperature can cause severe ecosystem disruption across the globe.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生态系统破坏；生态紊乱"
+        }
+      ]
     },
     {
       "word": "irreversible",
-      "meaning": "adj. 不可逆的；不能撤销的",
+      "meaning": "adj. 不可逆转的；不可挽回的",
       "example": "Scientists warn that we are fast approaching irreversible tipping points in the climate system.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "不可逆转的；不可挽回的"
+        }
+      ]
     },
     {
       "word": "catastrophic",
       "meaning": "adj. 灾难性的；毁灭性的",
       "example": "Failure to act on climate change could have catastrophic consequences for the entire planet.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "灾难性的；毁灭性的"
+        }
+      ]
     },
     {
       "word": "devastating",
       "meaning": "adj. 毁灭性的；破坏性极大的",
       "example": "Rising sea levels would have a devastating impact on coastal communities in developing nations.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "毁灭性的；破坏性极大的"
+        }
+      ]
     },
     {
       "word": "ramifications",
-      "meaning": "n. 后果；衍生影响",
+      "meaning": "n. 后果；影响；衍生结果",
       "example": "The ramifications of climate change extend far beyond the environment to affect the global economy.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "后果；影响；衍生结果"
+        }
+      ]
     },
     {
       "word": "mitigation",
-      "meaning": "n. 缓解；减轻；缓和",
+      "meaning": "n. 缓解；减轻",
       "example": "Effective mitigation of climate change requires coordinated action by every nation on Earth.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "缓解；减轻"
+        }
+      ]
     },
     {
       "word": "adaptation",
       "meaning": "n. 适应；改编",
       "example": "Since some warming is now unavoidable, investment in adaptation is just as important as emission cuts.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "适应；改编"
+        }
+      ]
     },
     {
       "word": "fragile",
       "meaning": "adj. 脆弱的；易碎的",
       "example": "The fragile ecosystems of the Arctic are being altered faster than scientists can document.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "脆弱的；易碎的"
+        }
+      ]
     },
     {
       "word": "resilience",
-      "meaning": "n. 韧性；恢复力；抗压性",
+      "meaning": "n. 恢复力；韧性",
       "example": "Building urban resilience to extreme weather will require massive long-term investment.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "恢复力；韧性"
+        }
+      ]
     },
     {
       "word": "resilient",
-      "meaning": "adj. 有韧性的；适应力强的",
+      "meaning": "adj. 有韧性的；能恢复的",
       "example": "Farmers must adopt more resilient crops capable of surviving prolonged droughts and floods.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "有韧性的；能恢复的"
+        }
+      ]
     },
     {
       "word": "threshold",
-      "meaning": "n. 临界点；门槛；阈值",
+      "meaning": "n. 阈值；临界点；门槛",
       "example": "We may soon cross the threshold beyond which catastrophic warming becomes unavoidable.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "阈值；临界点；门槛"
+        }
+      ]
     },
     {
       "word": "tipping point",
-      "meaning": "n. 拐点；临界点",
+      "meaning": "n. 临界点；引爆点",
       "example": "Scientists fear that the melting of the Greenland ice sheet may have already passed its tipping point.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "临界点；引爆点"
+        }
+      ]
     },
     {
       "word": "escalate",
-      "meaning": "v. 加剧；升级；扩大",
+      "meaning": "v. 升级；加剧；逐步扩大",
       "example": "If emissions continue to escalate, the cost of adaptation will soon become unmanageable.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "升级；加剧；逐步扩大"
+        }
+      ]
     },
     {
       "word": "exacerbate",
-      "meaning": "v. 恶化；加剧；使更严重",
+      "meaning": "v. 使恶化；加剧",
       "example": "Global warming is likely to exacerbate existing problems of poverty and food insecurity.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "使恶化；加剧"
+        }
+      ]
     },
     {
       "word": "unprecedented",
-      "meaning": "adj. 史无前例的；空前的",
+      "meaning": "adj. 前所未有的；空前的",
       "example": "The rate at which the planet is warming is quite unprecedented in recorded history.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "前所未有的；空前的"
+        }
+      ]
     },
     {
       "word": "alarming",
-      "meaning": "adj. 令人担忧的；引起恐慌的",
+      "meaning": "adj. 令人担忧的；惊人的",
       "example": "The alarming rate of ice loss in the Arctic has shocked even the most experienced scientists.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "令人担忧的；惊人的"
+        }
+      ]
     },
     {
       "word": "urgent",
-      "meaning": "adj. 紧迫的；迫切的",
+      "meaning": "adj. 紧急的；迫切的",
       "example": "There is an urgent need for governments to cooperate on reducing greenhouse gas emissions.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "紧急的；迫切的"
+        }
+      ]
     },
     {
       "word": "pressing",
       "meaning": "adj. 紧迫的；迫切的",
       "example": "Climate change is arguably the most pressing issue facing the international community today.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "紧迫的；迫切的"
+        }
+      ]
     },
     {
       "word": "combat",
-      "meaning": "v. 对抗；打击；n. 战斗；搏斗",
+      "meaning": "v. 与…斗争；打击",
       "example": "Governments must work together to combat climate change before its effects become irreversible.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "与…斗争；打击"
+        },
+        {
+          "pos": "n.",
+          "meaning": "战斗；斗争"
+        }
+      ]
     },
     {
       "word": "tackle",
-      "meaning": "v. 应对；处理；对付",
+      "meaning": "v. 处理；解决；应对",
       "example": "Innovative technologies may help us tackle the causes of global warming more effectively.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "处理；解决；应对"
+        }
+      ]
     },
     {
       "word": "address",
-      "meaning": "v. 处理；应对；解决；n. 地址；演说",
+      "meaning": "v. 处理；解决；向…讲话",
       "example": "World leaders have repeatedly failed to address the root causes of environmental decline.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "处理；解决；向…讲话"
+        },
+        {
+          "pos": "n.",
+          "meaning": "地址；演讲"
+        }
+      ]
     },
     {
       "word": "avert",
-      "meaning": "v. 避免；防止；转移",
+      "meaning": "v. 避免；防止；转移（目光）",
       "example": "Only immediate and drastic action can now avert the worst effects of climate change.",
-      "topic": "气候变化"
+      "topic": "气候变化",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "避免；防止；转移（目光）"
+        }
+      ]
     },
     {
       "word": "renewable energy",
       "meaning": "n. 可再生能源",
       "example": "Investment in renewable energy has surged as countries seek to reduce their reliance on fossil fuels.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "可再生能源"
+        }
+      ]
     },
     {
       "word": "non-renewable",
-      "meaning": "adj. 不可再生的；不可恢复的",
+      "meaning": "adj. 不可再生的",
       "example": "Society must prepare for the eventual depletion of non-renewable resources such as oil and coal.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "不可再生的"
+        }
+      ]
     },
     {
       "word": "fossil fuel",
-      "meaning": "n. 化石燃料；矿物燃料",
+      "meaning": "n. 化石燃料",
       "example": "Burning fossil fuels is the single largest source of the greenhouse gases driving climate change.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "化石燃料"
+        }
+      ]
     },
     {
       "word": "coal",
-      "meaning": "n. 煤炭；煤",
+      "meaning": "n. 煤；煤炭",
       "example": "Many developing nations still depend heavily on coal to fuel their rapid economic growth.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "煤；煤炭"
+        }
+      ]
     },
     {
       "word": "petroleum",
       "meaning": "n. 石油",
       "example": "Global demand for petroleum continues to rise despite growing interest in electric vehicles.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "石油"
+        }
+      ]
     },
     {
       "word": "crude oil",
       "meaning": "n. 原油",
       "example": "Fluctuations in the price of crude oil have a profound effect on the global economy.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "原油"
+        }
+      ]
     },
     {
       "word": "natural gas",
       "meaning": "n. 天然气",
       "example": "Natural gas is often promoted as a cleaner bridge fuel on the path to a low-carbon future.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "天然气"
+        }
+      ]
     },
     {
       "word": "solar energy",
       "meaning": "n. 太阳能",
       "example": "Solar energy has become the cheapest source of electricity in many sunny parts of the world.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "太阳能"
+        }
+      ]
     },
     {
       "word": "wind power",
       "meaning": "n. 风能；风力发电",
       "example": "Offshore wind power could potentially meet a large share of Europe's electricity needs.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "风能；风力发电"
+        }
+      ]
     },
     {
       "word": "hydropower",
-      "meaning": "n. 水电；水力发电",
+      "meaning": "n. 水力发电；水能",
       "example": "While hydropower is renewable, large dams can cause serious damage to river ecosystems.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "水力发电；水能"
+        }
+      ]
     },
     {
       "word": "geothermal",
-      "meaning": "adj. 地热的；地温的",
+      "meaning": "adj. 地热的；地热产生的",
       "example": "Iceland generates most of its electricity from geothermal and hydroelectric sources.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "地热的；地热产生的"
+        }
+      ]
     },
     {
       "word": "biomass",
       "meaning": "n. 生物质；生物量",
       "example": "Burning biomass for energy is controversial, as it can still produce harmful emissions.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生物质；生物量"
+        }
+      ]
     },
     {
       "word": "tidal energy",
       "meaning": "n. 潮汐能",
       "example": "Tidal energy remains largely experimental, but it offers enormous long-term potential.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "潮汐能"
+        }
+      ]
     },
     {
       "word": "nuclear energy",
       "meaning": "n. 核能",
       "example": "Some environmentalists now argue that nuclear energy is essential to meeting climate targets.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "核能"
+        }
+      ]
     },
     {
       "word": "uranium",
       "meaning": "n. 铀",
       "example": "Supplies of uranium are limited, which restricts the long-term potential of nuclear power.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "铀"
+        }
+      ]
     },
     {
       "word": "reactor",
-      "meaning": "n. 反应堆；核反应堆",
+      "meaning": "n. 反应堆；反应器",
       "example": "The accident at the nuclear reactor caused widespread panic across the entire region.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "反应堆；反应器"
+        }
+      ]
     },
     {
       "word": "radiation",
-      "meaning": "n. 辐射；放射；放射物",
+      "meaning": "n. 辐射；放射线",
       "example": "Local residents were exposed to dangerous levels of radiation following the nuclear accident.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "辐射；放射线"
+        }
+      ]
     },
     {
       "word": "radioactive",
-      "meaning": "adj. 放射性的；有辐射的",
+      "meaning": "adj. 放射性的",
       "example": "Safe disposal of radioactive waste remains one of the most challenging problems facing the nuclear industry.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "放射性的"
+        }
+      ]
     },
     {
       "word": "generate",
       "meaning": "v. 产生；发电；引起",
       "example": "A single modern wind turbine can generate enough electricity to power hundreds of homes.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "产生；发电；引起"
+        }
+      ]
     },
     {
       "word": "turbine",
-      "meaning": "n. 涡轮；涡轮机",
+      "meaning": "n. 涡轮机；汽轮机",
       "example": "Each massive turbine standing in the wind farm can produce several megawatts of clean power.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "涡轮机；汽轮机"
+        }
+      ]
     },
     {
       "word": "solar panel",
-      "meaning": "n. 太阳能板；太阳能电池板",
+      "meaning": "n. 太阳能电池板",
       "example": "Installing solar panels on rooftops allows households to generate their own clean electricity.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "太阳能电池板"
+        }
+      ]
     },
     {
       "word": "photovoltaic",
       "meaning": "adj. 光伏的；光电的",
       "example": "Advances in photovoltaic technology have dramatically reduced the cost of solar power.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "光伏的；光电的"
+        }
+      ]
     },
     {
       "word": "grid",
-      "meaning": "n. 电网；网格；格栅",
+      "meaning": "n. 电网；网格",
       "example": "Upgrading the national grid is essential to make full use of renewable energy sources.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "电网；网格"
+        }
+      ]
     },
     {
       "word": "power plant",
-      "meaning": "n. 发电厂；发电站",
+      "meaning": "n. 发电厂；电站",
       "example": "The old coal-fired power plant will be replaced by a modern facility powered by natural gas.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "发电厂；电站"
+        }
+      ]
     },
     {
       "word": "electricity",
-      "meaning": "n. 电力；电；电能",
+      "meaning": "n. 电；电力",
       "example": "Nearly a billion people in developing countries still live without reliable electricity.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "电；电力"
+        }
+      ]
     },
     {
       "word": "consumption",
-      "meaning": "n. 消耗；消费；耗用",
+      "meaning": "n. 消耗；消费量",
       "example": "Reducing energy consumption in buildings would significantly cut national carbon emissions.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "消耗；消费量"
+        }
+      ]
     },
     {
       "word": "consume",
-      "meaning": "v. 消耗；消费；耗费",
+      "meaning": "v. 消耗；消费；吃喝",
       "example": "Households that consume less energy not only save money but also help protect the environment.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "消耗；消费；吃喝"
+        }
+      ]
     },
     {
       "word": "efficiency",
-      "meaning": "n. 效率；效能；功效",
+      "meaning": "n. 效率；效能",
       "example": "Improving energy efficiency is often the cheapest and fastest way to cut emissions.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "效率；效能"
+        }
+      ]
     },
     {
       "word": "efficient",
-      "meaning": "adj. 高效的；有效率的",
+      "meaning": "adj. 高效的；有能力的",
       "example": "Energy-efficient appliances can reduce household electricity bills by a surprising amount.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "高效的；有能力的"
+        }
+      ]
     },
     {
       "word": "inefficient",
-      "meaning": "adj. 低效的；效率低的",
+      "meaning": "adj. 效率低的；浪费的",
       "example": "Old and inefficient factories waste enormous amounts of energy and resources.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "效率低的；浪费的"
+        }
+      ]
     },
     {
       "word": "alternative energy",
-      "meaning": "n. 替代能源；新能源",
+      "meaning": "n. 替代能源；可再生能源",
       "example": "Governments should subsidise alternative energy to reduce dependence on imported oil.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "替代能源；可再生能源"
+        }
+      ]
     },
     {
       "word": "clean energy",
       "meaning": "n. 清洁能源",
       "example": "The transition to clean energy is creating millions of new jobs around the world.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "清洁能源"
+        }
+      ]
     },
     {
       "word": "depletion",
-      "meaning": "n. 枯竭；消耗；耗减",
+      "meaning": "n. 消耗；枯竭",
       "example": "The rapid depletion of oil reserves is forcing nations to seek out new energy sources.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "消耗；枯竭"
+        }
+      ]
     },
     {
       "word": "deplete",
-      "meaning": "v. 耗尽；消耗；大大减少",
+      "meaning": "v. 耗尽；使枯竭",
       "example": "Continued overfishing and mining will eventually deplete the natural resources we depend on.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "耗尽；使枯竭"
+        }
+      ]
     },
     {
       "word": "scarce",
-      "meaning": "adj. 稀缺的；不足的；难得的",
+      "meaning": "adj. 稀缺的；不足的",
       "example": "As fossil fuels become scarce, renewable alternatives will become increasingly vital.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "稀缺的；不足的"
+        }
+      ]
     },
     {
       "word": "scarcity",
-      "meaning": "n. 稀缺；缺乏；不足",
+      "meaning": "n. 稀缺；不足",
       "example": "Energy scarcity remains a major obstacle to economic development in many poor countries.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "稀缺；不足"
+        }
+      ]
     },
     {
       "word": "reserve",
-      "meaning": "n. 储量；储备；v. 保留；预订",
+      "meaning": "n. 储备；储量",
       "example": "New technologies have allowed companies to tap into oil reserves that were previously unreachable.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "储备；储量"
+        },
+        {
+          "pos": "v.",
+          "meaning": "保留；预订"
+        }
+      ]
     },
     {
       "word": "exploit",
-      "meaning": "v. 开发；开采；利用；剥削",
+      "meaning": "v. 开发；利用；剥削",
       "example": "Companies continue to exploit ever more remote areas in their search for oil and gas.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "开发；利用；剥削"
+        }
+      ]
     },
     {
       "word": "exploitation",
-      "meaning": "n. 开采；开发；利用；剥削",
+      "meaning": "n. 开发；利用；剥削",
       "example": "The exploitation of tar sands has caused extensive damage to the surrounding environment.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "开发；利用；剥削"
+        }
+      ]
     },
     {
       "word": "extract",
-      "meaning": "v. 提取；开采；拔出",
+      "meaning": "v. 提取；提炼；摘录",
       "example": "It is expensive and difficult to extract oil from beneath the ocean floor.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "提取；提炼；摘录"
+        }
+      ]
     },
     {
       "word": "extraction",
-      "meaning": "n. 提取；开采；萃取",
+      "meaning": "n. 提取；开采；提炼",
       "example": "The extraction of fossil fuels often causes serious and long-lasting environmental damage.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "提取；开采；提炼"
+        }
+      ]
     },
     {
       "word": "refine",
       "meaning": "v. 精炼；提纯；改进",
       "example": "Complex processes are required to refine crude oil into usable petrol and diesel.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "精炼；提纯；改进"
+        }
+      ]
     },
     {
       "word": "refinery",
       "meaning": "n. 炼油厂；精炼厂",
       "example": "A fire at the oil refinery produced a thick cloud of black smoke visible for miles.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "炼油厂；精炼厂"
+        }
+      ]
     },
     {
       "word": "infrastructure",
-      "meaning": "n. 基础设施；基础建设",
+      "meaning": "n. 基础设施",
       "example": "Building the infrastructure for electric vehicles will require massive private and public investment.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "基础设施"
+        }
+      ]
     },
     {
       "word": "storage",
-      "meaning": "n. 储存；存储；保管",
+      "meaning": "n. 储存；储藏",
       "example": "Better battery storage is the key to making renewable energy a reliable power source.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "储存；储藏"
+        }
+      ]
     },
     {
       "word": "capacity",
       "meaning": "n. 容量；能力；产能",
       "example": "The country plans to double its renewable energy capacity over the next decade.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "容量；能力；产能"
+        }
+      ]
     },
     {
       "word": "output",
-      "meaning": "n. 产量；输出；产出",
+      "meaning": "n. 产量；输出",
       "example": "Solar power output drops sharply during the winter months in northern countries.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "产量；输出"
+        }
+      ]
     },
     {
       "word": "transition",
-      "meaning": "n. 转型；过渡；转变",
+      "meaning": "n. 过渡；转变",
       "example": "A smooth energy transition will require cooperation between governments, industry and consumers.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "过渡；转变"
+        },
+        {
+          "pos": "v.",
+          "meaning": "过渡；转变"
+        }
+      ]
     },
     {
       "word": "phase out",
-      "meaning": "v. 逐步淘汰；分阶段停止使用",
+      "meaning": "phr. 逐步淘汰；逐步停止",
       "example": "Many European countries plan to phase out petrol and diesel cars within the next twenty years.",
-      "topic": "能源"
+      "topic": "能源",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "逐步淘汰；逐步停止"
+        }
+      ]
     },
     {
       "word": "wildlife",
       "meaning": "n. 野生动物；野生生物",
       "example": "Tourism can provide funding to protect wildlife, but it can also disturb natural habitats.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "野生动物；野生生物"
+        }
+      ]
     },
     {
       "word": "species",
       "meaning": "n. 物种；种类",
       "example": "Thousands of species face extinction as their natural habitats disappear at an alarming rate.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "物种；种类"
+        }
+      ]
     },
     {
       "word": "habitat",
-      "meaning": "n. 栖息地；栖地",
+      "meaning": "n. 栖息地；生长环境",
       "example": "The destruction of natural habitats is the single greatest threat to most endangered species.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "栖息地；生长环境"
+        }
+      ]
     },
     {
       "word": "ecosystem",
       "meaning": "n. 生态系统",
       "example": "Every species plays a specific role in maintaining the balance of its ecosystem.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生态系统"
+        }
+      ]
     },
     {
       "word": "biodiversity",
       "meaning": "n. 生物多样性",
       "example": "Loss of biodiversity weakens ecosystems and reduces their ability to recover from disturbance.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生物多样性"
+        }
+      ]
     },
     {
       "word": "endangered",
       "meaning": "adj. 濒危的；濒临灭绝的",
       "example": "The giant panda was once among the world's most endangered mammals.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "濒危的；濒临灭绝的"
+        }
+      ]
     },
     {
       "word": "extinct",
       "meaning": "adj. 灭绝的；绝种的",
       "example": "If current trends continue, half of all species could be extinct within a few centuries.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "灭绝的；绝种的"
+        }
+      ]
     },
     {
       "word": "extinction",
       "meaning": "n. 灭绝；绝种",
       "example": "Human activity has pushed countless species toward extinction at an unprecedented rate.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "灭绝；绝种"
+        }
+      ]
     },
     {
       "word": "critically endangered",
-      "meaning": "adj. 极危的；极度濒危的",
+      "meaning": "adj. 极度濒危的",
       "example": "The rhinoceros is now classified as critically endangered due to relentless poaching.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "极度濒危的"
+        }
+      ]
     },
     {
       "word": "rare",
-      "meaning": "adj. 稀有的；罕见的；珍稀的",
+      "meaning": "adj. 稀有的；罕见的",
       "example": "Rare species often attract the very collectors and hunters who threaten their survival.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "稀有的；罕见的"
+        }
+      ]
     },
     {
       "word": "poach",
-      "meaning": "v. 偷猎；盗猎；非法捕猎",
+      "meaning": "v. 偷猎；盗猎",
       "example": "Criminals continue to poach elephants for their ivory despite strict international bans.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "偷猎；盗猎"
+        }
+      ]
     },
     {
       "word": "poaching",
-      "meaning": "n. 偷猎；盗猎",
+      "meaning": "n. 偷猎；盗猎行为",
       "example": "Poaching for traditional medicine has driven several large mammals to the edge of extinction.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "偷猎；盗猎行为"
+        }
+      ]
     },
     {
       "word": "poacher",
       "meaning": "n. 偷猎者；盗猎者",
       "example": "Heavily armed poachers are often better equipped than the rangers trying to stop them.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "偷猎者；盗猎者"
+        }
+      ]
     },
     {
       "word": "hunt",
-      "meaning": "v. 狩猎；猎取；搜寻；n. 狩猎；搜索",
+      "meaning": "v. 打猎；猎捕",
       "example": "Some indigenous communities still hunt wild animals as part of their traditional way of life.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "打猎；猎捕"
+        }
+      ]
     },
     {
       "word": "hunting",
-      "meaning": "n. 狩猎；猎捕；搜寻",
+      "meaning": "n. 打猎；狩猎活动",
       "example": "Trophy hunting is often defended on the grounds that it funds broader conservation efforts.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "打猎；狩猎活动"
+        }
+      ]
     },
     {
       "word": "illegal trade",
-      "meaning": "n. 非法贸易；非法交易",
+      "meaning": "n. 非法贸易",
       "example": "The illegal trade in wildlife is now one of the most lucrative criminal industries in the world.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "非法贸易"
+        }
+      ]
     },
     {
       "word": "smuggle",
-      "meaning": "v. 走私；偷运；偷带",
+      "meaning": "v. 走私；偷运",
       "example": "Criminal networks continue to smuggle rare animals and animal parts across international borders.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "走私；偷运"
+        }
+      ]
     },
     {
       "word": "smuggling",
-      "meaning": "n. 走私；偷运",
+      "meaning": "n. 走私；偷运行为",
       "example": "The smuggling of exotic birds is driving several tropical species toward extinction.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "走私；偷运行为"
+        }
+      ]
     },
     {
       "word": "ivory",
       "meaning": "n. 象牙；象牙制品",
       "example": "The international trade in ivory was banned in an effort to save the African elephant.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "象牙；象牙制品"
+        }
+      ]
     },
     {
       "word": "horn",
-      "meaning": "n. 角；兽角；号角",
+      "meaning": "n. 角；兽角",
       "example": "Rhino horn commands exorbitant prices on the black market, fuelling relentless poaching.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "角；兽角"
+        }
+      ]
     },
     {
       "word": "fur",
-      "meaning": "n. 毛皮；皮毛；绒毛",
+      "meaning": "n. 毛皮；软毛",
       "example": "Campaigns against the fur trade have significantly reduced demand in many Western countries.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "毛皮；软毛"
+        }
+      ]
     },
     {
       "word": "captivity",
-      "meaning": "n. 圈养；囚禁；束缚",
+      "meaning": "n. 囚禁；圈养",
       "example": "Many animal welfare groups argue that keeping intelligent mammals in captivity is inherently cruel.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "囚禁；圈养"
+        }
+      ]
     },
     {
       "word": "captive breeding",
-      "meaning": "n. 圈养繁殖；人工繁育",
+      "meaning": "phr. 圈养繁殖",
       "example": "Captive breeding programmes have saved several species from certain extinction.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "圈养繁殖"
+        }
+      ]
     },
     {
       "word": "sanctuary",
-      "meaning": "n. 庇护所；避难所；保护区",
+      "meaning": "n. 保护区；避难所；圣所",
       "example": "The wildlife sanctuary provides a safe haven for animals rescued from the illegal pet trade.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "保护区；避难所；圣所"
+        }
+      ]
     },
     {
       "word": "nature reserve",
-      "meaning": "n. 自然保护区",
+      "meaning": "phr. 自然保护区",
       "example": "Establishing nature reserves is one of the most effective ways to protect endangered habitats.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "自然保护区"
+        }
+      ]
     },
     {
       "word": "reintroduce",
-      "meaning": "v. 重新引入；再次放归",
+      "meaning": "v. 重新引入；再介绍",
       "example": "Conservationists plan to reintroduce the lost species into its former habitat over the next decade.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "重新引入；再介绍"
+        }
+      ]
     },
     {
       "word": "reintroduction",
-      "meaning": "n. 重新引入；放归野外",
+      "meaning": "n. 重新引入；再介绍",
       "example": "The successful reintroduction of wolves transformed the entire ecosystem of the national park.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "重新引入；再介绍"
+        }
+      ]
     },
     {
       "word": "protect",
-      "meaning": "v. 保护；防护；保卫",
+      "meaning": "v. 保护；防护",
       "example": "It is our shared responsibility to protect the natural world for future generations.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "保护；防护"
+        }
+      ]
     },
     {
       "word": "protection",
-      "meaning": "n. 保护；防护；保障",
+      "meaning": "n. 保护；防护",
       "example": "Legal protection alone is insufficient without strict enforcement on the ground.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "保护；防护"
+        }
+      ]
     },
     {
       "word": "safeguard",
-      "meaning": "v. 保护；维护；捍卫；n. 保护措施；保障条款",
+      "meaning": "v. 保护；捍卫",
       "example": "International treaties exist to safeguard species that migrate across national borders.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "保护；捍卫"
+        },
+        {
+          "pos": "n.",
+          "meaning": "保障措施；保护"
+        }
+      ]
     },
     {
       "word": "advocate",
-      "meaning": "v. 倡导；主张；拥护；n. 倡导者；拥护者",
+      "meaning": "v. 提倡；主张",
       "example": "Many scientists now actively advocate for stricter laws against the wildlife trade.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "提倡；主张"
+        },
+        {
+          "pos": "n.",
+          "meaning": "提倡者；拥护者"
+        }
+      ]
     },
     {
       "word": "advocacy",
-      "meaning": "n. 倡导；主张；拥护",
+      "meaning": "n. 提倡；拥护；辩护",
       "example": "Celebrity advocacy has helped bring the issue of animal extinction to a much wider audience.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "提倡；拥护；辩护"
+        }
+      ]
     },
     {
       "word": "food chain",
-      "meaning": "n. 食物链",
+      "meaning": "phr. 食物链",
       "example": "Toxins tend to accumulate as they move up the food chain, eventually harming top predators.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "食物链"
+        }
+      ]
     },
     {
       "word": "predator",
-      "meaning": "n. 捕食者；食肉动物",
+      "meaning": "n. 捕食者；掠夺者",
       "example": "The loss of a single top predator can trigger dramatic changes throughout an entire ecosystem.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "捕食者；掠夺者"
+        }
+      ]
     },
     {
       "word": "prey",
-      "meaning": "n. 猎物；被捕食者；v. 捕食；掠夺",
+      "meaning": "n. 猎物；受害者",
       "example": "A sharp decline in prey species often forces predators to venture into human settlements.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "猎物；受害者"
+        },
+        {
+          "pos": "v.",
+          "meaning": "捕食；掠夺"
+        }
+      ]
     },
     {
       "word": "mammal",
       "meaning": "n. 哺乳动物",
       "example": "Marine mammals such as whales and dolphins are particularly vulnerable to ocean pollution.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "哺乳动物"
+        }
+      ]
     },
     {
       "word": "marine life",
-      "meaning": "n. 海洋生物；海洋动植物",
+      "meaning": "phr. 海洋生物",
       "example": "Plastic pollution poses a deadly threat to countless forms of marine life.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "海洋生物"
+        }
+      ]
     },
     {
       "word": "coral reef",
-      "meaning": "n. 珊瑚礁",
+      "meaning": "phr. 珊瑚礁",
       "example": "Rising sea temperatures have caused the bleaching and death of coral reefs around the world.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "phr.",
+          "meaning": "珊瑚礁"
+        }
+      ]
     },
     {
       "word": "vertebrate",
-      "meaning": "n. 脊椎动物；adj. 有脊椎的",
+      "meaning": "n. 脊椎动物",
       "example": "Nearly one in five vertebrate species is now threatened with extinction.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "脊椎动物"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "有脊椎的"
+        }
+      ]
     },
     {
       "word": "invertebrate",
-      "meaning": "n. 无脊椎动物；adj. 无脊椎的",
+      "meaning": "n. 无脊椎动物",
       "example": "Invertebrates such as bees and butterflies play an essential role in pollinating crops.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "无脊椎动物"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "无脊椎的"
+        }
+      ]
     },
     {
       "word": "ecological balance",
       "meaning": "n. 生态平衡",
       "example": "The loss of even a single species can disrupt the delicate ecological balance of a region.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生态平衡"
+        }
+      ]
     },
     {
       "word": "coexist",
-      "meaning": "v. 共存；和平共处；并存",
+      "meaning": "v. 共存；和平共处",
       "example": "Finding ways for humans and wildlife to coexist is essential for long-term conservation.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "共存；和平共处"
+        }
+      ]
     },
     {
       "word": "coexistence",
-      "meaning": "n. 共存；并存；共处",
+      "meaning": "n. 共存；共处",
       "example": "Peaceful coexistence between farmers and wild animals often requires creative solutions.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "共存；共处"
+        }
+      ]
     },
     {
       "word": "harmony",
       "meaning": "n. 和谐；融洽；协调",
       "example": "Indigenous cultures often emphasise living in harmony with the natural world.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "和谐；融洽；协调"
+        }
+      ]
     },
     {
       "word": "biodiversity loss",
       "meaning": "n. 生物多样性丧失",
       "example": "Biodiversity loss reduces the resilience of ecosystems and threatens long-term human survival.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生物多样性丧失"
+        }
+      ]
     },
     {
       "word": "thrive",
-      "meaning": "v. 繁荣；茁壮成长；旺盛",
+      "meaning": "v. 茁壮成长；兴旺；繁荣",
       "example": "With proper protection, once-rare species can again thrive in their natural habitats.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "茁壮成长；兴旺；繁荣"
+        }
+      ]
     },
     {
       "word": "flourish",
-      "meaning": "v. 繁荣；茂盛；兴旺",
+      "meaning": "v. 繁荣；茂盛；茁壮成长",
       "example": "Wildlife reserves allow endangered species to flourish safe from human interference.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "繁荣；茂盛；茁壮成长"
+        }
+      ]
     },
     {
       "word": "inhumane",
       "meaning": "adj. 不人道的；残忍的",
       "example": "Testing cosmetics on animals is widely regarded as inhumane and should be banned worldwide.",
-      "topic": "动物保护"
+      "topic": "动物保护",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "不人道的；残忍的"
+        }
+      ]
     }
   ]
 }

@@ -5,1335 +5,2843 @@
   "words": [
     {
       "word": "pedagogy",
-      "meaning": "n. 教学法；教育学",
+      "meaning": "n. 教育学；教学法",
       "example": "Modern pedagogy encourages critical thinking rather than rote memorisation.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "教育学；教学法"
+        }
+      ]
     },
     {
       "word": "pedagogical",
-      "meaning": "adj. 教学法的；教育学的",
+      "meaning": "adj. 教学的；教育学的",
       "example": "The lecturers adopted a more pedagogical approach to first-year tutorials.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "教学的；教育学的"
+        }
+      ]
     },
     {
       "word": "curriculum",
-      "meaning": "n. 课程体系；(全部)课程",
+      "meaning": "n. 课程；全部课程",
       "example": "The new curriculum places greater emphasis on independent research.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "课程；全部课程"
+        }
+      ]
     },
     {
       "word": "syllabus",
-      "meaning": "n. 教学大纲；课程大纲",
+      "meaning": "n. 教学大纲；课程提纲",
       "example": "Students should read the syllabus carefully before the semester begins.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "教学大纲；课程提纲"
+        }
+      ]
     },
     {
       "word": "module",
-      "meaning": "n. 模块课程；单元",
+      "meaning": "n. 单元；模块；课程单元",
       "example": "She chose an optional module in behavioural psychology this term.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "单元；模块；课程单元"
+        }
+      ]
     },
     {
       "word": "tuition",
-      "meaning": "n. 学费；教学；讲授",
+      "meaning": "n. 学费；教学",
       "example": "International students are charged higher tuition fees than domestic ones.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学费；教学"
+        }
+      ]
     },
     {
       "word": "scholarship",
-      "meaning": "n. 奖学金；学问；学术成就",
+      "meaning": "n. 奖学金；学术；学问",
       "example": "He was awarded a scholarship covering his full tuition and accommodation.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "奖学金；学术；学问"
+        }
+      ]
     },
     {
       "word": "grant",
-      "meaning": "n. 助学金；拨款；v. 授予；给予",
+      "meaning": "n. 补助金；拨款",
       "example": "The university offers maintenance grants to students from low-income families.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "补助金；拨款"
+        },
+        {
+          "pos": "v.",
+          "meaning": "授予；给予；承认"
+        }
+      ]
     },
     {
       "word": "stipend",
-      "meaning": "n. 津贴；定期生活津贴",
+      "meaning": "n. 津贴；薪俸",
       "example": "PhD candidates receive a monthly stipend for their teaching assistance.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "津贴；薪俸"
+        }
+      ]
     },
     {
       "word": "enroll",
-      "meaning": "v. 注册入学；招(生)；登记",
+      "meaning": "v. 注册；入学；登记",
       "example": "Students can enroll online during the registration week in September.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "注册；入学；登记"
+        }
+      ]
     },
     {
       "word": "enrollment",
       "meaning": "n. 注册；入学；注册人数",
       "example": "Late enrollment may result in limited choice of elective modules.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "注册；入学；注册人数"
+        }
+      ]
     },
     {
       "word": "admission",
-      "meaning": "n. 录取；准许进入；入场费",
+      "meaning": "n. 录取；准入；承认",
       "example": "Admission to the programme depends on academic performance and an interview.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "录取；准入；承认"
+        }
+      ]
     },
     {
       "word": "admit",
-      "meaning": "v. 录取；承认；准许进入",
+      "meaning": "v. 承认；准许进入；录取",
       "example": "The college admits roughly two hundred undergraduates each year.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "承认；准许进入；录取"
+        }
+      ]
     },
     {
       "word": "academic",
-      "meaning": "adj. 学术的；学院的；n. 学者；大学教师",
+      "meaning": "adj. 学术的；学院的",
       "example": "A strong academic background is essential for postgraduate study.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "学术的；学院的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "学者；大学教师"
+        }
+      ]
     },
     {
       "word": "academia",
-      "meaning": "n. 学术界；学术生涯",
+      "meaning": "n. 学术界；学术环境",
       "example": "Many graduates eventually pursue a career in academia.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学术界；学术环境"
+        }
+      ]
     },
     {
       "word": "faculty",
-      "meaning": "n. 院系；全体教员；能力",
+      "meaning": "n. 全体教员；系；学院；才能",
       "example": "The faculty of science offers both taught and research degrees.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "全体教员；系；学院；才能"
+        }
+      ]
     },
     {
       "word": "department",
-      "meaning": "n. 系；部门；部",
+      "meaning": "n. 系；部门；学部",
       "example": "The economics department has expanded its intake of postgraduates.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "系；部门；学部"
+        }
+      ]
     },
     {
       "word": "professor",
-      "meaning": "n. 教授；大学教师",
+      "meaning": "n. 教授",
       "example": "The professor delivered a guest lecture on climate modelling.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "教授"
+        }
+      ]
     },
     {
       "word": "lecturer",
       "meaning": "n. 讲师；演讲者",
       "example": "Our sociology lecturer also supervises final-year dissertations.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "讲师；演讲者"
+        }
+      ]
     },
     {
       "word": "lecture",
-      "meaning": "n. 讲座；讲课；训斥；v. 讲课；训斥",
+      "meaning": "n. 讲座；讲课",
       "example": "Attendance at lectures is recorded but not strictly compulsory.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "讲座；讲课"
+        },
+        {
+          "pos": "v.",
+          "meaning": "讲课；训斥"
+        }
+      ]
     },
     {
       "word": "tutorial",
-      "meaning": "n. 辅导课；教程；adj. 辅导的",
+      "meaning": "n. 辅导课；教程",
       "example": "Each tutorial group contains no more than ten students.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "辅导课；教程"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "辅导的；导师的"
+        }
+      ]
     },
     {
       "word": "seminar",
       "meaning": "n. 研讨会；研讨班",
       "example": "The weekly seminar gives students a chance to debate set readings.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "研讨会；研讨班"
+        }
+      ]
     },
     {
       "word": "workshop",
-      "meaning": "n. 工作坊；研讨会；车间",
+      "meaning": "n. 工作坊；研讨会；讲习班",
       "example": "The library runs a workshop on academic writing each term.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "工作坊；研讨会；讲习班"
+        }
+      ]
     },
     {
       "word": "supervise",
-      "meaning": "v. 指导；监督；管理",
+      "meaning": "v. 监督；管理；指导",
       "example": "Professor Lee will supervise her master's thesis this year.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "监督；管理；指导"
+        }
+      ]
     },
     {
       "word": "supervisor",
-      "meaning": "n. 导师；监督者；主管",
+      "meaning": "n. 主管；导师；监督人",
       "example": "Her supervisor suggested broadening the scope of the literature review.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "主管；导师；监督人"
+        }
+      ]
     },
     {
       "word": "mentor",
-      "meaning": "n. 导师；良师益友；v. 指导",
+      "meaning": "n. 导师；指导者",
       "example": "Every first-year student is assigned a peer mentor for guidance.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "导师；指导者"
+        },
+        {
+          "pos": "v.",
+          "meaning": "指导；辅导"
+        }
+      ]
     },
     {
       "word": "mentorship",
-      "meaning": "n. 导师制；指导关系",
+      "meaning": "n. 指导关系；导师制",
       "example": "The mentorship scheme pairs juniors with senior students in the same major.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "指导关系；导师制"
+        }
+      ]
     },
     {
       "word": "cognitive",
       "meaning": "adj. 认知的；认识的",
       "example": "Puzzles are thought to support cognitive development in young children.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "认知的；认识的"
+        }
+      ]
     },
     {
       "word": "cognition",
-      "meaning": "n. 认知；认识能力",
+      "meaning": "n. 认知；认识过程",
       "example": "Sleep has a measurable effect on cognition and memory consolidation.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "认知；认识过程"
+        }
+      ]
     },
     {
       "word": "intellect",
-      "meaning": "n. 智力；理解力；知识分子",
+      "meaning": "n. 智力；思维能力",
       "example": "Academic debate sharpens the intellect over the course of a degree.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "智力；思维能力"
+        }
+      ]
     },
     {
       "word": "intellectual",
-      "meaning": "adj. 智力的；理智的；n. 知识分子",
+      "meaning": "adj. 智力的；知识的",
       "example": "University life should foster intellectual curiosity and independence.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "智力的；知识的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "知识分子"
+        }
+      ]
     },
     {
       "word": "literacy",
       "meaning": "n. 读写能力；素养",
       "example": "Digital literacy is now treated as a core graduate skill.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "读写能力；素养"
+        }
+      ]
     },
     {
       "word": "literate",
       "meaning": "adj. 有读写能力的；有文化的",
       "example": "All applicants must be literate in at least one programming language.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "有读写能力的；有文化的"
+        }
+      ]
     },
     {
       "word": "illiterate",
-      "meaning": "adj. 不识字的；文盲的；n. 文盲",
+      "meaning": "adj. 文盲的；不识字的",
       "example": "A significant share of adults in the region remains functionally illiterate.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "文盲的；不识字的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "文盲"
+        }
+      ]
     },
     {
       "word": "discipline",
-      "meaning": "n. 学科；纪律；训练；v. 训练；管教",
+      "meaning": "n. 纪律；学科；训练",
       "example": "Sociology draws on methods from several related disciplines.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "纪律；学科；训练"
+        },
+        {
+          "pos": "v.",
+          "meaning": "训练；惩罚"
+        }
+      ]
     },
     {
       "word": "disciplinary",
-      "meaning": "adj. 学科的；纪律的；管教的",
+      "meaning": "adj. 纪律的；学科的",
       "example": "The project takes a cross-disciplinary approach to urban planning.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "纪律的；学科的"
+        }
+      ]
     },
     {
       "word": "compulsory",
-      "meaning": "adj. 必修的；强制的；义务的",
+      "meaning": "adj. 强制的；义务的；必修的",
       "example": "Statistics is a compulsory module for all psychology students.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "强制的；义务的；必修的"
+        }
+      ]
     },
     {
       "word": "elective",
-      "meaning": "adj. 选修的；n. 选修课",
+      "meaning": "adj. 选修的；选举的",
       "example": "She picked two elective courses outside her main major.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "选修的；选举的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "选修课"
+        }
+      ]
     },
     {
       "word": "optional",
       "meaning": "adj. 可选的；非强制的",
       "example": "Attendance at the revision lecture is entirely optional.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "可选的；非强制的"
+        }
+      ]
     },
     {
       "word": "prerequisite",
-      "meaning": "n. 先修课程；先决条件",
+      "meaning": "n. 先决条件；前提",
       "example": "Calculus is a prerequisite for the advanced economics module.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "先决条件；前提"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "必须先具备的"
+        }
+      ]
     },
     {
       "word": "assess",
-      "meaning": "v. 评估；评定；估价",
+      "meaning": "v. 评估；评定",
       "example": "Tutors assess each essay against a published marking scheme.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "评估；评定"
+        }
+      ]
     },
     {
       "word": "assessment",
-      "meaning": "n. 评估；评价；估价",
+      "meaning": "n. 评估；评价",
       "example": "Continuous assessment reduces the pressure of final exams.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "评估；评价"
+        }
+      ]
     },
     {
       "word": "evaluate",
-      "meaning": "v. 评价；评估；估值",
+      "meaning": "v. 评估；评价",
       "example": "The committee will evaluate each candidate on academic merit.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "评估；评价"
+        }
+      ]
     },
     {
       "word": "examination",
-      "meaning": "n. 考试；检查；审查",
+      "meaning": "n. 考试；检查",
       "example": "Final examinations are scheduled at the end of each semester.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "考试；检查"
+        }
+      ]
     },
     {
       "word": "degree",
-      "meaning": "n. 学位；程度；度",
+      "meaning": "n. 学位；程度；度数",
       "example": "He completed his degree in three years instead of the usual four.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学位；程度；度数"
+        }
+      ]
     },
     {
       "word": "diploma",
-      "meaning": "n. 文凭；毕业文凭",
+      "meaning": "n. 文凭；毕业证书",
       "example": "The college offers a one-year diploma in graphic design.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "文凭；毕业证书"
+        }
+      ]
     },
     {
       "word": "certificate",
       "meaning": "n. 证书；证明",
       "example": "Students receive a certificate upon finishing the summer programme.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "证书；证明"
+        }
+      ]
     },
     {
       "word": "bachelor",
       "meaning": "n. 学士；单身汉",
       "example": "She graduated with a bachelor of science in chemistry.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学士；单身汉"
+        }
+      ]
     },
     {
       "word": "master",
-      "meaning": "n. 硕士；大师；v. 掌握；精通",
+      "meaning": "n. 硕士；大师；主人",
       "example": "A master of arts typically takes one year to complete.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "硕士；大师；主人"
+        },
+        {
+          "pos": "v.",
+          "meaning": "掌握；精通"
+        }
+      ]
     },
     {
       "word": "doctorate",
       "meaning": "n. 博士学位",
       "example": "He left industry to pursue a doctorate in renewable energy.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "博士学位"
+        }
+      ]
     },
     {
       "word": "undergraduate",
-      "meaning": "n. 本科生；adj. 大学的；本科的",
+      "meaning": "n. 本科生",
       "example": "Most undergraduates live in halls of residence during their first year.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "本科生"
+        }
+      ]
     },
     {
       "word": "postgraduate",
-      "meaning": "n. 研究生；adj. 研究生的",
+      "meaning": "n. 研究生",
       "example": "The department recruits around thirty postgraduates each autumn.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "研究生"
+        }
+      ]
     },
     {
       "word": "freshman",
-      "meaning": "n. 大一新生；新手",
+      "meaning": "n. 大一新生",
       "example": "The orientation week helps freshmen settle into campus life.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "大一新生"
+        }
+      ]
     },
     {
       "word": "alumnus",
-      "meaning": "n. 校友；男毕业生",
+      "meaning": "n. 男校友",
       "example": "The prize was funded by a distinguished alumnus of the college.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "男校友"
+        }
+      ]
     },
     {
       "word": "alumni",
-      "meaning": "n. 校友(复数)；毕业生",
+      "meaning": "n. 校友（复数）",
       "example": "The alumni network offers mentoring to recent graduates.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "校友（复数）"
+        }
+      ]
     },
     {
       "word": "campus",
-      "meaning": "n. 校园；校区",
+      "meaning": "n. 校园",
       "example": "The new sports centre is located on the north side of campus.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "校园"
+        }
+      ]
     },
     {
       "word": "orientation",
-      "meaning": "n. 入学指导；迎新；方向；定位",
+      "meaning": "n. 迎新活动；方向；定位",
       "example": "Orientation events introduce students to campus services and staff.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "迎新活动；方向；定位"
+        }
+      ]
     },
     {
       "word": "cram",
-      "meaning": "v. 临时抱佛脚；塞满；死记硬背",
+      "meaning": "v. 死记硬背；临时抱佛脚",
       "example": "Cramming the night before an exam rarely produces lasting knowledge.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "死记硬背；临时抱佛脚"
+        }
+      ]
     },
     {
       "word": "rote",
-      "meaning": "n. 死记硬背；机械记忆",
+      "meaning": "n. 死记硬背",
       "example": "Rote learning is still common in many primary school classrooms.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "死记硬背"
+        }
+      ]
     },
     {
       "word": "comprehend",
-      "meaning": "v. 理解；领会；包含",
+      "meaning": "v. 理解；领会",
       "example": "It took several readings to fully comprehend the dense theory.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "理解；领会"
+        }
+      ]
     },
     {
       "word": "comprehension",
-      "meaning": "n. 理解力；领悟；阅读理解",
+      "meaning": "n. 理解；理解力",
       "example": "Reading widely builds both vocabulary and comprehension.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "理解；理解力"
+        }
+      ]
     },
     {
       "word": "assimilate",
-      "meaning": "v. 吸收；掌握；同化",
+      "meaning": "v. 吸收；同化；理解",
       "example": "Learners need time to assimilate new grammatical structures.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "吸收；同化；理解"
+        }
+      ]
     },
     {
       "word": "retain",
-      "meaning": "v. 记忆；保留；保持",
+      "meaning": "v. 保持；保留；记住",
       "example": "Students retain more when they review notes at spaced intervals.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "保持；保留；记住"
+        }
+      ]
     },
     {
       "word": "retention",
-      "meaning": "n. 记忆力；保持；保留",
+      "meaning": "n. 保留；保持；记忆力",
       "example": "Active recall is a proven technique for improving retention.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "保留；保持；记忆力"
+        }
+      ]
     },
     {
       "word": "grasp",
-      "meaning": "v. 掌握；理解；抓住；n. 掌握；理解力",
+      "meaning": "v. 抓住；理解",
       "example": "She quickly grasped the underlying logic of the model.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "抓住；理解"
+        },
+        {
+          "pos": "n.",
+          "meaning": "掌握；理解力"
+        }
+      ]
     },
     {
       "word": "deadline",
       "meaning": "n. 截止日期；最后期限",
       "example": "The essay deadline has been extended to next Friday.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "截止日期；最后期限"
+        }
+      ]
     },
     {
       "word": "submit",
       "meaning": "v. 提交；呈递；屈服",
       "example": "All coursework must be submitted through the online portal.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "提交；呈递；屈服"
+        }
+      ]
     },
     {
       "word": "attendance",
-      "meaning": "n. 出勤；出席；出席人数",
+      "meaning": "n. 出席；出勤；出席人数",
       "example": "Regular attendance correlates strongly with final grades.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "出席；出勤；出席人数"
+        }
+      ]
     },
     {
       "word": "absent",
-      "meaning": "adj. 缺席的；不在的；心不在焉的",
+      "meaning": "adj. 缺席的；不在场的",
       "example": "Students who are absent must provide a medical certificate.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "缺席的；不在场的"
+        }
+      ]
     },
     {
       "word": "proficiency",
-      "meaning": "n. 熟练度；精通",
+      "meaning": "n. 熟练；精通",
       "example": "The test measures proficiency in academic English writing.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "熟练；精通"
+        }
+      ]
     },
     {
       "word": "proficient",
-      "meaning": "adj. 熟练的；精通的；n. 能手",
+      "meaning": "adj. 熟练的；精通的",
       "example": "By the third year she had become proficient in statistical software.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "熟练的；精通的"
+        }
+      ]
     },
     {
       "word": "semester",
-      "meaning": "n. 学期；半学年",
+      "meaning": "n. 学期",
       "example": "Each semester runs for twelve teaching weeks plus exams.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学期"
+        }
+      ]
     },
     {
       "word": "term",
-      "meaning": "n. 学期；术语；期限",
+      "meaning": "n. 学期；术语；条款",
       "example": "The spring term begins in the second week of January.",
-      "topic": "教育学习"
+      "topic": "教育学习",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学期；术语；条款"
+        }
+      ]
     },
     {
       "word": "essay",
-      "meaning": "n. 论文；短文",
+      "meaning": "n. 文章；短文；散文",
       "example": "The essay should present a clear and original argument.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "文章；短文；散文"
+        }
+      ]
     },
     {
       "word": "paper",
-      "meaning": "n. 论文；试卷；纸张",
+      "meaning": "n. 论文；报纸；纸张",
       "example": "She presented her research paper at an international conference.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "论文；报纸；纸张"
+        }
+      ]
     },
     {
       "word": "thesis",
-      "meaning": "n. 论文；论点；命题",
+      "meaning": "n. 论文；论点",
       "example": "Her doctoral thesis examined migration patterns in South-East Asia.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "论文；论点"
+        }
+      ]
     },
     {
       "word": "dissertation",
       "meaning": "n. 学位论文；专题论文",
       "example": "The undergraduate dissertation is worth a third of the final year.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "学位论文；专题论文"
+        }
+      ]
     },
     {
       "word": "hypothesis",
-      "meaning": "n. 假设；假说；前提",
+      "meaning": "n. 假设；假说",
       "example": "The experiment was designed to test their initial hypothesis.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "假设；假说"
+        }
+      ]
     },
     {
       "word": "methodology",
       "meaning": "n. 方法论；研究方法",
       "example": "The chapter on methodology justifies the choice of qualitative approach.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "方法论；研究方法"
+        }
+      ]
     },
     {
       "word": "method",
-      "meaning": "n. 方法；办法；条理",
+      "meaning": "n. 方法；办法",
       "example": "Researchers compared two teaching methods over a single term.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "方法；办法"
+        }
+      ]
     },
     {
       "word": "analyze",
       "meaning": "v. 分析；解析",
       "example": "The team will analyze the survey data using regression models.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "分析；解析"
+        }
+      ]
     },
     {
       "word": "analysis",
       "meaning": "n. 分析；解析",
       "example": "A thematic analysis revealed three recurring student concerns.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "分析；解析"
+        }
+      ]
     },
     {
       "word": "analytical",
-      "meaning": "adj. 分析的；解析的",
+      "meaning": "adj. 分析的；善于分析的",
       "example": "The course develops analytical as well as writing skills.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "分析的；善于分析的"
+        }
+      ]
     },
     {
       "word": "data",
       "meaning": "n. 数据；资料",
       "example": "The raw data are available in the appendix of the report.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "数据；资料"
+        }
+      ]
     },
     {
       "word": "statistic",
-      "meaning": "n. 统计数据；统计量",
+      "meaning": "n. 统计数值；统计数据",
       "example": "The statistic cited in the lecture came from a national survey.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "统计数值；统计数据"
+        }
+      ]
     },
     {
       "word": "statistical",
       "meaning": "adj. 统计的；统计学的",
       "example": "The difference between the two groups was statistically significant.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "统计的；统计学的"
+        }
+      ]
     },
     {
       "word": "survey",
-      "meaning": "n. 调查；民意测验；v. 调查；勘测",
+      "meaning": "n. 调查；民意测验",
       "example": "A recent survey polled undergraduates about their study habits.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "调查；民意测验"
+        },
+        {
+          "pos": "v.",
+          "meaning": "调查；勘测"
+        }
+      ]
     },
     {
       "word": "questionnaire",
       "meaning": "n. 问卷；调查表",
       "example": "Participants completed a short questionnaire after the session.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "问卷；调查表"
+        }
+      ]
     },
     {
       "word": "interview",
-      "meaning": "n. 访谈；面试；采访；v. 面试；采访",
+      "meaning": "n. 面试；访谈",
       "example": "The findings draw on semi-structured interviews with twenty students.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "面试；访谈"
+        },
+        {
+          "pos": "v.",
+          "meaning": "面试；采访"
+        }
+      ]
     },
     {
       "word": "sample",
-      "meaning": "n. 样本；样品；v. 抽样；采样",
+      "meaning": "n. 样本；样品",
       "example": "The sample consisted of five hundred randomly selected households.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "样本；样品"
+        },
+        {
+          "pos": "v.",
+          "meaning": "抽样；取样"
+        }
+      ]
     },
     {
       "word": "sampling",
-      "meaning": "n. 抽样；采样",
+      "meaning": "n. 抽样；取样",
       "example": "Random sampling helps ensure that results can be generalised.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "抽样；取样"
+        }
+      ]
     },
     {
       "word": "variable",
-      "meaning": "n. 变量；adj. 可变的；易变的",
+      "meaning": "n. 变量；可变因素",
       "example": "Income was treated as the independent variable in the model.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "变量；可变因素"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "可变的；易变的"
+        }
+      ]
     },
     {
       "word": "correlation",
-      "meaning": "n. 相关性；关联",
+      "meaning": "n. 相关性；相互关系",
       "example": "The study found a strong correlation between sleep and grades.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "相关性；相互关系"
+        }
+      ]
     },
     {
       "word": "phenomenon",
-      "meaning": "n. 现象；事件",
+      "meaning": "n. 现象",
       "example": "Grade inflation is a well-documented phenomenon in many universities.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "现象"
+        }
+      ]
     },
     {
       "word": "concept",
       "meaning": "n. 概念；观念",
       "example": "The lecturer introduced the concept of sustainable development.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "概念；观念"
+        }
+      ]
     },
     {
       "word": "conceptual",
-      "meaning": "adj. 概念的；观念的",
+      "meaning": "adj. 概念的；观念上的",
       "example": "The framework remains at a fairly conceptual level of detail.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "概念的；观念上的"
+        }
+      ]
     },
     {
       "word": "theory",
-      "meaning": "n. 理论；学说；观点",
+      "meaning": "n. 理论；学说",
       "example": "The paper challenges the prevailing theory of motivation.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "理论；学说"
+        }
+      ]
     },
     {
       "word": "theoretical",
       "meaning": "adj. 理论的；理论上的",
       "example": "The course balances theoretical study with hands-on practice.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "理论的；理论上的"
+        }
+      ]
     },
     {
       "word": "principle",
-      "meaning": "n. 原理；原则；信条",
+      "meaning": "n. 原则；原理",
       "example": "The design follows the same principles as earlier experiments.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "原则；原理"
+        }
+      ]
     },
     {
       "word": "framework",
-      "meaning": "n. 框架；体系；构架",
+      "meaning": "n. 框架；体系",
       "example": "The researchers proposed a new framework for analysing online learning.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "框架；体系"
+        }
+      ]
     },
     {
       "word": "paradigm",
-      "meaning": "n. 范式；典范；范例",
+      "meaning": "n. 范式；范例",
       "example": "The shift to remote teaching represented a new paradigm in education.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "范式；范例"
+        }
+      ]
     },
     {
       "word": "perspective",
-      "meaning": "n. 视角；观点；透视",
+      "meaning": "n. 观点；视角；透视法",
       "example": "The essay examines the issue from an economic perspective.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "观点；视角；透视法"
+        }
+      ]
     },
     {
       "word": "approach",
-      "meaning": "n. 方法；途径；v. 接近；着手处理",
+      "meaning": "n. 方法；途径；接近",
       "example": "The lecturer favours a problem-based approach to teaching.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "方法；途径；接近"
+        },
+        {
+          "pos": "v.",
+          "meaning": "接近；处理"
+        }
+      ]
     },
     {
       "word": "cite",
-      "meaning": "v. 引用；引述；举例",
+      "meaning": "v. 引用；引证；举例",
       "example": "Students must cite all sources used in their coursework.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "引用；引证；举例"
+        }
+      ]
     },
     {
       "word": "citation",
-      "meaning": "n. 引用；引文；引证",
+      "meaning": "n. 引用；引文；表彰",
       "example": "Each citation should follow the style guide exactly.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "引用；引文；表彰"
+        }
+      ]
     },
     {
       "word": "reference",
-      "meaning": "n. 参考文献；参考；v. 参考；引用",
+      "meaning": "n. 参考；引用；提及；推荐信",
       "example": "A full reference list must appear at the end of the dissertation.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "参考；引用；提及；推荐信"
+        },
+        {
+          "pos": "v.",
+          "meaning": "引用；参照"
+        }
+      ]
     },
     {
       "word": "bibliography",
-      "meaning": "n. 参考文献目录；参考书目",
+      "meaning": "n. 参考书目；文献目录",
       "example": "The annotated bibliography is due at the end of week six.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "参考书目；文献目录"
+        }
+      ]
     },
     {
       "word": "plagiarism",
       "meaning": "n. 剽窃；抄袭",
       "example": "Plagiarism is treated as a serious academic offence.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "剽窃；抄袭"
+        }
+      ]
     },
     {
       "word": "paraphrase",
-      "meaning": "v. 改写；释义；n. 释义；意译",
+      "meaning": "v. 释义；改写",
       "example": "You should paraphrase the source rather than copying it word for word.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "释义；改写"
+        },
+        {
+          "pos": "n.",
+          "meaning": "释义；改写"
+        }
+      ]
     },
     {
       "word": "quote",
-      "meaning": "v. 引述；引用；n. 引文",
+      "meaning": "v. 引用；报价",
       "example": "The author quotes extensively from primary archival material.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "引用；报价"
+        },
+        {
+          "pos": "n.",
+          "meaning": "引文；报价"
+        }
+      ]
     },
     {
       "word": "quotation",
-      "meaning": "n. 引文；引语；报价",
+      "meaning": "n. 引文；引用；报价",
       "example": "Keep direct quotation to a minimum in academic writing.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "引文；引用；报价"
+        }
+      ]
     },
     {
       "word": "draft",
-      "meaning": "n. 草稿；草案；v. 起草；草拟",
+      "meaning": "n. 草稿；草案；汇票",
       "example": "She submitted a first draft to her tutor for comment.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "草稿；草案；汇票"
+        },
+        {
+          "pos": "v.",
+          "meaning": "起草；草拟"
+        }
+      ]
     },
     {
       "word": "outline",
-      "meaning": "n. 大纲；提纲；轮廓；v. 概述",
+      "meaning": "n. 大纲；概要；轮廓",
       "example": "An outline helps organise ideas before drafting the essay.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "大纲；概要；轮廓"
+        },
+        {
+          "pos": "v.",
+          "meaning": "概述；勾勒"
+        }
+      ]
     },
     {
       "word": "summarize",
-      "meaning": "v. 总结；概述；概括",
+      "meaning": "v. 总结；概括",
       "example": "The abstract summarises the main findings in under two hundred words.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "总结；概括"
+        }
+      ]
     },
     {
       "word": "summary",
-      "meaning": "n. 总结；摘要；概要",
+      "meaning": "n. 摘要；总结",
       "example": "Write a brief summary of each chapter as you read.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "摘要；总结"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "简明的；概括的"
+        }
+      ]
     },
     {
       "word": "abstract",
-      "meaning": "n. 摘要；adj. 抽象的；理论的",
+      "meaning": "n. 摘要；抽象概念",
       "example": "The abstract should state the aim, method and main results.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "摘要；抽象概念"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "抽象的；理论的"
+        },
+        {
+          "pos": "v.",
+          "meaning": "提取；摘要"
+        }
+      ]
     },
     {
       "word": "conclude",
-      "meaning": "v. 得出结论；推断；结束",
+      "meaning": "v. 得出结论；结束；推断",
       "example": "The authors conclude that early intervention has clear benefits.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "得出结论；结束；推断"
+        }
+      ]
     },
     {
       "word": "conclusion",
-      "meaning": "n. 结论；推论；结束",
+      "meaning": "n. 结论；结束；推论",
       "example": "The conclusion restates the main argument of the essay.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "结论；结束；推论"
+        }
+      ]
     },
     {
       "word": "finding",
-      "meaning": "n. 研究发现；调查结果；裁决",
+      "meaning": "n. 发现；调查结果",
       "example": "The findings have implications for both policy and practice.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "发现；调查结果"
+        }
+      ]
     },
     {
       "word": "result",
-      "meaning": "n. 结果；成果；成绩；v. 导致；结果是",
+      "meaning": "n. 结果；成果；成绩",
       "example": "Results were consistent across three separate experiments.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "结果；成果；成绩"
+        },
+        {
+          "pos": "v.",
+          "meaning": "导致；产生"
+        }
+      ]
     },
     {
       "word": "outcome",
-      "meaning": "n. 结果；成果；后果",
+      "meaning": "n. 结果；结局",
       "example": "Educational outcomes vary widely between regions of the country.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "结果；结局"
+        }
+      ]
     },
     {
       "word": "significant",
-      "meaning": "adj. 显著的；重要的；有意义的",
+      "meaning": "adj. 重要的；显著的；有意义的",
       "example": "The improvement in scores was statistically significant.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "重要的；显著的；有意义的"
+        }
+      ]
     },
     {
       "word": "significance",
-      "meaning": "n. 显著性；意义；重要性",
+      "meaning": "n. 重要性；意义",
       "example": "The study discusses the practical significance of its findings.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "重要性；意义"
+        }
+      ]
     },
     {
       "word": "reveal",
-      "meaning": "v. 揭示；显示；透露",
+      "meaning": "v. 揭示；透露；显示",
       "example": "The survey revealed widespread dissatisfaction with cafeteria food.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "揭示；透露；显示"
+        }
+      ]
     },
     {
       "word": "demonstrate",
-      "meaning": "v. 证明；展示；示范",
+      "meaning": "v. 证明；演示；显示",
       "example": "The results demonstrate a clear link between study time and performance.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "证明；演示；显示"
+        }
+      ]
     },
     {
       "word": "indicate",
-      "meaning": "v. 表明；指示；象征",
+      "meaning": "v. 表明；指示；暗示",
       "example": "The data indicate a steady decline in library borrowing.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "表明；指示；暗示"
+        }
+      ]
     },
     {
       "word": "suggest",
-      "meaning": "v. 暗示；建议；表明",
+      "meaning": "v. 建议；暗示；表明",
       "example": "These findings suggest that peer feedback can aid learning.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "建议；暗示；表明"
+        }
+      ]
     },
     {
       "word": "imply",
-      "meaning": "v. 暗示；意味；含有…的意思",
+      "meaning": "v. 暗示；意味着",
       "example": "The report implies that funding has not kept pace with demand.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "暗示；意味着"
+        }
+      ]
     },
     {
       "word": "illustrate",
       "meaning": "v. 说明；阐明；举例说明",
       "example": "Two case studies are used to illustrate the main argument.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "说明；阐明；举例说明"
+        }
+      ]
     },
     {
       "word": "argue",
-      "meaning": "v. 论证；主张；争辩",
+      "meaning": "v. 争论；主张；论证",
       "example": "The author argues that smaller classes improve attainment.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "争论；主张；论证"
+        }
+      ]
     },
     {
       "word": "argument",
       "meaning": "n. 论点；论据；争论",
       "example": "The central argument rests on three pieces of evidence.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "论点；论据；争论"
+        }
+      ]
     },
     {
       "word": "claim",
-      "meaning": "n. 主张；索赔；v. 声称；索取",
+      "meaning": "v. 声称；主张；要求",
       "example": "Each claim must be supported by a credible source.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "声称；主张；要求"
+        },
+        {
+          "pos": "n.",
+          "meaning": "主张；声明；索赔"
+        }
+      ]
     },
     {
       "word": "evidence",
-      "meaning": "n. 证据；迹象；v. 证明",
+      "meaning": "n. 证据；迹象",
       "example": "The committee weighed the evidence before reaching its verdict.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "证据；迹象"
+        }
+      ]
     },
     {
       "word": "empirical",
-      "meaning": "adj. 经验的；实证的；基于观察的",
+      "meaning": "adj. 经验主义的；以实验为依据的",
       "example": "The paper draws on empirical data from three European countries.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "经验主义的；以实验为依据的"
+        }
+      ]
     },
     {
       "word": "qualitative",
       "meaning": "adj. 定性的；性质的",
       "example": "A qualitative study can capture nuance that numbers may miss.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "定性的；性质的"
+        }
+      ]
     },
     {
       "word": "quantitative",
       "meaning": "adj. 定量的；数量的",
       "example": "Quantitative methods allow researchers to test hypotheses formally.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "定量的；数量的"
+        }
+      ]
     },
     {
       "word": "research",
-      "meaning": "n. 研究；调查；v. 调查；研究",
+      "meaning": "n. 研究；调查",
       "example": "Her research focuses on language acquisition in young children.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "研究；调查"
+        },
+        {
+          "pos": "v.",
+          "meaning": "研究；调查"
+        }
+      ]
     },
     {
       "word": "investigate",
-      "meaning": "v. 调查；研究；审查",
+      "meaning": "v. 调查；研究",
       "example": "The team will investigate the impact of class size on results.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "调查；研究"
+        }
+      ]
     },
     {
       "word": "investigation",
-      "meaning": "n. 调查；研究；侦查",
+      "meaning": "n. 调查；研究",
       "example": "The investigation covered more than two thousand undergraduates.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "调查；研究"
+        }
+      ]
     },
     {
       "word": "explore",
-      "meaning": "v. 探索；探究；考察",
+      "meaning": "v. 探索；探讨；考察",
       "example": "The essay explores the relationship between poverty and attainment.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "探索；探讨；考察"
+        }
+      ]
     },
     {
       "word": "publish",
-      "meaning": "v. 发表；出版；公布",
+      "meaning": "v. 出版；发表；发布",
       "example": "The findings were published in a leading education journal.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "出版；发表；发布"
+        }
+      ]
     },
     {
       "word": "journal",
-      "meaning": "n. 学术期刊；日记；日志",
+      "meaning": "n. 期刊；杂志；日志",
       "example": "Submissions to the journal are reviewed by two anonymous referees.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "期刊；杂志；日志"
+        }
+      ]
     },
     {
       "word": "periodical",
-      "meaning": "n. 期刊；杂志；adj. 定期的",
+      "meaning": "n. 期刊；杂志",
       "example": "The library subscribes to over a hundred academic periodicals.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "期刊；杂志"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "定期的；周期性的"
+        }
+      ]
     },
     {
       "word": "literature",
-      "meaning": "n. 文献；文学；文学作品",
+      "meaning": "n. 文学；文献；著作",
       "example": "The review covers literature published in the last decade.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "文学；文献；著作"
+        }
+      ]
     },
     {
       "word": "peer review",
-      "meaning": "n. 同行评议；同行评审",
+      "meaning": "n. 同行评审；同行评议",
       "example": "Peer review helps maintain the quality of published research.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "同行评审；同行评议"
+        }
+      ]
     },
     {
       "word": "bias",
-      "meaning": "n. 偏见；偏心；v. 使有偏见",
+      "meaning": "n. 偏见；偏向",
       "example": "Researchers must disclose any potential sources of bias.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "偏见；偏向"
+        },
+        {
+          "pos": "v.",
+          "meaning": "使有偏见；影响"
+        }
+      ]
     },
     {
       "word": "objective",
-      "meaning": "adj. 客观的；n. 目标；目的",
+      "meaning": "adj. 客观的；公正的",
       "example": "Markers strive to be objective when grading unseen scripts.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "客观的；公正的"
+        },
+        {
+          "pos": "n.",
+          "meaning": "目标；目的"
+        }
+      ]
     },
     {
       "word": "validity",
-      "meaning": "n. 有效性；效度；合法性",
+      "meaning": "n. 有效性；合法性；正确性",
       "example": "The validity of the test was checked against a larger sample.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "有效性；合法性；正确性"
+        }
+      ]
     },
     {
       "word": "reliability",
-      "meaning": "n. 可靠性；信度；可信度",
+      "meaning": "n. 可靠性；可信度",
       "example": "Inter-rater reliability was high across all three markers.",
-      "topic": "课程学术"
+      "topic": "课程学术",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "可靠性；可信度"
+        }
+      ]
     },
     {
       "word": "diagnose",
       "meaning": "v. 诊断；判断",
       "example": "The doctor diagnosed the condition after a brief examination.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "诊断；判断"
+        }
+      ]
     },
     {
       "word": "diagnosis",
-      "meaning": "n. 诊断；判断",
+      "meaning": "n. 诊断；诊断结果",
       "example": "An early diagnosis greatly improves the chances of recovery.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "诊断；诊断结果"
+        }
+      ]
     },
     {
       "word": "diagnostic",
-      "meaning": "adj. 诊断的；特征的",
+      "meaning": "adj. 诊断的；用于诊断的",
       "example": "The hospital has upgraded its diagnostic imaging equipment.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "诊断的；用于诊断的"
+        }
+      ]
     },
     {
       "word": "symptom",
       "meaning": "n. 症状；征兆",
       "example": "Common symptoms include a high fever and a persistent cough.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "症状；征兆"
+        }
+      ]
     },
     {
       "word": "syndrome",
-      "meaning": "n. 综合征；综合症状",
+      "meaning": "n. 综合征；症候群",
       "example": "The condition is sometimes called chronic fatigue syndrome.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "综合征；症候群"
+        }
+      ]
     },
     {
       "word": "chronic",
       "meaning": "adj. 慢性的；长期的",
       "example": "He suffers from a chronic back condition that flares up in winter.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "慢性的；长期的"
+        }
+      ]
     },
     {
       "word": "acute",
-      "meaning": "adj. 急性的；剧烈的；敏锐的",
+      "meaning": "adj. 急性的；严重的；敏锐的",
       "example": "The patient was admitted with acute abdominal pain.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "急性的；严重的；敏锐的"
+        }
+      ]
     },
     {
       "word": "prescribe",
-      "meaning": "v. 开处方；嘱咐；规定",
+      "meaning": "v. 开处方；规定；指示",
       "example": "The doctor prescribed a course of antibiotics for the infection.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "开处方；规定；指示"
+        }
+      ]
     },
     {
       "word": "prescription",
-      "meaning": "n. 处方；药方",
+      "meaning": "n. 处方；药方；规定",
       "example": "Some prescriptions are only valid for a limited period.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "处方；药方；规定"
+        }
+      ]
     },
     {
       "word": "medication",
-      "meaning": "n. 药物治疗；药物",
+      "meaning": "n. 药物；药物治疗",
       "example": "Patients should complete the full course of medication.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "药物；药物治疗"
+        }
+      ]
     },
     {
       "word": "dose",
-      "meaning": "n. 剂量；一剂；v. 给…服药",
+      "meaning": "n. 剂量；一剂",
       "example": "Never exceed the recommended daily dose of painkillers.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "剂量；一剂"
+        },
+        {
+          "pos": "v.",
+          "meaning": "给…服药"
+        }
+      ]
     },
     {
       "word": "dosage",
-      "meaning": "n. 用量；剂量",
+      "meaning": "n. 剂量；用量",
       "example": "The correct dosage depends on the age and weight of the child.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "剂量；用量"
+        }
+      ]
     },
     {
       "word": "vaccine",
-      "meaning": "n. 疫苗；菌苗",
+      "meaning": "n. 疫苗",
       "example": "A new vaccine was rolled out ahead of the winter flu season.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "疫苗"
+        }
+      ]
     },
     {
       "word": "vaccinate",
-      "meaning": "v. 接种疫苗；打预防针",
+      "meaning": "v. 给…接种疫苗",
       "example": "All staff at the clinic are vaccinated against hepatitis.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "给…接种疫苗"
+        }
+      ]
     },
     {
       "word": "vaccination",
-      "meaning": "n. 疫苗接种；接种",
+      "meaning": "n. 接种疫苗；种痘",
       "example": "Childhood vaccination is offered free of charge at local clinics.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "接种疫苗；种痘"
+        }
+      ]
     },
     {
       "word": "immunity",
-      "meaning": "n. 免疫力；豁免；免除",
+      "meaning": "n. 免疫力；免疫性",
       "example": "Good nutrition helps maintain a healthy immune system and immunity.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "免疫力；免疫性"
+        }
+      ]
     },
     {
       "word": "immune",
-      "meaning": "adj. 免疫的；豁免的；不受影响的",
+      "meaning": "adj. 免疫的；有免疫力的",
       "example": "Stress can leave the body less able to fight off infection when immune function drops.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "免疫的；有免疫力的"
+        }
+      ]
     },
     {
       "word": "infection",
       "meaning": "n. 感染；传染病",
       "example": "The wound was cleaned to reduce the risk of infection.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "感染；传染病"
+        }
+      ]
     },
     {
       "word": "infect",
       "meaning": "v. 感染；传染",
       "example": "The virus can infect people of all age groups.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "感染；传染"
+        }
+      ]
     },
     {
       "word": "infectious",
-      "meaning": "adj. 传染性的；有感染力的",
+      "meaning": "adj. 传染的；有传染性的",
       "example": "Measles is among the most infectious diseases known.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "传染的；有传染性的"
+        }
+      ]
     },
     {
       "word": "contagious",
-      "meaning": "adj. 传染性的；有感染力的",
+      "meaning": "adj. 接触传染的；有传染性的",
       "example": "Patients remain contagious for several days after symptoms fade.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "接触传染的；有传染性的"
+        }
+      ]
     },
     {
       "word": "virus",
-      "meaning": "n. 病毒；病毒性疾病",
+      "meaning": "n. 病毒",
       "example": "The new strain of the virus spreads more easily than the old one.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "病毒"
+        }
+      ]
     },
     {
       "word": "bacteria",
       "meaning": "n. 细菌",
       "example": "Not all bacteria are harmful; many aid digestion.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "细菌"
+        }
+      ]
     },
     {
       "word": "antibiotic",
-      "meaning": "n. 抗生素；adj. 抗菌的",
+      "meaning": "n. 抗生素",
       "example": "Overuse of antibiotics can lead to resistant strains of bacteria.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "抗生素"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "抗菌的；抗生的"
+        }
+      ]
     },
     {
       "word": "antibody",
       "meaning": "n. 抗体",
       "example": "A blood test can detect antibodies to the virus.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "抗体"
+        }
+      ]
     },
     {
       "word": "patient",
-      "meaning": "n. 病人；adj. 有耐心的",
+      "meaning": "n. 病人；患者",
       "example": "Patients were asked to rate their experience at the clinic.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "病人；患者"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "有耐心的；能忍耐的"
+        }
+      ]
     },
     {
       "word": "outpatient",
       "meaning": "n. 门诊病人",
       "example": "Most outpatients attend the clinic once a week for treatment.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "门诊病人"
+        }
+      ]
     },
     {
       "word": "inpatient",
       "meaning": "n. 住院病人",
       "example": "The ward currently has twenty inpatients recovering from surgery.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "住院病人"
+        }
+      ]
     },
     {
       "word": "clinic",
       "meaning": "n. 诊所；门诊部",
       "example": "The university clinic offers free consultations to registered students.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "诊所；门诊部"
+        }
+      ]
     },
     {
       "word": "ward",
-      "meaning": "n. 病房；病区；v. 守卫",
+      "meaning": "n. 病房；病区",
       "example": "Visiting hours on the children's ward are strictly limited.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "病房；病区"
+        }
+      ]
     },
     {
       "word": "emergency",
-      "meaning": "n. 急诊；紧急情况；adj. 应急的",
+      "meaning": "n. 紧急情况；急诊",
       "example": "In an emergency, dial the local ambulance number at once.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "紧急情况；急诊"
+        }
+      ]
     },
     {
       "word": "surgeon",
-      "meaning": "n. 外科医生；军医",
+      "meaning": "n. 外科医生",
       "example": "The surgeon explained the risks before the operation.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "外科医生"
+        }
+      ]
     },
     {
       "word": "surgery",
-      "meaning": "n. 手术；外科；诊所",
+      "meaning": "n. 外科手术；手术室",
       "example": "He is recovering well after surgery on his knee.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "外科手术；手术室"
+        }
+      ]
     },
     {
       "word": "operation",
-      "meaning": "n. 手术；操作；运转",
+      "meaning": "n. 手术；操作；运作",
       "example": "The operation was carried out under local anaesthetic.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "手术；操作；运作"
+        }
+      ]
     },
     {
       "word": "treat",
-      "meaning": "v. 治疗；医治；对待；处理",
+      "meaning": "v. 治疗；对待；处理",
       "example": "The condition is usually treated with a short course of tablets.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "治疗；对待；处理"
+        },
+        {
+          "pos": "n.",
+          "meaning": "款待；乐事"
+        }
+      ]
     },
     {
       "word": "treatment",
-      "meaning": "n. 治疗；疗法；对待",
+      "meaning": "n. 治疗；处理；对待",
       "example": "Treatment is most effective when the disease is caught early.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "治疗；处理；对待"
+        }
+      ]
     },
     {
       "word": "therapy",
-      "meaning": "n. 疗法；治疗",
+      "meaning": "n. 治疗；疗法",
       "example": "Physical therapy helped her regain movement after the injury.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "治疗；疗法"
+        }
+      ]
     },
     {
       "word": "therapist",
       "meaning": "n. 治疗师；理疗师",
       "example": "The therapist sees each patient for one session a week.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "治疗师；理疗师"
+        }
+      ]
     },
     {
       "word": "cure",
-      "meaning": "n. 治愈；疗法；v. 治愈；医治",
+      "meaning": "v. 治愈；治疗",
       "example": "There is currently no known cure for the condition.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "治愈；治疗"
+        },
+        {
+          "pos": "n.",
+          "meaning": "疗法；治愈"
+        }
+      ]
     },
     {
       "word": "recover",
-      "meaning": "v. 康复；恢复；重新获得",
+      "meaning": "v. 恢复；康复；找回",
       "example": "Most patients recover fully within a couple of weeks.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "恢复；康复；找回"
+        }
+      ]
     },
     {
       "word": "recovery",
-      "meaning": "n. 康复；恢复；找回",
+      "meaning": "n. 恢复；康复；复苏",
       "example": "A full recovery can take several months of rest.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "恢复；康复；复苏"
+        }
+      ]
     },
     {
       "word": "heal",
-      "meaning": "v. 痊愈；治愈；愈合",
+      "meaning": "v. 愈合；治愈；使康复",
       "example": "The wound took longer than expected to heal completely.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "愈合；治愈；使康复"
+        }
+      ]
     },
     {
       "word": "examine",
-      "meaning": "v. 检查；审查；考查",
+      "meaning": "v. 检查；审查；考试",
       "example": "The doctor will examine your throat and listen to your chest.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "检查；审查；考试"
+        }
+      ]
     },
     {
       "word": "check-up",
       "meaning": "n. 体检；健康检查",
       "example": "An annual check-up can detect problems before they worsen.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "体检；健康检查"
+        }
+      ]
     },
     {
       "word": "scan",
-      "meaning": "n. 扫描；浏览；v. 扫描；细看",
+      "meaning": "n. 扫描；扫描检查",
       "example": "The scan showed no sign of further complications.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "扫描；扫描检查"
+        },
+        {
+          "pos": "v.",
+          "meaning": "扫描；浏览"
+        }
+      ]
     },
     {
       "word": "x-ray",
-      "meaning": "n. X 光；X 光片；v. 用 X 光检查",
+      "meaning": "n. X光；X光照片",
       "example": "An x-ray confirmed a small fracture in her wrist.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "X光；X光照片"
+        },
+        {
+          "pos": "v.",
+          "meaning": "用X光检查"
+        }
+      ]
     },
     {
       "word": "pulse",
-      "meaning": "n. 脉搏；脉冲；v. 搏动",
+      "meaning": "n. 脉搏；脉冲",
       "example": "The nurse checked his pulse and blood pressure on arrival.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "脉搏；脉冲"
+        }
+      ]
     },
     {
       "word": "blood pressure",
       "meaning": "n. 血压",
       "example": "High blood pressure often goes unnoticed without regular checks.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "血压"
+        }
+      ]
     },
     {
       "word": "fever",
-      "meaning": "n. 发烧；发热；狂热",
+      "meaning": "n. 发烧；发热",
       "example": "The child was kept at home until the fever had passed.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "发烧；发热"
+        }
+      ]
     },
     {
       "word": "cough",
-      "meaning": "n. 咳嗽；v. 咳嗽",
+      "meaning": "n. 咳嗽",
       "example": "A persistent cough lasting more than two weeks should be checked.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "咳嗽"
+        },
+        {
+          "pos": "v.",
+          "meaning": "咳嗽"
+        }
+      ]
     },
     {
       "word": "sore throat",
-      "meaning": "n. 喉咙痛；咽喉痛",
+      "meaning": "n. 喉咙痛",
       "example": "A sore throat is often the first sign of a cold.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "喉咙痛"
+        }
+      ]
     },
     {
       "word": "headache",
-      "meaning": "n. 头痛；令人头痛之事",
+      "meaning": "n. 头痛；令人头痛的事",
       "example": "She took a short break to ease a tension headache.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "头痛；令人头痛的事"
+        }
+      ]
     },
     {
       "word": "fatigue",
-      "meaning": "n. 疲劳；劳累；v. 使疲劳",
+      "meaning": "n. 疲劳；劳累",
       "example": "Persistent fatigue can sometimes signal an underlying illness.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "疲劳；劳累"
+        },
+        {
+          "pos": "v.",
+          "meaning": "使疲劳"
+        }
+      ]
     },
     {
       "word": "exhaustion",
       "meaning": "n. 精疲力竭；耗尽",
       "example": "He collapsed from exhaustion after days of little sleep.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "精疲力竭；耗尽"
+        }
+      ]
     },
     {
       "word": "dehydration",
-      "meaning": "n. 脱水；失水",
+      "meaning": "n. 脱水",
       "example": "Drink plenty of water during exercise to avoid dehydration.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "脱水"
+        }
+      ]
     },
     {
       "word": "allergy",
-      "meaning": "n. 过敏；过敏症；反感",
+      "meaning": "n. 过敏；过敏症",
       "example": "She carries an auto-injector because of a severe nut allergy.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "过敏；过敏症"
+        }
+      ]
     },
     {
       "word": "allergic",
-      "meaning": "adj. 过敏的；对…反感的",
+      "meaning": "adj. 过敏的；对…过敏的",
       "example": "He is allergic to pollen and sneezes throughout the spring.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "adj.",
+          "meaning": "过敏的；对…过敏的"
+        }
+      ]
     },
     {
       "word": "vitamin",
-      "meaning": "n. 维生素；维他命",
+      "meaning": "n. 维生素",
       "example": "Vitamin D helps the body absorb calcium from food.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "维生素"
+        }
+      ]
     },
     {
       "word": "protein",
-      "meaning": "n. 蛋白质；朊",
+      "meaning": "n. 蛋白质",
       "example": "Athletes often increase their protein intake during training.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "蛋白质"
+        }
+      ]
     },
     {
       "word": "metabolism",
-      "meaning": "n. 新陈代谢；代谢作用",
+      "meaning": "n. 新陈代谢",
       "example": "Regular exercise can raise the body's resting metabolism.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "新陈代谢"
+        }
+      ]
     },
     {
       "word": "hygiene",
       "meaning": "n. 卫生；卫生学",
       "example": "Good hand hygiene is one of the simplest ways to prevent infection.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "卫生；卫生学"
+        }
+      ]
     },
     {
       "word": "sanitation",
-      "meaning": "n. 卫生设施；环境卫生",
+      "meaning": "n. 公共卫生；环境卫生设施",
       "example": "Poor sanitation remains a major cause of disease in some regions.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "公共卫生；环境卫生设施"
+        }
+      ]
     },
     {
       "word": "epidemic",
-      "meaning": "n. 流行病；传染病；adj. 流行的",
+      "meaning": "n. 流行病；传染病",
       "example": "The flu epidemic placed enormous strain on local hospitals.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "流行病；传染病"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "流行性的；传染性的"
+        }
+      ]
     },
     {
       "word": "pandemic",
-      "meaning": "n. 大流行病；adj. 全流行的",
+      "meaning": "n. 大流行病；全球性流行病",
       "example": "The pandemic prompted a rapid shift to online learning worldwide.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "大流行病；全球性流行病"
+        },
+        {
+          "pos": "adj.",
+          "meaning": "大流行的；全球性的"
+        }
+      ]
     },
     {
       "word": "well-being",
-      "meaning": "n. 健康；福祉；幸福",
+      "meaning": "n. 幸福；健康；福祉",
       "example": "The university has invested in services that support student well-being.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "幸福；健康；福祉"
+        }
+      ]
     },
     {
       "word": "pharmacy",
       "meaning": "n. 药房；药店；药剂学",
       "example": "A prescription can be filled at the pharmacy next to the clinic.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "药房；药店；药剂学"
+        }
+      ]
     },
     {
       "word": "pharmacist",
-      "meaning": "n. 药剂师；药商",
+      "meaning": "n. 药剂师；药师",
       "example": "The pharmacist explained the possible side effects of the drug.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "药剂师；药师"
+        }
+      ]
     },
     {
       "word": "physician",
-      "meaning": "n. 医生；内科医生",
+      "meaning": "n. 内科医生；医师",
       "example": "Consult a physician before starting any new exercise programme.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "内科医生；医师"
+        }
+      ]
     },
     {
       "word": "monitor",
-      "meaning": "v. 监测；监控；追踪；n. 显示器；监视器",
+      "meaning": "v. 监测；监控",
       "example": "Doctors monitor the patient's progress at weekly intervals.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "v.",
+          "meaning": "监测；监控"
+        },
+        {
+          "pos": "n.",
+          "meaning": "显示器；监视器；监测员"
+        }
+      ]
     },
     {
       "word": "vital signs",
       "meaning": "n. 生命体征",
       "example": "A nurse records the patient's vital signs every two hours.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "生命体征"
+        }
+      ]
     },
     {
       "word": "prognosis",
-      "meaning": "n. 预后；预断",
+      "meaning": "n. 预后；预后判断",
       "example": "The prognosis is good provided treatment begins early.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "预后；预后判断"
+        }
+      ]
     },
     {
       "word": "relapse",
-      "meaning": "n. 复发；旧病复发；v. 复发；重新陷入",
+      "meaning": "n. 复发；旧病复发",
       "example": "The patient suffered a relapse and was readmitted to hospital.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "复发；旧病复发"
+        },
+        {
+          "pos": "v.",
+          "meaning": "复发；重新陷入（不良状态）"
+        }
+      ]
     },
     {
       "word": "intake",
-      "meaning": "n. 摄入；吸入；招收人数",
+      "meaning": "n. 摄入量；吸入量；招收人数",
       "example": "The doctor advised reducing his daily intake of caffeine.",
-      "topic": "医疗就医"
+      "topic": "医疗就医",
+      "senses": [
+        {
+          "pos": "n.",
+          "meaning": "摄入量；吸入量；招收人数"
+        }
+      ]
     }
   ]
 }
