@@ -204,8 +204,9 @@ export default function PopupCard(): ReactElement | null {
             <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
           </div>
         ) : (
-          // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切
-          <div className="max-h-full overflow-y-auto">
+          // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切。
+          // popup-scroll 自定义细滚动条：currentColor=主题 accentText，换肤自动跟随
+          <div className={`popup-scroll max-h-full overflow-y-auto ${theme.accentText}`}>
             <div className="text-2xl font-semibold text-slate-800">{item.word}</div>
             {forgotCount > 0 && (
               <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
@@ -231,7 +232,7 @@ export default function PopupCard(): ReactElement | null {
               {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
             </button>
             {exampleOpen && (
-              <div className="mt-1 max-h-28 overflow-y-auto text-base leading-relaxed text-slate-600">
+              <div className="popup-scroll mt-1 max-h-28 overflow-y-auto text-base leading-relaxed text-slate-600">
                 {item.example}
               </div>
             )}

@@ -22,3 +22,25 @@ body {
 .popup-enter {
   animation: popup-enter 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* 弹窗滚动条融入主题：5px 细条 + 圆头，颜色取 currentColor 的 30% 透明
+   （滚动容器带主题 accentText 类 → 换主题自动跟随；hover 加深到 55%），
+   轨道全透明——默认灰色粗条在精致卡片上太出戏。
+   color-mix 需要 Chromium 111+，Electron 40 远满足。 */
+.popup-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, currentColor 30%, transparent) transparent;
+}
+.popup-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.popup-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.popup-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 9999px;
+}
+.popup-scroll::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, currentColor 55%, transparent);
+}
