@@ -11,3 +11,19 @@ body {
 .word-font {
   font-family: Georgia, 'Times New Roman', serif;
 }
+
+/* 弹窗入场：轻微上浮 + 淡入 + 微缩放回弹（0.28s 短促，被动弹窗不打扰是底线）。
+   挂在卡片根容器，配合 React key=词id 重挂载实现"每弹一窗播一次"。 */
+@keyframes popup-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.popup-enter {
+  animation: popup-enter 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}

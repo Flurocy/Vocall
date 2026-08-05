@@ -159,91 +159,118 @@ export default function PopupCard(): ReactElement | null {
   // 卡片内按钮必须拦住 mousedown，避免从按钮起手误触拖拽/翻卡
   const stopMouseDown = (e: ReactMouseEvent): void => e.stopPropagation()
 
+  // 卡片壳（正反面共用）：backface-hidden 是 3D 翻卡的关键——转到背面时正面不可见
+  const faceCls =
+    `absolute inset-0 flex flex-col justify-center overflow-hidden rounded-2xl border border-black/15 ` +
+    `${theme.bgCard} p-5 shadow-2xl backdrop-blur-md backface-hidden`
+  const badge = (
+    <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
+      {payload.preview ? '外观预览' : `已连续答对 ${Math.min(repetitions, passCount)}/${passCount}`}
+    </div>
+  )
+  const glow = (
+    <div
+      className="pointer-events-none absolute inset-x-0 top-0 h-24"
+      style={{ background: `radial-gradient(80% 100% at 50% 0%, ${theme.glow}, transparent 75%)` }}
+    />
+  )
+
   return (
     // rem 基准已在根 html 固定 16px（见上方 useEffect），此处不再 inline fontSize；
     // zoom 整体缩放弹窗内容（字+布局），不动窗口尺寸、不连 rem 胀间距——弹窗字体只由它决定。
     // zoom 是 Chromium 标准化的布局级缩放（Electron 40 支持），元素重排、不糊不位移。
-    <div className="m-0 flex h-full w-full items-center justify-center bg-transparent" style={{ zoom: fontScale }}>
-      <div
-        onMouseDown={onCardMouseDown}
-        className={`relative flex h-full w-full select-none flex-col justify-center overflow-hidden rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
-      >
-        {/* 卡片顶部氛围光：同主题径向微渐变，卡片与主题背景的呼应（overflow-hidden 收圆角） */}
+    // key=词id+预览标记：换新词/进预览时重挂载，popup-enter 入场动画重放；
+    // 预览拖动中 payload 反复更新但 key 不变，不会反复播动画。
+    <div
+      key={`${item.id}-${payload.preview ? 'p' : 'r'}`}
+      className="popup-enter m-0 flex h-full w-full items-center justify-center bg-transparent"
+      style={{ zoom: fontScale }}
+    >
+      {/* 3D 翻卡：perspective 容器 + preserve-3d 翻转体，inline rotateY 驱动过渡。
+          正反面是两个绝对定位的 face，背面预旋转 180°；点正面 → 整体翻 180° 露出背面 */}
+      <div className="h-full w-full [perspective:1200px]">
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-24"
-          style={{ background: `radial-gradient(80% 100% at 50% 0%, ${theme.glow}, transparent 75%)` }}
-        />
-        <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
-          {payload.preview ? '外观预览' : `已连续答对 ${Math.min(repetitions, passCount)}/${passCount}`}
-        </div>
-        {face === 'front' ? (
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className="flex items-center justify-center gap-2">
-              <span className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</span>
-              {/* 🔊 朗读：次要图标按钮，stopMouseDown 防误触翻卡/拖拽（同评分按钮模式） */}
+          onMouseDown={onCardMouseDown}
+          className="relative h-full w-full select-none transition-transform duration-500 ease-out [transform-style:preserve-3d]"
+          style={{ transform: face === 'back' ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+        >
+          {/* —— 正面：单词 + 朗读 + 翻卡提示 —— */}
+          <div className={faceCls}>
+            {glow}
+            {badge}
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="flex items-center justify-center gap-2">
+                <span className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</span>
+                {/* 🔊 朗读：次要图标按钮，stopMouseDown 防误触翻卡/拖拽（同评分按钮模式） */}
+                <button
+                  onMouseDown={stopMouseDown}
+                  onClick={() => void playWord(item.word)}
+                  title="朗读"
+                  aria-label={`朗读 ${item.word}`}
+                  className="text-slate-400 transition hover:text-slate-600"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5 6 9H3v6h3l5 4z" />
+                    <path d="M16 9a3 3 0 0 1 0 6" />
+                    <path d="M19 6a7 7 0 0 1 0 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
+            </div>
+          </div>
+
+          {/* —— 背面（预旋转 180°）：义项/释义 + 例句 + 评分 + 已掌握 —— */}
+          <div className={`${faceCls} [transform:rotateY(180deg)]`}>
+            {glow}
+            {badge}
+            {/* 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切 */}
+            <div className="max-h-full overflow-y-auto">
+              <div className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</div>
+              {forgotCount > 0 && (
+                <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
+              )}
+              {shownSenses && shownSenses.length > 0 ? (
+                // 勾选义项列表：词性小标签 + 释义；最多 3 条（勾选上限），超高由外层滚动兜底
+                <div className="mt-1 space-y-1">
+                  {shownSenses.map((s, i) => (
+                    <div key={i} className={`text-xl font-semibold ${theme.accentText}`}>
+                      <span className="mr-1.5 text-sm font-normal text-slate-400">{s.pos}</span>
+                      {s.meaning}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
+              )}
               <button
                 onMouseDown={stopMouseDown}
-                onClick={() => void playWord(item.word)}
-                title="朗读"
-                aria-label={`朗读 ${item.word}`}
-                className="text-slate-400 transition hover:text-slate-600"
+                onClick={() => setExampleOpen((v) => !v)}
+                className="mt-2 text-sm text-slate-500 hover:text-slate-800"
               >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M11 5 6 9H3v6h3l5 4z" />
-                  <path d="M16 9a3 3 0 0 1 0 6" />
-                  <path d="M19 6a7 7 0 0 1 0 12" />
-                </svg>
+                {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
+              </button>
+              {exampleOpen && (
+                <div className="word-font mt-1 max-h-28 overflow-y-auto text-base italic leading-relaxed text-slate-600">
+                  {item.example}
+                </div>
+              )}
+              <div className="mt-4 flex gap-2">
+                <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 transition hover:bg-rose-500/25 active:scale-95">😵 忘了</button>
+                <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 transition hover:bg-amber-500/25 active:scale-95">🤔 有点印象</button>
+                <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-2 text-base font-semibold transition active:scale-95 ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
+              </div>
+              {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}
+              <button
+                onMouseDown={stopMouseDown}
+                onClick={() => void master()}
+                className="mt-2 w-full rounded-md border border-slate-300/70 py-1.5 text-sm text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700 active:scale-[0.98]"
+              >
+                标为已掌握（不再弹出）
               </button>
             </div>
-            <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
           </div>
-        ) : (
-          // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切
-          <div className="max-h-full overflow-y-auto">
-            <div className="word-font text-2xl font-semibold tracking-wide text-slate-800">{item.word}</div>
-            {forgotCount > 0 && (
-              <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
-            )}
-            {shownSenses && shownSenses.length > 0 ? (
-              // 勾选义项列表：词性小标签 + 释义；最多 3 条（勾选上限），超高由外层滚动兜底
-              <div className="mt-1 space-y-1">
-                {shownSenses.map((s, i) => (
-                  <div key={i} className={`text-xl font-semibold ${theme.accentText}`}>
-                    <span className="mr-1.5 text-sm font-normal text-slate-400">{s.pos}</span>
-                    {s.meaning}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
-            )}
-            <button
-              onMouseDown={stopMouseDown}
-              onClick={() => setExampleOpen((v) => !v)}
-              className="mt-2 text-sm text-slate-500 hover:text-slate-800"
-            >
-              {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
-            </button>
-            {exampleOpen && (
-              <div className="word-font mt-1 max-h-28 overflow-y-auto text-base italic leading-relaxed text-slate-600">
-                {item.example}
-              </div>
-            )}
-            <div className="mt-4 flex gap-2">
-              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 hover:bg-rose-500/25">😵 忘了</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 hover:bg-amber-500/25">🤔 有点印象</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-2 text-base font-semibold ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
-            </div>
-            {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}
-            <button
-              onMouseDown={stopMouseDown}
-              onClick={() => void master()}
-              className="mt-2 w-full rounded-md border border-slate-300/70 py-1.5 text-sm text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700"
-            >
-              标为已掌握（不再弹出）
-            </button>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   )
