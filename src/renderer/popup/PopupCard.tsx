@@ -135,6 +135,14 @@ export default function PopupCard(): ReactElement | null {
   if (!payload) return null
   const { item, repetitions, passCount, forgotCount } = payload
 
+  // 一词多义：用户勾选了义项（selectedSenses）且词带 senses → 背面按勾选义项列表显示（带词性）；
+  // 否则回退默认义项 meaning（旧词/未勾选/单义词，展示与从前完全一致）。
+  // 防御：下标越界（数据异常）的过滤掉；过滤后为空也回退 meaning。
+  const shownSenses =
+    item.senses && item.selectedSenses && item.selectedSenses.length > 0
+      ? item.selectedSenses.filter((i) => i >= 0 && i < item.senses!.length).map((i) => item.senses![i])
+      : null
+
   const send = (g: 0 | 1 | 2): void => {
     void window.vocall.grade(item.id, g)
     window.vocall.dismiss()
@@ -190,7 +198,19 @@ export default function PopupCard(): ReactElement | null {
             {forgotCount > 0 && (
               <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
             )}
-            <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
+            {shownSenses && shownSenses.length > 0 ? (
+              // 勾选义项列表：词性小标签 + 释义；最多 3 条（勾选上限），超高由外层滚动兜底
+              <div className="mt-1 space-y-1">
+                {shownSenses.map((s, i) => (
+                  <div key={i} className={`text-xl font-semibold ${theme.accentText}`}>
+                    <span className="mr-1.5 text-sm font-normal text-slate-400">{s.pos}</span>
+                    {s.meaning}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
+            )}
             <button
               onMouseDown={stopMouseDown}
               onClick={() => setExampleOpen((v) => !v)}
