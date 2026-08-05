@@ -14,6 +14,13 @@ export interface AiCallOptions {
   temperature?: number
   /** 超时毫秒，默认 60s。推理模型思考慢，给足；超时抛错避免 UI 永远"测试中" */
   timeoutMs?: number
+  /**
+   * 关闭思考模式（省 token + 提速）：翻译这类简单任务用。写死按场景区分——
+   * translateVocab / 测试连接传 true，generateThemeVocab 不传（主题生成保留思考保质量）。
+   * 注意：DeepSeek 关思考的正确姿势是 thinking:{type:'disabled'}；
+   * 不能用 reasoning_effort:'none'（非官方参数，会 400）。
+   */
+  disableThinking?: boolean
 }
 
 export interface AiConfig {
@@ -60,6 +67,8 @@ export async function callDeepseek(cfg: AiConfig, opts: AiCallOptions): Promise<
         max_tokens: opts.maxTokens ?? 1024,
         temperature: opts.temperature ?? 0.7,
         stream: false,
+        // 关思考（翻译/测试连接等简单任务省 token）：DeepSeek 官方参数 thinking:{type:'disabled'}
+        ...(opts.disableThinking ? { thinking: { type: 'disabled' } } : {}),
       }),
       signal: controller.signal,
     })
@@ -244,6 +253,7 @@ export async function generateThemeVocab(theme: string, n = 30): Promise<VocabEn
 /**
  * 生词 AI 翻译：AI 返回 {meaning, example}（预览，不入库——前端填入新增卡片供用户过目修改）。
  * maxTokens 4000（单词翻译远够；统一上限留余量，成本忽略）。
+ * disableThinking：翻译是简单任务，写死关思考——省 token + 出词更快（主题生成则保留思考）。
  */
 export async function translateVocab(word: string): Promise<Translation> {
   if (!word.trim()) throw new Error('词不能为空')
@@ -255,6 +265,7 @@ export async function translateVocab(word: string): Promise<Translation> {
     maxTokens: 4000,
     temperature: 0.7,
     timeoutMs: 90_000,
+    disableThinking: true,
   })
   return parseVocabObject(text)
 }

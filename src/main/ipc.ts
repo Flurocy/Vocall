@@ -81,7 +81,7 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     try {
       const cfg = getAiConfig()
       if (!cfg.apiKey) return { ok: false, message: '请先填写 API key' }
-      await callDeepseek(cfg, { user: '回复"ok"两个字即可', maxTokens: 128, temperature: 0, timeoutMs: 90_000 })
+      await callDeepseek(cfg, { user: '回复"ok"两个字即可', maxTokens: 128, temperature: 0, timeoutMs: 90_000, disableThinking: true })
       return { ok: true, message: `连接成功（${cfg.model}）` }
     } catch (err) {
       return { ok: false, message: err instanceof Error ? err.message : String(err) }
