@@ -348,6 +348,22 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
           <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="释义 放弃；抛弃" className={inputCls} />
           <input value={example} onChange={(e) => setExample(e.target.value)} placeholder="雅思例句（可选）" className={inputCls} />
         </div>
+        {/* AI 翻译带回的全部义项：添加前过目（只读）。默认义项 = 释义框内容（= 义项①）；
+            入库后在词条「义项」面板勾选弹窗要显示哪些（最多 3 个） */}
+        {aiSenses && aiSenses.length > 0 && (
+          <div className="mt-3 rounded-lg border border-black/5 bg-black/[0.02] px-3 py-2">
+            <div className="mb-1 text-xs text-slate-500">AI 给出的全部义项（第 1 个为默认义项）：</div>
+            <ul className="space-y-1">
+              {aiSenses.map((s, i) => (
+                <li key={i} className="flex items-baseline gap-2 text-sm">
+                  <span className="shrink-0 text-slate-400">{s.pos}</span>
+                  <span className="text-slate-700">{s.meaning}</span>
+                  {i === 0 && <span className="text-xs text-slate-400">← 默认</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div className="mt-3 flex items-center justify-end gap-3">
           {aiMsg && (
             <span
