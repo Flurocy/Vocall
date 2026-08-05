@@ -25,6 +25,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [example, setExample] = useState('')
   const [checked, setChecked] = useState<Set<number>>(new Set()) // 批量勾选
   const [aiGenOpen, setAiGenOpen] = useState(false) // AI 主题生成 modal 开关
+  // 一词多义：展开了义项面板的词条 id 集合（仅 senses.length>1 的词有此面板）
+  const [sensesOpen, setSensesOpen] = useState<Set<number>>(new Set())
+  // 义项勾选达上限/下限的一次性提示（inline，几秒后由用户下次操作覆盖）
+  const [senseMsg, setSenseMsg] = useState<string | null>(null)
   // AI 翻译（功能 B）：word 框旁小按钮调 translate，结果填回 meaning/example，用户过目后复用现有「新增生词」入库。
   // usedAi：本次 add 是否源自 AI 翻译（用户改 word 视作换词，清除标记；改 meaning/example 不清——微调 AI 结果仍算 AI 翻译）。
   const [aiTranslating, setAiTranslating] = useState(false)
@@ -85,6 +89,40 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     await reload()
   }
 
+  // —— 一词多义：义项勾选（最多 3 个在弹窗显示；最少保 1 个）——
+  // 选中集语义：selectedSenses 为空（undefined）时默认只显示第 1 个义项（=meaning 默认义项），
+  // 一旦用户动过勾选就落显式数组。保存走现有 vocab:update，主进程零改动。
+  const MAX_SELECTED_SENSES = 3
+  const currentSelection = (e: VocabItem): number[] =>
+    e.selectedSenses && e.selectedSenses.length > 0 ? [...e.selectedSenses] : [0]
+
+  const toggleSense = async (e: VocabItem, idx: number): Promise<void> => {
+    if (!e.senses) return
+    const sel = currentSelection(e)
+    const has = sel.includes(idx)
+    if (has && sel.length === 1) {
+      setSenseMsg('至少保留 1 个义项在弹窗显示')
+      return
+    }
+    if (!has && sel.length >= MAX_SELECTED_SENSES) {
+      setSenseMsg(`最多选 ${MAX_SELECTED_SENSES} 个义项（防弹窗臃肿），先取消一个再选`)
+      return
+    }
+    setSenseMsg(null)
+    const next = has ? sel.filter((i) => i !== idx) : [...sel, idx].sort((a, b) => a - b)
+    await window.vocall.updateVocab(e.id, { selectedSenses: next })
+    // 乐观更新本地列表（不整页 reload，保住滚动位置与面板展开态）
+    setList((ls) => ls.map((it) => (it.id === e.id ? { ...it, selectedSenses: next } : it)))
+  }
+
+  const toggleSensesOpen = (id: number): void => {
+    setSensesOpen((s) => {
+      const ns = new Set(s)
+      if (ns.has(id)) ns.delete(id); else ns.add(id)
+      return ns
+    })
+  }
+
   // 复活：mastered 词回到 learning 队列立即可弹（生词库内单条操作）
   const revive = async (id: number): Promise<void> => {
     await window.vocall.revive(id)
@@ -141,59 +179,114 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
 
   // 单行渲染抽出来：三段共用，mastered 段通过 action 注入「重新背」按钮。
   // 右侧操作组整体 group-hover 显示，避免每段视觉不一致。
-  const row = (e: VocabItem, action?: ReactElement): ReactElement => (
-    <li
-      key={e.id}
-      className="group flex items-center justify-between rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
-    >
-      <div className="flex min-w-0 items-center gap-3">
-        <input
-          type="checkbox"
-          checked={checked.has(e.id)}
-          onChange={() => toggle(e.id)}
-          className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
-        />
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="font-medium text-slate-800">{e.word}</span>
-            <button
-              onClick={() => void playWord(e.word)}
-              aria-label={`朗读 ${e.word}`}
-              title="朗读"
-              className="shrink-0 text-slate-400 transition hover:text-slate-600"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 5 6 9H3v6h3l5 4z" />
-                <path d="M16 9a3 3 0 0 1 0 6" />
-                <path d="M19 6a7 7 0 0 1 0 12" />
-              </svg>
-            </button>
-            <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
-              {statusBadge(e.status).label}
-            </span>
-            {(forgotMap[e.id] ?? 0) > 0 && (
-              <span className="shrink-0 rounded-full bg-rose-500/10 px-1.5 py-0.5 text-[10px] text-rose-600">
-                已忘{forgotMap[e.id]}
-              </span>
-            )}
-            <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
+  // 多义项词（senses.length>1）带「多义项」展开钮：点开出义项勾选面板（勾选弹窗要显示的义项）。
+  const row = (e: VocabItem, action?: ReactElement): ReactElement => {
+    const hasSenses = !!e.senses && e.senses.length > 1
+    const open = sensesOpen.has(e.id)
+    const sel = hasSenses ? currentSelection(e) : []
+    return (
+      <li
+        key={e.id}
+        className="group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:bg-white/80 hover:shadow"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex min-w-0 items-center gap-3">
+            <input
+              type="checkbox"
+              checked={checked.has(e.id)}
+              onChange={() => toggle(e.id)}
+              className={`h-4 w-4 shrink-0 ${theme.accentColor}`}
+            />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-slate-800">{e.word}</span>
+                <button
+                  onClick={() => void playWord(e.word)}
+                  aria-label={`朗读 ${e.word}`}
+                  title="朗读"
+                  className="shrink-0 text-slate-400 transition hover:text-slate-600"
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5 6 9H3v6h3l5 4z" />
+                    <path d="M16 9a3 3 0 0 1 0 6" />
+                    <path d="M19 6a7 7 0 0 1 0 12" />
+                  </svg>
+                </button>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${statusBadge(e.status).cls}`}>
+                  {statusBadge(e.status).label}
+                </span>
+                {(forgotMap[e.id] ?? 0) > 0 && (
+                  <span className="shrink-0 rounded-full bg-rose-500/10 px-1.5 py-0.5 text-[10px] text-rose-600">
+                    已忘{forgotMap[e.id]}
+                  </span>
+                )}
+                <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
+              </div>
+              {e.example ? (
+                <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
+              ) : null}
+            </div>
           </div>
-          {e.example ? (
-            <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
-          ) : null}
+          <div className="ml-4 flex shrink-0 items-center gap-1">
+            {/* 多义项入口：常显（是功能入口不是低频操作），其余操作仍 group-hover */}
+            {hasSenses && (
+              <button
+                onClick={() => toggleSensesOpen(e.id)}
+                className={`rounded-md px-2 py-1 text-xs transition ${
+                  open ? `${theme.accentBg} ${theme.accentText}` : 'text-slate-400 hover:bg-black/5 hover:text-slate-600'
+                }`}
+              >
+                {open ? '▾ 义项' : `▸ 义项×${e.senses!.length}`}
+              </button>
+            )}
+            <div className="flex items-center gap-1 opacity-0 transition group-hover:opacity-100">
+              {action}
+              <button
+                onClick={() => void remove(e.id)}
+                className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-rose-500/10 hover:text-rose-600"
+              >
+                删除
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="ml-4 flex shrink-0 items-center gap-1 opacity-0 transition group-hover:opacity-100">
-        {action}
-        <button
-          onClick={() => void remove(e.id)}
-          className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-rose-500/10 hover:text-rose-600"
-        >
-          删除
-        </button>
-      </div>
-    </li>
-  )
+        {/* 义项勾选面板：勾选要在弹窗显示的义项（1~3 个）。默认仅第 1 个（=默认义项） */}
+        {hasSenses && open && (
+          <div className="mt-3 rounded-lg bg-black/[0.03] px-3 py-2.5">
+            <p className="mb-2 text-xs text-slate-500">
+              勾选要在弹窗显示的义项（最多 {MAX_SELECTED_SENSES} 个）：
+              {senseMsg && <span className="ml-2 text-rose-600">{senseMsg}</span>}
+            </p>
+            <ul className="space-y-1.5">
+              {e.senses!.map((s, i) => {
+                const checkedSense = sel.includes(i)
+                const disableCheck = !checkedSense && sel.length >= MAX_SELECTED_SENSES
+                return (
+                  <li key={i}>
+                    <label
+                      className={`flex items-baseline gap-2 text-sm ${
+                        disableCheck ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checkedSense}
+                        disabled={disableCheck}
+                        onChange={() => void toggleSense(e, i)}
+                        className={`h-3.5 w-3.5 shrink-0 self-center ${theme.accentColor}`}
+                      />
+                      <span className="shrink-0 text-slate-400">{s.pos}</span>
+                      <span className="text-slate-700">{s.meaning}</span>
+                    </label>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
+      </li>
+    )
+  }
 
   return (
     <div className="mx-auto max-w-2xl">
