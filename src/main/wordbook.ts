@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { addVocabBatch, listVocab, hardDeleteVocab } from './vocab'
 import type { Sense } from '../shared/ipc-types'
-import { trashBox } from './store'
+import { trashBox, vocabBox } from './store'
 import { resolveResource } from './paths'
 
 // 词书：预生成的 JSON 词表（data/wordbooks/*.json），加入学习计划即批量进 new 状态。
@@ -89,4 +89,27 @@ export function addWordsToPlan(bookId: string, words: string[]): number {
   const wanted = new Set(words)
   const toAdd = book.words.filter((w) => wanted.has(w.word))
   return addVocabBatch(toAdd.map((w) => ({ ...w, book: bookId, status: 'new' as const, source: '词书' })))
+}
+
+// —— 一词多义迁移（阶段2b）——
+// 词书经 scripts/gen-senses.mjs AI 翻新带 senses 后，把【已入库】的词书词按词匹配补齐：
+// 补 senses 数组 + 刷新 meaning 为词书翻新后的默认义项。只动 book!=null 且 senses 还空的词；
+// 手动/AI 词（book=null）无词书 backing 不动（它们的多义由 translateVocab 生成时带入）。
+// 幂等可重复跑（已有 senses 跳过）；词书 JSON 还没翻新时自然全跳过（无 senses 可补）。
+export function migrateSensesFromWordbooks(books: WordbookFile[] = allBooks()): number {
+  const norm = (s: string): string => s.trim().toLowerCase()
+  const byWord = new Map<string, { meaning: string; senses?: Sense[] }>()
+  for (const b of books) {
+    for (const w of b.words) byWord.set(norm(w.word), w)
+  }
+  let changed = 0
+  const next = vocabBox.get().map((v) => {
+    if (!v.book || (v.senses && v.senses.length > 0)) return v // 非词书词/已有多义项 → 不动
+    const w = byWord.get(norm(v.word))
+    if (!w?.senses || w.senses.length === 0) return v
+    changed++
+    return { ...v, senses: w.senses, meaning: w.meaning }
+  })
+  if (changed > 0) vocabBox.set(next) // 一次写盘（非逐词）
+  return changed
 }

@@ -10,6 +10,7 @@ import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
 import { migrateVocabStatus, migrateSrsToPop, migrateForgotCount } from './store'
 import { migrateReviewSteps, migratePopupInterval } from './settings'
+import { migrateSensesFromWordbooks } from './wordbook'
 
 // 窗口引用提升为模块级：托盘「打开」需要找回管理窗口，退出清理需要销毁弹窗
 let managerWin: BrowserWindow | null = null
@@ -80,6 +81,9 @@ app.whenReady().then(() => {
   migrateForgotCount() // 旧 SRS 状态补 forgotCount=0（幂等）
   migrateReviewSteps() // review_steps_pops 旧默认 → 新默认（幂等；用户自定义不动）
   migratePopupInterval() // 旧 popup_interval_min(分钟) → popup_interval_sec(秒，×60)；幂等
+  // 一词多义：词书 AI 翻新后，给已入库的词书词补 senses + 刷新 meaning（幂等；
+  // 词书 JSON 未翻新时自然全跳过）。只动 book!=null 的词书词，与 seed（book=null）无交集。
+  migrateSensesFromWordbooks()
   // 兜底 catch：seed 任何意外（如回收站撞词之外的异常）都不能炸断后面
   // registerIpc/建窗/引擎/托盘的启动链——否则表现为"双击没反应"。
   let seeded = 0
