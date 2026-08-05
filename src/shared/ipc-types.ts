@@ -71,10 +71,13 @@ export interface VocallApi {
   // fuzzy_gap_pops/learning_step_pops/review_steps_pops），外观/音效/AI 不动
   resetElasticSettings(): Promise<void>
   onShow(cb: (expr: VocabItem) => void): void
+  // 真词显示时拖"弹窗字体"滑块的实时倍率消息（临时值，不提交设置）
+  onFontScale(cb: (v: number) => void): void
   getCurrent(): Promise<PopupPayload | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
-  // 外观预览：设置页拖滑块实时预览弹窗。返回是否进入预览（真词正显示时 false=真词优先）
+  // 外观预览：设置页拖滑块实时预览弹窗。返回是否进入预览模式（真词正显示时 false=不换内容，
+  // 但尺寸/透明度/字体临时值照样应用到真弹窗——拒换内容，不拒调外观）
   previewPopup(overrides?: PreviewOverrides): Promise<boolean>
   endPreview(): Promise<void> // 松手后调用：3s 后自动收起预览
   // 已掌握终态：背完不再弹；revive 让 mastered 词复活重背（直接进 learning 队列立即可弹）

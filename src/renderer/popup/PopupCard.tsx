@@ -89,6 +89,8 @@ export default function PopupCard(): ReactElement | null {
     window.vocall.onShow(() => {
       void window.vocall.getCurrent().then((p) => { if (p) start(p) })
     })
+    // 真词显示时拖"弹窗字体"滑块：主进程发来临时倍率（设置未提交），直接改 zoom 即拖即变
+    window.vocall.onFontScale((v) => { if (alive.current) setFontScale(String(v)) })
     return () => {
       alive.current = false
       timers.current.forEach(clearTimeout)

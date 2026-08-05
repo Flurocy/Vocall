@@ -50,12 +50,21 @@ describe('弹窗外观预览——冲突防护', () => {
     vi.useRealTimers()
   })
 
-  it('规则①：真词正显示时拒绝预览（返回 false，不进预览态）', () => {
+  it('规则①：真词正显示时不换内容（返回 false，不进预览态），但外观临时值照样应用', () => {
     const win = fakeWin()
     showPopup(win, REAL_ITEM) // 真词弹出，窗口可见
     expect(_previewState().visible).toBe(true)
-    expect(previewPopup(win, {})).toBe(false) // 预览被拒
+    const showCallsBefore = win.send.mock.calls.filter((c) => c[0] === 'popup:show').length
+    expect(previewPopup(win, { scale: 1.5, opacity: 0.6, fontScale: 1.2 })).toBe(false) // 不进预览模式
     expect(_previewState().previewing).toBe(false)
+    // 内容不被换掉：没有新的 popup:show
+    expect(win.send.mock.calls.filter((c) => c[0] === 'popup:show').length).toBe(showCallsBefore)
+    // 但临时外观值应用到了真弹窗：尺寸/透明度窗口级生效 + 字体倍率消息发给卡片
+    expect(win.setBounds).toHaveBeenCalledWith({
+      width: 540, height: 360, x: 1920 - 540 - 24, y: 1080 - 360 - 24,
+    })
+    expect(win.setOpacity).toHaveBeenCalledWith(0.6)
+    expect(win.send).toHaveBeenCalledWith('popup:fontScale', 1.2)
   })
 
   it('规则②：预览进行中真词来了——真词无条件接管，预览态作废', () => {

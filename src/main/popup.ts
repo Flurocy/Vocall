@@ -9,13 +9,13 @@ import { getSetting } from './settings'
 const BASE_W = 360
 const BASE_H = 240 // 背面多了例句开关，比 200 略高
 
-// 读 popup_scale 设置并 clamp 到 0.8–1.5（与 theme.ts POPUP_SCALE 范围同步）。
+// 读 popup_scale 设置并 clamp 到 0.5–1.5（与 theme.ts POPUP_SCALE 范围同步）。
 // 解析策略与 theme.ts getPopupScale 一致：parseFloat（'12abc'→12）+ Number.isNaN 判非法；
-// 空/NaN → 1。0 合法走 clamp（→0.8），不再当 falsy 兜底（M1：原 Number||1 把 0 当非法）。
+// 空/NaN → 1。0 合法走 clamp（→0.5），不再当 falsy 兜底（M1：原 Number||1 把 0 当非法）。
 function readScale(): number {
   const n = parseFloat(getSetting('popup_scale') ?? '')
   if (Number.isNaN(n)) return 1
-  return Math.min(1.5, Math.max(0.8, n))
+  return Math.min(1.5, Math.max(0.5, n))
 }
 
 // 读 popup_opacity 设置并 clamp 到 0.5–1.0（与 theme.ts POPUP_OPACITY 同步）。非法/空/NaN → 1。
@@ -102,6 +102,20 @@ const PREVIEW_ITEM: VocabItem = {
 // 预览的临时外观值 PreviewOverrides 定义在 shared/ipc-types.ts（拖动中不提交设置——防每帧
 // 全量写盘——由预览直接应用到窗口/卡片；松手提交后由 settings:set 正常链路按同值再应用，无跳变）。
 
+// 应用临时外观值到当前窗口：尺寸/透明度窗口级直接改（即拖即变，clamp 与正常链路一致）；
+// 字体无窗口级 API，走 popup:fontScale 消息让卡片实时 zoom。
+function applyOverrides(win: BrowserWindow, overrides: PreviewOverrides): void {
+  if (overrides.scale !== undefined) {
+    win.setBounds(popupBounds(Math.min(1.5, Math.max(0.5, overrides.scale))))
+  }
+  if (overrides.opacity !== undefined) {
+    win.setOpacity(Math.min(1.0, Math.max(0.5, overrides.opacity)))
+  }
+  if (overrides.fontScale !== undefined) {
+    win.webContents.send('popup:fontScale', overrides.fontScale)
+  }
+}
+
 export function showPopup(win: BrowserWindow, item: VocabItem): void {
   // 防护规则②：预览进行中真词来了——真词无条件接管，预览态作废（预览永不反压真词）。
   if (previewing) {
@@ -130,12 +144,17 @@ export function hidePopup(win: BrowserWindow): void {
 }
 
 // —— 外观预览（设置页拖"界面大小/透明度/弹窗字体"滑块时实时所见）——
-// 防护规则①：真词正显示（visible && !previewing）→ 拒绝预览，返回 false（真词优先）。
+// 防护规则①细化：真词正显示（visible && !previewing）→ 不换内容、不进预览态（返回 false，
+// 真词优先），但临时外观值照样应用到真弹窗——拒的是"换内容"，不是"调外观"，
+// 否则真词显示时拖滑块毫无反馈。
 // 预览不设 stayMs 自动隐藏（拖到多久都行），由 endPreview 的 3s 释放定时器收起。
 // overrides 是拖动中的临时值：直接应用到窗口/卡片，不写设置（防每帧全量写盘）。
 export function previewPopup(win: BrowserWindow, overrides: PreviewOverrides = {}): boolean {
   if (win.isDestroyed()) return false
-  if (visible && !previewing) return false // 规则①
+  if (visible && !previewing) {
+    applyOverrides(win, overrides) // 规则①：真词内容不动，外观临时值照样生效
+    return false
+  }
   previewing = true
   if (previewReleaseTimer) { clearTimeout(previewReleaseTimer); previewReleaseTimer = null } // 连续拖动重置收起倒计时
   if (hideTimer) { clearTimeout(hideTimer); hideTimer = null } // 防御：预览期间不应有真词 hide 计时
@@ -147,13 +166,7 @@ export function previewPopup(win: BrowserWindow, overrides: PreviewOverrides = {
     preview: true, // 渲染端据此静音 + 显示"预览"徽标
     fontScaleOverride: overrides.fontScale, // 字体临时值经卡片 zoom 生效（字体无窗口级 API）
   }
-  // 尺寸/透明度临时值直接作用窗口（窗口级效果，即拖即变）；clamp 与正常链路一致
-  if (overrides.scale !== undefined) {
-    win.setBounds(popupBounds(Math.min(1.5, Math.max(0.8, overrides.scale))))
-  }
-  if (overrides.opacity !== undefined) {
-    win.setOpacity(Math.min(1.0, Math.max(0.5, overrides.opacity)))
-  }
+  applyOverrides(win, overrides)
   win.webContents.send('popup:show', PREVIEW_ITEM)
   win.showInactive()
   visible = true

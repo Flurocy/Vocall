@@ -11,8 +11,8 @@ import {
 } from '../src/renderer/theme'
 
 describe('popup scale', () => {
-  it('常量范围 0.8–1.5，默认 1.0', () => {
-    expect(POPUP_SCALE_MIN).toBe(0.8)
+  it('常量范围 0.5–1.5，默认 1.0', () => {
+    expect(POPUP_SCALE_MIN).toBe(0.5)
     expect(POPUP_SCALE_MAX).toBe(1.5)
     expect(POPUP_SCALE_DEFAULT).toBe(1.0)
   })
@@ -20,7 +20,7 @@ describe('popup scale', () => {
   it('正常值原样返回（字符串数字）', () => {
     expect(getPopupScale('1.0')).toBe('1')
     expect(getPopupScale('1.5')).toBe('1.5')
-    expect(getPopupScale('0.8')).toBe('0.8')
+    expect(getPopupScale('0.5')).toBe('0.5')
     expect(getPopupScale('1.23')).toBe('1.23')
   })
 
@@ -36,7 +36,7 @@ describe('popup scale', () => {
 
   it('超范围 clamp 到边界', () => {
     expect(getPopupScale('3')).toBe('1.5')
-    expect(getPopupScale('0.1')).toBe('0.8')
+    expect(getPopupScale('0.1')).toBe('0.5')
   })
 })
 

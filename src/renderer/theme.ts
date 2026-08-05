@@ -117,12 +117,12 @@ export function getFontSize(value?: string | null): string {
 
 // 弹窗界面大小倍率（与 popup.ts readScale 范围同步）。
 // 与字体大小解耦：这里管弹窗物理尺寸（width×height × scale），font_size 管内容字号。
-// 范围 0.8–1.5（0.8=288×192，1.5=540×360），默认 1.0=360×240。
-export const POPUP_SCALE_MIN = 0.8
+// 范围 0.5–1.5（0.5=180×120，1.5=540×360），默认 1.0=360×240。
+export const POPUP_SCALE_MIN = 0.5
 export const POPUP_SCALE_MAX = 1.5
 export const POPUP_SCALE_DEFAULT = 1.0
 
-// 解析 popup_scale 设置为字符串数字：'1.2'→'1.2'，空/非法→'1'，超范围 clamp 到 0.8–1.5。
+// 解析 popup_scale 设置为字符串数字：'1.2'→'1.2'，空/非法→'1'，超范围 clamp 到 0.5–1.5。
 // 保留精度（不像 getFontSize 取整/加 px）——只做 parse+clamp+String。
 export function getPopupScale(value?: string | null): string {
   if (!value) return String(POPUP_SCALE_DEFAULT)
@@ -150,12 +150,12 @@ export function getPopupOpacity(value?: string | null): string {
 
 // 弹窗内容 zoom 倍率（纯渲染端，作用于 PopupCard 根容器的 CSS zoom）。
 // 与 popup_scale 解耦：popup_scale 管窗口物理尺寸，这里只放大弹窗内容、不动窗口。
-// 范围 0.7–1.4（下限 0.7：用户要能缩到更小；上限避免字过大撑破小窗口），默认 1.0=不缩放。
-export const POPUP_FONT_SCALE_MIN = 0.7
-export const POPUP_FONT_SCALE_MAX = 1.4
+// 范围 0.5–1.5（下限 0.5：用户要能缩到更小；上限避免字过大撑破小窗口），默认 1.0=不缩放。
+export const POPUP_FONT_SCALE_MIN = 0.5
+export const POPUP_FONT_SCALE_MAX = 1.5
 export const POPUP_FONT_SCALE_DEFAULT = 1.0
 
-// 解析 popup_font_scale 设置为字符串数字：'1.25'→'1.25'，空/非法→'1'，超范围 clamp 到 0.7–1.4。
+// 解析 popup_font_scale 设置为字符串数字：'1.25'→'1.25'，空/非法→'1'，超范围 clamp 到 0.5–1.5。
 // 与 getPopupScale/getPopupOpacity 同策略（parseFloat+Number.isNaN+clamp+String，不取整保留精度）。
 export function getPopupFontScale(value?: string | null): string {
   if (!value) return String(POPUP_FONT_SCALE_DEFAULT)

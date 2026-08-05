@@ -20,6 +20,9 @@ contextBridge.exposeInMainWorld('vocall', {
   resetElasticSettings: () => ipcRenderer.invoke('settings:resetElastic'),
   onShow: (cb: (expr: unknown) => void) =>
     ipcRenderer.on('popup:show', (_e, expr) => cb(expr)),
+  // 真词显示时拖"弹窗字体"滑块的实时倍率消息（临时值，不提交设置）
+  onFontScale: (cb: (v: unknown) => void) =>
+    ipcRenderer.on('popup:fontScale', (_e, v) => cb(v)),
   getCurrent: () => ipcRenderer.invoke('popup:getCurrent'),
   grade: (id: number, grade: 0 | 1 | 2) =>
     ipcRenderer.invoke('popup:grade', id, grade),
