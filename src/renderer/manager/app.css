@@ -17,6 +17,35 @@ body {
   font-family: Georgia, 'Times New Roman', serif;
 }
 
+/* 自定义滑块（Chromium/WebKit）：细轨道 + 圆头白边投影，替代原生裸控件。
+   颜色取 currentColor——各 range 带主题的 text 色类（accentText），换主题自动跟随。
+   hover 圆头微放大、active 微缩，给"跟手"的触感反馈。 */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.12);
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: currentColor;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.28);
+  transition: transform 0.12s ease;
+}
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+}
+input[type='range']:active::-webkit-slider-thumb {
+  transform: scale(1.05);
+}
+
 /* 自绘标题栏拖拽区：-webkit-app-region 无 Tailwind 对应类，自定义两个工具类 */
 .app-drag {
   -webkit-app-region: drag;

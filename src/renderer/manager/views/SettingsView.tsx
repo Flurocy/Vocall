@@ -227,8 +227,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onClick={() => void update('theme', t.id)}
                 className={`h-7 w-7 rounded-full ${t.swatch} transition ${
                   t.id === currentTheme.id
-                    ? 'ring-2 ring-black/40 ring-offset-2 ring-offset-transparent'
-                    : 'opacity-50 hover:opacity-100'
+                    ? 'scale-110 ring-2 ring-black/40 ring-offset-2 ring-offset-transparent'
+                    : 'opacity-50 hover:scale-105 hover:opacity-100'
                 }`}
               />
             ))}
@@ -251,7 +251,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onChange={(e) => previewChange('scale', parseFloat(e.target.value))}
                 onPointerUp={previewCommit}
                 onKeyUp={previewCommit}
-                className={`w-full ${theme.accentColor}`}
+                className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">调弹窗物理尺寸（宽高），拖动时实时预览</p>
             </label>
@@ -268,7 +268,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onChange={(e) => previewChange('font', parseFloat(e.target.value))}
                 onPointerUp={previewCommit}
                 onKeyUp={previewCommit}
-                className={`w-full ${theme.accentColor}`}
+                className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">只放大弹窗里的字和布局，不动窗口大小，拖动时实时预览</p>
             </label>
@@ -283,7 +283,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 step={1}
                 value={fontPx}
                 onChange={(e) => void update('font_size', e.target.value)}
-                className={`w-full ${theme.accentColor}`}
+                className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">
                 管理界面字号（rem 联动，只影响管理界面，不影响弹窗）
@@ -302,7 +302,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onChange={(e) => previewChange('opacity', parseFloat(e.target.value))}
                 onPointerUp={previewCommit}
                 onKeyUp={previewCommit}
-                className={`w-full ${theme.accentColor}`}
+                className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">
                 调弹窗透明度（0.5 半透明 ~ 1.0 不透明），拖动时实时预览
@@ -428,7 +428,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 step={0.05}
                 value={Number.isNaN(volume) ? 0.6 : volume}
                 onChange={(e) => void update('sound_volume', e.target.value)}
-                className={`w-full ${theme.accentColor}`}
+                className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
             </label>
           </div>

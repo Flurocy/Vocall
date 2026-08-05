@@ -33,9 +33,49 @@ export default function App(): ReactElement {
   }
 
   const navBtn = (active: boolean): string =>
-    `mb-2 block w-full rounded-lg px-3 py-2 text-left text-sm ${
-      active ? `${theme.accentBg} ${theme.accentText}` : 'text-slate-600 hover:bg-black/5'
+    `mb-1.5 flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition ${
+      active ? `${theme.accentBg} ${theme.accentText} font-medium` : 'text-slate-600 hover:bg-black/5'
     }`
+
+  // 导航项（图标 = 16px 线性 SVG，stroke currentColor 随激活态变色）
+  const iconCls = 'h-4 w-4 shrink-0'
+  const NAV_ITEMS = [
+    {
+      id: 'vocab' as const, label: '生词库',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 6.5C10.5 5 8 4.5 4.5 4.5v15c3.5 0 6 .5 7.5 2 1.5-1.5 4-2 7.5-2v-15c-3.5 0-6 .5-7.5 2z" />
+          <path d="M12 6.5v15" />
+        </svg>
+      ),
+    },
+    {
+      id: 'wordbooks' as const, label: '词书',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 4v16" /><path d="M9.5 4v16" /><path d="m13.5 5 4.5 15" />
+        </svg>
+      ),
+    },
+    {
+      id: 'trash' as const, label: '回收站',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 7h16" /><path d="M9.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2" />
+          <path d="m6 7 1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" />
+        </svg>
+      ),
+    },
+    {
+      id: 'settings' as const, label: '设置',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 7h9" /><circle cx="16.5" cy="7" r="2.2" />
+          <path d="M20 17h-9" /><circle cx="7.5" cy="17" r="2.2" />
+        </svg>
+      ),
+    },
+  ]
 
   return (
     // 顶层 fontSize 供 em 级联；日后若做整窗 GUI 缩放，在此容器加 transform scale 即可
@@ -43,11 +83,13 @@ export default function App(): ReactElement {
     <div className={`flex h-screen flex-col ${theme.bgApp} text-slate-800`} style={{ fontSize }}>
       <TitleBar theme={theme} />
       <div className="flex min-h-0 flex-1">
-        <nav className="w-44 border-r border-black/10 p-4">
-          <button onClick={() => setTab('vocab')} className={navBtn(tab === 'vocab')}>生词库</button>
-          <button onClick={() => setTab('wordbooks')} className={navBtn(tab === 'wordbooks')}>词书</button>
-          <button onClick={() => setTab('trash')} className={navBtn(tab === 'trash')}>回收站</button>
-          <button onClick={() => setTab('settings')} className={navBtn(tab === 'settings')}>设置</button>
+        <nav className="w-44 border-r border-black/10 p-4 pt-5">
+          {NAV_ITEMS.map((item) => (
+            <button key={item.id} onClick={() => setTab(item.id)} className={navBtn(tab === item.id)}>
+              {item.icon}
+              {item.label}
+            </button>
+          ))}
         </nav>
         <main className="flex-1 overflow-auto p-6">
           {tab === 'vocab'
