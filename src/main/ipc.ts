@@ -6,13 +6,14 @@ import {
   type NewVocabItem,
 } from './vocab'
 import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings } from './settings'
-import { applyReview, masterVocab, reviveVocab } from './scheduler'
+import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
 import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
 import { resizePopup, applyPopupOpacity } from './popup'
+import { rescheduleInterval } from './engine'
 import { checkUpdate } from './updater'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
@@ -42,6 +43,12 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     if (key === 'popup_scale') resizePopup(getPopup())
     // 透明度滑块改了 → 按新 opacity setOpacity。同样 null 自判 no-op。
     if (key === 'popup_opacity') applyPopupOpacity(getPopup())
+    // 弹出间隔改了 → 重排引擎计时：取消当前挂起的旧间隔，从当下起按新间隔走（立即生效，
+    // 不再等旧周期到期）。rescheduleInterval 内部只在挂起的是"弹出间隔"计时时才动。
+    if (key === 'popup_interval_sec') rescheduleInterval()
+    // 学习队列容量改了 → 立即补位：调大即时从 new 解锁新词进 learning（不再等毕业/重启）。
+    // 调小则只降上限——fillLearningQueue 本就只补不踢，已在学的词不动，毕业后自然回落。
+    if (key === 'learning_cap') fillLearningQueue()
   })
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())

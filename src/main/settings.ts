@@ -12,7 +12,8 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   fuzzy_gap_pops: '8',             // 点"模糊"后过几次弹窗再见
   learning_step_pops: '1,2',       // learning 内"认识"递进（弹窗次数，逗号分隔）
   review_steps_pops: '50,150,350,750,1500', // review 间隔阶梯（弹窗次数，逗号分隔）；倒数第二档=掌握档
-  popup_position: 'bottom-right',
+  // 注：popup_position（弹窗位置）/daily_cap（每日上限）默认值已删——两功能从未实现且无消费方（死设置）。
+  // 弹窗可拖拽定位（默认右下角），每日用量由用户自行开关程序控制。将来真做再加回。
   popup_scale: '1.0', // 弹窗界面大小倍率（1.0=360×240），范围 0.8–1.5；解析见 popup.ts readScale / theme.ts getPopupScale
   popup_opacity: '1.0', // 弹窗透明度（1.0=不透明），范围 0.5–1.0；解析见 popup.ts readOpacity / theme.ts getPopupOpacity
   popup_font_scale: '1.0', // 弹窗内容 zoom 倍率（1.0=原样），范围 0.7–1.4；解析见 theme.ts getPopupFontScale
@@ -21,7 +22,6 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   sound_enabled: 'true',
   sound_volume: '0.6',
   sound_file: '',
-  daily_cap: '60',
   ai_provider: 'deepseek',
   ai_api_key: '',
   ai_base_url: '',
