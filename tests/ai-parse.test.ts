@@ -130,3 +130,45 @@ describe('parseVocabObject —— 解析 {meaning,example}', () => {
     expect(() => parseVocabObject('')).toThrow()
   })
 })
+
+// 一词多义：senses 可选字段的宽容提取（有且合法→带；没有/坏→静默降级 undefined）
+describe('senses 一词多义字段 —— 宽容降级', () => {
+  it('parseVocabArray：合法 senses 透传（截到 4 个）', () => {
+    const senses = [
+      { pos: 'n.', meaning: '通道；入口' },
+      { pos: 'n.', meaning: '使用权' },
+      { pos: 'v.', meaning: '存取；访问' },
+      { pos: 'v.', meaning: '接近' },
+      { pos: 'n.', meaning: '第五个会被截掉' },
+    ]
+    const text = JSON.stringify([{ word: 'access', meaning: 'n. 通道；入口', example: 'e', senses }])
+    const r = parseVocabArray(text)
+    expect(r[0].senses).toHaveLength(4)
+    expect(r[0].senses![2].pos).toBe('v.')
+  })
+
+  it('parseVocabArray：无 senses 字段 → undefined（旧格式正常）', () => {
+    const text = JSON.stringify([{ word: 'apple', meaning: 'n. 苹果', example: 'e' }])
+    expect(parseVocabArray(text)[0].senses).toBeUndefined()
+  })
+
+  it('parseVocabArray：senses 坏了（非数组/空数组/项缺字段）→ 静默 undefined，不推翻主结果', () => {
+    const base = { word: 'apple', meaning: 'n. 苹果', example: 'e' }
+    expect(parseVocabArray(JSON.stringify([{ ...base, senses: 'not-array' }]))[0].senses).toBeUndefined()
+    expect(parseVocabArray(JSON.stringify([{ ...base, senses: [] }]))[0].senses).toBeUndefined()
+    expect(
+      parseVocabArray(JSON.stringify([{ ...base, senses: [{ pos: 'n.' }, { meaning: 123 }] }]))[0].senses,
+    ).toBeUndefined()
+  })
+
+  it('parseVocabObject：合法 senses 透传；坏了静默 undefined', () => {
+    const good = JSON.stringify({
+      meaning: 'v. 放弃；抛弃', example: 'e',
+      senses: [{ pos: 'v.', meaning: '放弃；抛弃' }, { pos: 'n.', meaning: '放任' }],
+    })
+    const r = parseVocabObject(good)
+    expect(r.senses).toHaveLength(2)
+    const bad = JSON.stringify({ meaning: 'v. 放弃', example: 'e', senses: [{ bad: true }] })
+    expect(parseVocabObject(bad).senses).toBeUndefined()
+  })
+})

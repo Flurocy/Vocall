@@ -84,7 +84,9 @@ export interface VocallApi {
   getForgotCounts(): Promise<Record<number, number>>
   testAi(): Promise<{ ok: boolean; message: string }>
   // AI 内容生产：主题词组生成（返回 [{word,meaning,example}] 预览，不入库）；n 默认 30
-  generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string }[]>
+  generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string; senses?: Sense[] }[]>
+  // 生词 AI 翻译（预览填入新增卡片）；senses=一词多义（可选，宽容降级）
+  translate(word: string): Promise<{ meaning: string; example: string; senses?: Sense[] }>
   // AI 翻译：返回 {meaning, example} 预览，前端填入新增卡片供用户过目修改
   translate(word: string): Promise<{ meaning: string; example: string }>
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()；失败 reject 由调用方 catch 静默

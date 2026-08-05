@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { Theme } from '../../theme'
+import type { Sense } from '../../../shared/ipc-types'
 
 // 主题词组生成 modal（功能 A 入口）：输主题/选预设 → AI 生成 30 个 → 勾选入库。
 // 入库参数约定（计划 §5）：{status:'new', topic:主题文本, source:'AI主题:'+主题文本}。
@@ -11,6 +12,7 @@ interface VocabEntry {
   word: string
   meaning: string
   example: string
+  senses?: Sense[] // 一词多义（AI 生成带入，入库透传）
 }
 
 interface Props {
@@ -119,6 +121,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
           topic: t,
           source: `AI主题:${t}`,
           status: 'new' as const,
+          ...(e.senses ? { senses: e.senses } : {}), // 一词多义透传（有才带）
         }
       })
       const added = await window.vocall.addVocabBatch(items)

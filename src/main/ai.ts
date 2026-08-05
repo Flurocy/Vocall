@@ -4,6 +4,7 @@
 // 模型默认 deepseek-v4-flash（快+便宜，适合生成词组/例句）；deepseek-chat 已于 2026-07 弃用。
 
 import { getAiConfig } from './settings'
+import type { Sense } from '../shared/ipc-types'
 
 export interface AiCallOptions {
   system?: string
@@ -112,17 +113,37 @@ export interface VocabEntry {
   word: string
   meaning: string
   example: string
+  senses?: Sense[] // 一词多义：全部义项（按常用度排序）；meaning 仍=默认义项，向后兼容
 }
 
 /** AI 翻译返回的释义+例句 */
 export interface Translation {
   meaning: string
   example: string
+  senses?: Sense[] // 一词多义（同上）
 }
 
 /** 非空字符串校验：trim 后非空（拒绝 '   ' 这种纯空白）；类型守卫 */
 function isNonEmptyString(v: unknown): v is string {
   return typeof v === 'string' && v.trim().length > 0
+}
+
+/**
+ * 宽容提取可选 senses 字段（一词多义增量）：
+ * 缺失 → undefined（单义词/旧格式，正常）；存在且合法（[{pos,meaning} 非空]）→ 截到 4 个返回；
+ * 存在但坏（类型错/全空）→ undefined 静默降级——义项是增量福利，不因它推翻整个翻译结果。
+ */
+function parseSensesField(v: unknown): Sense[] | undefined {
+  if (!Array.isArray(v)) return undefined
+  const out: Sense[] = []
+  for (const s of v) {
+    if (!s || typeof s !== 'object') continue
+    const { pos, meaning } = s as { pos?: unknown; meaning?: unknown }
+    if (isNonEmptyString(pos) && isNonEmptyString(meaning)) {
+      out.push({ pos: pos.trim(), meaning: meaning.trim() })
+    }
+  }
+  return out.length > 0 ? out.slice(0, 4) : undefined
 }
 
 /**
@@ -185,7 +206,8 @@ export function parseVocabArray(text: string): VocabEntry[] {
         `AI 返回的第 ${i + 1} 项字段不全或为空（word/meaning/example 均需为非空字符串）`,
       )
     }
-    return { word, meaning, example }
+    const senses = parseSensesField(obj.senses) // 可选一词多义（宽容降级）
+    return senses ? { word, meaning, example, senses } : { word, meaning, example }
   })
 }
 
@@ -204,12 +226,13 @@ export function parseVocabObject(text: string): Translation {
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
     throw new Error(`AI 返回的不是 JSON 对象`)
   }
-  const o = obj as { meaning?: unknown; example?: unknown }
+  const o = obj as { meaning?: unknown; example?: unknown; senses?: unknown }
   const { meaning, example } = o
   if (!isNonEmptyString(meaning) || !isNonEmptyString(example)) {
     throw new Error('AI 返回的字段不全或为空（meaning/example 均需为非空字符串）')
   }
-  return { meaning, example }
+  const senses = parseSensesField(o.senses) // 可选一词多义（宽容降级）
+  return senses ? { meaning, example, senses } : { meaning, example }
 }
 
 // Prompt 终稿（计划 2026-07-27-ai-content-generation.md §prompt 设计）：
@@ -220,11 +243,14 @@ const THEME_GEN_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+
 - word：英文单词或词组（雅思写作/口语高频学术词，避免太基础的如 good/bad/big）
 - meaning：简明中文释义，开头标注词性缩写（如 n. / v. / adj. / adv. / phr.），格式「词性 释义」，例如「v. 放弃；抛弃」
 - example：地道英文例句，体现该词用法
-严格返回 JSON 数组，每个元素 {"word","meaning","example"}，不要任何额外文字、不要 markdown 代码块。`
+- senses：该词的多义项数组（一词多义），按常用度排序最多 4 个，每项 {"pos":"n.","meaning":"该词性下的简明中文释义"}；明显单义的词只给 1 个。meaning 字段须等于 senses 第一个义项的拼接（pos+空格+meaning）
+严格返回 JSON 数组，每个元素 {"word","meaning","example","senses"}，不要任何额外文字、不要 markdown 代码块。`
 
-const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中文释义和地道英文例句。
-- meaning：简明中文释义，开头标注词性缩写（如 n. / v. / adj. / adv. / phr.），格式「词性 释义」，例如「v. 放弃；抛弃」
-严格返回 JSON {"meaning","example"}，不要额外文字、不要代码块。`
+const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中文释义、地道英文例句与多义项。
+- meaning：最常用义项的简明中文释义，开头标注词性缩写，格式「词性 释义」，例如「v. 放弃；抛弃」
+- example：地道英文例句
+- senses：该词的多义项数组，按常用度排序最多 4 个，每项 {"pos":"n.","meaning":"该词性下的简明中文释义"}；明显单义的词只给 1 个。meaning 字段须等于 senses 第一个义项的拼接（pos+空格+meaning）
+严格返回 JSON {"meaning","example","senses"}，不要额外文字、不要代码块。`
 
 /** key 没配的统一错误文案（IPC handler 渲染端展示用） */
 const NO_KEY_MSG = '请先在设置配置 DeepSeek API key'

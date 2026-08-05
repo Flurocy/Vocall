@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
-import type { VocabItem } from '../../../shared/ipc-types'
+import type { VocabItem, Sense } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
 import { playWord } from '../../playWord'
 import AiGenModal from './AiGenModal'
@@ -34,6 +34,8 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [aiTranslating, setAiTranslating] = useState(false)
   const [usedAi, setUsedAi] = useState(false)
   const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
+  // AI 翻译带回的一词多义（随「新增生词」入库透传；改 word 视作换词清除，入库成功后清空）
+  const [aiSenses, setAiSenses] = useState<Sense[] | null>(null)
 
   const reload = async (): Promise<void> => {
     setList(await window.vocall.listVocab())
@@ -48,7 +50,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     if (!word.trim()) { setAiMsg({ kind: 'err', text: '请输入单词' }); return }
     if (!meaning.trim()) { setAiMsg({ kind: 'err', text: '请补充释义' }); return }
     try {
-      await window.vocall.addVocab({ word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动' })
+      await window.vocall.addVocab({
+        word, meaning, example, topic: null, source: usedAi ? 'AI翻译' : '手动',
+        ...(aiSenses ? { senses: aiSenses } : {}), // AI 翻译带回的一词多义（有才带）
+      })
     } catch (err) {
       // 入库失败（如同词重复被主进程拦截）：inline 报错并保留表单输入，用户可改词重试
       setAiMsg({ kind: 'err', text: errMsg(err) })
@@ -57,6 +62,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     // 只有成功才清空表单 + 刷新列表
     setWord(''); setMeaning(''); setExample('')
     setUsedAi(false)
+    setAiSenses(null)
     setAiMsg(null)
     await reload()
   }
@@ -76,7 +82,13 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
       setMeaning(r.meaning)
       setExample(r.example)
       setUsedAi(true)
-      setAiMsg({ kind: 'ok', text: '已填入释义与例句，确认后点「新增生词」入库' })
+      setAiSenses(r.senses ?? null) // 一词多义暂存，入库时透传
+      setAiMsg({
+        kind: 'ok',
+        text: r.senses && r.senses.length > 1
+          ? `已填入释义与例句（含 ${r.senses.length} 个义项，入库后可在「义项」面板勾选显示）`
+          : '已填入释义与例句，确认后点「新增生词」入库',
+      })
     } catch (err) {
       setAiMsg({ kind: 'err', text: errMsg(err) })
     } finally {
@@ -312,7 +324,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         <div className="flex gap-2">
           <input
             value={word}
-            onChange={(e) => { setWord(e.target.value); setUsedAi(false) }}
+            onChange={(e) => { setWord(e.target.value); setUsedAi(false); setAiSenses(null) }}
             placeholder="生词 abandon"
             className={`${inputCls} flex-1`}
           />
