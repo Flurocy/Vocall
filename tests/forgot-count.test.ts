@@ -5,7 +5,7 @@ import {
   getSrsState, setSrsState, getForgotCounts, migrateForgotCount, _resetStoreForTests,
 } from '../src/main/store'
 
-// 造一个指定 status 的词（addVocab 默认 learning，再按需改；SRS 状态给齐四字段）
+// 造一个指定 status 的词（addVocab 默认 new 统一队列，这里按需提升；SRS 状态给齐四字段）
 function make(status: 'learning' | 'review' = 'learning'): ReturnType<typeof addVocab> {
   const v = addVocab({ word: `w${Math.random()}`, meaning: 'm', example: 'e', topic: null, source: 's' })
   updateVocab(v.id, { status })

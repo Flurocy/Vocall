@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { addVocab, listVocab, updateVocab } from '../src/main/vocab'
+import { addVocab, addVocabBatch, listVocab, updateVocab } from '../src/main/vocab'
 import { getDueVocab, applyReview, fillLearningQueue, masterVocab, reviveVocab, advancePopToNextDue } from '../src/main/scheduler'
 import { getSrsState, setSrsState, _resetStoreForTests, getPopCount, incrementPop } from '../src/main/store'
 import { setSetting } from '../src/main/settings'
 import { _logTest } from '../src/main/logger'
 
-// 造一个指定 status 的词（addVocab 默认 learning，再按需改）
+// 造一个指定 status 的词（addVocab 默认 new 统一队列，这里按需提升）
 function make(status: 'new' | 'learning' | 'review' | 'mastered', duePop = 0): ReturnType<typeof addVocab> {
   const v = addVocab({ word: `w${Math.random()}`, meaning: 'm', example: 'e', topic: null, source: 's' })
   updateVocab(v.id, { status })
@@ -68,6 +68,16 @@ describe('弹窗节拍调度', () => {
     make('new', 0); make('new', 0); make('new', 0)
     fillLearningQueue()
     expect(listVocab().filter((x) => x.status === 'learning')).toHaveLength(2)
+  })
+
+  it('添加即补位语义（复现用户场景）：批量加 50 词全 new → fill 后前 cap 个按 id 升序学习中，其余排队', () => {
+    setSetting('learning_cap', '3')
+    addVocabBatch(['a', 'b', 'c', 'd', 'e'].map((w) => ({ word: w, meaning: 'm', example: 'e', topic: null, source: 's' })))
+    expect(listVocab().every((v) => v.status === 'new')).toBe(true) // 统一队列：添加一律 new
+    fillLearningQueue() // = ipc 层 vocab:addBatch 后的补位调用
+    const learning = listVocab().filter((v) => v.status === 'learning').map((v) => v.word)
+    expect(learning).toEqual(['a', 'b', 'c']) // 前 3 个（id 升序）立即学习中 = 分界线上方
+    expect(listVocab().filter((v) => v.status === 'new')).toHaveLength(2)
   })
 })
 

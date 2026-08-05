@@ -81,11 +81,11 @@ describe('addVocabBatch 批量添加', () => {
 
   const entry = (word: string) => ({ word, meaning: 'm', example: 'e', topic: null, source: 's' })
 
-  it('批量加 N 词：全入库、status 默认 learning、各配 srsState', () => {
+  it('批量加 N 词：全入库、status 默认 new（统一队列）、各配 srsState', () => {
     const n = addVocabBatch([entry('a'), entry('b'), entry('c')])
     expect(n).toBe(3)
     expect(listVocab()).toHaveLength(3)
-    expect(listVocab().every((v) => v.status === 'learning')).toBe(true)
+    expect(listVocab().every((v) => v.status === 'new')).toBe(true)
     for (const v of listVocab()) expect(getSrsState(v.id)).toBeTruthy()
   })
 

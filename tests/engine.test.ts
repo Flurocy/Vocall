@@ -14,7 +14,7 @@ const fakeGetPopup = (() => null) as unknown as () => BrowserWindow
 
 function makeLearningDue(): void {
   const v = addVocab({ word: `w${Math.random()}`, meaning: 'm', example: 'e', topic: null, source: 's' })
-  updateVocab(v.id, { status: 'learning' }) // addVocab 默认 learning，显式表意；duePop=当前 popCount 立即到期
+  updateVocab(v.id, { status: 'learning' }) // addVocab 默认 new（统一队列），这里显式提升 learning；duePop=当前 popCount 立即到期
 }
 
 describe('engine 间隔重排（rescheduleInterval）', () => {

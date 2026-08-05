@@ -9,13 +9,13 @@ describe('包1 数据模型（status/book + 弹性数值 + 迁移）', () => {
     _resetStoreForTests()
   })
 
-  it('addVocab 默认 status=learning、book=null', () => {
+  it('addVocab 默认 status=new（统一队列，由 fillLearningQueue 补位提升）、book=null', () => {
     const a = addVocab({
       word: 'curriculum', meaning: 'n. 课程体系', example: 'x', topic: '教育', source: '内置',
     })
-    expect(a.status).toBe('learning')
+    expect(a.status).toBe('new')
     expect(a.book).toBeNull()
-    expect(listVocab()[0].status).toBe('learning')
+    expect(listVocab()[0].status).toBe('new')
   })
 
   it('弹性数值默认值齐全', () => {

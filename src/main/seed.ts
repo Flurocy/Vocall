@@ -25,12 +25,13 @@ export function seedIfEmpty(seedPath?: string): number {
   let added = 0
   for (const it of items) {
     // addVocab 内部会自增 id 并自动初始化该条的 SRS 状态
-    // 种子词保持继续背 → status:'learning'、book:null（addVocab 也有此默认，这里显式写出表意）
+    // 种子词同样进统一队列：status:'new'，由启动链随后的 fillLearningQueue 按 cap 补位提升
+    // （addVocab 默认即 'new'，这里显式写出表意）
     // 逐条 try/catch（评审 C-1）：用户把生词全软删进回收站后重启——listVocab 空守卫放行，
     // 但 addVocab 查重含回收站会抛「在回收站」/「已在生词库」。重复词跳过不视为失败；其他错误上抛
     // （index.ts 调用处另有兜底 catch，不会炸断启动链）。
     try {
-      addVocab({ ...it, book: null, status: 'learning', source: '内置' })
+      addVocab({ ...it, book: null, status: 'new', source: '内置' })
       added++
     } catch (err) {
       const m = err instanceof Error ? err.message : String(err)

@@ -14,7 +14,7 @@ export interface VocabItem {
   selectedSenses?: number[] // 用户勾选要在弹窗显示的义项下标（限 3 个）；undefined=只显示默认义项
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
-  status?: VocabItem['status'] // 可选：词书导入传 'new'，其余默认 'learning'
+  status?: VocabItem['status'] // 可选：调用方显式指定（如 revive 类场景）；不传默认 'new' 走统一队列
   book?: string | null         // 可选：词书导入传词书 id，其余默认 null
 }
 
@@ -33,14 +33,14 @@ export function addVocab(e: NewVocabItem): VocabItem {
   if (trashBox.get().some((t) => norm(t.item.word) === w)) {
     throw new Error(`「${e.word}」在回收站中，先还原或彻底删除后才能重新加入`)
   }
-  // status/book 调用方一般不传，这里兜底：手动/种子词默认 learning、book null。
-  // 词书导入的包4 会显式传 status:'new'、book:词书id（此时 e 的值覆盖默认）。
+  // status/book 调用方一般不传，这里兜底：统一默认 'new'（新词一律进待学队列，
+  // 由 fillLearningQueue 按 learning_cap 实时补位——手动/AI/词书同一套规则，分界线始终可见）。
   const item: VocabItem = {
-    ...e, status: e.status ?? 'learning', book: e.book ?? null,
+    ...e, status: e.status ?? 'new', book: e.book ?? null,
     id: allocId(), created_at: Date.now(),
   }
   vocabBox.set([...vocabBox.get(), item])
-  setSrsState(item.id, { easiness: 2.5, repetitions: 0, duePop: getPopCount(), forgotCount: 0 }) // 立即可弹
+  setSrsState(item.id, { easiness: 2.5, repetitions: 0, duePop: getPopCount(), forgotCount: 0 }) // 初始 SRS；new 词被补位提升时会重置为当时 popCount
   return item
 }
 
@@ -69,7 +69,7 @@ export function addVocabBatch(items: NewVocabItem[]): number {
     if (taken.has(w)) continue // 库内已有 / 批内已加（taken 会在下面同步加入新词）→ 跳过
     taken.add(w) // 批内查重：本批后面的同词也跳过
     const item: VocabItem = {
-      ...e, status: e.status ?? 'learning', book: e.book ?? null,
+      ...e, status: e.status ?? 'new', book: e.book ?? null,
       id: nextId++, created_at: ts,
     }
     newItems.push(item)

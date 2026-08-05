@@ -4,7 +4,7 @@ import {
 } from '../src/main/vocab'
 import { getSrsState, setSrsState, trashBox, _resetStoreForTests } from '../src/main/store'
 
-// 造一个 learning 词并给齐 SRS 四字段（addVocab 默认 status='learning'，这里补非默认 srs 值方便比对还原）
+// 造一个 learning 词并给齐 SRS 四字段（addVocab 默认 new，这里显式提升并补非默认 srs 值方便比对还原）
 function make(word = `w${Math.random()}`): ReturnType<typeof addVocab> {
   const v = addVocab({ word, meaning: 'm', example: 'e', topic: null, source: 's' })
   setSrsState(v.id, { easiness: 2.6, repetitions: 1, duePop: 7, forgotCount: 2 })

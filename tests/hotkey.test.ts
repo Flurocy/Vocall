@@ -23,7 +23,7 @@ import { pickPopupWord, popupNow } from '../src/main/hotkey'
 
 const showPopupMock = vi.mocked(showPopup)
 
-// 造一个指定 status 的词（addVocab 默认 learning，再按需改；SRS 四字段给齐）
+// 造一个指定 status 的词（addVocab 默认 new 统一队列，这里按需提升；SRS 四字段给齐）
 function make(
   status: 'new' | 'learning' | 'review' | 'mastered',
   duePop = 0,

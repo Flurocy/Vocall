@@ -20,10 +20,20 @@ import { checkUpdate } from './updater'
 // popupWin 由 index.ts 创建，通过此闭包传入（与 registerPopupIpc / startEngine 同款模式）。
 export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('vocab:list', () => listVocab())
-  ipcMain.handle('vocab:add', (_e, item: NewVocabItem) => addVocab(item).id)
+  // 所有添加入口统一触发 fillLearningQueue：新词一律 'new' 进待学队列，添加即刻按 cap
+  // 补位提升为学习中（满了就排队）——"学习中/新词"分界线永远实时，不用等毕业或重启。
+  ipcMain.handle('vocab:add', (_e, item: NewVocabItem) => {
+    const id = addVocab(item).id
+    fillLearningQueue()
+    return id
+  })
   // 批量添加（AI 主题生成勾选入库）：一次 IPC + 内存组装 + 三次写盘，修逐词 IPC 卡顿。
   // 返回实际加入条数（撞库/回收站/批内重复的已静默跳过），前端据此算 skipped = 想加 − 实际。
-  ipcMain.handle('vocab:addBatch', (_e, items: NewVocabItem[]) => addVocabBatch(items))
+  ipcMain.handle('vocab:addBatch', (_e, items: NewVocabItem[]) => {
+    const added = addVocabBatch(items)
+    if (added > 0) fillLearningQueue()
+    return added
+  })
   ipcMain.handle('vocab:update', (_e, id: number, patch: Partial<NewVocabItem>) =>
     updateVocab(id, patch))
   ipcMain.handle('vocab:delete', (_e, id: number) => deleteVocab(id))
@@ -68,11 +78,18 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('srs:getForgotCounts', () => getForgotCounts())
   // 词书
   ipcMain.handle('wordbook:list', () => listWordbooks())
-  ipcMain.handle('wordbook:add', (_e, bookId: string) => addWordbookToPlan(bookId))
+  // 词书入库同样走统一队列：加入后即刻补位（cap 有空位 → 前几个词立即变学习中）
+  ipcMain.handle('wordbook:add', (_e, bookId: string) => {
+    addWordbookToPlan(bookId)
+    fillLearningQueue()
+  })
   ipcMain.handle('wordbook:remove', (_e, bookId: string) => removeWordbookFromPlan(bookId))
   ipcMain.handle('wordbook:words', (_e, bookId: string) => getWordbookWords(bookId))
-  ipcMain.handle('wordbook:addWords', (_e, bookId: string, words: string[]) =>
-    addWordsToPlan(bookId, words))
+  ipcMain.handle('wordbook:addWords', (_e, bookId: string, words: string[]) => {
+    const added = addWordsToPlan(bookId, words)
+    if (added > 0) fillLearningQueue()
+    return added
+  })
 
   // 测试 DeepSeek 连接：用极简 prompt 发一次真实调用，验证 key/网络/模型可用。
   // 统一吞异常返回 {ok,message}，渲染端据此显示成功/失败原因（key 无效/限流/网络/超时）。
