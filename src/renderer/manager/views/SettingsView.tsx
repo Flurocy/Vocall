@@ -173,6 +173,32 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const soundOn = settings.sound_enabled !== 'false'
   const volume = Number(settings.sound_volume ?? '0.6')
 
+  // —— 弹窗外观滑块：拖动实时预览 + 松手提交 ——
+  // 拖动中值只进 previewDraft（不提交设置→不触发每帧全量写盘），同时带临时值调
+  // popup:preview 让真实弹窗实时变化（真词正显示时主进程拒绝预览=真词优先，忽略即可）；
+  // 松手(onPointerUp)/键盘调整(onKeyUp)才 update() 正式提交 + endPreview()（3s 后自动收起预览）。
+  const [previewDraft, setPreviewDraft] = useState<{ scale: number; font: number; opacity: number } | null>(null)
+
+  const previewChange = (part: 'scale' | 'font' | 'opacity', v: number): void => {
+    const d = {
+      scale: previewDraft?.scale ?? scaleVal,
+      font: previewDraft?.font ?? popupFontVal,
+      opacity: previewDraft?.opacity ?? opacityVal,
+      [part]: v,
+    }
+    setPreviewDraft(d)
+    void window.vocall.previewPopup({ scale: d.scale, opacity: d.opacity, fontScale: d.font })
+  }
+  const previewCommit = (): void => {
+    if (!previewDraft) return
+    const d = previewDraft
+    setPreviewDraft(null)
+    if (d.scale !== scaleVal) void update('popup_scale', String(d.scale))
+    if (d.font !== popupFontVal) void update('popup_font_scale', String(d.font))
+    if (d.opacity !== opacityVal) void update('popup_opacity', String(d.opacity))
+    void window.vocall.endPreview()
+  }
+
   const card = 'rounded-2xl border border-black/10 bg-white/60 p-5 shadow-sm'
   const sectionTitle = `mb-3 text-sm font-medium ${theme.accentText}`
   const inputCls =
@@ -214,33 +240,37 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
           <div className="space-y-5">
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
-                界面大小（{Math.round(scaleVal * 100)}%）
+                界面大小（{Math.round((previewDraft?.scale ?? scaleVal) * 100)}%）
               </span>
               <input
                 type="range"
                 min={POPUP_SCALE_MIN}
                 max={POPUP_SCALE_MAX}
                 step={0.05}
-                value={scaleVal}
-                onChange={(e) => void update('popup_scale', e.target.value)}
+                value={previewDraft?.scale ?? scaleVal}
+                onChange={(e) => previewChange('scale', parseFloat(e.target.value))}
+                onPointerUp={previewCommit}
+                onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">调弹窗物理尺寸（宽高）</p>
+              <p className="mt-1.5 text-xs text-slate-500">调弹窗物理尺寸（宽高），拖动时实时预览</p>
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
-                弹窗字体大小（{Math.round(popupFontVal * 100)}%）
+                弹窗字体大小（{Math.round((previewDraft?.font ?? popupFontVal) * 100)}%）
               </span>
               <input
                 type="range"
                 min={POPUP_FONT_SCALE_MIN}
                 max={POPUP_FONT_SCALE_MAX}
                 step={0.05}
-                value={popupFontVal}
-                onChange={(e) => void update('popup_font_scale', e.target.value)}
+                value={previewDraft?.font ?? popupFontVal}
+                onChange={(e) => previewChange('font', parseFloat(e.target.value))}
+                onPointerUp={previewCommit}
+                onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">只放大弹窗里的字和布局，不动窗口大小</p>
+              <p className="mt-1.5 text-xs text-slate-500">只放大弹窗里的字和布局，不动窗口大小，拖动时实时预览</p>
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
@@ -261,19 +291,21 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
-                透明度（{Math.round(opacityVal * 100)}%）
+                透明度（{Math.round((previewDraft?.opacity ?? opacityVal) * 100)}%）
               </span>
               <input
                 type="range"
                 min={POPUP_OPACITY_MIN}
                 max={POPUP_OPACITY_MAX}
                 step={0.05}
-                value={opacityVal}
-                onChange={(e) => void update('popup_opacity', e.target.value)}
+                value={previewDraft?.opacity ?? opacityVal}
+                onChange={(e) => previewChange('opacity', parseFloat(e.target.value))}
+                onPointerUp={previewCommit}
+                onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor}`}
               />
               <p className="mt-1.5 text-xs text-slate-500">
-                调弹窗透明度（0.5 半透明 ~ 1.0 不透明）
+                调弹窗透明度（0.5 半透明 ~ 1.0 不透明），拖动时实时预览
               </p>
             </label>
           </div>

@@ -16,6 +16,16 @@ export interface PopupPayload {
   repetitions: number // 当前连续答对次数（显示时封顶到 passCount）
   passCount: number   // 过关所需次数
   forgotCount: number // 已累计"忘了"次数（弹窗展示"已忘 X 次"用）
+  // —— 外观预览（设置页调滑块实时预览）——
+  preview?: boolean          // 预览词（item.id=-1）：渲染端据此静音 + 显示"预览"徽标
+  fontScaleOverride?: number // 预览拖动中的字体临时值（未提交设置）；卡片 zoom 优先用它
+}
+
+// 预览临时外观值（拖动中不写设置，松手才提交）。与 main/popup.ts PreviewOverrides 同构。
+export interface PreviewOverrides {
+  scale?: number
+  opacity?: number
+  fontScale?: number
 }
 
 // 词书词项（含"是否已在背诵库""是否在回收站"标记）
@@ -53,6 +63,9 @@ export interface VocallApi {
   getCurrent(): Promise<PopupPayload | null>
   grade(id: number, grade: 0 | 1 | 2): Promise<void>
   dismiss(): void
+  // 外观预览：设置页拖滑块实时预览弹窗。返回是否进入预览（真词正显示时 false=真词优先）
+  previewPopup(overrides?: PreviewOverrides): Promise<boolean>
+  endPreview(): Promise<void> // 松手后调用：3s 后自动收起预览
   // 已掌握终态：背完不再弹；revive 让 mastered 词复活重背（直接进 learning 队列立即可弹）
   master(id: number): Promise<void>
   revive(id: number): Promise<void>

@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { NewVocabItem } from '../shared/ipc-types'
+import type { NewVocabItem, PreviewOverrides } from '../shared/ipc-types'
 
 contextBridge.exposeInMainWorld('vocall', {
   listVocab: () => ipcRenderer.invoke('vocab:list'),
@@ -24,6 +24,9 @@ contextBridge.exposeInMainWorld('vocall', {
   grade: (id: number, grade: 0 | 1 | 2) =>
     ipcRenderer.invoke('popup:grade', id, grade),
   dismiss: () => ipcRenderer.invoke('popup:dismiss'),
+  // 外观预览：设置页拖滑块实时预览弹窗（overrides=临时值不写设置）；松手 endPreview 3s 后收起
+  previewPopup: (overrides?: PreviewOverrides) => ipcRenderer.invoke('popup:preview', overrides),
+  endPreview: () => ipcRenderer.invoke('popup:endPreview'),
   // 已掌握终态：标背完/复活重背
   master: (id: number) => ipcRenderer.invoke('vocab:master', id),
   revive: (id: number) => ipcRenderer.invoke('vocab:revive', id),

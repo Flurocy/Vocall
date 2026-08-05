@@ -64,10 +64,13 @@ export default function PopupCard(): ReactElement | null {
     void window.vocall.getSettings().then((settings) => {
       if (!alive.current) return
       setTheme(getTheme(settings.theme))
-      // 每次弹窗重读弹窗字体倍率（popup_font_scale），设置改完后下一次弹窗即时生效
-      setFontScale(getPopupFontScale(settings.popup_font_scale))
+      // 每次弹窗重读弹窗字体倍率（popup_font_scale），设置改完后下一次弹窗即时生效；
+      // 预览拖动中则用 payload 带的临时值（设置未提交），实现"拖字体滑块即见字变"。
+      setFontScale(
+        p.fontScaleOverride != null ? String(p.fontScaleOverride) : getPopupFontScale(settings.popup_font_scale),
+      )
     })
-    void playSound()
+    if (!p.preview) void playSound() // 预览静音——拖滑块会反复重弹卡片，不能砰砰响
   }, [])
 
   useEffect(() => {
@@ -157,7 +160,7 @@ export default function PopupCard(): ReactElement | null {
         className={`relative flex h-full w-full select-none flex-col justify-center rounded-2xl border border-black/15 ${theme.bgCard} p-5 shadow-2xl backdrop-blur-md`}
       >
         <div className={`absolute right-3 top-2 text-[10px] ${theme.accentText}`}>
-          已连续答对 {Math.min(repetitions, passCount)}/{passCount}
+          {payload.preview ? '外观预览' : `已连续答对 ${Math.min(repetitions, passCount)}/${passCount}`}
         </div>
         {face === 'front' ? (
           <div className="flex flex-col items-center justify-center text-center">
