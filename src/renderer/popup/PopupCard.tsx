@@ -4,6 +4,7 @@ import type { PopupPayload } from '../../shared/ipc-types'
 import { getTheme, getPopupFontScale } from '../theme'
 import type { Theme } from '../theme'
 import { playWord } from '../playWord'
+import { pickShownSenses } from './senses'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -135,13 +136,11 @@ export default function PopupCard(): ReactElement | null {
   if (!payload) return null
   const { item, repetitions, passCount, forgotCount } = payload
 
-  // 一词多义：用户勾选了义项（selectedSenses）且词带 senses → 背面按勾选义项列表显示（带词性）；
+  // 一词多义：挑选背面要显示的义项（纯函数，独立可测）：
+  // 用户勾选了义项（selectedSenses）且词带 senses → 按勾选显示（词性+释义列表）；
   // 否则回退默认义项 meaning（旧词/未勾选/单义词，展示与从前完全一致）。
   // 防御：下标越界（数据异常）的过滤掉；过滤后为空也回退 meaning。
-  const shownSenses =
-    item.senses && item.selectedSenses && item.selectedSenses.length > 0
-      ? item.selectedSenses.filter((i) => i >= 0 && i < item.senses!.length).map((i) => item.senses![i])
-      : null
+  const shownSenses = pickShownSenses(item)
 
   const send = (g: 0 | 1 | 2): void => {
     void window.vocall.grade(item.id, g)
