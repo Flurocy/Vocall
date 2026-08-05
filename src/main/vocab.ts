@@ -1,4 +1,7 @@
 import { allocId, vocabBox, trashBox, setSrsState, setSrsStateBatch, deleteSrsState, getPopCount, peekNextId, reserveNextId } from './store'
+import type { Sense } from '../shared/ipc-types'
+
+export type { Sense }
 
 export interface VocabItem {
   id: number; word: string; meaning: string; example: string
@@ -6,6 +9,9 @@ export interface VocabItem {
   book: string | null                 // 来源词书 id；手动添加/种子词为 null
   status: 'new' | 'learning' | 'review' | 'mastered' // 生命周期四态：新词未解锁/学习中(轮回内)/复习中(轮回外)/已掌握(背完不再弹)
   source: string; created_at: number
+  // —— 一词多义（增量字段，undefined=单义词/旧数据，一切照旧）——
+  senses?: Sense[]          // 全部义项（多义词才有）；meaning 保留为默认义项，旧展示零破坏
+  selectedSenses?: number[] // 用户勾选要在弹窗显示的义项下标（限 3 个）；undefined=只显示默认义项
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
   status?: VocabItem['status'] // 可选：词书导入传 'new'，其余默认 'learning'

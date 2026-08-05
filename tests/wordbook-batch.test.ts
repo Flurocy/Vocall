@@ -129,4 +129,21 @@ describe('addVocabBatch 批量添加', () => {
   it('空批次返回 0', () => {
     expect(addVocabBatch([])).toBe(0)
   })
+
+  it('透传一词多义增量字段（senses/selectedSenses 随入库保留）', () => {
+    const n = addVocabBatch([{
+      word: 'access', meaning: 'n. 通道；入口', example: 'e', topic: null, source: 't',
+      senses: [
+        { pos: 'n.', meaning: '通道；入口' },
+        { pos: 'n.', meaning: '使用权；接触机会' },
+        { pos: 'v.', meaning: '存取；访问' },
+      ],
+      selectedSenses: [0, 2],
+    }])
+    expect(n).toBe(1)
+    const v = listVocab().find((x) => x.word === 'access')!
+    expect(v.senses).toHaveLength(3)
+    expect(v.senses![2].pos).toBe('v.')
+    expect(v.selectedSenses).toEqual([0, 2])
+  })
 })

@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { addVocabBatch, listVocab, hardDeleteVocab } from './vocab'
+import type { Sense } from '../shared/ipc-types'
 import { trashBox } from './store'
 import { resolveResource } from './paths'
 
@@ -10,7 +11,7 @@ import { resolveResource } from './paths'
 export interface WordbookMeta { id: string; name: string; count: number; desc: string }
 interface WordbookFile {
   id: string; name: string; desc: string
-  words: { word: string; meaning: string; example: string; topic: string }[]
+  words: { word: string; meaning: string; example: string; topic: string; senses?: Sense[] }[]
 }
 
 function booksDir(): string {

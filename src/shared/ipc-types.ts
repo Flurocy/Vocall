@@ -1,9 +1,19 @@
+// 义项（一词多义）：一个词性 + 对应释义。词的 senses 数组按常用度排序，第一个=默认义项。
+export interface Sense {
+  pos: string     // 词性标记，如 'n.' / 'v.' / 'adj.'
+  meaning: string // 该词性下的释义（可含近义并列，如 '通道；入口'）
+}
+
 export interface VocabItem {
   id: number; word: string; meaning: string; example: string
   topic: string | null
   book: string | null                   // 来源词书 id；手动/种子词为 null
   status: 'new' | 'learning' | 'review' | 'mastered' // 生命周期四态：新词/学习中/复习中/已掌握
   source: string; created_at: number
+  // —— 一词多义（增量字段，undefined=单义词/旧数据，一切照旧）——
+  // meaning 字段保留为"默认义项"（=senses[0] 的拼接），旧展示逻辑零破坏。
+  senses?: Sense[]          // 全部义项（多义词才有，词书 AI 翻新/AI 生成时写入）
+  selectedSenses?: number[] // 用户勾选要在弹窗显示的义项下标（限 3 个）；undefined=只显示默认义项
 }
 export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'book'> & {
   status?: VocabItem['status']
@@ -31,6 +41,7 @@ export interface PreviewOverrides {
 // 词书词项（含"是否已在背诵库""是否在回收站"标记）
 export interface WordbookWord {
   word: string; meaning: string; example: string; topic: string
+  senses?: Sense[] // 多义项（AI 翻新后的词书数据；旧数据无此字段=单义项）
   inLibrary: boolean
   inTrash: boolean
 }
