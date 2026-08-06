@@ -177,7 +177,7 @@ export default function PopupCard(): ReactElement | null {
     <div
       key={`${item.id}-${payload.preview ? 'p' : 'r'}`}
       ref={rootRef}
-      className="m-0 flex h-full w-full items-center justify-center bg-transparent"
+      className="m-0 flex h-full w-full items-center justify-center overflow-hidden bg-transparent"
       style={{ zoom: fontScale }}
     >
       <div

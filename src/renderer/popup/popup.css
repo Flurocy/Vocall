@@ -2,6 +2,9 @@
 
 html, body, #root { height: 100%; background: transparent; }
 
+/* 防入场动画期间溢出：GSAP transform 会临时撑开子元素，无裁剪时窗口外缘漏滚动条 */
+html, body { overflow: hidden; }
+
 /* UI 字体栈：Windows 现代 sans 优先，中文回落雅黑（与 manager 端一致） */
 body {
   font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
