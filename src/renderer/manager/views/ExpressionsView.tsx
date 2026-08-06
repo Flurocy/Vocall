@@ -249,7 +249,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
                 <span className={`truncate text-sm ${theme.accentText}`}>{e.meaning}</span>
               </div>
               {e.example ? (
-                <p className="mt-1 truncate text-xs text-slate-500">{e.example}</p>
+                <p className="mt-1 truncate text-xs text-slate-600">{e.example}</p>
               ) : null}
             </div>
           </div>
@@ -280,7 +280,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         {/* 义项勾选面板：勾选要在弹窗显示的义项（1~3 个）。默认仅第 1 个（=默认义项） */}
         {hasSenses && open && (
           <div className="mt-3 rounded-lg bg-black/[0.03] px-3 py-2.5">
-            <p className="mb-2 text-xs text-slate-500">
+            <p className="mb-2 text-xs text-slate-600">
               勾选要在弹窗显示的义项（最多 {MAX_SELECTED_SENSES} 个）：
               {senseMsg && <span className="ml-2 text-rose-600">{senseMsg}</span>}
             </p>
@@ -320,7 +320,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
       <header className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold">生词库</h2>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-500">
+          <span className="text-sm text-slate-600">
             共 {list.length} 条 · 在学 {active.length} · 待学 {pending.length} · 已掌握 {mastered.length}
           </span>
           {/* AI 主题生成入口（功能 A）：accentSolid 强调按钮，点击开 modal */}
@@ -368,7 +368,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             入库后在词条「义项」面板勾选弹窗要显示哪些（最多 3 个） */}
         {aiSenses && aiSenses.length > 0 && (
           <div className="mt-3 rounded-lg border border-black/5 bg-black/[0.02] px-3 py-2">
-            <div className="mb-1 text-xs text-slate-500">AI 给出的全部义项（第 1 个为默认义项）：</div>
+            <div className="mb-1 text-xs text-slate-600">AI 给出的全部义项（第 1 个为默认义项）：</div>
             <ul className="space-y-1">
               {aiSenses.map((s, i) => (
                 <li key={i} className="flex items-baseline gap-2 text-sm">
@@ -406,7 +406,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 0 4 21.5z" />
             <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 1 1.5 1.5z" />
           </svg>
-          <p className="text-sm text-slate-500">还没有生词，先在上方添加一条吧</p>
+          <p className="text-sm text-slate-600">还没有生词，先在上方添加一条吧</p>
         </div>
       ) : (
         <>

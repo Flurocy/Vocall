@@ -32,10 +32,10 @@ export default function WordbooksView({ theme }: { theme: Theme }): ReactElement
       <header className="mb-2">
         <h2 className="text-xl font-semibold">词书</h2>
       </header>
-      <p className="mb-4 text-sm text-slate-500">词书是预置的现成词库，点进一本，勾选想要的词加入背诵库。</p>
+      <p className="mb-4 text-sm text-slate-600">词书是预置的现成词库，点进一本，勾选想要的词加入背诵库。</p>
       {books.length === 0 ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-black/15 bg-white/40 px-6 py-12 text-center">
-          <p className="text-sm text-slate-500">还没有可用词书（data/wordbooks 目录为空）</p>
+          <p className="text-sm text-slate-600">还没有可用词书（data/wordbooks 目录为空）</p>
         </div>
       ) : (
         <ul className="space-y-3">
@@ -47,7 +47,7 @@ export default function WordbooksView({ theme }: { theme: Theme }): ReactElement
               >
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className={`font-medium ${theme.accentText}`}>{b.name}</h3>
-                  <span className="shrink-0 text-xs text-slate-500">{b.count} 词</span>
+                  <span className="shrink-0 text-xs text-slate-600">{b.count} 词</span>
                 </div>
                 <p className="mt-1 text-sm text-slate-600">{b.desc}</p>
               </button>
@@ -146,7 +146,7 @@ function BookDetail({ theme, bookId, bookName, onBack }: {
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
                   <span className="font-medium text-slate-800">{w.word}</span>
-                  {w.inLibrary && <span className="text-xs text-slate-500">已在库</span>}
+                  {w.inLibrary && <span className="text-xs text-slate-600">已在库</span>}
                   {w.inTrash && <span className="text-xs text-rose-600">回收站</span>}
                 </div>
                 <div className="text-sm text-slate-600">{w.meaning}</div>

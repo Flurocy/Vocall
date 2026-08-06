@@ -253,7 +253,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">调弹窗物理尺寸（宽高），拖动时实时预览</p>
+              <p className="mt-1.5 text-xs text-slate-600">调弹窗物理尺寸（宽高），拖动时实时预览</p>
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
@@ -270,7 +270,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">只放大弹窗里的字和布局，不动窗口大小，拖动时实时预览</p>
+              <p className="mt-1.5 text-xs text-slate-600">只放大弹窗里的字和布局，不动窗口大小，拖动时实时预览</p>
             </label>
             <label className="block">
               <span className="mb-1 block text-sm text-slate-600">
@@ -285,7 +285,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onChange={(e) => void update('font_size', e.target.value)}
                 className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">
+              <p className="mt-1.5 text-xs text-slate-600">
                 管理界面字号（rem 联动，只影响管理界面，不影响弹窗）
               </p>
             </label>
@@ -304,7 +304,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onKeyUp={previewCommit}
                 className={`w-full ${theme.accentColor} ${theme.accentText}`}
               />
-              <p className="mt-1.5 text-xs text-slate-500">
+              <p className="mt-1.5 text-xs text-slate-600">
                 调弹窗透明度（0.5 半透明 ~ 1.0 不透明），拖动时实时预览
               </p>
             </label>
@@ -335,7 +335,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm text-slate-600">主动唤出弹窗</p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-600">
                   任意窗口按此键唤出弹窗。支持组合键（Ctrl/Shift/Alt/Meta + 字母/数字/方向键）或安全单键（小键盘数字、F1-F12）；Esc 禁用
                 </p>
               </div>
@@ -387,7 +387,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                   onChange={(e) => void update(f.key, e.target.value)}
                   className={inputCls}
                 />
-                <p className="mt-1 text-xs text-slate-500">{f.hint}</p>
+                <p className="mt-1 text-xs text-slate-600">{f.hint}</p>
               </label>
             ))}
             {ELASTIC_LIST_FIELDS.map((f) => (
@@ -399,7 +399,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                   onChange={(e) => void update(f.key, e.target.value)}
                   className={inputCls}
                 />
-                <p className="mt-1 text-xs text-slate-500">{f.hint}</p>
+                <p className="mt-1 text-xs text-slate-600">{f.hint}</p>
               </label>
             ))}
           </div>
@@ -454,7 +454,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
               </button>
             ))}
           </div>
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-xs text-slate-600">
             弹窗与生词库点击 🔊 朗读；雅思听力以英音为主
           </p>
         </section>
@@ -471,7 +471,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 onChange={(e) => void update('ai_api_key', e.target.value)}
                 className={inputCls}
               />
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-slate-600">
                 仅保存在本机，不会上传。到 platform.deepseek.com 申请
               </p>
             </label>
@@ -550,7 +550,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-600">
               数据保存在本机 AppData\Vocall，更新覆盖不会丢失。
             </p>
           </div>

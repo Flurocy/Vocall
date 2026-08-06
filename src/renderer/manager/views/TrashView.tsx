@@ -49,7 +49,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
       <header className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold">回收站</h2>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-500">共 {list.length} 条</span>
+          <span className="text-sm text-slate-600">共 {list.length} 条</span>
           <button
             onClick={() => void clearAll()}
             disabled={list.length === 0}
@@ -65,7 +65,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-3 text-slate-400">
             <path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0v12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V7" />
           </svg>
-          <p className="text-sm text-slate-500">回收站是空的</p>
+          <p className="text-sm text-slate-600">回收站是空的</p>
         </div>
       ) : (
         <ul className="space-y-2.5">
@@ -85,7 +85,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
                       </span>
                       <span className={`truncate text-sm ${theme.accentText}`}>{e.item.meaning}</span>
                     </div>
-                    <p className="mt-1 truncate text-xs text-slate-500">
+                    <p className="mt-1 truncate text-xs text-slate-600">
                       删除于 {new Date(e.deletedAt).toLocaleString()}
                     </p>
                   </div>

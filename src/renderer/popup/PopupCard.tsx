@@ -211,7 +211,7 @@ export default function PopupCard(): ReactElement | null {
                 </svg>
               </button>
             </div>
-            <div className="mt-2 text-xs text-slate-500">点击卡片查看释义</div>
+            <div className="mt-2 text-xs text-slate-600">点击卡片查看释义</div>
           </div>
         ) : (
           // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切。
@@ -237,7 +237,7 @@ export default function PopupCard(): ReactElement | null {
             <button
               onMouseDown={stopMouseDown}
               onClick={() => setExampleOpen((v) => !v)}
-              className="mt-2 text-sm text-slate-500 hover:text-slate-800"
+              className="mt-2 text-sm text-slate-600 hover:text-slate-800"
             >
               {exampleOpen ? '▾ 收起例句' : '▸ 查看例句'}
             </button>
@@ -261,7 +261,7 @@ export default function PopupCard(): ReactElement | null {
             <button
               onMouseDown={stopMouseDown}
               onClick={() => void master()}
-              className="mt-2 w-full rounded-md border border-slate-300/70 py-1.5 text-sm text-slate-500 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700 active:scale-[0.98]"
+              className="mt-2 w-full rounded-md border border-slate-300/70 py-1.5 text-sm text-slate-600 transition hover:border-slate-400 hover:bg-white/40 hover:text-slate-700 active:scale-[0.98]"
             >
               标为已掌握（不再弹出）
             </button>
