@@ -239,7 +239,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
                 {adding ? '加入中…' : `加入所选（${checked.size}）`}
               </button>
             </div>
-            <ul className="space-y-1.5 overflow-y-auto pr-1">
+            <ul className={`manager-scroll space-y-1.5 overflow-y-auto pr-1 ${theme.accentText}`}>
               {results.map((e, i) => {
                 const isChecked = checked.has(i)
                 const isExpanded = expanded.has(i)

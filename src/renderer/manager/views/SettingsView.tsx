@@ -17,6 +17,7 @@ import {
   POPUP_OPACITY_MAX,
 } from '../../theme'
 import type { Theme } from '../../theme'
+import ConfirmModal from './ConfirmModal'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   { key: 'popup_interval_sec', label: '弹出间隔（秒）', min: 1 },
@@ -84,6 +85,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   // 版本号 + 检查更新结果（kind:'ok' 且有 url 时附"前往下载"跳 release 页）
   const [version, setVersion] = useState('')
   const [updateMsg, setUpdateMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string; url?: string | null } | null>(null)
+  // 自绘确认弹窗（替代 window.confirm，主题跟随）
+  const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
 
   useEffect(() => {
     void window.vocall.getSettings().then(setSettings)
@@ -155,10 +158,17 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
 
   // 恢复默认：主进程重置弹性数值键后整体重拉，本地 state 一并刷新。
   // 只动记忆节奏数值，外观/音效/AI 不受影响，故无需 onSettingChanged
-  const resetElastic = async (): Promise<void> => {
-    if (!window.confirm('把"记忆节奏"相关数值恢复为默认值？外观、音效、AI 设置不受影响。')) return
-    await window.vocall.resetElasticSettings()
-    setSettings(await window.vocall.getSettings())
+  const resetElastic = (): void => {
+    setConfirm({
+      message: '把"记忆节奏"相关数值恢复为默认值？外观、音效、AI 设置不受影响。',
+      onOk: () => {
+        setConfirm(null)
+        void (async () => {
+          await window.vocall.resetElasticSettings()
+          setSettings(await window.vocall.getSettings())
+        })()
+      },
+    })
   }
 
   const currentTheme = getTheme(settings.theme)
@@ -209,7 +219,7 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold">设置</h2>
         <button
-          onClick={() => void resetElastic()}
+          onClick={() => resetElastic()}
           className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:bg-black/5"
         >
           恢复默认设置
@@ -556,6 +566,11 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
           </div>
         </section>
       </div>
+
+      {/* 自绘确认弹窗（替代 window.confirm，主题跟随；恢复默认非破坏性 danger=false） */}
+      {confirm && (
+        <ConfirmModal theme={theme} message={confirm.message} danger={false} onOk={confirm.onOk} onCancel={() => setConfirm(null)} />
+      )}
     </div>
   )
 }

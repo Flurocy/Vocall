@@ -6,6 +6,7 @@ import { playWord } from '../../playWord'
 import { staggerIn } from '../../anim'
 import { CircleNotch } from '@phosphor-icons/react'
 import AiGenModal from './AiGenModal'
+import ConfirmModal from './ConfirmModal'
 
 // 剥 Electron IPC 包装前缀：err.message 形如
 // "Error invoking remote method 'vocab:add': Error: 「x」已在生词库中..."，
@@ -38,6 +39,8 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
   // AI 翻译带回的一词多义（随「新增生词」入库透传；改 word 视作换词清除，入库成功后清空）
   const [aiSenses, setAiSenses] = useState<Sense[] | null>(null)
+  // 自绘确认弹窗（替代 window.confirm）：null=关闭；{message, onOk}=显示
+  const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
   // 列表容器 ref：GSAP stagger 入场目标（.list-item 行依次浮现）
   const listRef = useRef<HTMLUListElement | null>(null)
   // 首次加载标志：只在第一次有数据时播 stagger，之后增删不重播（避免操作一下整列闪一遍）
@@ -174,11 +177,18 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const toggleAll = (): void => {
     setChecked(allChecked ? new Set() : new Set(list.map((e) => e.id)))
   }
-  const removeSelected = async (): Promise<void> => {
+  const removeSelected = (): void => {
     if (checked.size === 0) return
-    if (!window.confirm(`删除勾选的 ${checked.size} 条生词？将移到回收站，可还原。`)) return
-    for (const id of checked) await window.vocall.deleteVocab(id)
-    await reload()
+    setConfirm({
+      message: `删除勾选的 ${checked.size} 条生词？将移到回收站，可还原。`,
+      onOk: () => {
+        setConfirm(null)
+        void (async () => {
+          for (const id of checked) await window.vocall.deleteVocab(id)
+          await reload()
+        })()
+      },
+    })
   }
 
   const inputCls =
@@ -425,7 +435,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
                 标为已掌握（{checked.size}）
               </button>
               <button
-                onClick={() => void removeSelected()}
+                onClick={() => removeSelected()}
                 disabled={checked.size === 0}
                 className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-40"
               >
@@ -465,6 +475,11 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             )))}
           </ul>
         </>
+      )}
+
+      {/* 自绘确认弹窗（替代 window.confirm，主题跟随） */}
+      {confirm && (
+        <ConfirmModal theme={theme} message={confirm.message} onOk={confirm.onOk} onCancel={() => setConfirm(null)} />
       )}
 
       {/* AI 主题生成 modal（功能 A 入口）：onAdded 入库成功后 reload 列表；

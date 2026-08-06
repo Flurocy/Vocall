@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { TrashEntry, VocabItem } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
+import ConfirmModal from './ConfirmModal'
 
 // 回收站：软删除词的暂存区。仿 ExpressionsView 卡片化风格（白底半透+细边+圆角+轻投影），
 // 列表展示 word/meaning/status 徽标 + 删除时间；每条可还原/彻底删除，顶部可一键清空。
 // listTrash 后端已按 deletedAt 倒序返回（最近删的在上），前端直接渲染。
 export default function TrashView({ theme }: { theme: Theme }): ReactElement {
   const [list, setList] = useState<TrashEntry[]>([])
+  // 自绘确认弹窗（替代 window.confirm，主题跟随）
+  const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
 
   const reload = async (): Promise<void> => {
     setList(await window.vocall.listTrash())
@@ -19,19 +22,33 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
     await reload()
   }
 
-  // 彻底删除：从回收站真删 + 清对应 srsState，不可恢复，需 confirm。
-  const purge = async (id: number): Promise<void> => {
-    if (!window.confirm('彻底删除这个词？不可恢复。')) return
-    await window.vocall.purge(id)
-    await reload()
+  // 彻底删除：从回收站真删 + 清对应 srsState，不可恢复，自绘弹窗确认。
+  const purge = (id: number): void => {
+    setConfirm({
+      message: '彻底删除这个词？不可恢复。',
+      onOk: () => {
+        setConfirm(null)
+        void (async () => {
+          await window.vocall.purge(id)
+          await reload()
+        })()
+      },
+    })
   }
 
-  // 一键清空：清空整个回收站 + 删所有对应 srsState，需 confirm。
-  const clearAll = async (): Promise<void> => {
+  // 一键清空：清空整个回收站 + 删所有对应 srsState，自绘弹窗确认。
+  const clearAll = (): void => {
     if (list.length === 0) return
-    if (!window.confirm('彻底清空所有已删除的词？此操作不可恢复。')) return
-    await window.vocall.clearTrash()
-    await reload()
+    setConfirm({
+      message: '彻底清空所有已删除的词？此操作不可恢复。',
+      onOk: () => {
+        setConfirm(null)
+        void (async () => {
+          await window.vocall.clearTrash()
+          await reload()
+        })()
+      },
+    })
   }
 
   // 复用 ExpressionsView 四态徽标配色（learning=accent/review=emerald/mastered=amber/new=slate）
@@ -51,7 +68,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
         <div className="flex items-center gap-3">
           <span className="text-sm text-slate-600">共 {list.length} 条</span>
           <button
-            onClick={() => void clearAll()}
+            onClick={() => clearAll()}
             disabled={list.length === 0}
             className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-600 disabled:opacity-40"
           >
@@ -99,7 +116,7 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
                     还原
                   </button>
                   <button
-                    onClick={() => void purge(e.item.id)}
+                    onClick={() => purge(e.item.id)}
                     className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-rose-500/10 hover:text-rose-600"
                   >
                     彻底删除
@@ -109,6 +126,11 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
             )
           })}
         </ul>
+      )}
+
+      {/* 自绘确认弹窗（替代 window.confirm，主题跟随；彻底删除/清空均为破坏性 danger） */}
+      {confirm && (
+        <ConfirmModal theme={theme} message={confirm.message} onOk={confirm.onOk} onCancel={() => setConfirm(null)} />
       )}
     </div>
   )

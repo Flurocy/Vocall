@@ -97,7 +97,8 @@ export default function App(): ReactElement {
             </button>
           ))}
         </nav>
-        <main className="flex-1 overflow-auto p-6">
+        {/* manager-scroll 自定义滚动条：currentColor=主题 accentText，换肤自动跟随 */}
+        <main className={`manager-scroll flex-1 overflow-auto p-6 ${theme.accentText}`}>
           {tab === 'vocab'
             ? <ExpressionsView theme={theme} />
             : tab === 'wordbooks'
