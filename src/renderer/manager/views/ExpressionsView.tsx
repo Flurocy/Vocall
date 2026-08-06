@@ -4,6 +4,7 @@ import type { VocabItem, Sense } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
 import { playWord } from '../../playWord'
 import { staggerIn } from '../../anim'
+import { CircleNotch } from '@phosphor-icons/react'
 import AiGenModal from './AiGenModal'
 
 // 剥 Electron IPC 包装前缀：err.message 形如
@@ -264,7 +265,8 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
                 {open ? '▾ 义项' : `▸ 义项×${e.senses!.length}`}
               </button>
             )}
-            <div className="flex items-center gap-1 opacity-0 transition group-hover:opacity-100">
+            {/* hover-only → 常驻浅灰可见（skill UX：重要操作不能只在 hover 才出现，可发现性） */}
+            <div className="flex items-center gap-1 opacity-45 transition group-hover:opacity-100">
               {action}
               <button
                 onClick={() => void remove(e.id)}
@@ -346,9 +348,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
             <button
               onClick={() => void aiTranslate()}
               disabled={!word.trim() || aiTranslating}
-              className="rounded-lg border border-black/10 px-2.5 py-2 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
+              className="flex items-center gap-1 rounded-lg border border-black/10 px-2.5 py-2 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
             >
-              {aiTranslating ? '…' : 'AI 译'}
+              {aiTranslating ? <CircleNotch size={13} className="animate-spin" /> : null}
+              {aiTranslating ? '翻译中' : 'AI 译'}
             </button>
             <span
               className={`absolute bottom-full left-1/2 z-10 mb-1.5 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-black/10 px-2 py-1 text-xs shadow-md group-hover:block ${theme.bgCard} ${theme.accentText}`}

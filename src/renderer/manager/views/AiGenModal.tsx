@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { Theme } from '../../theme'
 import type { Sense } from '../../../shared/ipc-types'
+import { CircleNotch } from '@phosphor-icons/react'
 
 // 主题词组生成 modal（功能 A 入口）：输主题/选预设 → AI 生成 30 个 → 勾选入库。
 // 入库参数约定（计划 §5）：{status:'new', topic:主题文本, source:'AI主题:'+主题文本}。
@@ -208,8 +209,9 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
           <button
             onClick={() => void generate()}
             disabled={loading || adding || !themeText.trim()}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50 ${theme.accentSolid} ${theme.accentSolidHover}`}
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50 ${theme.accentSolid} ${theme.accentSolidHover}`}
           >
+            {loading && <CircleNotch size={15} className="animate-spin" />}
             {loading ? '生成中…' : '生成 30 个'}
           </button>
           {msg && <span className={`text-sm ${msgCls(msg.kind)}`}>{msg.text}</span>}

@@ -90,7 +90,8 @@ export default function TrashView({ theme }: { theme: Theme }): ReactElement {
                     </p>
                   </div>
                 </div>
-                <div className="ml-4 flex shrink-0 items-center gap-1 opacity-0 transition group-hover:opacity-100">
+                {/* 常驻浅灰可见（skill UX：hover-only 隐藏重要操作影响可发现性） */}
+                <div className="ml-4 flex shrink-0 items-center gap-1 opacity-45 transition group-hover:opacity-100">
                   <button
                     onClick={() => void restore(e.item.id)}
                     className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-700"
