@@ -40,6 +40,13 @@ input[type='range']:active::-webkit-slider-thumb {
   transform: scale(1.05);
 }
 
+/* 系统"减少动态效果"：关掉装饰性过渡（滑块圆头缩放等）。GSAP 路径在 anim.ts 内检测跳过。 */
+@media (prefers-reduced-motion: reduce) {
+  input[type='range']::-webkit-slider-thumb {
+    transition: none;
+  }
+}
+
 /* 自绘标题栏拖拽区：-webkit-app-region 无 Tailwind 对应类，自定义两个工具类 */
 .app-drag {
   -webkit-app-region: drag;
