@@ -6,6 +6,7 @@ import type { Theme } from '../theme'
 import { playWord } from '../playWord'
 import { pickShownSenses } from './senses'
 import { popupEnter } from '../anim'
+import { X, Minus, Check } from '@phosphor-icons/react'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -246,9 +247,15 @@ export default function PopupCard(): ReactElement | null {
               </div>
             )}
             <div className="mt-4 flex gap-2">
-              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 transition hover:bg-rose-500/25 active:scale-95">😵 忘了</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 transition hover:bg-amber-500/25 active:scale-95">🤔 有点印象</button>
-              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex-1 rounded-lg py-2 text-base font-semibold transition active:scale-95 ${theme.accentSolid} ${theme.accentSolidHover}`}>😎 记得</button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 transition hover:bg-rose-500/25 active:scale-95">
+                <X size={15} weight="bold" /> 忘了
+              </button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 transition hover:bg-amber-500/25 active:scale-95">
+                <Minus size={15} weight="bold" /> 有点印象
+              </button>
+              <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-2 text-base font-semibold transition active:scale-95 ${theme.accentSolid} ${theme.accentSolidHover}`}>
+                <Check size={15} weight="bold" /> 记得
+              </button>
             </div>
             {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}
             <button
