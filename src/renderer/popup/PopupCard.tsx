@@ -5,6 +5,7 @@ import { getTheme, getPopupFontScale } from '../theme'
 import type { Theme } from '../theme'
 import { playWord } from '../playWord'
 import { pickShownSenses } from './senses'
+import { popupEnter } from '../anim'
 
 // 音效：读设置里的 sound_file（接入位，空则用默认 pop.mp3）。
 // 相对路径基于弹窗页面 URL（/popup/popup.html），'../<file>' 指向渲染资源根目录，
@@ -52,6 +53,8 @@ export default function PopupCard(): ReactElement | null {
   faceRef.current = face
   // 进行中的拖拽手势的清理函数（移除 window 监听器），卸载时兜底调用
   const dragCleanup = useRef<(() => void) | null>(null)
+  // 根容器 ref：GSAP 入场动画目标（换新词 key 重挂载 → 每次弹窗播一次回弹）
+  const rootRef = useRef<HTMLDivElement | null>(null)
 
   const start = useCallback((p: PopupPayload): void => {
     timers.current.forEach(clearTimeout)
@@ -80,6 +83,12 @@ export default function PopupCard(): ReactElement | null {
     // 根容器不再 inline fontSize——em/rem 均相对 html 根的 16px（本文件无 em 用法，全 rem/px）。
     document.documentElement.style.fontSize = ROOT_FONT_PX
   }, [])
+
+  // GSAP 入场：payload 就位（含预览拖动中 payload 更新）后，每次 item 切换播一次弹性回弹。
+  // 预览拖动只是 payload 内容更新、item.id 不变 → 不重复播（不重挂载也不乱动）。
+  useEffect(() => {
+    if (payload) popupEnter(rootRef.current)
+  }, [payload?.item.id, payload?.preview]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // 方案A（主动 pull）：mount 后立即拉一次当前词，覆盖"启动即有到期词、
@@ -163,11 +172,11 @@ export default function PopupCard(): ReactElement | null {
     // rem 基准已在根 html 固定 16px（见上方 useEffect），此处不再 inline fontSize；
     // zoom 整体缩放弹窗内容（字+布局），不动窗口尺寸、不连 rem 胀间距——弹窗字体只由它决定。
     // zoom 是 Chromium 标准化的布局级缩放（Electron 40 支持），元素重排、不糊不位移。
-    // key=词id+预览标记：换新词/进预览时重挂载，popup-enter 入场动画重放；
-    // 预览拖动中 payload 反复更新但 key 不变，不会反复播动画。
+    // 入场动画由 GSAP 驱动（见 useEffect + anim.ts popupEnter，弹性回弹），不再用 CSS keyframes。
     <div
       key={`${item.id}-${payload.preview ? 'p' : 'r'}`}
-      className="popup-enter m-0 flex h-full w-full items-center justify-center bg-transparent"
+      ref={rootRef}
+      className="m-0 flex h-full w-full items-center justify-center bg-transparent"
       style={{ zoom: fontScale }}
     >
       <div

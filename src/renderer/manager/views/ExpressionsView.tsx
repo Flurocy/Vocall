@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 import type { VocabItem, Sense } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
 import { playWord } from '../../playWord'
+import { staggerIn } from '../../anim'
 import AiGenModal from './AiGenModal'
 
 // 剥 Electron IPC 包装前缀：err.message 形如
@@ -36,6 +37,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
   // AI 翻译带回的一词多义（随「新增生词」入库透传；改 word 视作换词清除，入库成功后清空）
   const [aiSenses, setAiSenses] = useState<Sense[] | null>(null)
+  // 列表容器 ref：GSAP stagger 入场目标（.list-item 行依次浮现）
+  const listRef = useRef<HTMLUListElement | null>(null)
+  // 首次加载标志：只在第一次有数据时播 stagger，之后增删不重播（避免操作一下整列闪一遍）
+  const firstLoad = useRef(true)
 
   const reload = async (): Promise<void> => {
     setList(await window.vocall.listVocab())
@@ -43,6 +48,14 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     setChecked(new Set()) // 刷新后清空勾选（被删的 id 已失效）
   }
   useEffect(() => { void reload() }, [])
+
+  // 首次载入列表后播一次 GSAP stagger（依次浮现）；之后增删改不重播
+  useEffect(() => {
+    if (firstLoad.current && list.length > 0 && listRef.current) {
+      firstLoad.current = false
+      staggerIn(listRef.current.querySelectorAll('.list-item'))
+    }
+  }, [list])
 
   const add = async (): Promise<void> => {
     // 分别提示：原来 !word || !meaning 静默返回，用户只填 word 没填 meaning 时点了没反应。
@@ -199,7 +212,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
     return (
       <li
         key={e.id}
-        className="group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
+        className="list-item group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
       >
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 items-center gap-3">
@@ -417,7 +430,7 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
               </button>
             </div>
           </div>
-          <ul className="space-y-2.5">
+          <ul className="space-y-2.5" ref={listRef}>
             {/* 学习中 / 复习中：会出现在弹窗的词（分界线之上） */}
             {active.map((e) => row(e))}
             {/* 分界线：以下为待学习（new 队列，暂不弹窗） */}
