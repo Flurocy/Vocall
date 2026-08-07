@@ -48,6 +48,7 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
   const [editDraft, setEditDraft] = useState<Draft | null>(null)
   // 每卡片"拉取模型"loading / 消息（key: providerId 或 'new'）
   const [fetching, setFetching] = useState<string | null>(null)
+  const [testing, setTesting] = useState<string | null>(null) // 测试连接中的 provider id
   const [msg, setMsg] = useState<{ key: string; kind: 'ok' | 'err'; text: string } | null>(null)
   const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
 
@@ -150,6 +151,22 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
     setProviders(await window.vocall.selectProviderModel(id, model))
   }
 
+  // 测试该供应商连接：临时把它设为当前选中，调全局 ai:test（测当前 active 文本供应商）。
+  // 仅文本供应商可测（图像调用本期未接入）。
+  const testProvider = async (p: ProviderView): Promise<void> => {
+    setTesting(p.id)
+    setMsg(null)
+    try {
+      if (p.selectedModel) await window.vocall.selectProviderModel(p.id, p.selectedModel)
+      const r = await window.vocall.testAi()
+      setMsg({ key: `test-${p.id}`, kind: r.ok ? 'ok' : 'err', text: r.message })
+    } catch (err) {
+      setMsg({ key: `test-${p.id}`, kind: 'err', text: errMsg(err) })
+    } finally {
+      setTesting(null)
+    }
+  }
+
   // 协议/类别徽标
   const badge = (text: string, cls: string): ReactElement => (
     <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${cls}`}>{text}</span>
@@ -230,7 +247,21 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
                 {fetching === p.id ? <CircleNotch size={12} className="animate-spin" /> : null}
                 {p.models.length > 0 ? '重新拉取模型' : '拉取模型列表'}
               </button>
+              {/* 测试连接：仅文本供应商（图像调用本期未接入） */}
+              {p.kind === 'text' && (
+                <button
+                  onClick={() => void testProvider(p)}
+                  disabled={testing === p.id || !p.hasKey}
+                  className="flex items-center gap-1 rounded-lg border border-black/10 px-2.5 py-1.5 text-xs text-slate-600 transition hover:bg-black/5 disabled:opacity-40"
+                >
+                  {testing === p.id ? <CircleNotch size={12} className="animate-spin" /> : null}
+                  测试连接
+                </button>
+              )}
               {msg && msg.key === p.id && (
+                <span className={`text-xs ${msg.kind === 'ok' ? theme.accentText : 'text-rose-600'}`}>{msg.text}</span>
+              )}
+              {msg && msg.key === `test-${p.id}` && (
                 <span className={`text-xs ${msg.kind === 'ok' ? theme.accentText : 'text-rose-600'}`}>{msg.text}</span>
               )}
             </div>
