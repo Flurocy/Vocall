@@ -65,6 +65,39 @@ export interface PolishResult {
   usedWords: string[]
 }
 
+// —— AI 供应商多配置（与 main/providers.ts 对齐；渲染端只见脱敏视图）——
+export type AiProtocol = 'openai' | 'gemini'
+export type ModelKind = 'text' | 'image'
+// 供应商展示视图：apiKey 不出主进程明文，只用 hasKey 标志
+export interface ProviderView {
+  id: string
+  name: string
+  kind: ModelKind
+  protocol: AiProtocol
+  baseUrl: string
+  models: string[]
+  selectedModel: string
+  hasKey: boolean
+}
+// 新增/更新供应商的输入（含明文 apiKey，仅从前端→主进程一次写入存储）
+export interface ProviderInput {
+  name: string
+  kind: ModelKind
+  protocol: AiProtocol
+  baseUrl: string
+  apiKey: string
+  models: string[]
+  selectedModel: string
+}
+// 添加供应商时的默认模板（预填 name/baseUrl/默认模型）
+export interface ProviderTemplate {
+  name: string
+  kind: ModelKind
+  protocol: AiProtocol
+  baseUrl: string
+  defaultModel: string
+}
+
 // 渲染端可调用的接口形状
 export interface VocallApi {
   listVocab(): Promise<VocabItem[]>
@@ -105,6 +138,17 @@ export interface VocallApi {
   translate(word: string): Promise<{ meaning: string; example: string; senses?: Sense[] }>
   // A1 表达教练：句子优化/中译英。boost=true 时主进程取在学词软引导 + 后验高亮 usedWords
   polish(text: string, mode: PolishMode, boost: boolean): Promise<PolishResult>
+  // —— AI 供应商多配置（模型配置视图用）——
+  listProviders(): Promise<ProviderView[]>
+  addProvider(input: ProviderInput): Promise<ProviderView[]>
+  updateProvider(id: string, patch: Partial<ProviderInput>): Promise<ProviderView[]>
+  removeProvider(id: string): Promise<ProviderView[]>
+  // 勾选某供应商的当前模型
+  selectProviderModel(id: string, model: string): Promise<ProviderView[]>
+  // 拉取模型列表（基于已存的 baseUrl/key/protocol）；失败抛错，前端降级手填
+  fetchProviderModels(id: string): Promise<string[]>
+  // 添加供应商时的默认模板（预填 name/baseUrl/默认模型）
+  getProviderTemplates(): Promise<ProviderTemplate[]>
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()；失败 reject 由调用方 catch 静默
   pronounce(word: string): Promise<string>
   // 词书

@@ -56,7 +56,7 @@ export function genProviderId(): string {
 
 // OpenAI /models 响应的最小结构：{ data: [{ id }] }（兼容部分服务返回 { models: [{name}] }）
 interface ModelsListResponse {
-  data?: { id?: string }[]
+  data?: { id?: string; name?: string }[]
   models?: { id?: string; name?: string }[]
 }
 
