@@ -40,6 +40,7 @@ interface Draft {
 
 export default function ModelConfigView({ theme, onBack }: Props): ReactElement {
   const [providers, setProviders] = useState<ProviderView[]>([])
+  const [activeIds, setActiveIds] = useState<Record<'text' | 'image', string>>({ text: '', image: '' })
   const [templates, setTemplates] = useState<ProviderTemplate[]>([])
   // 添加表单开关 + 草稿
   const [adding, setAdding] = useState(false)
@@ -54,7 +55,10 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
   const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
 
   useEffect(() => {
-    void window.vocall.listProviders().then(setProviders)
+    void window.vocall.getProviderState().then((s) => {
+      setProviders(s.providers)
+      setActiveIds(s.activeIds)
+    })
     void window.vocall.getProviderTemplates().then(setTemplates)
   }, [])
 
@@ -152,13 +156,20 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
     setProviders(await window.vocall.selectProviderModel(id, model))
   }
 
-  // 测试该供应商连接：临时把它设为当前选中，调全局 ai:test（测当前 active 文本供应商）。
+  // 设为"当前使用"（CC Switch 式）：写入 activeIds，该类别调用/测试都走它
+  const setActive = async (p: ProviderView): Promise<void> => {
+    const s = await window.vocall.setActiveProvider(p.kind, p.id)
+    setProviders(s.providers)
+    setActiveIds(s.activeIds)
+  }
+
+  // 测试该供应商连接：先把它设为当前，再调全局 ai:test（测当前文本供应商）。
   // 仅文本供应商可测（图像调用本期未接入）。
   const testProvider = async (p: ProviderView): Promise<void> => {
     setTesting(p.id)
     setMsg(null)
     try {
-      if (p.selectedModel) await window.vocall.selectProviderModel(p.id, p.selectedModel)
+      await setActive(p) // 确保 ai:test 测的是这张卡
       const r = await window.vocall.testAi()
       setMsg({ key: `test-${p.id}`, kind: r.ok ? 'ok' : 'err', text: r.message })
     } catch (err) {
@@ -199,16 +210,31 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
   // 单张供应商卡片
   const card = (p: ProviderView): ReactElement => {
     const editing = editingId === p.id && editDraft
+    const isActive = activeIds[p.kind] === p.id
     return (
-      <li key={p.id} className="rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm">
+      <li
+        key={p.id}
+        className={`rounded-xl border px-4 py-3 shadow-sm transition ${
+          isActive ? 'border-black/20 bg-white/80 ring-1 ring-black/10' : 'border-black/10 bg-white/60'
+        }`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 items-center gap-2">
             <ProviderBrandIcon name={p.name} baseUrl={p.baseUrl} size={20} />
             <span className="font-medium text-slate-800">{p.name}</span>
-            {badge(KIND_LABEL[p.kind], p.kind === 'text' ? `${theme.accentBg} ${theme.accentText}` : 'bg-violet-500/15 text-violet-700')}
+            {isActive && badge('✓ 当前使用', `${theme.accentBg} ${theme.accentText}`)}
+            {badge(KIND_LABEL[p.kind], p.kind === 'text' ? 'bg-slate-500/10 text-slate-600' : 'bg-violet-500/15 text-violet-700')}
             {badge(PROTOCOL_LABEL[p.protocol], 'bg-slate-500/10 text-slate-600')}
           </div>
           <div className="flex shrink-0 items-center gap-1">
+            {!isActive && (
+              <button
+                onClick={() => void setActive(p)}
+                className={`rounded-md px-2 py-1 text-xs font-medium transition ${theme.accentText} hover:bg-black/5`}
+              >
+                设为当前
+              </button>
+            )}
             <button
               onClick={() => (editing ? (setEditingId(null), setEditDraft(null)) : startEdit(p))}
               className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-black/5 hover:text-slate-600"
@@ -352,7 +378,7 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
             <span className="text-xs text-slate-500">快速预填：</span>
             {templates.map((t) => (
               <button key={t.name} onClick={() => startAdd(t)} className="flex items-center gap-1.5 rounded-full bg-black/[0.04] px-2.5 py-1 text-xs text-slate-600 transition hover:bg-black/10">
-                <ProviderBrandIcon name={t.name} baseUrl={t.baseUrl} size={14} />
+                <ProviderBrandIcon name={t.name} baseUrl={t.baseUrl} brand={t.brand} size={14} />
                 {t.name}
               </button>
             ))}

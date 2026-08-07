@@ -45,7 +45,7 @@ export interface ProviderTemplate {
 export const PROVIDER_TEMPLATES: ProviderTemplate[] = [
   { name: 'DeepSeek', kind: 'text', protocol: 'openai', baseUrl: 'https://api.deepseek.com', defaultModel: 'deepseek-v4-flash', brand: 'deepseek' },
   { name: 'Kimi', kind: 'text', protocol: 'openai', baseUrl: 'https://api.moonshot.cn/v1', defaultModel: 'kimi-k2', brand: 'kimi' },
-  { name: 'Kimi for Coding', kind: 'text', protocol: 'openai', baseUrl: 'https://api.kimi.com/coding/v1', defaultModel: 'kimi-for-coding', brand: 'kimi' },
+  { name: 'Kimi for Coding', kind: 'text', protocol: 'openai', baseUrl: 'https://api.kimi.com/coding/v1', defaultModel: 'kimi-for-coding', brand: 'kimi-for-coding' },
   { name: '智谱 GLM', kind: 'text', protocol: 'openai', baseUrl: 'https://open.bigmodel.cn/api/paas/v4', defaultModel: 'glm-4.5-flash', brand: 'glm' },
   { name: '阿里百炼（文本）', kind: 'text', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-plus', brand: 'aliyun' },
   { name: '阿里百炼（图像）', kind: 'image', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-vl-ocr', brand: 'aliyun' },
@@ -138,6 +138,13 @@ export function selectProviderModel(list: Provider[], id: string, model: string)
 export function activeProvider(list: Provider[], kind: ModelKind): Provider | null {
   const ofKind = list.filter((p) => p.kind === kind)
   return ofKind.find((p) => p.selectedModel && p.apiKey) ?? ofKind.find((p) => p.apiKey) ?? ofKind[0] ?? null
+}
+
+/** 取某类别当前激活供应商，显式 activeId 优先（CC Switch 式"当前使用"标记）；空/失效则回退 activeProvider 启发式 */
+export function activeProviderById(list: Provider[], kind: ModelKind, activeId: string): Provider | null {
+  const ofKind = list.filter((p) => p.kind === kind)
+  const chosen = ofKind.find((p) => p.id === activeId)
+  return chosen ?? activeProvider(list, kind)
 }
 
 /** 脱敏视图：把 apiKey 换成 hasKey 标志，供渲染端展示（key 不出主进程明文） */

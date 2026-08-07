@@ -59,6 +59,9 @@ contextBridge.exposeInMainWorld('vocall', {
   removeProvider: (id: string) => ipcRenderer.invoke('provider:remove', id),
   selectProviderModel: (id: string, model: string) =>
     ipcRenderer.invoke('provider:selectModel', id, model),
+  setActiveProvider: (kind: 'text' | 'image', id: string) =>
+    ipcRenderer.invoke('provider:setActive', kind, id),
+  getProviderState: () => ipcRenderer.invoke('provider:state'),
   fetchProviderModels: (id: string) => ipcRenderer.invoke('provider:fetchModels', id),
   getProviderTemplates: () => ipcRenderer.invoke('provider:templates'),
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()

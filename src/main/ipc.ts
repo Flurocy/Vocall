@@ -5,7 +5,7 @@ import {
   listTrash, restoreVocab, purgeVocab, clearTrash,
   type NewVocabItem,
 } from './vocab'
-import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings, getProviders, setProviders } from './settings'
+import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings, getProviders, setProviders, getActiveProviderId, setActiveProviderId } from './settings'
 import {
   addProvider as addProviderPure, updateProvider as updateProviderPure,
   removeProvider as removeProviderPure, selectProviderModel as selectProviderModelPure,
@@ -139,8 +139,19 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   // —— AI 供应商多配置（模型配置视图）——
   // 渲染端只见脱敏 ProviderView（apiKey→hasKey）；增改返回最新列表供前端一次性刷新。
   const providerViews = (): ProviderView[] => getProviders().map(toProviderView)
+  const providerState = () => ({
+    providers: providerViews(),
+    activeIds: { text: getActiveProviderId('text'), image: getActiveProviderId('image') },
+  })
 
   ipcMain.handle('provider:list', async () => providerViews())
+  ipcMain.handle('provider:state', async () => providerState())
+
+  // 设为"当前使用"供应商（CC Switch 式）：写入 ai_active_{kind}
+  ipcMain.handle('provider:setActive', async (_e, kind: 'text' | 'image', id: string) => {
+    setActiveProviderId(kind, id)
+    return providerState()
+  })
 
   ipcMain.handle('provider:add', async (_e, input: Omit<Provider, 'id'>) => {
     const p: Provider = { ...input, id: genProviderId() }

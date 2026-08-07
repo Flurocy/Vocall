@@ -89,13 +89,19 @@ export interface ProviderInput {
   models: string[]
   selectedModel: string
 }
-// 添加供应商时的默认模板（预填 name/baseUrl/默认模型）
+// 添加供应商时的默认模板（预填 name/baseUrl/默认模型 + 品牌标识）
 export interface ProviderTemplate {
   name: string
   kind: ModelKind
   protocol: AiProtocol
   baseUrl: string
   defaultModel: string
+  brand: string // 品牌 key：'deepseek'|'kimi'|'kimi-for-coding'|'glm'|'aliyun'|'gemini'
+}
+// 供应商列表 + 各类别"当前使用"的供应商 id（模型配置视图高亮用）
+export interface ProviderListState {
+  providers: ProviderView[]
+  activeIds: Record<ModelKind, string>
 }
 
 // 渲染端可调用的接口形状
@@ -145,10 +151,14 @@ export interface VocallApi {
   removeProvider(id: string): Promise<ProviderView[]>
   // 勾选某供应商的当前模型
   selectProviderModel(id: string, model: string): Promise<ProviderView[]>
+  // 设为"当前使用"供应商（CC Switch 式）；返回最新的 {providers, activeIds}
+  setActiveProvider(kind: ModelKind, id: string): Promise<ProviderListState>
   // 拉取模型列表（基于已存的 baseUrl/key/protocol）；失败抛错，前端降级手填
   fetchProviderModels(id: string): Promise<string[]>
   // 添加供应商时的默认模板（预填 name/baseUrl/默认模型）
   getProviderTemplates(): Promise<ProviderTemplate[]>
+  // 供应商列表 + 当前使用 id（模型配置视图渲染高亮"当前使用"用）
+  getProviderState(): Promise<ProviderListState>
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()；失败 reject 由调用方 catch 静默
   pronounce(word: string): Promise<string>
   // 词书
