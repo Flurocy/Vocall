@@ -63,6 +63,16 @@ export default function PolishView({ theme }: { theme: Theme }): ReactElement {
 
   const current = MODES.find((m) => m.id === mode)!
 
+  // 切模式：清空旧结果/提示/复制态——旧模式的结果不该挂在新模式下（用户报 bug）。
+  // 输入保留：同一句英文在写作/口语间对比着改是高频场景，留着省得重打。
+  const switchMode = (m: PolishMode): void => {
+    if (m === mode) return
+    setMode(m)
+    setResult(null)
+    setMsg(null)
+    setCopiedIdx(null)
+  }
+
   const run = async (): Promise<void> => {
     const text = input.trim()
     if (!text) { setMsg({ kind: 'err', text: '请先输入内容' }); return }
@@ -108,7 +118,7 @@ export default function PolishView({ theme }: { theme: Theme }): ReactElement {
         {/* 模式分段切换 */}
         <div className="flex gap-1.5 rounded-xl bg-black/[0.04] p-1.5">
           {MODES.map((m) => (
-            <button key={m.id} onClick={() => setMode(m.id)} className={segBtn(mode === m.id)}>
+            <button key={m.id} onClick={() => switchMode(m.id)} className={segBtn(mode === m.id)}>
               <div>{m.label}</div>
               <div className={`mt-0.5 text-[10px] font-normal ${mode === m.id ? '' : 'text-slate-400'}`}>{m.hint}</div>
             </button>
