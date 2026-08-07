@@ -235,6 +235,31 @@ export function parseVocabObject(text: string): Translation {
   return senses ? { meaning, example, senses } : { meaning, example }
 }
 
+/**
+ * 解析 A1 句子优化/中译英返回的版本数组（容错版）。
+ * 期望 AI 返回 {"versions": ["版本一", "版本二"]}；取 versions 字段、滤非空字符串、截到 2 条。
+ * 空数组 / 字段缺失 / 全空串 → 抛错（无版本等于本次调用失败，让渲染端提示重试）。
+ */
+export function parseVersionsArray(text: string): string[] {
+  const json = extractJsonBlock(text, '{', '}')
+  let obj: unknown
+  try {
+    obj = JSON.parse(json)
+  } catch (err) {
+    throw new Error(`AI 返回的 JSON 解析失败：${err instanceof Error ? err.message : String(err)}`)
+  }
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
+    throw new Error('AI 返回的不是 JSON 对象')
+  }
+  const versions = (obj as { versions?: unknown }).versions
+  if (!Array.isArray(versions)) {
+    throw new Error('AI 返回缺少 versions 数组字段')
+  }
+  const out = versions.filter(isNonEmptyString).map((s) => s.trim()).slice(0, 2)
+  if (out.length === 0) throw new Error('AI 未返回任何可用版本')
+  return out
+}
+
 // Prompt 终稿（计划 2026-07-27-ai-content-generation.md §prompt 设计）：
 // 严格指定 JSON 输出格式 + 雅思向用词偏好；user 模板按调用动态填入。
 
@@ -294,4 +319,80 @@ export async function translateVocab(word: string): Promise<Translation> {
     disableThinking: true,
   })
   return parseVocabObject(text)
+}
+
+// ============================================================================
+// A1 表达教练：句子优化（写作/口语）+ 中译英
+// 复用 callDeepseek + 容错解析；输出统一为 { versions: string[] }（1-2 条）。
+// 背词联动为可选软引导：仅在 writing/speaking 且提供 boostWords 时拼入 prompt。
+// ============================================================================
+
+/** A1 三模式 */
+export type PolishMode = 'writing' | 'speaking' | 'translate'
+
+const POLISH_WRITING_SYSTEM = `你是雅思写作教练，帮备考雅思（目标 7+）的中国大学生优化英文句子。
+把用户句子改得更正式、连贯、学术，符合雅思写作高分表达。
+要求：
+- 给 1-2 个优化版本（若只有一种明显更优就只给 1 个；能给出风格不同的替代则给 2 个）
+- 保持原意，只提升表达，不改变信息
+- 修正语法/搭配/用词，提升连贯与正式度
+严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+
+const POLISH_SPEAKING_SYSTEM = `你是英语口语教练，帮中国大学生把英文句子改得更自然、地道、像母语者日常表达。
+要求：
+- 给 1-2 个优化版本（若只有一种明显更优就只给 1 个；能给出风格不同的替代则给 2 个）
+- 保持原意，用地道的口语表达替换生硬/中式说法
+- 自然优先，不过度正式
+严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+
+const TRANSLATE_CN_SYSTEM = `你是专业中英翻译，把用户的中文句子翻译成地道、自然的英文。
+要求：
+- 给 1-2 个英文版本（若只有一种明显更优就只给 1 个；能给出正式/口语等不同风格替代则给 2 个）
+- 地道优先，避免中式英语直译
+严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+
+const POLISH_SYSTEMS: Record<PolishMode, string> = {
+  writing: POLISH_WRITING_SYSTEM,
+  speaking: POLISH_SPEAKING_SYSTEM,
+  translate: TRANSLATE_CN_SYSTEM,
+}
+
+/**
+ * 软引导段（仅 writing/speaking 且联动开时拼入 user prompt）。
+ * 命门措辞：自然度永远第一、绝不硬套、不合适就完全忽略——给 AI 明确的"放弃出口"，
+ * 防止为了用上词而牺牲句子质量（用户对路线 C 的核心顾虑）。
+ */
+function buildBoostClause(boostWords: string[]): string {
+  return `\n\n（可选增强）这位考生正在学这些词：${boostWords.join('、')}。
+如果其中某个词能【自然地】用在优化里且让表达更地道，可优先选用；
+但句子自然度永远是第一标准，绝不要为了用词而硬套；
+如果这些词都不合适，请完全忽略它们，按最高标准正常优化。`
+}
+
+/**
+ * A1 句子优化 / 中译英。
+ * @param text 用户输入（writing/speaking 为英文句；translate 为中文句）
+ * @param mode 三模式
+ * @param boostWords 背词联动的候选词（仅 writing/speaking 生效；translate 忽略——翻译不应被词库绑架）
+ * 返回 versions（1-2 条）。maxTokens 1500（2 句远够）、temperature 0.6、disableThinking 省 token。
+ */
+export async function polishSentence(
+  text: string,
+  mode: PolishMode,
+  boostWords?: string[],
+): Promise<string[]> {
+  if (!text.trim()) throw new Error('内容不能为空')
+  const cfg = getAiConfig()
+  if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
+  const useBoost = mode !== 'translate' && boostWords && boostWords.length > 0
+  const user = `句子：「${text}」${useBoost ? buildBoostClause(boostWords) : ''}`
+  const out = await callDeepseek(cfg, {
+    system: POLISH_SYSTEMS[mode],
+    user,
+    maxTokens: 1500,
+    temperature: 0.6,
+    timeoutMs: 90_000,
+    disableThinking: true,
+  })
+  return parseVersionsArray(out)
 }
