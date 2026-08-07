@@ -173,43 +173,67 @@ describe('senses 一词多义字段 —— 宽容降级', () => {
   })
 })
 
-// A1 表达教练：parseVersionsArray —— 解析 { versions: string[] }（1-2 条，滤空截 2）
-describe('parseVersionsArray —— 解析 { versions: [...] }', () => {
-  it('正常两条版本：原样返回', () => {
-    const text = JSON.stringify({ versions: ['Version one.', 'Version two.'] })
-    expect(parseVersionsArray(text)).toEqual(['Version one.', 'Version two.'])
+// A1 表达教练：parseVersionsArray —— 解析 { versions: [{en, zh}] }（1-2 条，滤空截 2，zh 可选）
+describe('parseVersionsArray —— 解析 { versions: [{en,zh}] }', () => {
+  it('正常两条版本（带 zh）：原样返回', () => {
+    const text = JSON.stringify({
+      versions: [
+        { en: 'Version one.', zh: '版本一' },
+        { en: 'Version two.', zh: '版本二' },
+      ],
+    })
+    expect(parseVersionsArray(text)).toEqual([
+      { en: 'Version one.', zh: '版本一' },
+      { en: 'Version two.', zh: '版本二' },
+    ])
   })
 
   it('单条版本：正常返回（AI 只给一个更优）', () => {
-    expect(parseVersionsArray(JSON.stringify({ versions: ['Only one.'] }))).toEqual(['Only one.'])
+    expect(parseVersionsArray(JSON.stringify({ versions: [{ en: 'Only one.', zh: '仅一条' }] }))).toEqual([
+      { en: 'Only one.', zh: '仅一条' },
+    ])
   })
 
   it('超过两条：截到 2 条', () => {
-    const text = JSON.stringify({ versions: ['a', 'b', 'c', 'd'] })
-    expect(parseVersionsArray(text)).toEqual(['a', 'b'])
+    const text = JSON.stringify({
+      versions: [{ en: 'a' }, { en: 'b' }, { en: 'c' }, { en: 'd' }],
+    })
+    expect(parseVersionsArray(text)).toEqual([{ en: 'a' }, { en: 'b' }])
   })
 
   it('带 ```json fence：strip 后解析', () => {
-    const text = '```json\n{"versions":["x","y"]}\n```'
-    expect(parseVersionsArray(text)).toEqual(['x', 'y'])
+    const text = '```json\n{"versions":[{"en":"x","zh":"某"}]}\n```'
+    expect(parseVersionsArray(text)).toEqual([{ en: 'x', zh: '某' }])
   })
 
   it('前后杂音文字：定位中间对象', () => {
-    const text = '优化如下：\n{"versions":["better one"]}\n完毕。'
-    expect(parseVersionsArray(text)).toEqual(['better one'])
+    const text = '优化如下：\n{"versions":[{"en":"better one","zh":"更好"}]}\n完毕。'
+    expect(parseVersionsArray(text)).toEqual([{ en: 'better one', zh: '更好' }])
   })
 
-  it('含空白/非字符串项：过滤后再截', () => {
-    const text = JSON.stringify({ versions: ['  ', 'good', 123, 'also good', 'third'] })
-    expect(parseVersionsArray(text)).toEqual(['good', 'also good'])
+  it('zh 缺失/为空 → 宽容降级为无 zh（不推翻整个版本）', () => {
+    expect(parseVersionsArray(JSON.stringify({ versions: [{ en: 'no zh' }] }))).toEqual([{ en: 'no zh' }])
+    expect(parseVersionsArray(JSON.stringify({ versions: [{ en: 'blank zh', zh: '  ' }] }))).toEqual([
+      { en: 'blank zh' },
+    ])
+    expect(parseVersionsArray(JSON.stringify({ versions: [{ en: 'num zh', zh: 5 }] }))).toEqual([
+      { en: 'num zh' },
+    ])
   })
 
-  it('versions 全空串：抛（无可用版本）', () => {
-    expect(() => parseVersionsArray(JSON.stringify({ versions: ['', '  '] }))).toThrow()
+  it('en 为空/非对象的项被过滤，其余保留', () => {
+    const text = JSON.stringify({
+      versions: [{ en: '' }, { en: 'good', zh: '好' }, 'junk', { en: 'also good' }],
+    })
+    expect(parseVersionsArray(text)).toEqual([{ en: 'good', zh: '好' }, { en: 'also good' }])
+  })
+
+  it('全部项 en 为空：抛（无可用版本）', () => {
+    expect(() => parseVersionsArray(JSON.stringify({ versions: [{ en: '' }, { zh: '没英文' }] }))).toThrow()
   })
 
   it('缺 versions 字段：抛', () => {
-    expect(() => parseVersionsArray(JSON.stringify({ foo: ['a'] }))).toThrow()
+    expect(() => parseVersionsArray(JSON.stringify({ foo: [] }))).toThrow()
   })
 
   it('versions 非数组：抛', () => {
@@ -217,11 +241,11 @@ describe('parseVersionsArray —— 解析 { versions: [...] }', () => {
   })
 
   it('返回数组而非对象：抛', () => {
-    expect(() => parseVersionsArray(JSON.stringify(['a', 'b']))).toThrow()
+    expect(() => parseVersionsArray(JSON.stringify([{ en: 'a' }]))).toThrow()
   })
 
   it('非法 JSON：抛', () => {
-    expect(() => parseVersionsArray('{"versions":["a"')).toThrow()
+    expect(() => parseVersionsArray('{"versions":[{"en":"a"')).toThrow()
   })
 
   it('空字符串：抛', () => {

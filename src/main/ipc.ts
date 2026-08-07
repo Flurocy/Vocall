@@ -125,8 +125,8 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
       : []
     const boostWords = linkable ? pickBoostWords(text, candidates, 8) : []
     const versions = await polishSentence(text, mode, boostWords.length > 0 ? boostWords : undefined)
-    // 后验高亮：在产出的所有版本里找用户学过的词（程序匹配，不依赖 AI 自报）
-    const usedWords = linkable ? matchUsedWords(versions.join('\n'), candidates) : []
+    // 后验高亮：在所有版本的英文句里找用户学过的词（程序匹配，不依赖 AI 自报）
+    const usedWords = linkable ? matchUsedWords(versions.map((v) => v.en).join('\n'), candidates) : []
     return { versions, usedWords }
   })
 

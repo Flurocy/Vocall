@@ -177,25 +177,29 @@ export default function PolishView({ theme }: { theme: Theme }): ReactElement {
               className="group rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-white/80 hover:shadow"
             >
               <div className="flex items-start justify-between gap-3">
-                <p className="flex-1 leading-relaxed text-slate-800">
-                  {splitHighlight(v, result.usedWords).map((seg, j) =>
-                    seg.hit ? (
-                      <mark
-                        key={j}
-                        className={`rounded bg-transparent px-0.5 font-semibold ${theme.accentText}`}
-                        title="你在学的词"
-                      >
-                        {seg.str}
-                      </mark>
-                    ) : (
-                      <span key={j}>{seg.str}</span>
-                    ),
-                  )}
-                </p>
+                <div className="flex-1">
+                  <p className="leading-relaxed text-slate-800">
+                    {splitHighlight(v.en, result.usedWords).map((seg, j) =>
+                      seg.hit ? (
+                        <mark
+                          key={j}
+                          className={`rounded bg-transparent px-0.5 font-semibold ${theme.accentText}`}
+                          title="你在学的词"
+                        >
+                          {seg.str}
+                        </mark>
+                      ) : (
+                        <span key={j}>{seg.str}</span>
+                      ),
+                    )}
+                  </p>
+                  {/* 中文意思：帮用户核对这句英文到底什么意思（小字灰，不抢英文主体） */}
+                  {v.zh && <p className="mt-1 text-sm text-slate-500">{v.zh}</p>}
+                </div>
                 <button
-                  onClick={() => void copy(v, i)}
-                  title="复制"
-                  aria-label="复制该版本"
+                  onClick={() => void copy(v.en, i)}
+                  title="复制英文"
+                  aria-label="复制该版本英文"
                   className="mt-0.5 shrink-0 rounded-md p-1.5 text-slate-400 opacity-45 transition hover:bg-black/5 hover:text-slate-600 group-hover:opacity-100"
                 >
                   {copiedIdx === i ? <Check size={15} weight="bold" className={theme.accentText} /> : <Copy size={15} />}

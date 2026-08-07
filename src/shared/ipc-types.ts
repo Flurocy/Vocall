@@ -54,9 +54,14 @@ export interface TrashEntry {
 
 // A1 表达教练：三模式（写作优化/口语优化/中译英）
 export type PolishMode = 'writing' | 'speaking' | 'translate'
+// 单个优化版本：英文句 + 可选中文意思（帮用户核对理解；中译英模式下贴近原句）
+export interface PolishVersion {
+  en: string
+  zh?: string
+}
 // A1 优化结果：1-2 个版本 + 后验匹配到的"在学词"（高亮用；联动关时为空数组）
 export interface PolishResult {
-  versions: string[]
+  versions: PolishVersion[]
   usedWords: string[]
 }
 

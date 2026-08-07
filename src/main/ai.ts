@@ -237,10 +237,15 @@ export function parseVocabObject(text: string): Translation {
 
 /**
  * 解析 A1 句子优化/中译英返回的版本数组（容错版）。
- * 期望 AI 返回 {"versions": ["版本一", "版本二"]}；取 versions 字段、滤非空字符串、截到 2 条。
- * 空数组 / 字段缺失 / 全空串 → 抛错（无版本等于本次调用失败，让渲染端提示重试）。
+ * 期望 AI 返回 {"versions": [{"en":"...","zh":"..."}]}；滤掉 en 为空的项、截到 2 条。
+ * zh 缺失/空 → 宽容降级为 undefined（译文是辅助，没译不推翻整个版本）。
+ * 全部项 en 为空 / 字段缺失 → 抛错（无版本等于本次调用失败，让渲染端提示重试）。
  */
-export function parseVersionsArray(text: string): string[] {
+export interface PolishVersion {
+  en: string
+  zh?: string
+}
+export function parseVersionsArray(text: string): PolishVersion[] {
   const json = extractJsonBlock(text, '{', '}')
   let obj: unknown
   try {
@@ -255,7 +260,14 @@ export function parseVersionsArray(text: string): string[] {
   if (!Array.isArray(versions)) {
     throw new Error('AI 返回缺少 versions 数组字段')
   }
-  const out = versions.filter(isNonEmptyString).map((s) => s.trim()).slice(0, 2)
+  const out: PolishVersion[] = []
+  for (const v of versions) {
+    if (!v || typeof v !== 'object') continue
+    const { en, zh } = v as { en?: unknown; zh?: unknown }
+    if (!isNonEmptyString(en)) continue
+    out.push(isNonEmptyString(zh) ? { en: en.trim(), zh: zh.trim() } : { en: en.trim() })
+    if (out.length >= 2) break
+  }
   if (out.length === 0) throw new Error('AI 未返回任何可用版本')
   return out
 }
@@ -336,20 +348,23 @@ const POLISH_WRITING_SYSTEM = `你是雅思写作教练，帮备考雅思（目�
 - 给 1-2 个优化版本（若只有一种明显更优就只给 1 个；能给出风格不同的替代则给 2 个）
 - 保持原意，只提升表达，不改变信息
 - 修正语法/搭配/用词，提升连贯与正式度
-严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+- 每个版本附 zh：该英文版本的简明中文意思（帮用户核对理解）
+严格返回 JSON {"versions": [{"en":"...","zh":"..."}]}，不要额外文字、不要 markdown 代码块。`
 
 const POLISH_SPEAKING_SYSTEM = `你是英语口语教练，帮中国大学生把英文句子改得更自然、地道、像母语者日常表达。
 要求：
 - 给 1-2 个优化版本（若只有一种明显更优就只给 1 个；能给出风格不同的替代则给 2 个）
 - 保持原意，用地道的口语表达替换生硬/中式说法
 - 自然优先，不过度正式
-严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+- 每个版本附 zh：该英文版本的简明中文意思（帮用户核对理解）
+严格返回 JSON {"versions": [{"en":"...","zh":"..."}]}，不要额外文字、不要 markdown 代码块。`
 
 const TRANSLATE_CN_SYSTEM = `你是专业中英翻译，把用户的中文句子翻译成地道、自然的英文。
 要求：
 - 给 1-2 个英文版本（若只有一种明显更优就只给 1 个；能给出正式/口语等不同风格替代则给 2 个）
 - 地道优先，避免中式英语直译
-严格返回 JSON {"versions": ["..."]}，不要额外文字、不要 markdown 代码块。`
+- 每个版本附 zh：该英文版本的简明中文意思（应贴近用户原意，帮用户核对译得准不准）
+严格返回 JSON {"versions": [{"en":"...","zh":"..."}]}，不要额外文字、不要 markdown 代码块。`
 
 const POLISH_SYSTEMS: Record<PolishMode, string> = {
   writing: POLISH_WRITING_SYSTEM,
@@ -380,7 +395,7 @@ export async function polishSentence(
   text: string,
   mode: PolishMode,
   boostWords?: string[],
-): Promise<string[]> {
+): Promise<PolishVersion[]> {
   if (!text.trim()) throw new Error('内容不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
