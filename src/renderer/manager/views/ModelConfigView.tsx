@@ -4,6 +4,7 @@ import type { ProviderInput, ProviderTemplate, ProviderView } from '../../../sha
 import type { Theme } from '../../theme'
 import { CircleNotch, ArrowLeft, Plus, Trash } from '@phosphor-icons/react'
 import ConfirmModal from './ConfirmModal'
+import ProviderBrandIcon from '../ProviderBrandIcon'
 
 // 剥 Electron IPC 包装前缀（同 ExpressionsView 模式）
 const errMsg = (err: unknown): string =>
@@ -202,6 +203,7 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
       <li key={p.id} className="rounded-xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 items-center gap-2">
+            <ProviderBrandIcon name={p.name} baseUrl={p.baseUrl} size={20} />
             <span className="font-medium text-slate-800">{p.name}</span>
             {badge(KIND_LABEL[p.kind], p.kind === 'text' ? `${theme.accentBg} ${theme.accentText}` : 'bg-violet-500/15 text-violet-700')}
             {badge(PROTOCOL_LABEL[p.protocol], 'bg-slate-500/10 text-slate-600')}
@@ -349,7 +351,8 @@ export default function ModelConfigView({ theme, onBack }: Props): ReactElement 
           <div className="mb-3 flex flex-wrap items-center gap-1.5">
             <span className="text-xs text-slate-500">快速预填：</span>
             {templates.map((t) => (
-              <button key={t.name} onClick={() => startAdd(t)} className="rounded-full bg-black/[0.04] px-2.5 py-1 text-xs text-slate-600 transition hover:bg-black/10">
+              <button key={t.name} onClick={() => startAdd(t)} className="flex items-center gap-1.5 rounded-full bg-black/[0.04] px-2.5 py-1 text-xs text-slate-600 transition hover:bg-black/10">
+                <ProviderBrandIcon name={t.name} baseUrl={t.baseUrl} size={14} />
                 {t.name}
               </button>
             ))}

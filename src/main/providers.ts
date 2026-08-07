@@ -31,18 +31,25 @@ export interface ProviderView extends Omit<Provider, 'apiKey'> {
 }
 
 // —— 默认供应商模板（添加时的预填，省得用户记 baseUrl）——
+// brand：品牌标识（前端据此渲染彩色首字母徽标，参考 CC Switch 在名称旁显示品牌图标）。
+// baseUrl 注意：Kimi for Coding 是独立端点 api.kimi.com/coding/v1（key=sk-kimi-*），
+// 与 moonshot 主站 api.moonshot.cn/v1 的 key 不通用，配错会 401。
 export interface ProviderTemplate {
   name: string
   kind: ModelKind
   protocol: AiProtocol
   baseUrl: string
   defaultModel: string
+  brand: string // 品牌 key：'deepseek'|'kimi'|'glm'|'aliyun'|'gemini'|'custom'
 }
 export const PROVIDER_TEMPLATES: ProviderTemplate[] = [
-  { name: 'DeepSeek', kind: 'text', protocol: 'openai', baseUrl: 'https://api.deepseek.com', defaultModel: 'deepseek-v4-flash' },
-  { name: '阿里百炼（文本）', kind: 'text', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-plus' },
-  { name: '阿里百炼（图像）', kind: 'image', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-vl-ocr' },
-  { name: 'Gemini（文本）', kind: 'text', protocol: 'gemini', baseUrl: 'https://generativelanguage.googleapis.com', defaultModel: 'gemini-2.0-flash' },
+  { name: 'DeepSeek', kind: 'text', protocol: 'openai', baseUrl: 'https://api.deepseek.com', defaultModel: 'deepseek-v4-flash', brand: 'deepseek' },
+  { name: 'Kimi', kind: 'text', protocol: 'openai', baseUrl: 'https://api.moonshot.cn/v1', defaultModel: 'kimi-k2', brand: 'kimi' },
+  { name: 'Kimi for Coding', kind: 'text', protocol: 'openai', baseUrl: 'https://api.kimi.com/coding/v1', defaultModel: 'kimi-for-coding', brand: 'kimi' },
+  { name: '智谱 GLM', kind: 'text', protocol: 'openai', baseUrl: 'https://open.bigmodel.cn/api/paas/v4', defaultModel: 'glm-4.5-flash', brand: 'glm' },
+  { name: '阿里百炼（文本）', kind: 'text', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-plus', brand: 'aliyun' },
+  { name: '阿里百炼（图像）', kind: 'image', protocol: 'openai', baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1', defaultModel: 'qwen-vl-ocr', brand: 'aliyun' },
+  { name: 'Gemini（文本）', kind: 'text', protocol: 'gemini', baseUrl: 'https://generativelanguage.googleapis.com', defaultModel: 'gemini-2.0-flash', brand: 'gemini' },
 ]
 
 /** 简易 id 生成（时间戳+随机，本机够用，无需 uuid 依赖） */
