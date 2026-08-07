@@ -130,9 +130,10 @@ export default function PolishView({ theme }: { theme: Theme }): ReactElement {
           onChange={(e) => setInput(e.target.value)}
           placeholder={current.placeholder}
           rows={3}
-          // 关浏览器自带拼写检查：学语言场景下红波浪线干扰输入，"对不对"交给 AI 判断而非浏览器字典
-          spellCheck={false}
-          className="mt-3 w-full resize-y rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-black/20 focus:bg-white"
+          // 拼写检查开 + IDE 式细波浪下划线（app.css ::spelling-error）。
+          // accentText 让下划线 currentColor=主题色，换肤自动跟随。
+          // 注意：浏览器拼写检查只对英文词生效，中文输入不触发。
+          className={`mt-3 w-full resize-y rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-black/20 focus:bg-white ${theme.accentText}`}
         />
 
         <div className="mt-3 flex items-center justify-between">

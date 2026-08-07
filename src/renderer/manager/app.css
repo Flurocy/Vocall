@@ -11,6 +11,18 @@ body {
   font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
 }
 
+/* IDE 风格拼写检查下划线：替代 Chromium 默认那条又粗又丑的红波浪线。
+   ::spelling-error 只允许有限属性（不能动布局）；用细波浪 + 半透明色做克制的点缀。
+   颜色取 currentColor——表达教练输入框带主题 accentText 类，换主题自动跟随。
+   color-mix 派生 65% 透明避免太扎眼（该伪元素不接受 currentColor 直接叠透明度，color-mix 可行）。
+   需 Chromium 121+，Electron 40 远满足。 */
+::spelling-error {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 65%, transparent);
+}
+
 /* 自定义滑块（Chromium/WebKit）：细轨道 + 圆头白边投影，替代原生裸控件。
    颜色取 currentColor——各 range 带主题的 text 色类（accentText），换主题自动跟随。
    hover 圆头微放大、active 微缩，给"跟手"的触感反馈。 */

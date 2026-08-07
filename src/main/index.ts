@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, session } from 'electron'
 import type { IpcMainInvokeEvent } from 'electron'
 import { join } from 'path'
 import { registerIpc } from './ipc'
@@ -76,6 +76,13 @@ function registerWindowIpc(): void {
 }
 
 app.whenReady().then(() => {
+  // 拼写检查限定英文：表达教练输入框走英文检查，避免中文环境误判。
+  // 默认会跟随系统语言（中文系统可能开 zh 检查），显式钉死 en-US 更可控。
+  try {
+    session.defaultSession.setSpellCheckerLanguages(['en-US'])
+  } catch (err) {
+    console.warn('[spellcheck] 设置语言失败，忽略：', err)
+  }
   migrateVocabStatus() // 旧词补 status/book 默认值（幂等），须在 seed 前跑
   migrateSrsToPop()    // 旧 SRS 时间模型 → 弹窗节拍模型（幂等）
   migrateForgotCount() // 旧 SRS 状态补 forgotCount=0（幂等）
