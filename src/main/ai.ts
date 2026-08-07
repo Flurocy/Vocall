@@ -1,7 +1,9 @@
-// DeepSeek API 调用（兼容 OpenAI chat.completions 格式）。
-// 文档：https://api-docs.deepseek.com/  —— POST {baseUrl}/chat/completions，Bearer 认证。
+// AI 模型调用层：多供应商、双协议（OpenAI 兼容 / Gemini）。
+// callModel 统一入口，按 cfg.protocol 分派：
+//   - openai  → chat.completions（DeepSeek/阿里百炼等 OpenAI 兼容服务通用）
+//   - gemini  → 留架子（本期未接入，调用抛错；A2 或后续接 generateContent）
 // 安全：API key 只在主进程使用，绝不进渲染进程；渲染端通过 IPC 触发调用。
-// 模型默认 deepseek-v4-flash（快+便宜，适合生成词组/例句）；deepseek-chat 已于 2026-07 弃用。
+// 文本模型默认 deepseek-v4-flash（快+便宜）；deepseek-chat 已于 2026-07 弃用。
 
 import { getAiConfig } from './settings'
 import type { Sense } from '../shared/ipc-types'
@@ -42,10 +44,30 @@ interface ChatCompletionResponse {
 }
 
 /**
- * 调用 DeepSeek chat completion，返回文本内容。
+ * 统一模型调用入口：按 cfg.protocol 分派到对应协议实现。
+ * 缺省 openai（向后兼容旧调用）。
+ */
+export async function callModel(cfg: AiConfig, opts: AiCallOptions): Promise<string> {
+  if (cfg.protocol === 'gemini') {
+    return callGemini(cfg, opts)
+  }
+  return callOpenAI(cfg, opts)
+}
+
+/**
+ * Gemini 协议实现 —— 本期留架子（用户拍板后补）。
+ * 接法（A2 或后续）：POST {baseUrl}/v1beta/models/{model}:generateContent?key={apiKey}，
+ * body { contents: [{ parts: [{ text }] }] }，响应取 candidates[0].content.parts[0].text。
+ */
+async function callGemini(_cfg: AiConfig, _opts: AiCallOptions): Promise<string> {
+  throw new Error('Gemini 协议尚未接入（本期仅支持 OpenAI 兼容协议；请在模型配置中选择 OpenAI 协议供应商）')
+}
+
+/**
+ * 调用 OpenAI 兼容 chat completion，返回文本内容。
  * 失败（网络/HTTP/格式/key 无效/超时）一律 throw Error，由调用方捕获并转成用户可读信息。
  */
-export async function callDeepseek(cfg: AiConfig, opts: AiCallOptions): Promise<string> {
+export async function callOpenAI(cfg: AiConfig, opts: AiCallOptions): Promise<string> {
   if (!cfg.apiKey) throw new Error('未配置 API key')
 
   const messages: { role: string; content: string }[] = []
@@ -87,7 +109,7 @@ export async function callDeepseek(cfg: AiConfig, opts: AiCallOptions): Promise<
   if (!res.ok) {
     const text = await res.text().catch(() => '')
     // 401=认证失败(key 错), 402=余额不足, 429=限流, 5xx=服务端 —— 给用户可定位的信息
-    throw new Error(`DeepSeek 请求失败 HTTP ${res.status}${text ? `：${text.slice(0, 200)}` : ''}`)
+    throw new Error(`AI 请求失败 HTTP ${res.status}${text ? `：${text.slice(0, 200)}` : ''}`)
   }
 
   const data = (await res.json()) as ChatCompletionResponse
@@ -98,7 +120,7 @@ export async function callDeepseek(cfg: AiConfig, opts: AiCallOptions): Promise<
     throw new Error(
       hasReasoning
         ? '模型思考占用全部 token，正文为空——请增大 max_tokens 或改用 flash 模型'
-        : `DeepSeek 返回格式异常：${data.error?.message ?? 'content 为空'}`,
+        : `AI 返回格式异常：${data.error?.message ?? 'content 为空'}`,
     )
   }
   return content
@@ -106,7 +128,7 @@ export async function callDeepseek(cfg: AiConfig, opts: AiCallOptions): Promise<
 
 // ============================================================================
 // 内容生产：主题词组生成 + 生词 AI 翻译
-// 这些是 AI 链路上"做什么"的语义层，复用上面的 callDeepseek 做网络调用。
+// 这些是 AI 链路上"做什么"的语义层，复用上面的 callModel 做网络调用。
 // 解析层（parseVocabArray / parseVocabObject）是纯函数，独立可测。
 // ============================================================================
 
@@ -292,7 +314,7 @@ const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中
 严格返回 JSON {"meaning","example","senses"}，不要额外文字、不要代码块。`
 
 /** key 没配的统一错误文案（IPC handler 渲染端展示用） */
-const NO_KEY_MSG = '请先在设置配置 DeepSeek API key'
+const NO_KEY_MSG = '请先在「设置 → 模型配置」配置 AI 供应商与 API key'
 
 /**
  * 主题词组生成：AI 产出 n 个雅思向词组（预览，不入库——入库由前端勾选后循环 vocab:add）。
@@ -303,7 +325,7 @@ export async function generateThemeVocab(theme: string, n = 30): Promise<VocabEn
   if (!theme.trim()) throw new Error('主题不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
-  const text = await callDeepseek(cfg, {
+  const text = await callModel(cfg, {
     system: THEME_GEN_SYSTEM,
     user: `主题：「${theme}」。生成 ${n} 个雅思高频词组。`,
     // 8000 容纳 30 词 JSON + pro 模型 reasoning_content 思考预算；
@@ -324,7 +346,7 @@ export async function translateVocab(word: string): Promise<Translation> {
   if (!word.trim()) throw new Error('词不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
-  const text = await callDeepseek(cfg, {
+  const text = await callModel(cfg, {
     system: TRANSLATE_SYSTEM,
     user: `词：「${word}」`,
     maxTokens: 4000,
@@ -337,7 +359,7 @@ export async function translateVocab(word: string): Promise<Translation> {
 
 // ============================================================================
 // A1 表达教练：句子优化（写作/口语）+ 中译英
-// 复用 callDeepseek + 容错解析；输出统一为 { versions: string[] }（1-2 条）。
+// 复用 callModel + 容错解析；输出统一为 { versions: string[] }（1-2 条）。
 // 背词联动为可选软引导：仅在 writing/speaking 且提供 boostWords 时拼入 prompt。
 // ============================================================================
 
@@ -403,7 +425,7 @@ export async function polishSentence(
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
   const useBoost = mode !== 'translate' && boostWords && boostWords.length > 0
   const user = `句子：「${text}」${useBoost ? buildBoostClause(boostWords) : ''}`
-  const out = await callDeepseek(cfg, {
+  const out = await callModel(cfg, {
     system: POLISH_SYSTEMS[mode],
     user,
     maxTokens: 1500,
