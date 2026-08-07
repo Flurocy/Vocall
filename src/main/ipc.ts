@@ -8,7 +8,8 @@ import {
 import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings } from './settings'
 import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
-import { callDeepseek, generateThemeVocab, translateVocab } from './ai'
+import { callDeepseek, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
+import { pickBoostWords, matchUsedWords } from './polish-match'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
@@ -110,6 +111,24 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number) =>
     generateThemeVocab(theme, n))
   ipcMain.handle('ai:translate', async (_e, word: string) => translateVocab(word))
+  // A1 表达教练：句子优化/中译英。
+  // boost=true（背词联动开）且模式为 writing/speaking 时：取"在学/复习"词做软引导喂 prompt，
+  // 产出后再后验匹配 usedWords 供 UI 高亮。translate 模式不做联动（翻译不应被词库绑架）。
+  // 联动逻辑收敛在主进程：词库 listVocab 只在主端可见，渲染端拿不到也不必拿。
+  ipcMain.handle('ai:polish', async (_e, text: string, mode: PolishMode, boost: boolean) => {
+    const linkable = boost && mode !== 'translate'
+    // 候选词：在学(learning)+复习(review)，联动才有意义（新词未学、已掌握无需强化）
+    const candidates = linkable
+      ? listVocab()
+          .filter((v) => v.status === 'learning' || v.status === 'review')
+          .map((v) => v.word)
+      : []
+    const boostWords = linkable ? pickBoostWords(text, candidates, 8) : []
+    const versions = await polishSentence(text, mode, boostWords.length > 0 ? boostWords : undefined)
+    // 后验高亮：在产出的所有版本里找用户学过的词（程序匹配，不依赖 AI 自报）
+    const usedWords = linkable ? matchUsedWords(versions.join('\n'), candidates) : []
+    return { versions, usedWords }
+  })
 
   // 发音：读 audio_accent 设置 → fetch 有道 dictvoice → 返回 base64 data URL（渲染端 new Audio 播）。
   // 失败抛 Error（invoke reject），渲染端 catch 静默（断网/超时不崩、不打扰）。

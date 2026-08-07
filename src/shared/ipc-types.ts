@@ -52,6 +52,14 @@ export interface TrashEntry {
   deletedAt: number
 }
 
+// A1 表达教练：三模式（写作优化/口语优化/中译英）
+export type PolishMode = 'writing' | 'speaking' | 'translate'
+// A1 优化结果：1-2 个版本 + 后验匹配到的"在学词"（高亮用；联动关时为空数组）
+export interface PolishResult {
+  versions: string[]
+  usedWords: string[]
+}
+
 // 渲染端可调用的接口形状
 export interface VocallApi {
   listVocab(): Promise<VocabItem[]>
@@ -90,8 +98,8 @@ export interface VocallApi {
   generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string; senses?: Sense[] }[]>
   // 生词 AI 翻译（预览填入新增卡片）；senses=一词多义（可选，宽容降级）
   translate(word: string): Promise<{ meaning: string; example: string; senses?: Sense[] }>
-  // AI 翻译：返回 {meaning, example} 预览，前端填入新增卡片供用户过目修改
-  translate(word: string): Promise<{ meaning: string; example: string }>
+  // A1 表达教练：句子优化/中译英。boost=true 时主进程取在学词软引导 + 后验高亮 usedWords
+  polish(text: string, mode: PolishMode, boost: boolean): Promise<PolishResult>
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()；失败 reject 由调用方 catch 静默
   pronounce(word: string): Promise<string>
   // 词书
