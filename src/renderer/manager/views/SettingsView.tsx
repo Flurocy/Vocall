@@ -18,6 +18,7 @@ import {
 } from '../../theme'
 import type { Theme } from '../../theme'
 import ConfirmModal from './ConfirmModal'
+import ModelConfigView from './ModelConfigView'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   { key: 'popup_interval_sec', label: '弹出间隔（秒）', min: 1 },
@@ -77,8 +78,6 @@ interface Props {
 // 分区标题用 accentText 建立层级，留白加大。配色全部走 theme / 中性色。
 export default function SettingsView({ theme, onSettingChanged }: Props): ReactElement {
   const [settings, setSettings] = useState<Record<string, string>>({})
-  // AI 测试连接结果：'success' | 'error' | 测试中文本
-  const [aiTestMsg, setAiTestMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
   // 快捷键绑定监听态；hotkeyNotice 显示「已禁用快捷键」等一次性提示
   const [listening, setListening] = useState(false)
   const [hotkeyNotice, setHotkeyNotice] = useState<string | null>(null)
@@ -87,6 +86,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const [updateMsg, setUpdateMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string; url?: string | null } | null>(null)
   // 自绘确认弹窗（替代 window.confirm，主题跟随）
   const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
+  // 模型配置独立视图开关：true 时渲染 ModelConfigView 取代设置主页
+  const [modelConfigOpen, setModelConfigOpen] = useState(false)
 
   useEffect(() => {
     void window.vocall.getSettings().then(setSettings)
@@ -136,12 +137,6 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     window.addEventListener('keydown', onKey, true)
     return () => window.removeEventListener('keydown', onKey, true)
   }, [listening])
-
-  const testAi = async (): Promise<void> => {
-    setAiTestMsg({ kind: 'busy', text: '测试中…' })
-    const r = await window.vocall.testAi()
-    setAiTestMsg(r.ok ? { kind: 'ok', text: r.message } : { kind: 'err', text: r.message })
-  }
 
   // 检查更新（GitHub releases/latest）：有新版→附 releaseUrl 跳下载；失败/无更新/超时各有提示。
   const doCheckUpdate = async (): Promise<void> => {
@@ -213,6 +208,11 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   const sectionTitle = `mb-3 text-sm font-medium ${theme.accentText}`
   const inputCls =
     'w-full rounded-lg border border-black/10 bg-white/70 px-3 py-2 text-sm outline-none transition hover:bg-white focus:border-black/20 focus:bg-white'
+
+  // 模型配置独立视图：打开时整页替换设置主页（保持设置页单栏布局，不新增主导航 tab）
+  if (modelConfigOpen) {
+    return <ModelConfigView theme={theme} onBack={() => setModelConfigOpen(false)} />
+  }
 
   return (
     <div className="mx-auto max-w-lg">
@@ -470,63 +470,20 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section className={card}>
-          <h3 className={sectionTitle}>AI（DeepSeek）</h3>
-          <div className="space-y-4">
-            <label className="block">
-              <span className="mb-1 block text-sm text-slate-600">API Key</span>
-              <input
-                type="password"
-                placeholder="sk-..."
-                value={settings.ai_api_key ?? ''}
-                onChange={(e) => void update('ai_api_key', e.target.value)}
-                className={inputCls}
-              />
+          <h3 className={sectionTitle}>AI 模型</h3>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm text-slate-600">模型供应商与 API 配置</p>
               <p className="mt-1 text-xs text-slate-600">
-                仅保存在本机，不会上传。到 platform.deepseek.com 申请
+                支持多个供应商（文本/图像，OpenAI/Gemini 协议），key 仅保存本机
               </p>
-            </label>
-            <label className="block">
-              <span className="mb-1 block text-sm text-slate-600">模型</span>
-              <input
-                type="text"
-                placeholder="deepseek-v4-flash"
-                value={settings.ai_model ?? ''}
-                onChange={(e) => void update('ai_model', e.target.value)}
-                className={inputCls}
-              />
-            </label>
-            <label className="block">
-              <span className="mb-1 block text-sm text-slate-600">Base URL（可选）</span>
-              <input
-                type="text"
-                placeholder="https://api.deepseek.com"
-                value={settings.ai_base_url ?? ''}
-                onChange={(e) => void update('ai_base_url', e.target.value)}
-                className={inputCls}
-              />
-            </label>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => void testAi()}
-                disabled={aiTestMsg?.kind === 'busy'}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover} disabled:opacity-50`}
-              >
-                测试连接
-              </button>
-              {aiTestMsg && (
-                <span
-                  className={`text-sm ${
-                    aiTestMsg.kind === 'ok'
-                      ? theme.accentText
-                      : aiTestMsg.kind === 'err'
-                        ? 'text-rose-600'
-                        : 'text-slate-500'
-                  }`}
-                >
-                  {aiTestMsg.text}
-                </span>
-              )}
             </div>
+            <button
+              onClick={() => setModelConfigOpen(true)}
+              className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
+            >
+              模型配置 →
+            </button>
           </div>
         </section>
 
