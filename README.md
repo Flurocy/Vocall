@@ -1,53 +1,81 @@
 # Vocall
 
-被动弹窗式雅思背词桌面工具（Windows）—— 把背词融进日常，不打断你在做的事。
+**A passive, popup-based vocabulary companion for Windows** — it slips review cards into the gaps of your day instead of asking you to sit down and study.
 
-## 这是什么
+<p>
+  <img alt="Platform" src="https://img.shields.io/badge/platform-Windows-0078D6">
+  <img alt="Electron" src="https://img.shields.io/badge/Electron-40-47848F?logo=electron&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white">
+  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-v4-38BDF8?logo=tailwindcss&logoColor=white">
+</p>
 
-Vocall 是一款**常驻后台、定时弹窗**的雅思背词软件。你不用专门"打开软件学习"——玩游戏、看视频、写作业时，它会按你设的间隔在屏幕角落轻轻弹出一个词卡，看一眼、点个评分就消失。日积月累，碎片时间变成词汇量。
+[中文文档](./README.zh-CN.md) · [Changelog](./CHANGELOG.md)
 
-## 安装
+---
 
-1. 下载 `Vocall-1.0.0-portable.exe`（或解压包）。
-2. 双击运行，无需安装。
-3. 首次启动会导入少量内置生词，关窗后常驻系统托盘。
+## What is this?
 
-> 纯本地运行，无后端、无账号、无数据上报。AI / 发音功能需自备 DeepSeek API key（可选，不填也能用词书和弹窗背词）。
+Vocall lives in your system tray and, on an interval you choose, quietly pops a single flashcard into the corner of your screen — while you're gaming, watching something, or doing homework. Glance at the word, flip the card, grade yourself, and it disappears. Over time, the in-between minutes turn into vocabulary.
 
-## 快速上手
+There's no "open the app and study" session. The app comes to you.
 
-1. **加词书**：左侧「词书」→ 选一本（居家出行 / 校园健康 / 社会文娱 / 科技环境 / 政经法理）→ 勾选加入。
-2. **设快捷键**：「设置」→ 快捷键 → 绑定一个全局唤出键（随时主动弹窗背词，默认 Ctrl+Shift+W）。
-3. **开始背**：弹窗自动来；正面看词 → 点卡片翻面看释义例句 → 点「忘了 / 有点印象 / 记得」评分，系统按记忆节奏安排下次出现。
+## Features
 
-## 功能
+- **Popup review** — a card surfaces on a timer or on a global hotkey; the window hides to the tray instead of quitting, so it's always there but never in the way.
+- **Pop-count SRS** — a scheduler built on *number of popups* rather than wall-clock time. Forgotten words come back sooner, remembered words stretch further apart, and mastered words stop appearing.
+- **5 built-in wordbooks (1,580 words)** — organized by topic, with word-family and root clustering and multi-sense definitions.
+- **Pronunciation** — real human voice via Youdao, British or American accent, on both the popup and the word list.
+- **Statistics** — an at-a-glance page with accuracy trend, daily volume, and mastery distribution, drawn as clean hand-rolled SVG charts.
+- **Expression Coach** — polish an English sentence for writing or speaking, or translate Chinese into natural English, with optional linkage to the words you're currently learning.
+- **AI translation & generation** (optional) — let an AI fill in definitions and example sentences, or generate a themed word set.
+- **Multi-provider model config** — bring your own key; multiple providers with OpenAI- or Gemini-compatible protocols, each with a "currently active" switch.
+- **Recycle bin** — deleted words land in a restorable bin instead of vanishing.
+- **Appearance** — independent sliders for window size, popup font, and opacity, with switchable color themes.
+- **Forgetting tracker** — words you've marked "forgot" accumulate a count and are flagged in the list.
+- **Duplicate guard** — a word already in your library or recycle bin can't be re-imported.
 
-- **弹窗背词**：定时弹窗 + 全局快捷键主动唤出，托盘常驻，关窗不退出。
-- **5 本内置词书**（1580 词）：按话题聚类、词根同义族相邻、释义多义项多词性。
-- **弹窗节拍 SRS**：基于"弹窗次数"的复习算法，忘了自动加密、记牢自动拉长间隔、彻底掌握后不再弹。
-- **有道读音**：弹窗 / 列表点 🔊 朗读，英音 / 美音可选。
-- **回收站**：删词进回收站（可还原 / 彻底删），防误删；词书里回收站词会标红禁选。
-- **AI 翻译 / 生成**（可选）：填 DeepSeek key，AI 帮你给生词配释义例句、按主题生成词组。
-- **外观三滑块**：界面大小 / 弹窗字体 / 透明度 独立调节，主题色可切换。
-- **易忘词标记**：点过"忘了"的词累计计数，列表标红。
-- **同词拦截**：生词库 / 回收站已有的词不支持重复导入。
+## Install
 
-## 数据与更新
+1. Download `Vocall-<version>-portable.exe` from [Releases](../../releases).
+2. Run it — no installation needed.
+3. On first launch a few built-in words are imported; closing the window leaves Vocall resident in the system tray.
 
-- **数据位置**：`C:\Users\<你的用户名>\AppData\Roaming\Vocall\config.json`。更新覆盖 exe 不会丢数据；想迁移把整个 `Vocall` 文件夹拷走即可。
-- **检查更新**：「设置」→ 关于 → 检查更新（从 GitHub releases 拉最新版）。
+> Fully local: no backend, no account, no telemetry. AI and pronunciation need a network connection; AI features require your own API key (optional — the wordbooks and popup review work without one).
 
+## Quick start
 
-更新记录见 [CHANGELOG.md](./CHANGELOG.md)。
+1. **Add a wordbook** — open the manager → 「词书」 → pick a book → check words and add them.
+2. **Bind a hotkey** — 「设置」 → set a global hotkey to summon a card anytime (default Ctrl+Shift+W).
+3. **Start reviewing** — cards appear on their own. Read the word, flip for the definition and example, then grade yourself (Forgot / Fuzzy / Know) and the scheduler handles the rest.
 
-## 开发
+## Data & updates
 
-技术栈：Electron 40 + React 19 + TypeScript + Tailwind v4 + electron-store + electron-vite + Vitest。
+| | |
+|---|---|
+| **Data location** | `C:\Users\<you>\AppData\Roaming\Vocall\config.json` — survives reinstalls; copy the whole `Vocall` folder to migrate. |
+| **Updates** | 「设置」 → 关于 → 检查更新 (checks GitHub Releases for the latest version). |
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Runtime | Electron 40 |
+| UI | React 19 + TypeScript + Tailwind v4 |
+| Storage | electron-store (local JSON) |
+| Build | electron-vite |
+| Tests | Vitest |
+
+## Development
 
 ```bash
 npm install
-npm run dev    # 开发模式，弹出管理窗口
-npm run build  # 构建到 out/
-npm run dist   # 打包 portable exe 到 dist/
+npm run dev    # dev mode, opens the manager window
+npm run build  # build to out/
+npm run dist   # package a portable exe to dist/
 npm test       # vitest
 ```
+
+---
+
+Vocall is a personal learning project. Feedback and issues are welcome.
