@@ -65,6 +65,41 @@ export interface PolishResult {
   usedWords: string[]
 }
 
+// —— B1 学习统计（与 main/store.ts、main/stats.ts 同构；shared 不 import main，独立声明）——
+export interface ReviewEvent {
+  ts: number
+  vocabId: number
+  grade: 0 | 1 | 2
+}
+export interface DailyStat {
+  date: string // 本地 YYYY-MM-DD
+  total: number
+  correct: number
+}
+export interface TrendPoint {
+  date: string
+  total: number
+  accuracy: number | null // 当日 0 题 = null（图表断点）
+}
+export interface MasteryCount {
+  new: number
+  learning: number
+  review: number
+  mastered: number
+}
+export interface RecentEvent extends ReviewEvent {
+  word: string // join 词名；词被删兜底"（已删除）"
+}
+// 统计页一次性载荷（stats:overview 返回）
+export interface StatsOverview {
+  totalAnswers: number
+  overallAccuracy: number | null // 一次没答过 = null
+  streakDays: number
+  mastery: MasteryCount
+  trend: TrendPoint[]
+  recent: RecentEvent[]
+}
+
 // —— AI 供应商多配置（与 main/providers.ts 对齐；渲染端只见脱敏视图）——
 export type AiProtocol = 'openai' | 'gemini'
 export type ModelKind = 'text' | 'image'
@@ -137,6 +172,8 @@ export interface VocallApi {
   revive(id: number): Promise<void>
   // 各词忘词计数汇总（id→forgotCount，生词库列表"已忘 N"徽标用；缺省当 0）
   getForgotCounts(): Promise<Record<number, number>>
+  // B1 学习统计：一次性取全量载荷（总览 tile + 掌握度 + 趋势 + 近期明细）
+  getStatsOverview(): Promise<StatsOverview>
   testAi(): Promise<{ ok: boolean; message: string }>
   // AI 内容生产：主题词组生成（返回 [{word,meaning,example}] 预览，不入库）；n 默认 30
   generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string; senses?: Sense[] }[]>

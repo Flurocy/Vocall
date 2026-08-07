@@ -35,6 +35,8 @@ contextBridge.exposeInMainWorld('vocall', {
   revive: (id: number) => ipcRenderer.invoke('vocab:revive', id),
   // 忘词计数汇总（生词库列表"已忘 N"徽标用）
   getForgotCounts: () => ipcRenderer.invoke('srs:getForgotCounts'),
+  // B1 学习统计：一次性取全量载荷
+  getStatsOverview: () => ipcRenderer.invoke('stats:overview'),
   // 拖拽用 send（fire-and-forget），不走 invoke，避免高频 mousemove 堆积 Promise
   dragStart: (x: number, y: number) => ipcRenderer.send('popup:dragStart', { x, y }),
   dragMove: (x: number, y: number) => ipcRenderer.send('popup:dragMove', { x, y }),
