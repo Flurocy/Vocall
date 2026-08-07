@@ -1,6 +1,6 @@
 {
   "name": "vocall",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Vocall — 被动弹窗式雅思背词桌面工具",
   "author": "",
   "main": "out/main/index.js",
