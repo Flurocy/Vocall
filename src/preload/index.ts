@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { NewVocabItem, PreviewOverrides } from '../shared/ipc-types'
+import type { NewVocabItem, PreviewOverrides, PolishMode } from '../shared/ipc-types'
 
 contextBridge.exposeInMainWorld('vocall', {
   listVocab: () => ipcRenderer.invoke('vocab:list'),
@@ -48,6 +48,9 @@ contextBridge.exposeInMainWorld('vocall', {
   generateTheme: (theme: string, n?: number) =>
     ipcRenderer.invoke('ai:generateTheme', theme, n),
   translate: (word: string) => ipcRenderer.invoke('ai:translate', word),
+  // A1 表达教练：句子优化/中译英；boost=true 取在学词软引导 + 后验高亮
+  polish: (text: string, mode: PolishMode, boost: boolean) =>
+    ipcRenderer.invoke('ai:polish', text, mode, boost),
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()
   pronounce: (word: string) => ipcRenderer.invoke('audio:pronounce', word),
   // 词书
