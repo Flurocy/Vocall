@@ -28,6 +28,8 @@ export interface AiConfig {
   apiKey: string
   baseUrl: string
   model: string
+  /** 协议：openai=OpenAI 兼容；gemini=Gemini（本期留架子，调用抛"待接入"）。缺省 openai */
+  protocol?: 'openai' | 'gemini'
 }
 
 export const DEFAULT_BASE_URL = 'https://api.deepseek.com'
