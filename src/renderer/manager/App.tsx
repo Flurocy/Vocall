@@ -4,13 +4,14 @@ import TitleBar from './TitleBar'
 import ExpressionsView from './views/ExpressionsView'
 import WordbooksView from './views/WordbooksView'
 import TrashView from './views/TrashView'
+import StatsView from './views/StatsView'
 import SettingsView from './views/SettingsView'
 import PolishView from './views/PolishView'
 import { getTheme, getFontSize } from '../theme'
 import type { Theme } from '../theme'
 
 export default function App(): ReactElement {
-  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'polish' | 'settings' | 'trash'>('vocab')
+  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'polish' | 'stats' | 'settings' | 'trash'>('vocab')
   const [theme, setTheme] = useState<Theme>(() => getTheme())
   const [fontSize, setFontSize] = useState<string>(() => getFontSize())
 
@@ -76,6 +77,14 @@ export default function App(): ReactElement {
       ),
     },
     {
+      id: 'stats' as const, label: '统计',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 20V10" /><path d="M10 20V4" /><path d="M16 20v-7" /><path d="M22 20H2" />
+        </svg>
+      ),
+    },
+    {
       id: 'settings' as const, label: '设置',
       icon: (
         <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
@@ -114,9 +123,11 @@ export default function App(): ReactElement {
               ? <WordbooksView theme={theme} />
               : tab === 'polish'
                 ? <PolishView theme={theme} />
-                : tab === 'trash'
-                  ? <TrashView theme={theme} />
-                  : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
+                : tab === 'stats'
+                  ? <StatsView theme={theme} />
+                  : tab === 'trash'
+                    ? <TrashView theme={theme} />
+                    : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
         </main>
       </div>
     </div>
