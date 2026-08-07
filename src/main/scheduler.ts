@@ -1,6 +1,6 @@
 import type { VocabItem } from './vocab'
 import { listVocab, updateVocab } from './vocab'
-import { getSrsState, setSrsState, getPopCount, setPopCount } from './store'
+import { getSrsState, setSrsState, getPopCount, setPopCount, appendReviewEvent, bumpDailyStat, localDateKey } from './store'
 import { logSchedule } from './logger'
 import { getSetting } from './settings'
 import {
@@ -118,6 +118,11 @@ export function applyReview(id: number, grade: Grade): void {
   const forgot = (cur?.forgotCount ?? 0) + (grade === 0 ? 1 : 0)
   const newDue = now + next.interval
   setSrsState(id, { easiness: next.easiness, repetitions: next.repetitions, duePop: newDue, forgotCount: forgot })
+  // B1 统计：评分落库后记录事件流 + 当日聚合（grade 0/1/2、learning/review 两路都经此）。
+  // correct 仅认 grade 2。L91 的 early-return（id 不存在）在到达这里之前已返回，天然不记。
+  const ts = Date.now()
+  appendReviewEvent({ ts, vocabId: id, grade })
+  bumpDailyStat(localDateKey(ts), grade === 2)
   if (newStatus !== item.status) updateVocab(id, { status: newStatus })
   logSchedule(
     `review | 「${item.word}」grade=${grade} | duePop ${now}→${newDue}（+${next.interval}）` +

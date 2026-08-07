@@ -14,6 +14,7 @@ import {
 } from './providers'
 import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
+import { getStatsOverview } from './stats'
 import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
 import { pickBoostWords, matchUsedWords } from './polish-match'
 import { fetchPronunciation } from './audio'
@@ -83,6 +84,8 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   ipcMain.handle('vocab:revive', (_e, id: number) => reviveVocab(id))
   // 忘词计数汇总：id→forgotCount（生词库列表"已忘 N"徽标用）
   ipcMain.handle('srs:getForgotCounts', () => getForgotCounts())
+  // B1 学习统计：一次性取全量载荷（总览 + 掌握度 + 趋势 + 近期明细）
+  ipcMain.handle('stats:overview', () => getStatsOverview())
   // 词书
   ipcMain.handle('wordbook:list', () => listWordbooks())
   // 词书入库同样走统一队列：加入后即刻补位（cap 有空位 → 前几个词立即变学习中）

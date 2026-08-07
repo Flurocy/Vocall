@@ -12,6 +12,21 @@ export interface SrsState {
   forgotCount: number // 点了几次"忘了"（grade 0），历史累计只增不减
 }
 
+// —— B1 学习统计 ——
+// 评分事件流：每次评分追加一条（明细 + 精确正确率的真源）。cap 2000 截头防无限增长。
+export interface ReviewEvent {
+  ts: number // Date.now() 毫秒时间戳
+  vocabId: number
+  grade: 0 | 1 | 2 // 0=忘了 1=模糊 2=认识（correct 仅认 grade 2）
+}
+// 每日聚合：{date, total, correct}，date 为本地时区 YYYY-MM-DD。趋势图直接读它，O(1)。
+// cap 400 天截头。与事件流双存：事件流管近期明细，dailyStats 管长期趋势。
+export interface DailyStat {
+  date: string
+  total: number
+  correct: number
+}
+
 interface Schema {
   vocab: import('./vocab').VocabItem[]
   srsStates: Record<number, SrsState>
@@ -19,12 +34,14 @@ interface Schema {
   nextId: number
   popCount: number // 全局弹窗节拍计数器：弹一次 +1，是调度唯一的"时钟"
   trash: { item: import('./vocab').VocabItem; deletedAt: number }[] // 回收站：软删除的词包装，按 deletedAt 索引还原/清空
+  reviewEvents: ReviewEvent[] // B1 评分事件流（按 ts 升序追加）
+  dailyStats: DailyStat[] // B1 每日聚合（按 date 升序，同日合并）
 }
 
 // 测试时注入内存实现；生产用 electron-store 持久化
 let mem: Schema | null = null
 
-const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [] }
+const defaults: Schema = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [], reviewEvents: [], dailyStats: [] }
 // 显式传 projectName：Electron 外（如 vitest Node 环境）conf 无法从 app 取名，会抛错；
 // electron-store 的 Options 类型把 projectName Except 掉了（生产环境由 app 名派生），这里运行时透传给 conf，需断言
 const store = new Store<Schema>({ defaults, projectName: 'vocall' } as Options<Schema>)
@@ -37,7 +54,7 @@ function write<K extends keyof Schema>(key: K, val: Schema[K]): void {
 }
 
 export function _resetStoreForTests(): void {
-  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [] }
+  mem = { vocab: [], srsStates: {}, settings: {}, nextId: 1, popCount: 0, trash: [], reviewEvents: [], dailyStats: [] }
 }
 
 // 弹窗节拍计数器：engine 每弹一次调 incrementPop，调度和 SRS 用 popCount 判定到期。
@@ -140,6 +157,50 @@ export function getForgotCounts(): Record<number, number> {
     out[Number(k)] = (v as SrsState).forgotCount ?? 0
   }
   return out
+}
+
+// —— B1 学习统计：事件流 + 每日聚合 ——
+
+// 本地时区日期键 YYYY-MM-DD。禁用 toISOString()——它返回 UTC，跨时区会把深夜评分算到前一天。
+export function localDateKey(ts: number): string {
+  const d = new Date(ts)
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${d.getFullYear()}-${m}-${day}`
+}
+
+const MAX_REVIEW_EVENTS = 2000 // 事件流上限：截头保尾（留最新），防无限增长
+const MAX_DAILY_STATS = 400 // 每日聚合上限：约一年出头，截头保尾
+
+// 追加一条评分事件（按 ts 升序）。超上限截掉最旧的。
+export function appendReviewEvent(e: ReviewEvent): void {
+  const list = [...(read('reviewEvents') ?? []), e]
+  if (list.length > MAX_REVIEW_EVENTS) list.splice(0, list.length - MAX_REVIEW_EVENTS)
+  write('reviewEvents', list)
+}
+
+// 累加当日聚合：有当日条目则 +1（correct 由调用方判 grade===2），无则新建。同日合并、按 date 升序。
+export function bumpDailyStat(date: string, correct: boolean): void {
+  const list = [...(read('dailyStats') ?? [])]
+  const last = list[list.length - 1]
+  if (last && last.date === date) {
+    list[list.length - 1] = { date, total: last.total + 1, correct: last.correct + (correct ? 1 : 0) }
+  } else {
+    list.push({ date, total: 1, correct: correct ? 1 : 0 })
+    list.sort((a, b) => (a.date < b.date ? -1 : 1)) // 防御乱序（时钟回拨），保持升序
+    if (list.length > MAX_DAILY_STATS) list.splice(0, list.length - MAX_DAILY_STATS)
+  }
+  write('dailyStats', list)
+}
+
+// 读全量事件流（升序）；缺 key 兜底空数组。
+export function getReviewEvents(): ReviewEvent[] {
+  return read('reviewEvents') ?? []
+}
+
+// 读全量每日聚合（按 date 升序）；缺 key 兜底空数组。
+export function getDailyStats(): DailyStat[] {
+  return read('dailyStats') ?? []
 }
 
 export const vocabBox = {
