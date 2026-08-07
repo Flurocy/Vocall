@@ -5,10 +5,16 @@ import {
   listTrash, restoreVocab, purgeVocab, clearTrash,
   type NewVocabItem,
 } from './vocab'
-import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings } from './settings'
+import { getAllSettings, setSetting, getSetting, getAiConfig, resetElasticSettings, getProviders, setProviders, getActiveProviderId, setActiveProviderId } from './settings'
+import {
+  addProvider as addProviderPure, updateProvider as updateProviderPure,
+  removeProvider as removeProviderPure, selectProviderModel as selectProviderModelPure,
+  toProviderView, fetchProviderModels, genProviderId, PROVIDER_TEMPLATES,
+  type Provider, type ProviderView,
+} from './providers'
 import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
-import { callDeepseek, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
+import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
 import { pickBoostWords, matchUsedWords } from './polish-match'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
@@ -99,7 +105,7 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     try {
       const cfg = getAiConfig()
       if (!cfg.apiKey) return { ok: false, message: '请先填写 API key' }
-      await callDeepseek(cfg, { user: '回复"ok"两个字即可', maxTokens: 128, temperature: 0, timeoutMs: 90_000, disableThinking: true })
+      await callModel(cfg, { user: '回复"ok"两个字即可', maxTokens: 128, temperature: 0, timeoutMs: 90_000, disableThinking: true })
       return { ok: true, message: `连接成功（${cfg.model}）` }
     } catch (err) {
       return { ok: false, message: err instanceof Error ? err.message : String(err) }
@@ -129,6 +135,61 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     const usedWords = linkable ? matchUsedWords(versions.map((v) => v.en).join('\n'), candidates) : []
     return { versions, usedWords }
   })
+
+  // —— AI 供应商多配置（模型配置视图）——
+  // 渲染端只见脱敏 ProviderView（apiKey→hasKey）；增改返回最新列表供前端一次性刷新。
+  const providerViews = (): ProviderView[] => getProviders().map(toProviderView)
+  const providerState = () => ({
+    providers: providerViews(),
+    activeIds: { text: getActiveProviderId('text'), image: getActiveProviderId('image') },
+  })
+
+  ipcMain.handle('provider:list', async () => providerViews())
+  ipcMain.handle('provider:state', async () => providerState())
+
+  // 设为"当前使用"供应商（CC Switch 式）：写入 ai_active_{kind}
+  ipcMain.handle('provider:setActive', async (_e, kind: 'text' | 'image', id: string) => {
+    setActiveProviderId(kind, id)
+    return providerState()
+  })
+
+  ipcMain.handle('provider:add', async (_e, input: Omit<Provider, 'id'>) => {
+    const p: Provider = { ...input, id: genProviderId() }
+    setProviders(addProviderPure(getProviders(), p))
+    return providerViews()
+  })
+
+  ipcMain.handle('provider:update', async (_e, id: string, patch: Partial<Omit<Provider, 'id'>>) => {
+    setProviders(updateProviderPure(getProviders(), id, patch))
+    return providerViews()
+  })
+
+  ipcMain.handle('provider:remove', async (_e, id: string) => {
+    setProviders(removeProviderPure(getProviders(), id))
+    return providerViews()
+  })
+
+  ipcMain.handle('provider:selectModel', async (_e, id: string, model: string) => {
+    setProviders(selectProviderModelPure(getProviders(), id, model))
+    return providerViews()
+  })
+
+  // 拉取模型列表：从已存 provider 读 baseUrl/key/protocol，成功后回写 models + 默认选中第一个。
+  // 失败抛错（invoke reject），前端 catch 后降级为手填 model_id。
+  ipcMain.handle('provider:fetchModels', async (_e, id: string) => {
+    const p = getProviders().find((x) => x.id === id)
+    if (!p) throw new Error('供应商不存在')
+    const models = await fetchProviderModels(p.baseUrl, p.apiKey, p.protocol)
+    setProviders(
+      updateProviderPure(getProviders(), id, {
+        models,
+        selectedModel: p.selectedModel && models.includes(p.selectedModel) ? p.selectedModel : models[0],
+      }),
+    )
+    return models
+  })
+
+  ipcMain.handle('provider:templates', async () => PROVIDER_TEMPLATES)
 
   // 发音：读 audio_accent 设置 → fetch 有道 dictvoice → 返回 base64 data URL（渲染端 new Audio 播）。
   // 失败抛 Error（invoke reject），渲染端 catch 静默（断网/超时不崩、不打扰）。

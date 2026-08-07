@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { NewVocabItem, PreviewOverrides, PolishMode } from '../shared/ipc-types'
+import type { NewVocabItem, PreviewOverrides, PolishMode, ProviderInput } from '../shared/ipc-types'
 
 contextBridge.exposeInMainWorld('vocall', {
   listVocab: () => ipcRenderer.invoke('vocab:list'),
@@ -51,6 +51,19 @@ contextBridge.exposeInMainWorld('vocall', {
   // A1 表达教练：句子优化/中译英；boost=true 取在学词软引导 + 后验高亮
   polish: (text: string, mode: PolishMode, boost: boolean) =>
     ipcRenderer.invoke('ai:polish', text, mode, boost),
+  // AI 供应商多配置
+  listProviders: () => ipcRenderer.invoke('provider:list'),
+  addProvider: (input: ProviderInput) => ipcRenderer.invoke('provider:add', input),
+  updateProvider: (id: string, patch: Partial<ProviderInput>) =>
+    ipcRenderer.invoke('provider:update', id, patch),
+  removeProvider: (id: string) => ipcRenderer.invoke('provider:remove', id),
+  selectProviderModel: (id: string, model: string) =>
+    ipcRenderer.invoke('provider:selectModel', id, model),
+  setActiveProvider: (kind: 'text' | 'image', id: string) =>
+    ipcRenderer.invoke('provider:setActive', kind, id),
+  getProviderState: () => ipcRenderer.invoke('provider:state'),
+  fetchProviderModels: (id: string) => ipcRenderer.invoke('provider:fetchModels', id),
+  getProviderTemplates: () => ipcRenderer.invoke('provider:templates'),
   // 发音：返回 base64 data URL（data:audio/mpeg;base64,...）供渲染端 new Audio(dataURL).play()
   pronounce: (word: string) => ipcRenderer.invoke('audio:pronounce', word),
   // 词书

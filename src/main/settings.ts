@@ -1,5 +1,8 @@
 import { settingsBox } from './store'
 import { DEFAULT_BASE_URL, DEFAULT_MODEL, type AiConfig } from './ai'
+import {
+  activeProvider, activeProviderById, migrateLegacyAiKey, type Provider, type ModelKind,
+} from './providers'
 
 export const DEFAULT_SETTINGS: Record<string, string> = {
   popup_interval_sec: '480', // 弹出间隔（秒）；旧 popup_interval_min(分钟)由 migratePopupInterval 迁移×60
@@ -28,6 +31,9 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_model: '',
   popup_hotkey: 'CommandOrControl+Shift+W', // 主动唤出全局快捷键（accelerator 字符串）；空串=禁用
   audio_accent: 'british', // 发音口音：british(默认,雅思A类)/american；main/audio.ts accentToType 据此选 type
+  ai_providers: '', // AI 供应商多配置（JSON 字符串 of Provider[]）；空=未配置（旧三键由 migrate 迁入）
+  ai_active_text: '',  // 当前使用的文本供应商 id（CC Switch 式"当前使用"）；空=回退启发式
+  ai_active_image: '', // 当前使用的图像供应商 id
 }
 
 export function getSetting(key: string): string | null {
@@ -73,12 +79,62 @@ export function migratePopupInterval(): void {
   }
 }
 
-// 组装 AI 配置：从设置读 key/baseUrl/model，空则落默认值。
+// —— AI 供应商多配置（Provider[] 存 ai_providers JSON 键）——
+
+/** 读取全部供应商；坏 JSON 兜底空数组（不炸调用方） */
+export function getProviders(): Provider[] {
+  const raw = settingsBox.get().ai_providers
+  if (!raw) return []
+  try {
+    const arr = JSON.parse(raw)
+    return Array.isArray(arr) ? (arr as Provider[]) : []
+  } catch {
+    return []
+  }
+}
+
+/** 覆盖写全部供应商 */
+export function setProviders(list: Provider[]): void {
+  setSetting('ai_providers', JSON.stringify(list))
+}
+
+/** 迁移：旧三键（ai_api_key 等）→ 首个 Provider。启动时调用一次，幂等。 */
+export function migrateAiProviders(): void {
+  const migrated = migrateLegacyAiKey(getAllSettings(), getProviders())
+  if (migrated) {
+    setProviders(migrated)
+    // 迁移出的首个文本供应商设为当前使用
+    if (migrated[0]?.kind === 'text') setSetting('ai_active_text', migrated[0].id)
+  }
+}
+
+// —— 当前使用供应商（CC Switch 式）——
+const ACTIVE_KEY: Record<ModelKind, string> = { text: 'ai_active_text', image: 'ai_active_image' }
+export function getActiveProviderId(kind: ModelKind): string {
+  return getSetting(ACTIVE_KEY[kind]) ?? ''
+}
+export function setActiveProviderId(kind: ModelKind, id: string): void {
+  setSetting(ACTIVE_KEY[kind], id)
+}
+
+// 组装 AI 配置：取"当前使用"供应商（activeId 优先，回退启发式），旧三键兜底。
 // apiKey 可能为空（用户还没配）——调用方据此提示"请先配置 API key"。
-export function getAiConfig(): AiConfig {
+export function getAiConfig(kind: ModelKind = 'text'): AiConfig {
+  const all = getProviders()
+  const active = activeProviderById(all, kind, getActiveProviderId(kind)) ?? activeProvider(all, kind)
+  if (active) {
+    return {
+      apiKey: active.apiKey,
+      baseUrl: active.baseUrl || DEFAULT_BASE_URL,
+      model: active.selectedModel || active.models[0] || DEFAULT_MODEL,
+      protocol: active.protocol,
+    }
+  }
+  // 旧三键兜底（迁移前/无 provider）
   return {
     apiKey: getSetting('ai_api_key') ?? '',
     baseUrl: getSetting('ai_base_url') || DEFAULT_BASE_URL,
     model: getSetting('ai_model') || DEFAULT_MODEL,
+    protocol: 'openai',
   }
 }
