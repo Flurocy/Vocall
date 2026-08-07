@@ -5,11 +5,12 @@ import ExpressionsView from './views/ExpressionsView'
 import WordbooksView from './views/WordbooksView'
 import TrashView from './views/TrashView'
 import SettingsView from './views/SettingsView'
+import PolishView from './views/PolishView'
 import { getTheme, getFontSize } from '../theme'
 import type { Theme } from '../theme'
 
 export default function App(): ReactElement {
-  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'settings' | 'trash'>('vocab')
+  const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'polish' | 'settings' | 'trash'>('vocab')
   const [theme, setTheme] = useState<Theme>(() => getTheme())
   const [fontSize, setFontSize] = useState<string>(() => getFontSize())
 
@@ -54,6 +55,14 @@ export default function App(): ReactElement {
       icon: (
         <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 4v16" /><path d="M9.5 4v16" /><path d="m13.5 5 4.5 15" />
+        </svg>
+      ),
+    },
+    {
+      id: 'polish' as const, label: '表达教练',
+      icon: (
+        <svg className={iconCls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
         </svg>
       ),
     },
@@ -103,9 +112,11 @@ export default function App(): ReactElement {
             ? <ExpressionsView theme={theme} />
             : tab === 'wordbooks'
               ? <WordbooksView theme={theme} />
-              : tab === 'trash'
-                ? <TrashView theme={theme} />
-                : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
+              : tab === 'polish'
+                ? <PolishView theme={theme} />
+                : tab === 'trash'
+                  ? <TrashView theme={theme} />
+                  : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
         </main>
       </div>
     </div>
