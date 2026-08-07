@@ -51,6 +51,61 @@ export function genProviderId(): string {
 }
 
 // ============================================================================
+// 模型列表拉取：默认 GET {baseUrl}/models（OpenAI 格式），失败则抛错由前端降级为手填。
+// ============================================================================
+
+// OpenAI /models 响应的最小结构：{ data: [{ id }] }（兼容部分服务返回 { models: [{name}] }）
+interface ModelsListResponse {
+  data?: { id?: string }[]
+  models?: { id?: string; name?: string }[]
+}
+
+/**
+ * 拉取供应商的可用模型列表，返回模型 id 数组。
+ * - openai → GET {baseUrl}/models（Bearer 认证），取 data[].id（兜底 models[].id/name）
+ * - gemini → 留架子（Google 列表结构不同，本期未接入，抛错提示手填）
+ * 网络/HTTP/解析失败一律 throw，前端 catch 后允许手填 model_id。
+ */
+export async function fetchProviderModels(
+  baseUrl: string,
+  apiKey: string,
+  protocol: AiProtocol,
+): Promise<string[]> {
+  if (protocol === 'gemini') {
+    throw new Error('Gemini 协议暂不支持自动拉取模型列表，请手动填写 model_id')
+  }
+  if (!apiKey.trim()) throw new Error('请先填写 API key 再拉取模型列表')
+  const url = `${baseUrl.replace(/\/+$/, '')}/models`
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 15_000)
+  let res: Response
+  try {
+    res = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+      signal: controller.signal,
+    })
+  } catch (err) {
+    throw new Error(
+      err instanceof Error && err.name === 'AbortError'
+        ? '拉取模型列表超时——可手动填写 model_id'
+        : `拉取模型列表失败：${err instanceof Error ? err.message : String(err)}`,
+    )
+  } finally {
+    clearTimeout(timer)
+  }
+  if (!res.ok) {
+    throw new Error(`拉取模型列表失败 HTTP ${res.status}——可手动填写 model_id`)
+  }
+  const data = (await res.json()) as ModelsListResponse
+  // 优先 OpenAI 的 data[].id；兼容部分服务的 models[].id / models[].name（如 Gemini 风格 name 字段）
+  const ids = (data.data ?? data.models ?? [])
+    .map((m) => (m.id ?? m.name ?? '').trim())
+    .filter((s) => s.length > 0)
+  if (ids.length === 0) throw new Error('模型列表为空或格式无法识别——请手动填写 model_id')
+  return ids
+}
+
+// ============================================================================
 // CRUD 纯函数：输入 providers 数组，输出新数组（不改动原数组，便于测试）。
 // store 层负责读写 settingsBox，这里只管数组变换逻辑。
 // ============================================================================

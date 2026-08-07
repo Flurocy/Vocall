@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import {
   addProvider, updateProvider, removeProvider, selectProviderModel,
-  activeProvider, toProviderView, migrateLegacyAiKey,
+  activeProvider, toProviderView, migrateLegacyAiKey, fetchProviderModels,
   type Provider,
 } from '../src/main/providers'
 
@@ -106,5 +106,52 @@ describe('migrateLegacyAiKey —— 旧三键迁移', () => {
   it('旧 model 为空：落默认模型', () => {
     const out = migrateLegacyAiKey({ ai_api_key: 'sk-old' }, [])
     expect(out![0].selectedModel).toBe('deepseek-v4-flash')
+  })
+})
+
+// 模型列表拉取：OpenAI /models 解析 + 容错（gemini 架子 / 空 key / HTTP 错 / 空列表）
+describe('fetchProviderModels —— 拉取模型列表', () => {
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('openai：取 data[].id', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(
+      JSON.stringify({ data: [{ id: 'm1' }, { id: 'm2' }, { noId: true }] }), { status: 200 })))
+    const out = await fetchProviderModels('https://x.com', 'k', 'openai')
+    expect(out).toEqual(['m1', 'm2'])
+  })
+
+  it('openai：兼容 models[].name（部分服务结构）', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(
+      JSON.stringify({ models: [{ name: 'models/gemma' }] }), { status: 200 })))
+    const out = await fetchProviderModels('https://x.com', 'k', 'openai')
+    expect(out).toEqual(['models/gemma'])
+  })
+
+  it('baseUrl 末尾斜杠被去掉再拼 /models', async () => {
+    let url = ''
+    vi.stubGlobal('fetch', vi.fn(async (u: string) => {
+      url = u
+      return new Response(JSON.stringify({ data: [{ id: 'm' }] }), { status: 200 })
+    }))
+    await fetchProviderModels('https://x.com/', 'k', 'openai')
+    expect(url).toBe('https://x.com/models')
+  })
+
+  it('gemini：抛错提示手填（本期架子）', async () => {
+    await expect(fetchProviderModels('https://x.com', 'k', 'gemini')).rejects.toThrow(/手动填写/)
+  })
+
+  it('空 key：抛错', async () => {
+    await expect(fetchProviderModels('https://x.com', '  ', 'openai')).rejects.toThrow(/API key/)
+  })
+
+  it('HTTP 非 200：抛错且提示可手填', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('x', { status: 401 })))
+    await expect(fetchProviderModels('https://x.com', 'k', 'openai')).rejects.toThrow(/HTTP 401/)
+  })
+
+  it('列表为空/无法识别：抛错提示手填', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ data: [] }), { status: 200 })))
+    await expect(fetchProviderModels('https://x.com', 'k', 'openai')).rejects.toThrow(/手动填写/)
   })
 })
