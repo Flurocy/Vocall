@@ -4,9 +4,11 @@ import type { VocabItem, Sense } from '../../../shared/ipc-types'
 import type { Theme } from '../../theme'
 import { playWord } from '../../playWord'
 import { staggerIn } from '../../anim'
-import { CircleNotch } from '@phosphor-icons/react'
+import { CircleNotch, MagnifyingGlass } from '@phosphor-icons/react'
 import AiGenModal from './AiGenModal'
 import ConfirmModal from './ConfirmModal'
+import { filterVocab, isFiltering } from '../filterVocab'
+import type { StatusFilter } from '../filterVocab'
 
 // 剥 Electron IPC 包装前缀：err.message 形如
 // "Error invoking remote method 'vocab:add': Error: 「x」已在生词库中..."，
@@ -39,6 +41,10 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
   const [aiMsg, setAiMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string } | null>(null)
   // AI 翻译带回的一词多义（随「新增生词」入库透传；改 word 视作换词清除，入库成功后清空）
   const [aiSenses, setAiSenses] = useState<Sense[] | null>(null)
+  // B2 搜索/筛选：query=搜索词（word+meaning 子串）、statusFilter=状态 chip（'all'=不筛）。
+  // 激活过滤时列表平铺不分段（电商搜索结果式）；空 query+all 时维持三段分界。
+  const [query, setQuery] = useState('')
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   // 自绘确认弹窗（替代 window.confirm）：null=关闭；{message, onOk}=显示
   const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
   // 列表容器 ref：GSAP stagger 入场目标（.list-item 行依次浮现）
@@ -409,6 +415,56 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
         </div>
       </section>
 
+      {/* B2 搜索/筛选工具栏：搜索框 + 状态 chip 组（电商式可选 filter）。
+          激活过滤时列表平铺不分段；清空恢复三段分界。 */}
+      {list.length > 0 && (
+        <section className="mb-4 rounded-2xl border border-black/10 bg-white/60 px-4 py-3 shadow-sm">
+          <div className="flex items-center gap-2">
+            <MagnifyingGlass size={15} className="shrink-0 text-slate-400" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="搜索单词或释义…"
+              spellCheck={false}
+              className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                aria-label="清空搜索"
+                className="shrink-0 rounded px-1 text-xs text-slate-400 hover:text-slate-600"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          {/* 状态 chip 胶囊组：点选一个，再点「全部」清除 */}
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+            {(
+              [
+                ['all', '全部'],
+                ['learning', '学习中'],
+                ['new', '待学习'],
+                ['review', '复习中'],
+                ['mastered', '已掌握'],
+              ] as [StatusFilter, string][]
+            ).map(([val, label]) => (
+              <button
+                key={val}
+                onClick={() => setStatusFilter(val)}
+                className={`rounded-full px-3 py-1 text-xs transition ${
+                  statusFilter === val
+                    ? `${theme.accentBg} ${theme.accentText} font-medium`
+                    : 'text-slate-500 hover:bg-black/5 hover:text-slate-700'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 列表 / 空态 */}
       {list.length === 0 ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-black/15 bg-white/40 px-6 py-12 text-center">
@@ -418,6 +474,30 @@ export default function ExpressionsView({ theme }: { theme: Theme }): ReactEleme
           </svg>
           <p className="text-sm text-slate-600">还没有生词，先在上方添加一条吧</p>
         </div>
+      ) : isFiltering(query, statusFilter) ? (
+        (() => {
+          const filtered = filterVocab(sorted, query, statusFilter)
+          return filtered.length === 0 ? (
+            // 过滤无结果
+            <div className="flex flex-col items-center rounded-2xl border border-dashed border-black/15 bg-white/40 px-6 py-12 text-center">
+              <p className="text-sm text-slate-600">没有匹配「{query || statusFilter}」的词</p>
+              <button
+                onClick={() => { setQuery(''); setStatusFilter('all') }}
+                className={`mt-2 text-xs ${theme.accentText} hover:underline`}
+              >
+                清空搜索与筛选
+              </button>
+            </div>
+          ) : (
+            // 过滤态：平铺单列，不分段（电商搜索结果式）
+            <>
+              <div className="mb-2 text-xs text-slate-500">命中 {filtered.length} / {list.length} 条</div>
+              <ul className="space-y-2.5">
+                {filtered.map((e) => row(e))}
+              </ul>
+            </>
+          )
+        })()
       ) : (
         <>
           {/* 批量操作条 */}
