@@ -138,7 +138,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     return () => window.removeEventListener('keydown', onKey, true)
   }, [listening])
 
-  // 检查更新（GitHub releases/latest）：有新版→附 releaseUrl 跳下载；失败/无更新/超时各有提示。
+  // 检查更新：打包后走覆盖式自动更新（electron-updater），状态经 'update:status' 推到右下角卡片，
+  // 这里只提示"检查中/看卡片"；dev 下 autoUpdater 不可用，走旧 fetch latest 兜底返回文字结果。
   const doCheckUpdate = async (): Promise<void> => {
     setUpdateMsg({ kind: 'busy', text: '检查中…' })
     const r = await window.vocall.checkUpdate()
@@ -147,7 +148,8 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     } else if (r.hasUpdate) {
       setUpdateMsg({ kind: 'ok', text: `发现新版本 v${r.latest}`, url: r.releaseUrl })
     } else {
-      setUpdateMsg({ kind: 'ok', text: '已是最新版本' })
+      // 打包后 hasUpdate/latest 恒为 null（结果走 update:status 卡片）；dev 兜底显示"已是最新"
+      setUpdateMsg({ kind: 'ok', text: '已触发检查，如有新版本将在右下角提示' })
     }
   }
 

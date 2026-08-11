@@ -8,6 +8,7 @@ import { startEngine } from './engine'
 import { registerHotkey } from './hotkey'
 import { fillLearningQueue } from './scheduler'
 import { createTray } from './tray'
+import { initAutoUpdater, checkForUpdatesSilently } from './updater'
 import { migrateVocabStatus, migrateSrsToPop, migrateForgotCount } from './store'
 import { migrateReviewSteps, migratePopupInterval, migrateAiProviders } from './settings'
 import { migrateSensesFromWordbooks } from './wordbook'
@@ -113,6 +114,9 @@ app.whenReady().then(() => {
     // 退出彻底性：先销毁弹窗，避免 frameless 窗口残留成僵尸进程
     if (popupWin && !popupWin.isDestroyed()) popupWin.destroy()
   })
+  // 覆盖式自动更新（v1.6.0）：注入管理窗口 getter 供状态推送，启动后静默检查一次（仅打包后生效）。
+  initAutoUpdater(() => managerWin)
+  checkForUpdatesSilently()
   app.on('activate', openManager)
 })
 

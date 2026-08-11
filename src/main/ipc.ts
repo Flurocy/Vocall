@@ -22,7 +22,7 @@ import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWo
 import { reregisterHotkey } from './hotkey'
 import { resizePopup, applyPopupOpacity } from './popup'
 import { rescheduleInterval } from './engine'
-import { checkUpdate } from './updater'
+import { checkUpdate, downloadUpdate, quitAndInstall, getUpdateStatus, getPendingChangelog, markChangelogSeen } from './updater'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
 // popupWin 由 index.ts 创建，通过此闭包传入（与 registerPopupIpc / startEngine 同款模式）。
@@ -209,4 +209,12 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     // 只放行 http(s)，防任意协议跳转
     if (typeof url === 'string' && /^https?:\/\//.test(url)) shell.openExternal(url)
   })
+
+  // —— 覆盖式自动更新（v1.6.0）——
+  // 状态推送走 webContents.send('update:status')（updater.ts push()），这里是渲染端的主动操作入口。
+  ipcMain.handle('update:getStatus', () => getUpdateStatus())
+  ipcMain.handle('update:download', () => downloadUpdate())
+  ipcMain.handle('update:install', () => quitAndInstall())
+  ipcMain.handle('update:getPendingChangelog', () => getPendingChangelog())
+  ipcMain.handle('update:markChangelogSeen', () => markChangelogSeen())
 }

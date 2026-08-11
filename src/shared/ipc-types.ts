@@ -215,15 +215,45 @@ export interface VocallApi {
   getVersion(): Promise<string>
   checkUpdate(): Promise<UpdateInfo>
   openExternal(url: string): Promise<void>
+  // —— 覆盖式自动更新（v1.6.0）——
+  // 订阅主进程更新状态推送（'update:status'）；返回退订函数
+  onUpdateStatus(cb: (s: UpdateStatus) => void): () => void
+  // 挂载时拉取最近一次状态（错过挂载前事件的兜底）
+  getUpdateStatus(): Promise<UpdateStatus>
+  // 「立即更新」→ 开始下载（autoDownload=false 手动触发）
+  downloadUpdate(): Promise<void>
+  // 「重启完成更新」→ quitAndInstall
+  installUpdate(): Promise<void>
+  // 首启更新日志：当前版本>已读版本则返回内容让渲染端弹一次，否则 null
+  getPendingChangelog(): Promise<PendingChangelog | null>
+  // 显式标记当前版本日志已读（双保险）
+  markChangelogSeen(): Promise<void>
 }
 
-// 检查更新返回结构（updater.ts 产出，renderer 消费）
+// 检查更新返回结构（updater.ts 产出，renderer 消费）——dev 兜底手动检查用
 export interface UpdateInfo {
   current: string       // 本地版本
   latest: string | null // 远端最新版（去 v 前缀）；null = 未发布或拉取失败
   hasUpdate: boolean    // latest > current
   releaseUrl: string | null
   error?: string        // 失败原因
+}
+
+// —— 覆盖式自动更新（v1.6.0）：主进程 → 渲染端的更新状态推送（'update:status' 事件载荷）——
+// 状态机：idle(初始) → checking → available(发现新版,带版本+日志) / none(已最新)
+//         → downloading(带进度) → downloaded(下好待重启) ；任何阶段出错 → error。
+export type UpdateStatus =
+  | { state: 'idle' }
+  | { state: 'available'; version: string; releaseNotes: string }
+  | { state: 'none' }
+  | { state: 'downloading'; percent: number }
+  | { state: 'downloaded'; version: string }
+  | { state: 'error'; message: string }
+
+// 首启更新日志载荷（getPendingChangelog 返回；null = 不弹）
+export interface PendingChangelog {
+  version: string
+  notes: string
 }
 
 declare global {

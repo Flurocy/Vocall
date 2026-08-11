@@ -79,4 +79,15 @@ contextBridge.exposeInMainWorld('vocall', {
   getVersion: () => ipcRenderer.invoke('app:getVersion'),
   checkUpdate: () => ipcRenderer.invoke('app:checkUpdate'),
   openExternal: (url: string) => ipcRenderer.invoke('app:openExternal', url),
+  // —— 覆盖式自动更新（v1.6.0）——
+  onUpdateStatus: (cb: (s: unknown) => void) => {
+    const listener = (_e: unknown, s: unknown): void => cb(s)
+    ipcRenderer.on('update:status', listener)
+    return () => ipcRenderer.removeListener('update:status', listener)
+  },
+  getUpdateStatus: () => ipcRenderer.invoke('update:getStatus'),
+  downloadUpdate: () => ipcRenderer.invoke('update:download'),
+  installUpdate: () => ipcRenderer.invoke('update:install'),
+  getPendingChangelog: () => ipcRenderer.invoke('update:getPendingChangelog'),
+  markChangelogSeen: () => ipcRenderer.invoke('update:markChangelogSeen'),
 })

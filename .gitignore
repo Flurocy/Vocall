@@ -13,3 +13,6 @@ vocall-*-src.zip
 
 # 打包产物（portable exe 等二进制，不入库）
 *.exe
+
+# 本地设计稿（v1.6 系列规划文档，本地带走拷家电脑执行，不进 git）
+design/

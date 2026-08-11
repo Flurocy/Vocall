@@ -7,13 +7,18 @@ import TrashView from './views/TrashView'
 import StatsView from './views/StatsView'
 import SettingsView from './views/SettingsView'
 import PolishView from './views/PolishView'
+import UpdateBanner from './views/UpdateBanner'
+import ChangelogModal from './views/ChangelogModal'
 import { getTheme, getFontSize } from '../theme'
 import type { Theme } from '../theme'
+import type { PendingChangelog } from '../../shared/ipc-types'
 
 export default function App(): ReactElement {
   const [tab, setTab] = useState<'vocab' | 'wordbooks' | 'polish' | 'stats' | 'settings' | 'trash'>('vocab')
   const [theme, setTheme] = useState<Theme>(() => getTheme())
   const [fontSize, setFontSize] = useState<string>(() => getFontSize())
+  // 首启更新日志（v1.6.0）：非 null 时弹一次（主进程已写入 last_seen，关闭即不再弹）
+  const [changelog, setChangelog] = useState<PendingChangelog | null>(null)
 
   // Tailwind 字号是 rem（相对根元素），除顶层容器 style 外还需同步根元素字号，
   // 否则容器 fontSize 对 rem 类不生效
@@ -25,6 +30,10 @@ export default function App(): ReactElement {
     void window.vocall.getSettings().then((s) => {
       setTheme(getTheme(s.theme))
       setFontSize(getFontSize(s.font_size))
+    })
+    // 首启更新日志：当前版本 > 已读版本才返回内容，弹一次（主进程已写入 last_seen 防反复）
+    void window.vocall.getPendingChangelog().then((c) => {
+      if (c) setChangelog(c)
     })
   }, [])
 
@@ -130,6 +139,20 @@ export default function App(): ReactElement {
                     : <SettingsView theme={theme} onSettingChanged={onSettingChanged} />}
         </main>
       </div>
+      {/* 覆盖式更新卡片（右下角，available/downloading/downloaded 时出现） */}
+      <UpdateBanner theme={theme} />
+      {/* 首启更新日志（更新后首次打开显示一次） */}
+      {changelog && (
+        <ChangelogModal
+          theme={theme}
+          version={changelog.version}
+          notes={changelog.notes}
+          onClose={() => {
+            setChangelog(null)
+            void window.vocall.markChangelogSeen()
+          }}
+        />
+      )}
     </div>
   )
 }
