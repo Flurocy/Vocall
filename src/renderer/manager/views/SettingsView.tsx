@@ -17,8 +17,8 @@ import {
   POPUP_OPACITY_MAX,
 } from '../../theme'
 import type { Theme } from '../../theme'
-import ConfirmModal from './ConfirmModal'
 import ModelConfigView from './ModelConfigView'
+import AdvancedSettingsView from './AdvancedSettingsView'
 
 const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   { key: 'popup_interval_sec', label: '弹出间隔（秒）', min: 1 },
@@ -26,19 +26,7 @@ const NUMBER_FIELDS: { key: string; label: string; min: number }[] = [
   // 注：'每日弹出上限'(daily_cap) 是死设置——无任何消费方，已从界面移除（评审 I-2），实现留 backlog
 ]
 
-// 记忆节奏弹性数值（详见 specs/2026-07-23-wordbook-learning-queue-design.md 第五节）：
-// 与主进程 ELASTIC_KEYS 一一对应，"恢复默认设置"按钮只重置这些键。
-// pass_count 原在"弹窗与记忆"区，移入本区——它是弹性键，挪过来跟重置范围对齐、避免同一键两个输入框。
-const ELASTIC_NUMBER_FIELDS: { key: string; label: string; hint: string; min: number }[] = [
-  { key: 'learning_cap', label: '学习队列容量', hint: '同时在学的词数上限，学会一个才补一个新的', min: 1 },
-  { key: 'pass_count', label: '过关所需连续答对次数', hint: '连续"认识"这么多次，这个词才算学会', min: 1 },
-  { key: 'forgot_gap_pops', label: '「忘了」后过几次再见（弹窗次数）', hint: '点"忘了"的词，隔这么多次弹窗后再次出现', min: 1 },
-  { key: 'fuzzy_gap_pops', label: '「模糊」后过几次再见（弹窗次数）', hint: '点"模糊"的词，隔这么多次弹窗后再次出现', min: 1 },
-]
-const ELASTIC_LIST_FIELDS: { key: string; label: string; hint: string }[] = [
-  { key: 'learning_step_pops', label: '学习递进间隔（弹窗次数，逗号分隔）', hint: '学习中每答对一次"认识"，下次出现的间隔按此序列往后推' },
-  { key: 'review_steps_pops', label: '复习间隔阶梯（弹窗次数，逗号分隔）', hint: '学会后进入复习，每答对一次间隔爬一级' },
-]
+// 记忆节奏弹性键已随设置分层挪入 AdvancedSettingsView 子页（含 ELASTIC_* 字段常量与"恢复默认设置"按钮）。
 
 // 快捷键 accelerator 可读化展示：CommandOrControl → Ctrl、num1 → 小键盘1，其余原样；空串=未设置/禁用。
 function formatHotkey(acc: string): string {
@@ -84,10 +72,10 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   // 版本号 + 检查更新结果（kind:'ok' 且有 url 时附"前往下载"跳 release 页）
   const [version, setVersion] = useState('')
   const [updateMsg, setUpdateMsg] = useState<{ kind: 'ok' | 'err' | 'busy'; text: string; url?: string | null } | null>(null)
-  // 自绘确认弹窗（替代 window.confirm，主题跟随）
-  const [confirm, setConfirm] = useState<{ message: string; onOk: () => void } | null>(null)
   // 模型配置独立视图开关：true 时渲染 ModelConfigView 取代设置主页
   const [modelConfigOpen, setModelConfigOpen] = useState(false)
+  // 高级设置子页开关：true 时渲染 AdvancedSettingsView 取代设置主页（设置分层，弹性调参收纳）
+  const [advancedOpen, setAdvancedOpen] = useState(false)
 
   useEffect(() => {
     void window.vocall.getSettings().then(setSettings)
@@ -153,19 +141,11 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
     }
   }
 
-  // 恢复默认：主进程重置弹性数值键后整体重拉，本地 state 一并刷新。
+  // 恢复默认（弹性键）：主进程重置后整体重拉，本地 state 一并刷新。确认弹窗在子页内；
   // 只动记忆节奏数值，外观/音效/AI 不受影响，故无需 onSettingChanged
-  const resetElastic = (): void => {
-    setConfirm({
-      message: '把"记忆节奏"相关数值恢复为默认值？外观、音效、AI 设置不受影响。',
-      onOk: () => {
-        setConfirm(null)
-        void (async () => {
-          await window.vocall.resetElasticSettings()
-          setSettings(await window.vocall.getSettings())
-        })()
-      },
-    })
+  const resetElastic = async (): Promise<void> => {
+    await window.vocall.resetElasticSettings()
+    setSettings(await window.vocall.getSettings())
   }
 
   const currentTheme = getTheme(settings.theme)
@@ -215,17 +195,23 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
   if (modelConfigOpen) {
     return <ModelConfigView theme={theme} onBack={() => setModelConfigOpen(false)} />
   }
+  // 高级设置子页：记忆节奏弹性调参 + 恢复默认（共享同一份 settings/update，返回即一致）
+  if (advancedOpen) {
+    return (
+      <AdvancedSettingsView
+        theme={theme}
+        settings={settings}
+        onUpdate={update}
+        onResetElastic={resetElastic}
+        onBack={() => setAdvancedOpen(false)}
+      />
+    )
+  }
 
   return (
     <div className="mx-auto max-w-lg">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6">
         <h2 className="text-xl font-semibold">设置</h2>
-        <button
-          onClick={() => resetElastic()}
-          className="rounded-lg border border-black/10 px-3 py-1.5 text-sm text-slate-600 transition hover:bg-black/5"
-        >
-          恢复默认设置
-        </button>
       </div>
       <div className="space-y-4">
         <section className={card}>
@@ -387,37 +373,6 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section className={card}>
-          <h3 className={sectionTitle}>记忆节奏</h3>
-          <div className="space-y-4">
-            {ELASTIC_NUMBER_FIELDS.map((f) => (
-              <label key={f.key} className="block">
-                <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
-                <input
-                  type="number"
-                  min={f.min}
-                  value={settings[f.key] ?? ''}
-                  onChange={(e) => void update(f.key, e.target.value)}
-                  className={inputCls}
-                />
-                <p className="mt-1 text-xs text-slate-600">{f.hint}</p>
-              </label>
-            ))}
-            {ELASTIC_LIST_FIELDS.map((f) => (
-              <label key={f.key} className="block">
-                <span className="mb-1 block text-sm text-slate-600">{f.label}</span>
-                <input
-                  type="text"
-                  value={settings[f.key] ?? ''}
-                  onChange={(e) => void update(f.key, e.target.value)}
-                  className={inputCls}
-                />
-                <p className="mt-1 text-xs text-slate-600">{f.hint}</p>
-              </label>
-            ))}
-          </div>
-        </section>
-
-        <section className={card}>
           <h3 className={sectionTitle}>音效</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-2 text-sm text-slate-600">
@@ -490,6 +445,22 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         </section>
 
         <section className={card}>
+          <h3 className={sectionTitle}>高级设置</h3>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm text-slate-600">记忆节奏等弹性调参数值</p>
+              <p className="mt-1 text-xs text-slate-600">普通用户无需改动；含「恢复默认设置」（只重置记忆节奏）</p>
+            </div>
+            <button
+              onClick={() => setAdvancedOpen(true)}
+              className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition ${theme.accentSolid} ${theme.accentSolidHover}`}
+            >
+              高级设置 →
+            </button>
+          </div>
+        </section>
+
+        <section className={card}>
           <h3 className={sectionTitle}>关于</h3>
           <div className="space-y-3">
             <p className="text-sm text-slate-600">版本 {version || '…'}</p>
@@ -525,11 +496,6 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
           </div>
         </section>
       </div>
-
-      {/* 自绘确认弹窗（替代 window.confirm，主题跟随；恢复默认非破坏性 danger=false） */}
-      {confirm && (
-        <ConfirmModal theme={theme} message={confirm.message} danger={false} onOk={confirm.onOk} onCancel={() => setConfirm(null)} />
-      )}
     </div>
   )
 }
