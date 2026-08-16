@@ -220,19 +220,28 @@ export function registerPopupIpc(getPopup: () => BrowserWindow): void {
   // 整窗拖拽（frameless + focusable:false 下自实现）：
   // 渲染端 mousedown 时上报鼠标 screen 坐标作基准，mousemove 上报新坐标，
   // 主进程按位移平移窗口。用 ipcMain.on（fire-and-forget），不是 handle。
-  let dragBase: { mouseX: number; mouseY: number; winX: number; winY: number } | null = null
+  //
+  // 坑（2026-08-16 修复）：transparent:true 窗口在 DPI 缩放≠100% 的机器上，
+  // 只调 setPosition 会被 DWM 隐形边框重算撑大——每移动一次窗口就大一圈。
+  // 解法：dragStart 时钉住 getSize() 尺寸，dragMove 用 setBounds 把 w/h 原样写回，
+  // 位置照移但尺寸永远不变。winW/winH 存进 dragBase 而非 dragMove 里现取，
+  // 是因为一旦已经变大，现取的 getSize() 就是被污染的值。
+  let dragBase: { mouseX: number; mouseY: number; winX: number; winY: number; winW: number; winH: number } | null = null
   ipcMain.on('popup:dragStart', (_e, p: { x: number; y: number }) => {
     const win = getPopup()
     if (win.isDestroyed()) return
     const [winX, winY] = win.getPosition()
-    dragBase = { mouseX: p.x, mouseY: p.y, winX, winY }
+    const [winW, winH] = win.getSize()
+    dragBase = { mouseX: p.x, mouseY: p.y, winX, winY, winW, winH }
   })
   ipcMain.on('popup:dragMove', (_e, p: { x: number; y: number }) => {
     const win = getPopup()
     if (!dragBase || win.isDestroyed()) return
-    win.setPosition(
-      Math.round(dragBase.winX + (p.x - dragBase.mouseX)),
-      Math.round(dragBase.winY + (p.y - dragBase.mouseY)),
-    )
+    win.setBounds({
+      x: Math.round(dragBase.winX + (p.x - dragBase.mouseX)),
+      y: Math.round(dragBase.winY + (p.y - dragBase.mouseY)),
+      width: dragBase.winW,
+      height: dragBase.winH,
+    })
   })
 }
