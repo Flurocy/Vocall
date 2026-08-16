@@ -37,8 +37,8 @@ There's no "open the app and study" session. The app comes to you.
 
 ## Install
 
-1. Download `Vocall-<version>-portable.exe` from [Releases](../../releases).
-2. Run it — no installation needed.
+1. Download `Vocall-<version>-setup.exe` from [Releases](../../releases).
+2. Run the installer — it installs in one click and launches Vocall.
 3. On first launch a few built-in words are imported; closing the window leaves Vocall resident in the system tray.
 
 > Fully local: no backend, no account, no telemetry. AI and pronunciation need a network connection; AI features require your own API key (optional — the wordbooks and popup review work without one).
@@ -53,8 +53,8 @@ There's no "open the app and study" session. The app comes to you.
 
 | | |
 |---|---|
-| **Data location** | `C:\Users\<you>\AppData\Roaming\Vocall\config.json` — survives reinstalls; copy the whole `Vocall` folder to migrate. |
-| **Updates** | 「设置」 → 关于 → 检查更新 (checks GitHub Releases for the latest version). |
+| **Data location** | `C:\Users\<you>\AppData\Roaming\Vocall\config.json` — survives reinstalls and updates; copy the whole `Vocall` folder to migrate. |
+| **Updates** | Automatic — Vocall checks GitHub Releases on startup and, when a new version is found, offers to download it; the update installs on quit. You can also check manually via 「设置」 → 关于 → 检查更新. |
 
 ## Tech stack
 
@@ -72,7 +72,7 @@ There's no "open the app and study" session. The app comes to you.
 npm install
 npm run dev    # dev mode, opens the manager window
 npm run build  # build to out/
-npm run dist   # package a portable exe to dist/
+npm run dist   # package an NSIS installer (setup exe) to dist/
 npm test       # vitest
 ```
 

@@ -37,8 +37,8 @@ Vocall 常驻系统托盘，按你设定的间隔，在屏幕角落轻轻弹出�
 
 ## 安装
 
-1. 从 [Releases](../../releases) 下载 `Vocall-<版本号>-portable.exe`。
-2. 双击运行，无需安装。
+1. 从 [Releases](../../releases) 下载 `Vocall-<版本号>-setup.exe`。
+2. 运行安装程序 —— 一键安装，装完自动启动。
 3. 首次启动会导入少量内置生词；关窗后常驻系统托盘。
 
 > 纯本地运行：无后端、无账号、无数据上报。AI 和发音需联网；AI 功能需自备 API key（可选——不填也能用词书和弹窗背词）。
@@ -53,8 +53,8 @@ Vocall 常驻系统托盘，按你设定的间隔，在屏幕角落轻轻弹出�
 
 | | |
 |---|---|
-| **数据位置** | `C:\Users\<你的用户名>\AppData\Roaming\Vocall\config.json`——覆盖重装不丢；想迁移把整个 `Vocall` 文件夹拷走即可。 |
-| **更新** | 「设置」 → 关于 → 检查更新（从 GitHub Releases 拉最新版）。 |
+| **数据位置** | `C:\Users\<你的用户名>\AppData\Roaming\Vocall\config.json`——重装和更新都不丢；想迁移把整个 `Vocall` 文件夹拷走即可。 |
+| **更新** | 自动更新 —— 启动时静默检查 GitHub Releases，发现新版会弹卡片，点「立即更新」下载，退出时自动安装。也可在「设置」 → 关于 → 检查更新 手动检查。 |
 
 ## 技术栈
 
@@ -72,7 +72,7 @@ Vocall 常驻系统托盘，按你设定的间隔，在屏幕角落轻轻弹出�
 npm install
 npm run dev    # 开发模式，弹出管理窗口
 npm run build  # 构建到 out/
-npm run dist   # 打包 portable exe 到 dist/
+npm run dist   # 打包 NSIS 安装包（setup exe）到 dist/
 npm test       # vitest
 ```
 
