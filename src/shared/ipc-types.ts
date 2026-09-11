@@ -175,8 +175,8 @@ export interface VocallApi {
   // B1 学习统计：一次性取全量载荷（总览 tile + 掌握度 + 趋势 + 近期明细）
   getStatsOverview(): Promise<StatsOverview>
   testAi(): Promise<{ ok: boolean; message: string }>
-  // AI 内容生产：主题词组生成（返回 [{word,meaning,example}] 预览，不入库）；n 默认 30
-  generateTheme(theme: string, n?: number): Promise<{ word: string; meaning: string; example: string; senses?: Sense[] }[]>
+  // AI 内容生产：主题生成（返回 [{word,meaning,example}] 预览，不入库）；n 默认 30（1–50），mode=单词/词组（缺省 word）
+  generateTheme(theme: string, n?: number, mode?: 'word' | 'phrase'): Promise<{ word: string; meaning: string; example: string; senses?: Sense[] }[]>
   // 生词 AI 翻译（预览填入新增卡片）；senses=一词多义（可选，宽容降级）
   translate(word: string): Promise<{ meaning: string; example: string; senses?: Sense[] }>
   // A1 表达教练：句子优化/中译英。boost=true 时主进程取在学词软引导 + 后验高亮 usedWords

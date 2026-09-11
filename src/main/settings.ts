@@ -34,6 +34,8 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_providers: '', // AI 供应商多配置（JSON 字符串 of Provider[]）；空=未配置（旧三键由 migrate 迁入）
   ai_active_text: '',  // 当前使用的文本供应商 id（CC Switch 式"当前使用"）；空=回退启发式
   ai_active_image: '', // 当前使用的图像供应商 id
+  aigen_mode: 'word',  // 主题生成产出模式：word=单词（默认）/ phrase=词组（v1.6.1 主题生成模式设计稿）
+  aigen_count: '30',   // 主题生成数量（1–50，读取处 clampGenCount 收敛）
 }
 
 export function getSetting(key: string): string | null {

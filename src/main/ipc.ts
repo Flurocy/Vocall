@@ -15,7 +15,7 @@ import {
 import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
 import { getStatsOverview } from './stats'
-import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
+import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode, type ThemeGenMode } from './ai'
 import { pickBoostWords, matchUsedWords } from './polish-match'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
@@ -117,8 +117,8 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
 
   // AI 内容生产：主题词组生成 + 生词 AI 翻译（均返回预览数据，不入库——入库由前端 vocab:add）。
   // key 没配 / 网络 / 解析错误一律 throw（invoke reject），渲染端 catch(err) 显示 err.message。
-  ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number) =>
-    generateThemeVocab(theme, n))
+  ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number, mode?: ThemeGenMode) =>
+    generateThemeVocab(theme, n, mode))
   ipcMain.handle('ai:translate', async (_e, word: string) => translateVocab(word))
   // A1 表达教练：句子优化/中译英。
   // boost=true（背词联动开）且模式为 writing/speaking 时：取"在学/复习"词做软引导喂 prompt，

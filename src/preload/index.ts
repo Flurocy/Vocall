@@ -46,9 +46,10 @@ contextBridge.exposeInMainWorld('vocall', {
   winClose: () => ipcRenderer.invoke('win:close'),
   // AI：测试 DeepSeek 连接（key 只在主进程，渲染端拿不到）
   testAi: () => ipcRenderer.invoke('ai:test'),
-  // AI 内容生产：主题词组生成（预览，不入库——前端勾选后 vocab:add）+ 生词翻译（预览，填入新增卡片）
-  generateTheme: (theme: string, n?: number) =>
-    ipcRenderer.invoke('ai:generateTheme', theme, n),
+  // AI 内容生产：主题生成（预览，不入库——前端勾选后 vocab:add）+ 生词翻译（预览，填入新增卡片）
+  // mode：'word'=单词 / 'phrase'=词组（缺省由主进程兜底为 word）
+  generateTheme: (theme: string, n?: number, mode?: 'word' | 'phrase') =>
+    ipcRenderer.invoke('ai:generateTheme', theme, n, mode),
   translate: (word: string) => ipcRenderer.invoke('ai:translate', word),
   // A1 表达教练：句子优化/中译英；boost=true 取在学词软引导 + 后验高亮
   polish: (text: string, mode: PolishMode, boost: boolean) =>
