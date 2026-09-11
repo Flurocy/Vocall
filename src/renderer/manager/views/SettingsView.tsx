@@ -353,6 +353,95 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
           </div>
         </section>
 
+        {/* 回忆模式（反转回忆设计稿 §3.5）：总开关 + 方向比例滑块 + 拼写校验；比例/拼写仅开关打开时可用 */}
+        <section className={card}>
+          <h3 className={sectionTitle}>回忆模式</h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm text-slate-600">反转回忆（中译英）</p>
+                <p className="mt-1 text-xs text-slate-600">
+                  开启后弹窗会混出「看释义回忆单词」方向，两方向进度独立、共享学习生命周期
+                </p>
+              </div>
+              <button
+                role="switch"
+                aria-checked={settings.recall_mode_enabled === 'true'}
+                aria-label="反转回忆"
+                onClick={() =>
+                  void update(
+                    'recall_mode_enabled',
+                    settings.recall_mode_enabled === 'true' ? 'false' : 'true',
+                  )
+                }
+                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+                  settings.recall_mode_enabled === 'true' ? theme.accentSolid : 'bg-slate-300'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                    settings.recall_mode_enabled === 'true' ? 'left-[22px]' : 'left-0.5'
+                  }`}
+                />
+              </button>
+            </div>
+            {(() => {
+              const recallOn = settings.recall_mode_enabled === 'true'
+              const ratio = Number(settings.recall_ratio ?? '70')
+              const safeRatio = Number.isNaN(ratio) ? 70 : Math.min(100, Math.max(0, ratio))
+              return (
+                <>
+                  <label className={`block ${recallOn ? '' : 'opacity-40'}`}>
+                    <span className="mb-1 block text-sm text-slate-600">
+                      方向比例：英译中 {safeRatio}% / 中译英 {100 - safeRatio}%
+                    </span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      step={5}
+                      value={safeRatio}
+                      disabled={!recallOn}
+                      onChange={(e) => void update('recall_ratio', e.target.value)}
+                      className={`w-full ${theme.accentColor} ${theme.accentText}`}
+                    />
+                    <p className="mt-1.5 text-xs text-slate-600">滑块越靠右，「看释义回忆单词」的弹窗越多</p>
+                  </label>
+                  <div className={`flex items-center justify-between gap-3 ${recallOn ? '' : 'opacity-40'}`}>
+                    <div>
+                      <p className="text-sm text-slate-600">拼写校验</p>
+                      <p className="mt-1 text-xs text-slate-600">
+                        回忆方向的弹窗正面出拼写输入框，翻面逐字对比（仅复习阶段生效，不打回）
+                      </p>
+                    </div>
+                    <button
+                      role="switch"
+                      aria-checked={settings.spell_check_enabled === 'true'}
+                      aria-label="拼写校验"
+                      disabled={!recallOn}
+                      onClick={() =>
+                        void update(
+                          'spell_check_enabled',
+                          settings.spell_check_enabled === 'true' ? 'false' : 'true',
+                        )
+                      }
+                      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:opacity-40 ${
+                        settings.spell_check_enabled === 'true' ? theme.accentSolid : 'bg-slate-300'
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                          settings.spell_check_enabled === 'true' ? 'left-[22px]' : 'left-0.5'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </>
+              )
+            })()}
+          </div>
+        </section>
+
         <section className={card}>
           <h3 className={sectionTitle}>快捷键</h3>
           <div className="space-y-3">
