@@ -72,11 +72,11 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
   })
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())
-  ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
+  ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2, direction?: 'recognition' | 'recall') => {
     // 预览词（id=-1，设置页外观预览）不进调度——防护规则③：预览绝不影响 SRS。
     // 渲染端点击预览卡评分按钮后紧随 popup:dismiss 关窗，这里静默忽略即可。
     if (id < 0) return
-    applyReview(id, grade)
+    applyReview(id, grade, direction) // direction 缺省由 scheduler 兜底 recognition
   })
   // 已掌握终态：master 标背完不再弹；revive 让 mastered 词复活重背（进 learning 立即可弹，不限 cap）
   ipcMain.handle('vocab:master', (_e, id: number) => {

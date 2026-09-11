@@ -23,9 +23,12 @@ export type NewVocabItem = Omit<VocabItem, 'id' | 'created_at' | 'status' | 'boo
 // 弹窗载荷：词条 + 连续答对进度（弹窗展示用）
 export interface PopupPayload {
   item: VocabItem
-  repetitions: number // 当前连续答对次数（显示时封顶到 passCount）
+  repetitions: number // 当前连续答对次数（显示时封顶到 passCount）；recall 模式下为回忆方向的进度
   passCount: number   // 过关所需次数
-  forgotCount: number // 已累计"忘了"次数（弹窗展示"已忘 X 次"用）
+  forgotCount: number // 已累计"忘了"次数（弹窗展示"已忘 X 次"用）；recall 模式下为回忆方向的计数
+  // —— 反转回忆模式（设计稿 v1.6.1 §3.4）——
+  mode?: 'recognition' | 'recall' // undefined=recognition，旧逻辑零破坏
+  spellPrompt?: boolean           // 本次是否出拼写输入框（recall + 开关开 + review 阶段三者同时满足）
   // —— 外观预览（设置页调滑块实时预览）——
   preview?: boolean          // 预览词（item.id=-1）：渲染端据此静音 + 显示"预览"徽标
   fontScaleOverride?: number // 预览拖动中的字体临时值（未提交设置）；卡片 zoom 优先用它
@@ -161,7 +164,7 @@ export interface VocallApi {
   // 真词显示时拖"弹窗字体"滑块的实时倍率消息（临时值，不提交设置）
   onFontScale(cb: (v: number) => void): void
   getCurrent(): Promise<PopupPayload | null>
-  grade(id: number, grade: 0 | 1 | 2): Promise<void>
+  grade(id: number, grade: 0 | 1 | 2, direction?: 'recognition' | 'recall'): Promise<void>
   dismiss(): void
   // 外观预览：设置页拖滑块实时预览弹窗。返回是否进入预览模式（真词正显示时 false=不换内容，
   // 但尺寸/透明度/字体临时值照样应用到真弹窗——拒换内容，不拒调外观）

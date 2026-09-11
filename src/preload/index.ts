@@ -24,8 +24,8 @@ contextBridge.exposeInMainWorld('vocall', {
   onFontScale: (cb: (v: unknown) => void) =>
     ipcRenderer.on('popup:fontScale', (_e, v) => cb(v)),
   getCurrent: () => ipcRenderer.invoke('popup:getCurrent'),
-  grade: (id: number, grade: 0 | 1 | 2) =>
-    ipcRenderer.invoke('popup:grade', id, grade),
+  grade: (id: number, grade: 0 | 1 | 2, direction?: 'recognition' | 'recall') =>
+    ipcRenderer.invoke('popup:grade', id, grade, direction),
   dismiss: () => ipcRenderer.invoke('popup:dismiss'),
   // 外观预览：设置页拖滑块实时预览弹窗（overrides=临时值不写设置）；松手 endPreview 3s 后收起
   previewPopup: (overrides?: PreviewOverrides) => ipcRenderer.invoke('popup:preview', overrides),
