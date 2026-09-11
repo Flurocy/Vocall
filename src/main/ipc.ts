@@ -21,7 +21,7 @@ import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
 import { resizePopup, applyPopupOpacity } from './popup'
-import { rescheduleInterval } from './engine'
+import { rescheduleInterval, rescheduleDnd } from './engine'
 import { checkUpdate, downloadUpdate, quitAndInstall, getUpdateStatus, getPendingChangelog, markChangelogSeen } from './updater'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
@@ -64,6 +64,8 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     // 弹出间隔改了 → 重排引擎计时：取消当前挂起的旧间隔，从当下起按新间隔走（立即生效，
     // 不再等旧周期到期）。rescheduleInterval 内部只在挂起的是"弹出间隔"计时时才动。
     if (key === 'popup_interval_sec') rescheduleInterval()
+    // 免打扰开关改了 → 立即生效：开=取消挂起弹窗转空转；关=按正常间隔重排（不立即补弹）。
+    if (key === 'dnd_enabled') rescheduleDnd()
     // 学习队列容量改了 → 立即补位：调大即时从 new 解锁新词进 learning（不再等毕业/重启）。
     // 调小则只降上限——fillLearningQueue 本就只补不踢，已在学的词不动，毕业后自然回落。
     if (key === 'learning_cap') fillLearningQueue()

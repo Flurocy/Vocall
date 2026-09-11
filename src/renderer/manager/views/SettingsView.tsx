@@ -312,6 +312,32 @@ export default function SettingsView({ theme, onSettingChanged }: Props): ReactE
         <section className={card}>
           <h3 className={sectionTitle}>弹窗与记忆</h3>
           <div className="space-y-4">
+            {/* 免打扰主开关：开=暂停自动弹窗（引擎节拍冻结，进度保留）；关=按弹出间隔恢复，不立即补弹 */}
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm text-slate-600">免打扰（暂停弹窗）</p>
+                <p className="mt-1 text-xs text-slate-600">
+                  开启后不再自动弹窗，学习进度照常保留；关闭后按弹出间隔恢复
+                </p>
+              </div>
+              <button
+                role="switch"
+                aria-checked={settings.dnd_enabled === 'true'}
+                aria-label="免打扰"
+                onClick={() =>
+                  void update('dnd_enabled', settings.dnd_enabled === 'true' ? 'false' : 'true')
+                }
+                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+                  settings.dnd_enabled === 'true' ? theme.accentSolid : 'bg-slate-300'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                    settings.dnd_enabled === 'true' ? 'left-[22px]' : 'left-0.5'
+                  }`}
+                />
+              </button>
+            </div>
             {NUMBER_FIELDS.map((f) => (
               <label key={f.key} className="block">
                 <span className="mb-1 block text-sm text-slate-600">{f.label}</span>

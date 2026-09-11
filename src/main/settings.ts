@@ -36,6 +36,7 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_active_image: '', // 当前使用的图像供应商 id
   aigen_mode: 'word',  // 主题生成产出模式：word=单词（默认）/ phrase=词组（v1.6.1 主题生成模式设计稿）
   aigen_count: '30',   // 主题生成数量（1–50，读取处 clampGenCount 收敛）
+  dnd_enabled: 'false', // 免打扰：'true'=暂停自动弹窗（引擎 tick 跳过弹出，节拍冻结）；改键触发 rescheduleDnd
 }
 
 export function getSetting(key: string): string | null {
