@@ -34,6 +34,13 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_providers: '', // AI 供应商多配置（JSON 字符串 of Provider[]）；空=未配置（旧三键由 migrate 迁入）
   ai_active_text: '',  // 当前使用的文本供应商 id（CC Switch 式"当前使用"）；空=回退启发式
   ai_active_image: '', // 当前使用的图像供应商 id
+  aigen_mode: 'word',  // 主题生成产出模式：word=单词（默认）/ phrase=词组（v1.6.1 主题生成模式设计稿）
+  aigen_count: '30',   // 主题生成数量（1–50，读取处 clampGenCount 收敛）
+  dnd_enabled: 'false', // 免打扰：'true'=暂停自动弹窗（引擎 tick 跳过弹出，节拍冻结）；改键触发 rescheduleDnd
+  // —— 反转回忆模式（设计稿 v1.6.1-反转回忆模式 §3.5）——
+  recall_mode_enabled: 'false', // 回忆模式总开关：'false'=行为与现状逐字节一致（兼容门控）
+  recall_ratio: '70',           // 英译中占比 0-100（余量为中译英回忆）；0/100 合法（Number 解析勿用 || 兜底）
+  spell_check_enabled: 'false', // 拼写校验：仅 recall 方向 + review 阶段出输入框
 }
 
 export function getSetting(key: string): string | null {

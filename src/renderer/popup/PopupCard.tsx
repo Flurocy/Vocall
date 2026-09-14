@@ -5,6 +5,7 @@ import { getTheme, getPopupFontScale } from '../theme'
 import type { Theme } from '../theme'
 import { playWord } from '../playWord'
 import { pickShownSenses } from './senses'
+import { compareSpelling } from './spell'
 import { popupEnter } from '../anim'
 import { X, Minus, Check } from '@phosphor-icons/react'
 
@@ -41,6 +42,7 @@ export default function PopupCard(): ReactElement | null {
   const [payload, setPayload] = useState<PopupPayload | null>(null)
   const [face, setFace] = useState<'front' | 'back'>('front')
   const [exampleOpen, setExampleOpen] = useState(false)
+  const [spellInput, setSpellInput] = useState('') // recall+spellPrompt：用户拼写的英文单词
   const [theme, setTheme] = useState<Theme>(() => getTheme())
   // 弹窗内容 zoom 倍率（popup_font_scale）：弹窗字体的唯一调节项，
   // rem 基准已固定 16px，不再读 font_size（与管理界面字号彻底解耦）
@@ -63,6 +65,7 @@ export default function PopupCard(): ReactElement | null {
     setPayload(p)
     setFace('front')
     setExampleOpen(false)
+    setSpellInput('') // 换词清空拼写输入（防上一词的残留带进下一词）
     // 自动隐藏已改由主端 showPopup 统管（popup_stay_sec 后 hide，下个 showPopup 取消上个 hide），
     // 渲染端不再设 dismiss 定时器——否则 interval≈stay 时，上个 stayMs 的 hide 会撞上本次 show，
     // 弹窗闪一下消失。每次弹窗重读主题/弹窗字体倍率——设置改完后下一次弹窗即时换肤。
@@ -147,6 +150,17 @@ export default function PopupCard(): ReactElement | null {
 
   if (!payload) return null
   const { item, repetitions, passCount, forgotCount } = payload
+  // 反转回忆：recall=正面释义回忆单词（可选拼写输入）；recognition=正面单词（现状）
+  const isRecall = payload.mode === 'recall'
+  // 拼写对比结果（仅 recall + spellPrompt + 有输入时计算；翻面渲染绿/红）
+  const spellResult =
+    isRecall && payload.spellPrompt && spellInput.trim()
+      ? compareSpelling(spellInput, item.word)
+      : null
+  // 三档话术：recall 换「没想起/拼错了/拼对了」（仍 send 0/1/2，调同一套 SRS）
+  const gradeLabels: [string, string, string] = isRecall
+    ? ['没想起', '拼错了', '拼对了']
+    : ['忘了', '有点印象', '记得']
 
   // 一词多义：挑选背面要显示的义项（纯函数，独立可测）：
   // 用户勾选了义项（selectedSenses）且词带 senses → 按勾选显示（词性+释义列表）；
@@ -155,7 +169,7 @@ export default function PopupCard(): ReactElement | null {
   const shownSenses = pickShownSenses(item)
 
   const send = (g: 0 | 1 | 2): void => {
-    void window.vocall.grade(item.id, g)
+    void window.vocall.grade(item.id, g, payload.mode) // 反转回忆：按载荷方向调度对应子状态
     window.vocall.dismiss()
   }
 
@@ -193,6 +207,36 @@ export default function PopupCard(): ReactElement | null {
           {payload.preview ? '外观预览' : `已连续答对 ${Math.min(repetitions, passCount)}/${passCount}`}
         </div>
         {face === 'front' ? (
+          isRecall ? (
+            // recall 正面：释义（复用背面义项挑选逻辑平移过来）+ 可选拼写输入框；不放朗读（会泄答案）
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="text-xs text-slate-500">回忆英文单词</div>
+              {shownSenses && shownSenses.length > 0 ? (
+                <div className="mt-1 space-y-1">
+                  {shownSenses.map((s, i) => (
+                    <div key={i} className={`text-xl font-semibold ${theme.accentText}`}>
+                      <span className="mr-1.5 text-sm font-normal text-slate-400">{s.pos}</span>
+                      {s.meaning}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={`mt-1 text-2xl font-semibold ${theme.accentText}`}>{item.meaning}</div>
+              )}
+              {payload.spellPrompt && (
+                <input
+                  value={spellInput}
+                  onChange={(e) => setSpellInput(e.target.value)}
+                  onMouseDown={stopMouseDown}
+                  onKeyDown={(e) => { if (e.key === 'Enter') setFace('back') }}
+                  placeholder="拼出英文单词（可跳过）"
+                  aria-label="拼写输入"
+                  className="mt-3 w-48 rounded-lg border border-black/15 bg-white/80 px-3 py-1.5 text-center text-base outline-none focus:border-black/30"
+                />
+              )}
+              <div className="mt-2 text-xs text-slate-600">点击卡片查看单词</div>
+            </div>
+          ) : (
           <div className="flex flex-col items-center justify-center text-center">
             <div className="flex items-center justify-center gap-2">
               <span className="text-2xl font-semibold text-slate-800">{item.word}</span>
@@ -213,11 +257,42 @@ export default function PopupCard(): ReactElement | null {
             </div>
             <div className="mt-2 text-xs text-slate-600">点击卡片查看释义</div>
           </div>
+          )
         ) : (
           // 背面内容超高（例句展开 + 大根字号）时内部滚动，评分按钮/已掌握始终可见可点，不被居中裁切。
           // popup-scroll 自定义细滚动条：currentColor=主题 accentText，换肤自动跟随
           <div className={`popup-scroll max-h-full overflow-y-auto ${theme.accentText}`}>
-            <div className="text-2xl font-semibold text-slate-800">{item.word}</div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-semibold text-slate-800">{item.word}</span>
+              {/* recall 背面才放朗读（正面放会泄答案）；recognition 正面已有朗读，背面不重复 */}
+              {isRecall && (
+                <button
+                  onMouseDown={stopMouseDown}
+                  onClick={() => void playWord(item.word)}
+                  title="朗读"
+                  aria-label={`朗读 ${item.word}`}
+                  className="text-slate-400 transition hover:text-slate-600"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 5 6 9H3v6h3l5 4z" />
+                    <path d="M16 9a3 3 0 0 1 0 6" />
+                    <path d="M19 6a7 7 0 0 1 0 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+            {/* 拼写对比：逐字符绿/红（参考反馈，不打回；评分权在用户） */}
+            {spellResult && (
+              <div className="mt-1 font-mono text-lg leading-snug">
+                <span className="mr-2 text-xs text-slate-500">你的拼写</span>
+                {spellResult.chars.map((c, i) => (
+                  <span key={i} className={c.ok ? 'text-emerald-600' : 'text-rose-600 line-through'}>
+                    {c.char}
+                  </span>
+                ))}
+                {spellResult.correct && <span className={`ml-1 text-sm ${theme.accentText}`}>✓</span>}
+              </div>
+            )}
             {forgotCount > 0 && (
               <div className="text-xs text-rose-500/80">已忘 {forgotCount} 次</div>
             )}
@@ -248,13 +323,13 @@ export default function PopupCard(): ReactElement | null {
             )}
             <div className="mt-4 flex gap-2">
               <button onMouseDown={stopMouseDown} onClick={() => send(0)} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-rose-500/15 py-2 text-base text-rose-700 transition hover:bg-rose-500/25 active:scale-95">
-                <X size={15} weight="bold" /> 忘了
+                <X size={15} weight="bold" /> {gradeLabels[0]}
               </button>
               <button onMouseDown={stopMouseDown} onClick={() => send(1)} className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-amber-500/15 py-2 text-base text-amber-700 transition hover:bg-amber-500/25 active:scale-95">
-                <Minus size={15} weight="bold" /> 有点印象
+                <Minus size={15} weight="bold" /> {gradeLabels[1]}
               </button>
               <button onMouseDown={stopMouseDown} onClick={() => send(2)} className={`flex flex-1 items-center justify-center gap-1 rounded-lg py-2 text-base font-semibold transition active:scale-95 ${theme.accentSolid} ${theme.accentSolidHover}`}>
-                <Check size={15} weight="bold" /> 记得
+                <Check size={15} weight="bold" /> {gradeLabels[2]}
               </button>
             </div>
             {/* 次要操作：标为已掌握。细边框小按钮，不抢评分主流程的 accentSolid。 */}

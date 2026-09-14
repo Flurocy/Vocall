@@ -299,6 +299,7 @@ export function parseVersionsArray(text: string): PolishVersion[] {
 // Prompt 终稿（计划 2026-07-27-ai-content-generation.md §prompt 设计）：
 // 严格指定 JSON 输出格式 + 雅思向用词偏好；user 模板按调用动态填入。
 
+// 词组模式（现状，逐字节保持——兼容约束：phrase 路径行为零变化）
 const THEME_GEN_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+）的中国大学生生成主题相关的高频学术词组。
 要求：
 - word：英文单词或词组（雅思写作/口语高频学术词，避免太基础的如 good/bad/big）
@@ -306,6 +307,55 @@ const THEME_GEN_SYSTEM = `你是雅思词汇专家，帮备考雅思（目标 7+
 - example：地道英文例句，体现该词用法
 - senses：该词的多义项数组（一词多义），按常用度排序最多 4 个，每项 {"pos":"n.","meaning":"该词性下的简明中文释义"}；明显单义的词只给 1 个。meaning 字段须等于 senses 第一个义项的拼接（pos+空格+meaning）
 严格返回 JSON 数组，每个元素 {"word","meaning","example","senses"}，不要任何额外文字、不要 markdown 代码块。`
+
+// 单词模式（设计稿 v1.6.1-主题生成单词词组模式）：JSON 契约与词组版一致，
+// 仅措辞改为严格单个词——明禁词组/短语/习语/搭配；meaning 词性标注去掉 phr.（无短语）。
+const THEME_GEN_SYSTEM_WORD = `你是雅思词汇专家，帮备考雅思（目标 7+）的中国大学生生成主题相关的高频学术单词。
+要求：
+- word：必须是【单个英文单词】（雅思写作/口语高频学术词，避免太基础的如 good/bad/big）；严禁词组、短语、习语或搭配，两个及以上词的组合一律不要
+- meaning：简明中文释义，开头标注词性缩写（如 n. / v. / adj. / adv.），格式「词性 释义」，例如「v. 放弃；抛弃」
+- example：地道英文例句，体现该词用法
+- senses：该词的多义项数组（一词多义），按常用度排序最多 4 个，每项 {"pos":"n.","meaning":"该词性下的简明中文释义"}；明显单义的词只给 1 个。meaning 字段须等于 senses 第一个义项的拼接（pos+空格+meaning）
+严格返回 JSON 数组，每个元素 {"word","meaning","example","senses"}，不要任何额外文字、不要 markdown 代码块。`
+
+/** 主题生成产出模式：word=单词（默认）/ phrase=词组（现状行为） */
+export type ThemeGenMode = 'word' | 'phrase'
+
+/** 生成数量收敛：非法（NaN/undefined/非数字）→ 默认 30；<1 → 1；>50 → 50；小数四舍五入 */
+export function clampGenCount(n: unknown): number {
+  const v = typeof n === 'string' ? Number(n) : n
+  if (typeof v !== 'number' || Number.isNaN(v)) return 30
+  return Math.min(50, Math.max(1, Math.round(v)))
+}
+
+/**
+ * maxTokens 随数量分档：n≤30 → 8000（现状值，30 词 JSON + pro 思考预算足够）；
+ * 31–50 → 16000（约 1.7 倍词数 + senses 开销，截断 JSON 会导致解析失败误导用户）。
+ */
+export function themeGenMaxTokens(n: number): number {
+  return n <= 30 ? 8000 : 16000
+}
+
+/**
+ * 按模式组装主题生成的 { system, user }。
+ * 兼容锁：phrase 模式输出与现状 THEME_GEN_SYSTEM/user 文案逐字节一致。
+ */
+export function buildThemeGenPrompt(
+  mode: ThemeGenMode,
+  theme: string,
+  n: number,
+): { system: string; user: string } {
+  if (mode === 'word') {
+    return {
+      system: THEME_GEN_SYSTEM_WORD,
+      user: `主题：「${theme}」。生成 ${n} 个雅思高频单词（单个词，不要词组）。`,
+    }
+  }
+  return {
+    system: THEME_GEN_SYSTEM,
+    user: `主题：「${theme}」。生成 ${n} 个雅思高频词组。`,
+  }
+}
 
 const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中文释义、地道英文例句与多义项。
 - meaning：最常用义项的简明中文释义，开头标注词性缩写，格式「词性 释义」，例如「v. 放弃；抛弃」
@@ -317,24 +367,38 @@ const TRANSLATE_SYSTEM = `你是雅思词汇助手。给定英文词，返回中
 const NO_KEY_MSG = '请先在「设置 → 模型配置」配置 AI 供应商与 API key'
 
 /**
- * 主题词组生成：AI 产出 n 个雅思向词组（预览，不入库——入库由前端勾选后循环 vocab:add）。
- * 调用约束：maxTokens 4000（容纳 30 词 JSON）、temperature 0.7（生成类略活泼）、timeoutMs 90s。
+ * 主题生成：AI 产出 n 个雅思向单词/词组（预览，不入库——入库由前端勾选后循环 vocab:add）。
+ * mode：word=单词（默认，设计稿 v1.6.1）/ phrase=词组（现状行为，prompt 逐字不变）。
+ * n 先过 clampGenCount 收敛到 1–50；maxTokens/timeoutMs 随数量分档放大。
  * key 没配 / 网络 / 解析错误一律 throw，IPC handler 透传 message 给渲染端。
  */
-export async function generateThemeVocab(theme: string, n = 30): Promise<VocabEntry[]> {
+export async function generateThemeVocab(
+  theme: string,
+  n = 30,
+  mode: ThemeGenMode = 'word',
+): Promise<VocabEntry[]> {
   if (!theme.trim()) throw new Error('主题不能为空')
   const cfg = getAiConfig()
   if (!cfg.apiKey) throw new Error(NO_KEY_MSG)
+  const count = clampGenCount(n)
+  const { system, user } = buildThemeGenPrompt(mode, theme.trim(), count)
   const text = await callModel(cfg, {
-    system: THEME_GEN_SYSTEM,
-    user: `主题：「${theme}」。生成 ${n} 个雅思高频词组。`,
-    // 8000 容纳 30 词 JSON + pro 模型 reasoning_content 思考预算；
-    // flash 默认用不满但成本可忽略，pro 不够会截断 JSON 导致解析失败误导用户。
-    maxTokens: 8000,
+    system,
+    user,
+    maxTokens: themeGenMaxTokens(count),
     temperature: 0.7,
-    timeoutMs: 90_000,
+    // 大批量生成耗时显著上升，超时从 90s 放宽到 150s（>30 时）
+    timeoutMs: count > 30 ? 150_000 : 90_000,
   })
-  return parseVocabArray(text)
+  try {
+    return parseVocabArray(text)
+  } catch (err) {
+    // 大批量（>30）解析失败多半是 maxTokens 截断 JSON——追加可操作的调整提示
+    if (count > 30 && err instanceof Error) {
+      throw new Error(`${err.message}（生成数量较多时易因输出截断，可减少数量重试）`)
+    }
+    throw err
+  }
 }
 
 /**

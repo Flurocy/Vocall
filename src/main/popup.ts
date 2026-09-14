@@ -4,6 +4,7 @@ import type { VocabItem } from './vocab'
 import type { PopupPayload, PreviewOverrides } from '../shared/ipc-types'
 import { getSrsState } from './store'
 import { getSetting } from './settings'
+import { pickPopupDirection, type PopupDirection } from './scheduler'
 
 // 弹窗基础尺寸（scale=1.0 时的物理像素）。实际尺寸 = base × popup_scale。
 const BASE_W = 360
@@ -124,11 +125,21 @@ export function showPopup(win: BrowserWindow, item: VocabItem): void {
   }
   // 新弹窗到达：取消上个弹窗的自动隐藏，避免它的 hide 覆盖本次 show
   if (hideTimer) { clearTimeout(hideTimer); hideTimer = null }
+  // 反转回忆：组装时裁决本次方向（可能懒初始化 recall 子状态——设计稿 §3.3）。
+  // 进度展示字段按方向取对应子状态；spellPrompt = recall + 开关开 + review 阶段三者同时满足。
+  const direction: PopupDirection = pickPopupDirection(item.id)
+  const srs = getSrsState(item.id)
+  const dirState = direction === 'recall' ? srs?.recall : srs
   current = {
     item,
-    repetitions: getSrsState(item.id)?.repetitions ?? 0,
+    repetitions: dirState?.repetitions ?? 0,
     passCount: Math.max(1, Number(getSetting('pass_count')) || 3),
-    forgotCount: getSrsState(item.id)?.forgotCount ?? 0,
+    forgotCount: dirState?.forgotCount ?? 0,
+    mode: direction,
+    spellPrompt:
+      direction === 'recall' &&
+      getSetting('spell_check_enabled') === 'true' &&
+      item.status === 'review',
   }
   win.webContents.send('popup:show', item)
   win.showInactive()
@@ -163,6 +174,7 @@ export function previewPopup(win: BrowserWindow, overrides: PreviewOverrides = {
     repetitions: 0,
     passCount: 3,
     forgotCount: 0,
+    mode: 'recognition', // 预览恒再认模式（不进回忆/拼写分支）
     preview: true, // 渲染端据此静音 + 显示"预览"徽标
     fontScaleOverride: overrides.fontScale, // 字体临时值经卡片 zoom 生效（字体无窗口级 API）
   }

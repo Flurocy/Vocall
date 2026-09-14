@@ -4,7 +4,7 @@ import type { Theme } from '../../theme'
 import type { Sense } from '../../../shared/ipc-types'
 import { CircleNotch } from '@phosphor-icons/react'
 
-// 主题词组生成 modal（功能 A 入口）：输主题/选预设 → AI 生成 30 个 → 勾选入库。
+// 主题生成 modal（功能 A 入口）：输主题/选预设 → AI 生成 N 个（单词/词组可切换，1–50 可调）→ 勾选入库。
 // 入库参数约定（计划 §5）：{status:'new', topic:主题文本, source:'AI主题:'+主题文本}。
 // 错误提示 inline 文字（设置页 ai:test 同风格），不用 window.alert。
 // Tailwind v4 JIT：所有 hover 类必须是字面量，theme 里已预先定义 accentBgHover/accentSolidHover。
@@ -28,8 +28,18 @@ const QUICK_THEMES = ['教育', '科技', '环境', '社会', '文化', '健康'
 
 type Msg = { kind: 'ok' | 'err' | 'busy'; text: string }
 
+type GenMode = 'word' | 'phrase'
+
+// 数量收敛（渲染端 UX 用；主进程入口另有 clampGenCount 兜底，两边规则保持一致：1–50，非法→30）
+function clampCount(v: number): number {
+  if (Number.isNaN(v)) return 30
+  return Math.min(50, Math.max(1, Math.round(v)))
+}
+
 export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactElement {
   const [themeText, setThemeText] = useState('')
+  const [genMode, setGenMode] = useState<GenMode>('word') // ON=单词（默认）；挂载时从 settings 读回
+  const [count, setCount] = useState(30)
   const [loading, setLoading] = useState(false) // AI 生成中
   const [adding, setAdding] = useState(false) // 批量入库中
   const [results, setResults] = useState<VocabEntry[]>([])
@@ -39,6 +49,25 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
   // 已成功入库的下标（跨重试累积）：addVocab 中途失败时已入库的不回滚，
   // 重试「加入所选」必须跳过这些下标，避免重复词。generate 时清空（换了一批结果）。
   const doneRef = useRef<Set<number>>(new Set())
+
+  // 挂载时读回持久化的模式/数量（aigen_mode/aigen_count，默认 word/30）
+  useEffect(() => {
+    void window.vocall.getSettings().then((s) => {
+      if (s.aigen_mode === 'phrase') setGenMode('phrase')
+      const c = Number(s.aigen_count)
+      if (!Number.isNaN(c)) setCount(clampCount(c))
+    })
+  }, [])
+
+  const switchMode = (m: GenMode): void => {
+    setGenMode(m)
+    void window.vocall.setSetting('aigen_mode', m) // 持久化：下次打开记住
+  }
+  const changeCount = (v: number): void => {
+    const c = clampCount(v)
+    setCount(c)
+    void window.vocall.setSetting('aigen_count', String(c))
+  }
 
   // Esc 关闭（loading/adding 中不响应，防误关丢失 30 词待选）；deps 跟随忙闲态切换以读到最新值
   useEffect(() => {
@@ -62,14 +91,19 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
     setExpanded(new Set())
     doneRef.current = new Set() // 新一批结果，重置已入库下标
     try {
-      const list = await window.vocall.generateTheme(t, 30)
+      const list = await window.vocall.generateTheme(t, count, genMode)
       if (list.length === 0) {
         setMsg({ kind: 'err', text: 'AI 返回为空，换个主题或稍后重试' })
         return
       }
       setResults(list)
       setChecked(new Set(list.map((_, i) => i))) // 默认全选，用户可按需取消
-      setMsg(null)
+      // 数量不足不报错（AI 偷工减料常见）：ok 态提示可重试补足
+      setMsg(
+        list.length < count
+          ? { kind: 'ok', text: `已返回 ${list.length} 个（请求 ${count} 个），可再次生成补足` }
+          : null,
+      )
     } catch (err) {
       setMsg({ kind: 'err', text: err instanceof Error ? err.message : String(err) })
     } finally {
@@ -163,7 +197,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-800">AI 主题词组生成</h3>
+          <h3 className="text-lg font-semibold text-slate-800">AI 主题生成</h3>
           <button
             onClick={handleClose}
             disabled={loading || adding}
@@ -204,6 +238,53 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
           </div>
         </div>
 
+        {/* 模式开关（iOS 式，ON=单词）+ 数量（输入框+滑块联动，1–50）。均持久化到 settings */}
+        <div className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <div className="flex items-center gap-2">
+            <button
+              role="switch"
+              aria-checked={genMode === 'word'}
+              aria-label="单词模式"
+              onClick={() => switchMode(genMode === 'word' ? 'phrase' : 'word')}
+              disabled={loading || adding}
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:opacity-40 ${
+                genMode === 'word' ? theme.accentSolid : 'bg-slate-300'
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                  genMode === 'word' ? 'left-[22px]' : 'left-0.5'
+                }`}
+              />
+            </button>
+            <span className="text-sm text-slate-700">
+              {genMode === 'word' ? '单词' : '词组'}
+            </span>
+          </div>
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="shrink-0 text-sm text-slate-700">数量</span>
+            <input
+              type="number"
+              min={1}
+              max={50}
+              value={count}
+              onChange={(e) => changeCount(parseInt(e.target.value, 10))}
+              disabled={loading || adding}
+              className="w-16 rounded-lg border border-black/10 bg-white/70 px-2 py-1 text-center text-sm outline-none transition hover:bg-white focus:border-black/20 focus:bg-white disabled:opacity-60"
+            />
+            <input
+              type="range"
+              min={1}
+              max={50}
+              value={count}
+              onChange={(e) => changeCount(parseInt(e.target.value, 10))}
+              disabled={loading || adding}
+              aria-label="生成数量"
+              className={`min-w-0 flex-1 ${theme.accentColor} disabled:opacity-40`}
+            />
+          </div>
+        </div>
+
         {/* 生成按钮 + inline 消息（错误用 rose、busy 中性灰、成功 accentText） */}
         <div className="mb-3 flex flex-wrap items-center gap-3">
           <button
@@ -212,7 +293,7 @@ export default function AiGenModal({ theme, onClose, onAdded }: Props): ReactEle
             className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50 ${theme.accentSolid} ${theme.accentSolidHover}`}
           >
             {loading && <CircleNotch size={15} className="animate-spin" />}
-            {loading ? '生成中…' : '生成 30 个'}
+            {loading ? '生成中…' : `生成 ${count} 个`}
           </button>
           {msg && <span className={`text-sm ${msgCls(msg.kind)}`}>{msg.text}</span>}
         </div>

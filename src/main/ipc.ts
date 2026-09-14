@@ -15,13 +15,13 @@ import {
 import { applyReview, masterVocab, reviveVocab, fillLearningQueue } from './scheduler'
 import { getForgotCounts } from './store'
 import { getStatsOverview } from './stats'
-import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode } from './ai'
+import { callModel, generateThemeVocab, translateVocab, polishSentence, type PolishMode, type ThemeGenMode } from './ai'
 import { pickBoostWords, matchUsedWords } from './polish-match'
 import { fetchPronunciation } from './audio'
 import { listWordbooks, addWordbookToPlan, removeWordbookFromPlan, getWordbookWords, addWordsToPlan } from './wordbook'
 import { reregisterHotkey } from './hotkey'
 import { resizePopup, applyPopupOpacity } from './popup'
-import { rescheduleInterval } from './engine'
+import { rescheduleInterval, rescheduleDnd } from './engine'
 import { checkUpdate, downloadUpdate, quitAndInstall, getUpdateStatus, getPendingChangelog, markChangelogSeen } from './updater'
 
 // getPopup：设置页改快捷键后需重绑 globalShortcut，而 hotkey 重绑要能拿到弹窗引用。
@@ -64,17 +64,19 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
     // 弹出间隔改了 → 重排引擎计时：取消当前挂起的旧间隔，从当下起按新间隔走（立即生效，
     // 不再等旧周期到期）。rescheduleInterval 内部只在挂起的是"弹出间隔"计时时才动。
     if (key === 'popup_interval_sec') rescheduleInterval()
+    // 免打扰开关改了 → 立即生效：开=取消挂起弹窗转空转；关=按正常间隔重排（不立即补弹）。
+    if (key === 'dnd_enabled') rescheduleDnd()
     // 学习队列容量改了 → 立即补位：调大即时从 new 解锁新词进 learning（不再等毕业/重启）。
     // 调小则只降上限——fillLearningQueue 本就只补不踢，已在学的词不动，毕业后自然回落。
     if (key === 'learning_cap') fillLearningQueue()
   })
   // 恢复默认：只重置记忆节奏弹性数值键（外观/音效/AI 不动）
   ipcMain.handle('settings:resetElastic', () => resetElasticSettings())
-  ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2) => {
+  ipcMain.handle('popup:grade', (_e, id: number, grade: 0 | 1 | 2, direction?: 'recognition' | 'recall') => {
     // 预览词（id=-1，设置页外观预览）不进调度——防护规则③：预览绝不影响 SRS。
     // 渲染端点击预览卡评分按钮后紧随 popup:dismiss 关窗，这里静默忽略即可。
     if (id < 0) return
-    applyReview(id, grade)
+    applyReview(id, grade, direction) // direction 缺省由 scheduler 兜底 recognition
   })
   // 已掌握终态：master 标背完不再弹；revive 让 mastered 词复活重背（进 learning 立即可弹，不限 cap）
   ipcMain.handle('vocab:master', (_e, id: number) => {
@@ -117,8 +119,8 @@ export function registerIpc(getPopup: () => BrowserWindow | null): void {
 
   // AI 内容生产：主题词组生成 + 生词 AI 翻译（均返回预览数据，不入库——入库由前端 vocab:add）。
   // key 没配 / 网络 / 解析错误一律 throw（invoke reject），渲染端 catch(err) 显示 err.message。
-  ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number) =>
-    generateThemeVocab(theme, n))
+  ipcMain.handle('ai:generateTheme', async (_e, theme: string, n?: number, mode?: ThemeGenMode) =>
+    generateThemeVocab(theme, n, mode))
   ipcMain.handle('ai:translate', async (_e, word: string) => translateVocab(word))
   // A1 表达教练：句子优化/中译英。
   // boost=true（背词联动开）且模式为 writing/speaking 时：取"在学/复习"词做软引导喂 prompt，

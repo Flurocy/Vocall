@@ -5,11 +5,22 @@ import StoreImport, { type Options } from 'electron-store'
 const Store = ((StoreImport as unknown as { default?: typeof StoreImport }).default ??
   StoreImport) as typeof StoreImport
 
+// 单方向进度（反转回忆模式，设计稿 v1.6.1 §3.2）：与 srs.ts 相对态同语义 + 绝对 duePop。
+export interface DirectionState {
+  easiness: number
+  repetitions: number
+  duePop: number // 第几次弹窗时该方向到期
+  forgotCount: number // 该方向点"没想起"（grade 0）的累计次数
+}
+
 export interface SrsState {
   easiness: number
   repetitions: number
   duePop: number // 第几次弹窗时该词到期（弹窗节拍队列模型，取代旧 due_at 时间戳）
   forgotCount: number // 点了几次"忘了"（grade 0），历史累计只增不减
+  // 回忆（中译英）方向独立进度。可选：未开启回忆模式或该词未轮到过回忆方向时为 undefined，
+  // 用到才初始化（scheduler 按需懒建）；旧数据零迁移、向后兼容。
+  recall?: DirectionState
 }
 
 // —— B1 学习统计 ——
@@ -18,6 +29,7 @@ export interface ReviewEvent {
   ts: number // Date.now() 毫秒时间戳
   vocabId: number
   grade: 0 | 1 | 2 // 0=忘了 1=模糊 2=认识（correct 仅认 grade 2）
+  direction?: 'recognition' | 'recall' // 反转回忆：答题方向（本期先记不展示，统计页后续可分方向）
 }
 // 每日聚合：{date, total, correct}，date 为本地时区 YYYY-MM-DD。趋势图直接读它，O(1)。
 // cap 400 天截头。与事件流双存：事件流管近期明细，dailyStats 管长期趋势。

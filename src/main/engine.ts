@@ -28,10 +28,21 @@ function armTimer(ms: number, kind: 'pop' | 'idle'): void {
   timer = setTimeout(tick, ms)
 }
 
+// 免打扰（dnd_enabled）：开启时 tick 跳过弹出、节拍不走，转 15s 空转重查。
+function isDnd(): boolean {
+  return getSetting('dnd_enabled') === 'true'
+}
+
 function tick(): void {
   const getPopup = getPopupFn
   if (!getPopup) return
   try {
+    if (isDnd()) {
+      // 免打扰：不弹、不 incrementPop（暂停期间节拍冻结，到期词积压，关闭后自然补回）
+      logSchedule('tick | 免打扰中 | 15s 后重查')
+      armTimer(15 * 1000, 'idle')
+      return
+    }
     let due = getDueVocab()
     if (!due) {
       // 无到期词：先追时钟——可能所有词 duePop 都在未来而 popCount 停摆（死锁），
@@ -77,6 +88,20 @@ export function rescheduleInterval(): void {
   const minGapMs = gapMs()
   logSchedule(`reschedule | 间隔变更 → 重排为 ${Math.round(minGapMs / 1000)}s 后下次`)
   armTimer(minGapMs, 'pop')
+}
+
+// 改 dnd_enabled 后由设置层调用（ipc settings:set 分发）：
+// 开=取消当前挂起的弹出计时，转 15s 空转重查（立即免打扰，不再等本周期到点）；
+// 关=按正常弹出间隔排下一次（不立即补弹——关掉瞬间弹窗糊脸太突兀）。
+export function rescheduleDnd(): void {
+  if (!getPopupFn) return
+  if (isDnd()) {
+    logSchedule('dnd | 免打扰开启 → 转空转重查')
+    armTimer(15 * 1000, 'idle')
+  } else {
+    logSchedule(`dnd | 免打扰关闭 → ${Math.round(gapMs() / 1000)}s 后恢复弹出`)
+    armTimer(gapMs(), 'pop')
+  }
 }
 
 // 测试专用：清挂起计时与模块状态，防跨用例泄漏（引擎是单例模块态）。
